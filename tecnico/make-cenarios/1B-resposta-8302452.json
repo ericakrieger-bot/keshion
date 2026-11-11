@@ -1,0 +1,2178 @@
+{
+ "name": "Keshion · 1B Resposta (IA e modo copiloto)",
+ "flow": [
+  {
+   "id": 1,
+   "mapper": {},
+   "module": "gateway:CustomWebHook",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 0,
+     "y": 0,
+     "name": "Mensagem pronta (vinda do 1A)"
+    }
+   },
+   "parameters": {
+    "hook": 4016952,
+    "maxResults": 1
+   }
+  },
+  {
+   "id": 2,
+   "mapper": {
+    "variables": [
+     {
+      "name": "modelo",
+      "value": "claude-haiku-5-5"
+     },
+     {
+      "name": "aprovador",
+      "value": "972584285541"
+     }
+    ]
+   },
+   "module": "util:SetVariables",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 300,
+     "y": 0,
+     "name": "Ajustes (modelo e aprovador)"
+    }
+   },
+   "parameters": {}
+  },
+  {
+   "id": 4,
+   "mapper": {
+    "key": "{{1.phone}}",
+    "returnWrapped": false
+   },
+   "module": "datastore:GetRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 600,
+     "y": 0,
+     "name": "Ler a ficha e a conversa do paciente"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 40,
+   "filter": {
+    "name": "Mensagem ainda não recebida (evita duplicada)",
+    "conditions": [
+     [
+      {
+       "a": "{{1.messageId}}",
+       "b": "{{4.ultimo_id}}",
+       "o": "text:notequal"
+      }
+     ],
+     [
+      {
+       "a": "{{1.messageId}}",
+       "o": "notexist"
+      }
+     ]
+    ]
+   },
+   "mapper": {
+    "key": "{{1.phone}}",
+    "data": {
+     "nome": "{{1.nome}}",
+     "conversa": "{{4.conversa}}",
+     "pendente": "{{4.pendente}}\n{{1.texto}}",
+     "ultimo_id": "{{1.messageId}}",
+     "atualizado": "{{now}}",
+     "tratamento": "{{4.tratamento}}",
+     "nome_paciente": "{{4.nome_paciente}}",
+     "avaliacao_texto": "{{4.avaliacao_texto}}",
+     "avaliacao_evento": "{{4.avaliacao_evento}}",
+     "avaliacao_inicio": "{{4.avaliacao_inicio}}"
+    },
+    "overwrite": true
+   },
+   "module": "datastore:AddRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 900,
+     "y": 0,
+     "name": "Guardar a mensagem na fila do paciente"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 41,
+   "mapper": {
+    "duration": 7
+   },
+   "module": "util:FunctionSleep",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 1200,
+     "y": 0,
+     "name": "Esperar 7 s (a pessoa pode mandar mais)"
+    }
+   },
+   "parameters": {}
+  },
+  {
+   "id": 42,
+   "mapper": {
+    "key": "{{1.phone}}",
+    "returnWrapped": false
+   },
+   "module": "datastore:GetRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 1500,
+     "y": 0,
+     "name": "Ler a fila de novo"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 25,
+   "filter": {
+    "name": "Esta é a última mensagem (só ela responde)",
+    "conditions": [
+     [
+      {
+       "a": "{{42.ultimo_id}}",
+       "b": "{{1.messageId}}",
+       "o": "text:equal"
+      }
+     ],
+     [
+      {
+       "a": "{{1.messageId}}",
+       "o": "notexist"
+      }
+     ]
+    ]
+   },
+   "mapper": {
+    "key": "_instrucoes",
+    "returnWrapped": false
+   },
+   "module": "datastore:GetRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 1800,
+     "y": 0,
+     "name": "Ler as instruções da Clara"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 3,
+   "mapper": {
+    "key": "_base",
+    "returnWrapped": false
+   },
+   "module": "datastore:GetRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 2100,
+     "y": 0,
+     "name": "Ler a base da clínica"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 16,
+   "mapper": {
+    "url": "/v3/freeBusy",
+    "body": "{\"timeMin\":\"{{formatDate(now; \"YYYY-MM-DDTHH:mm:ssZ\"; \"America/Sao_Paulo\")}}\",\"timeMax\":\"{{formatDate(addDays(now; 91); \"YYYY-MM-DDTHH:mm:ssZ\"; \"America/Sao_Paulo\")}}\",\"timeZone\":\"America/Sao_Paulo\",\"items\":[{\"id\":\"primary\"}]}",
+    "method": "POST",
+    "headers": [
+     {
+      "key": "Content-Type",
+      "value": "application/json"
+     }
+    ]
+   },
+   "module": "google-calendar:makeApiCall",
+   "version": 5,
+   "metadata": {
+    "designer": {
+     "x": 2400,
+     "y": 0,
+     "name": "Ver horários ocupados (90 dias)"
+    }
+   },
+   "parameters": {
+    "__IMTCONN__": 12594327
+   }
+  },
+  {
+   "id": 17,
+   "mapper": {
+    "object": "{{16.body.calendars.primary.busy}}"
+   },
+   "module": "json:TransformToJSON",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 2700,
+     "y": 0,
+     "name": "Transformar ocupados em texto"
+    }
+   },
+   "parameters": {
+    "space": ""
+   }
+  },
+  {
+   "id": 5,
+   "mapper": {
+    "model": "{{2.modelo}}",
+    "max_tokens": 2000,
+    "system": "{{25.conversa}}\n\nBASE DA CLÍNICA:\n{{3.conversa}}",
+    "messages": [
+     {
+      "role": "user",
+      "content": "Data e hora em Curitiba agora: {{formatDate(now; \"dddd, DD/MM/YYYY, HH:mm\"; \"America/Sao_Paulo\")}}\n\nPróximos 90 dias (dia da semana e data):\n{{formatDate(addDays(now; 1); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 2); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 3); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 4); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 5); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 6); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 7); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 8); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 9); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 10); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 11); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 12); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 13); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 14); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 15); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 16); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 17); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 18); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 19); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 20); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 21); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 22); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 23); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 24); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 25); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 26); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 27); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 28); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 29); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 30); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 31); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 32); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 33); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 34); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 35); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 36); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 37); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 38); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 39); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 40); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 41); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 42); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 43); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 44); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 45); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 46); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 47); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 48); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 49); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 50); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 51); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 52); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 53); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 54); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 55); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 56); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 57); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 58); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 59); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 60); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 61); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 62); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 63); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 64); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 65); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 66); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 67); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 68); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 69); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 70); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 71); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 72); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 73); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 74); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 75); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 76); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 77); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 78); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 79); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 80); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 81); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 82); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 83); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 84); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 85); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 86); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 87); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 88); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 89); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n{{formatDate(addDays(now; 90); \"dddd DD/MM/YYYY\"; \"America/Sao_Paulo\")}}\n\nHORÁRIOS OCUPADOS NA AGENDA (horário de Curitiba):\n{{ifempty(17.json; \"[]\")}}\n\nFICHA DO PACIENTE\nNome dito pelo paciente: {{ifempty(42.nome_paciente; \"ainda não disse\")}}\nTratamento de interesse: {{ifempty(42.tratamento; \"ainda não disse\")}}\nAvaliação marcada: {{ifempty(42.avaliacao_texto; \"nenhuma\")}}\n\nNome no perfil do WhatsApp (não usar na conversa): {{1.nome}}\nTipo da última mensagem: {{1.tipo}}\n\nConversa até agora:\n{{ifempty(42.conversa; \"(primeiro contato)\")}}\n\nMensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n{{trim(42.pendente)}}"
+     }
+    ]
+   },
+   "module": "json:CreateJSON",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 3000,
+     "y": 0,
+     "name": "Montar o pedido para a IA"
+    }
+   },
+   "parameters": {
+    "type": 695568,
+    "space": ""
+   }
+  },
+  {
+   "id": 6,
+   "mapper": {
+    "url": "/v1/messages",
+    "method": "POST",
+    "headers": [
+     {
+      "key": "Content-Type",
+      "value": "application/json"
+     }
+    ],
+    "body": "{{5.json}}"
+   },
+   "module": "anthropic-claude:makeAnApiCall",
+   "onerror": [
+    {
+     "id": 100,
+     "mapper": {
+      "to": "{{2.aprovador}}",
+      "body": "*Falha técnica na Clara (Claude)*\nPaciente: {{ifempty(42.nome_paciente; 1.nome)}} ({{1.phone}})\nMensagem: {{trim(42.pendente)}}\nO paciente recebeu: Só um instante, vou verificar aqui e já te retorno."
+     },
+     "module": "whapi-cloud:text",
+     "version": 1,
+     "metadata": {
+      "designer": {
+       "x": 3300,
+       "y": 400,
+       "name": "Avisar a falha"
+      }
+     },
+     "parameters": {
+      "__IMTCONN__": 12717425
+     }
+    },
+    {
+     "id": 101,
+     "mapper": {
+      "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+      "gzip": true,
+      "method": "post",
+      "useMtls": false,
+      "bodyType": "x_www_form_urlencoded",
+      "formFields": [
+       {
+        "key": "phone",
+        "value": "{{1.phone}}"
+       },
+       {
+        "key": "m1",
+        "value": "Só um instante, vou verificar aqui e já te retorno."
+       }
+      ],
+      "serializeUrl": false,
+      "shareCookies": false,
+      "parseResponse": false,
+      "followRedirect": true,
+      "useQuerystring": false,
+      "followAllRedirects": false,
+      "rejectUnauthorized": true
+     },
+     "module": "http:ActionSendData",
+     "version": 3,
+     "metadata": {
+      "designer": {
+       "x": 3600,
+       "y": 400,
+       "name": "Avisar o paciente"
+      }
+     },
+     "parameters": {
+      "handleErrors": false
+     }
+    },
+    {
+     "id": 102,
+     "mapper": null,
+     "module": "builtin:Ignore",
+     "version": 1,
+     "metadata": {
+      "designer": {
+       "x": 3900,
+       "y": 400
+      }
+     },
+     "parameters": {}
+    }
+   ],
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 3300,
+     "y": 0,
+     "name": "Pedir a resposta (Claude Haiku)"
+    }
+   },
+   "parameters": {
+    "__IMTCONN__": 12954190
+   }
+  },
+  {
+   "id": 7,
+   "mapper": {
+    "json": "{{trim(replace(replace(first(map(6.body.content; \"text\"; \"type\"; \"text\")); \"```json\"; emptystring); \"```\"; emptystring))}}"
+   },
+   "module": "json:ParseJSON",
+   "onerror": [
+    {
+     "id": 110,
+     "mapper": {
+      "to": "{{2.aprovador}}",
+      "body": "*Falha técnica na Clara (resposta ilegível)*\nPaciente: {{ifempty(42.nome_paciente; 1.nome)}} ({{1.phone}})\nMensagem: {{trim(42.pendente)}}\nO paciente recebeu: Só um instante, vou verificar aqui e já te retorno."
+     },
+     "module": "whapi-cloud:text",
+     "version": 1,
+     "metadata": {
+      "designer": {
+       "x": 3600,
+       "y": 400,
+       "name": "Avisar a falha"
+      }
+     },
+     "parameters": {
+      "__IMTCONN__": 12717425
+     }
+    },
+    {
+     "id": 111,
+     "mapper": {
+      "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+      "gzip": true,
+      "method": "post",
+      "useMtls": false,
+      "bodyType": "x_www_form_urlencoded",
+      "formFields": [
+       {
+        "key": "phone",
+        "value": "{{1.phone}}"
+       },
+       {
+        "key": "m1",
+        "value": "Só um instante, vou verificar aqui e já te retorno."
+       }
+      ],
+      "serializeUrl": false,
+      "shareCookies": false,
+      "parseResponse": false,
+      "followRedirect": true,
+      "useQuerystring": false,
+      "followAllRedirects": false,
+      "rejectUnauthorized": true
+     },
+     "module": "http:ActionSendData",
+     "version": 3,
+     "metadata": {
+      "designer": {
+       "x": 3900,
+       "y": 400,
+       "name": "Avisar o paciente"
+      }
+     },
+     "parameters": {
+      "handleErrors": false
+     }
+    },
+    {
+     "id": 112,
+     "mapper": null,
+     "module": "builtin:Ignore",
+     "version": 1,
+     "metadata": {
+      "designer": {
+       "x": 4200,
+       "y": 400
+      }
+     },
+     "parameters": {}
+    }
+   ],
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 3600,
+     "y": 0,
+     "name": "Ler as mensagens e a ação"
+    }
+   },
+   "parameters": {
+    "type": 673057
+   }
+  },
+  {
+   "id": 8,
+   "mapper": {
+    "variables": [
+     {
+      "name": "hist_base",
+      "value": "{{42.conversa}}\nPaciente: {{trim(42.pendente)}}"
+     }
+    ]
+   },
+   "module": "util:SetVariables",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 3900,
+     "y": 0,
+     "name": "Juntar a conversa"
+    }
+   },
+   "parameters": {}
+  },
+  {
+   "id": 44,
+   "mapper": {
+    "variables": [
+     {
+      "name": "hist_base_c",
+      "value": "{{if(length(8.hist_base) > 11000; substring(8.hist_base; length(8.hist_base) - 11000; length(8.hist_base)); 8.hist_base)}}"
+     }
+    ]
+   },
+   "module": "util:SetVariables",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 4200,
+     "y": 0,
+     "name": "Limitar o tamanho da conversa"
+    }
+   },
+   "parameters": {}
+  },
+  {
+   "id": 43,
+   "mapper": {
+    "key": "{{1.phone}}",
+    "returnWrapped": false
+   },
+   "module": "datastore:GetRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 4500,
+     "y": 0,
+     "name": "Ver se chegou mensagem nova enquanto respondia"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 45,
+   "mapper": {
+    "variables": [
+     {
+      "name": "nome_final",
+      "value": "{{ifempty(7.nome_paciente; 42.nome_paciente)}}"
+     },
+     {
+      "name": "trat_final",
+      "value": "{{ifempty(7.tratamento; 42.tratamento)}}"
+     },
+     {
+      "name": "texto",
+      "value": "{{7.mensagem1}} {{7.mensagem2}} {{7.mensagem3}}"
+     },
+     {
+      "name": "historico",
+      "value": "{{44.hist_base_c}}\nClara: {{7.mensagem1}} {{7.mensagem2}} {{7.mensagem3}}"
+     },
+     {
+      "name": "pendente_restante",
+      "value": "{{if(43.ultimo_id = 1.messageId; \"\"; replace(43.pendente; 42.pendente; \"\"))}}"
+     }
+    ]
+   },
+   "module": "util:SetVariables",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 4800,
+     "y": 0,
+     "name": "Preparar ficha e conversa"
+    }
+   },
+   "parameters": {}
+  },
+  {
+   "id": 9,
+   "mapper": {
+    "key": "{{1.phone}}",
+    "data": {
+     "nome": "{{1.nome}}",
+     "conversa": "{{45.historico}}",
+     "pendente": "{{45.pendente_restante}}",
+     "ultimo_id": "{{43.ultimo_id}}",
+     "atualizado": "{{now}}",
+     "tratamento": "{{45.trat_final}}",
+     "nome_paciente": "{{45.nome_final}}",
+     "avaliacao_texto": "{{43.avaliacao_texto}}",
+     "avaliacao_evento": "{{43.avaliacao_evento}}",
+     "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+    },
+    "overwrite": true
+   },
+   "module": "datastore:AddRecord",
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 5100,
+     "y": 0,
+     "name": "Salvar a conversa e a ficha"
+    }
+   },
+   "parameters": {
+    "datastore": 240983
+   }
+  },
+  {
+   "id": 10,
+   "mapper": null,
+   "module": "builtin:BasicRouter",
+   "routes": [
+    {
+     "flow": [
+      {
+       "id": 11,
+       "filter": {
+        "name": "Só responder",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "humano",
+           "o": "text:notequal:ci"
+          },
+          {
+           "a": "{{7.acao}}",
+           "b": "agendar",
+           "o": "text:notequal:ci"
+          },
+          {
+           "a": "{{7.acao}}",
+           "b": "remarcar",
+           "o": "text:notequal:ci"
+          },
+          {
+           "a": "{{7.acao}}",
+           "b": "cancelar",
+           "o": "text:notequal:ci"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+        "gzip": true,
+        "method": "post",
+        "useMtls": false,
+        "bodyType": "x_www_form_urlencoded",
+        "formFields": [
+         {
+          "key": "phone",
+          "value": "{{1.phone}}"
+         },
+         {
+          "key": "m1",
+          "value": "{{7.mensagem1}}"
+         },
+         {
+          "key": "m2",
+          "value": "{{7.mensagem2}}"
+         },
+         {
+          "key": "m3",
+          "value": "{{7.mensagem3}}"
+         }
+        ],
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+       },
+       "module": "http:ActionSendData",
+       "version": 3,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": -600,
+         "name": "Responder o paciente"
+        }
+       },
+       "parameters": {
+        "handleErrors": false
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 13,
+       "filter": {
+        "name": "Chamar uma pessoa",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "humano",
+           "o": "text:equal:ci"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "to": "{{2.aprovador}}",
+        "body": "*Chamar uma pessoa*\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})\nMensagem: {{trim(42.pendente)}}\nMotivo: {{7.motivo}}\n\nO que a Clara respondeu:\n{{45.texto}}"
+       },
+       "module": "whapi-cloud:text",
+       "onerror": [
+        {
+         "id": 14,
+         "mapper": null,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 5700,
+           "y": -300
+          }
+         },
+         "parameters": {}
+        }
+       ],
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": -400,
+         "name": "Avisar a equipe"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12717425
+       }
+      },
+      {
+       "id": 15,
+       "mapper": {
+        "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+        "gzip": true,
+        "method": "post",
+        "useMtls": false,
+        "bodyType": "x_www_form_urlencoded",
+        "formFields": [
+         {
+          "key": "phone",
+          "value": "{{1.phone}}"
+         },
+         {
+          "key": "m1",
+          "value": "{{7.mensagem1}}"
+         },
+         {
+          "key": "m2",
+          "value": "{{7.mensagem2}}"
+         },
+         {
+          "key": "m3",
+          "value": "{{7.mensagem3}}"
+         }
+        ],
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+       },
+       "module": "http:ActionSendData",
+       "version": 3,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": -400,
+         "name": "Responder o paciente"
+        }
+       },
+       "parameters": {
+        "handleErrors": false
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 18,
+       "filter": {
+        "name": "Marcar (sem avaliação futura)",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "agendar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{43.avaliacao_inicio}}",
+           "o": "notexist"
+          }
+         ],
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "agendar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{parseDate(43.avaliacao_inicio; \"YYYY-MM-DDTHH:mm:ssZ\")}}",
+           "b": "{{now}}",
+           "o": "date:less"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "url": "/v3/freeBusy",
+        "body": "{\"timeMin\":\"{{7.inicio}}\",\"timeMax\":\"{{formatDate(addMinutes(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); 60); \"YYYY-MM-DDTHH:mm:ssZ\"; \"America/Sao_Paulo\")}}\",\"timeZone\":\"America/Sao_Paulo\",\"items\":[{\"id\":\"primary\"}]}",
+        "method": "POST",
+        "headers": [
+         {
+          "key": "Content-Type",
+          "value": "application/json"
+         }
+        ]
+       },
+       "module": "google-calendar:makeApiCall",
+       "version": 5,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": -100,
+         "name": "Conferir se o horário segue livre"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12594327
+       }
+      },
+      {
+       "id": 19,
+       "mapper": null,
+       "module": "builtin:BasicRouter",
+       "routes": [
+        {
+         "flow": [
+          {
+           "id": 20,
+           "filter": {
+            "name": "Horário livre",
+            "conditions": [
+             [
+              {
+               "a": "{{length(18.body.calendars.primary.busy)}}",
+               "b": "0",
+               "o": "number:equal"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "end": "{{addMinutes(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); 60)}}",
+            "start": "{{parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\")}}",
+            "select": "detail",
+            "summary": "{{7.titulo}}",
+            "calendar": "primary",
+            "location": "Rua Desembargador Motta, 2000, sala 1404, Batel, Curitiba/PR",
+            "visibility": "default",
+            "allDayEvent": false,
+            "description": "Marcado pela Clara pelo WhatsApp. Paciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})",
+            "transparency": "opaque",
+            "conferenceDate": false
+           },
+           "module": "google-calendar:createAnEvent",
+           "onerror": [
+            {
+             "id": 120,
+             "mapper": {
+              "key": "{{1.phone}}",
+              "data": {
+               "nome": "{{1.nome}}",
+               "conversa": "{{44.hist_base_c}}\nClara: Só um instante, vou verificar aqui e já te retorno.",
+               "pendente": "{{45.pendente_restante}}",
+               "ultimo_id": "{{43.ultimo_id}}",
+               "atualizado": "{{now}}",
+               "tratamento": "{{45.trat_final}}",
+               "nome_paciente": "{{45.nome_final}}",
+               "avaliacao_texto": "{{43.avaliacao_texto}}",
+               "avaliacao_evento": "{{43.avaliacao_evento}}",
+               "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+              },
+              "overwrite": true
+             },
+             "module": "datastore:AddRecord",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 6300,
+               "y": 200,
+               "name": "Corrigir a conversa"
+              }
+             },
+             "parameters": {
+              "datastore": 240983
+             }
+            },
+            {
+             "id": 121,
+             "mapper": {
+              "to": "{{2.aprovador}}",
+              "body": "*Falha ao marcar na agenda*\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})\nHorário pedido: {{7.inicio}}\nO paciente recebeu: Só um instante, vou verificar aqui e já te retorno."
+             },
+             "module": "whapi-cloud:text",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 6600,
+               "y": 200,
+               "name": "Avisar a falha"
+              }
+             },
+             "parameters": {
+              "__IMTCONN__": 12717425
+             }
+            },
+            {
+             "id": 122,
+             "mapper": {
+              "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+              "gzip": true,
+              "method": "post",
+              "useMtls": false,
+              "bodyType": "x_www_form_urlencoded",
+              "formFields": [
+               {
+                "key": "phone",
+                "value": "{{1.phone}}"
+               },
+               {
+                "key": "m1",
+                "value": "Só um instante, vou verificar aqui e já te retorno."
+               }
+              ],
+              "serializeUrl": false,
+              "shareCookies": false,
+              "parseResponse": false,
+              "followRedirect": true,
+              "useQuerystring": false,
+              "followAllRedirects": false,
+              "rejectUnauthorized": true
+             },
+             "module": "http:ActionSendData",
+             "version": 3,
+             "metadata": {
+              "designer": {
+               "x": 6900,
+               "y": 200,
+               "name": "Avisar o paciente"
+              }
+             },
+             "parameters": {
+              "handleErrors": false
+             }
+            },
+            {
+             "id": 123,
+             "mapper": null,
+             "module": "builtin:Ignore",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 7200,
+               "y": 200
+              }
+             },
+             "parameters": {}
+            }
+           ],
+           "version": 5,
+           "metadata": {
+            "designer": {
+             "x": 6300,
+             "y": -200,
+             "name": "Criar a avaliação na agenda"
+            }
+           },
+           "parameters": {
+            "__IMTCONN__": 12594327
+           }
+          },
+          {
+           "id": 60,
+           "mapper": {
+            "key": "{{1.phone}}",
+            "data": {
+             "nome": "{{1.nome}}",
+             "conversa": "{{45.historico}}",
+             "pendente": "{{45.pendente_restante}}",
+             "ultimo_id": "{{43.ultimo_id}}",
+             "atualizado": "{{now}}",
+             "tratamento": "{{45.trat_final}}",
+             "nome_paciente": "{{45.nome_final}}",
+             "avaliacao_texto": "{{formatDate(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); \"DD/MM [às] H:mm\"; \"America/Sao_Paulo\")}}",
+             "avaliacao_evento": "{{20.id}}",
+             "avaliacao_inicio": "{{7.inicio}}"
+            },
+            "overwrite": true
+           },
+           "module": "datastore:AddRecord",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 6600,
+             "y": -200,
+             "name": "Guardar a avaliação na ficha"
+            }
+           },
+           "parameters": {
+            "datastore": 240983
+           }
+          },
+          {
+           "id": 21,
+           "mapper": {
+            "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+            "gzip": true,
+            "method": "post",
+            "useMtls": false,
+            "bodyType": "x_www_form_urlencoded",
+            "formFields": [
+             {
+              "key": "phone",
+              "value": "{{1.phone}}"
+             },
+             {
+              "key": "m1",
+              "value": "{{7.mensagem1}}"
+             },
+             {
+              "key": "m2",
+              "value": "{{7.mensagem2}}"
+             },
+             {
+              "key": "m3",
+              "value": "{{7.mensagem3}}"
+             }
+            ],
+            "serializeUrl": false,
+            "shareCookies": false,
+            "parseResponse": false,
+            "followRedirect": true,
+            "useQuerystring": false,
+            "followAllRedirects": false,
+            "rejectUnauthorized": true
+           },
+           "module": "http:ActionSendData",
+           "version": 3,
+           "metadata": {
+            "designer": {
+             "x": 6900,
+             "y": -200,
+             "name": "Confirmar ao paciente"
+            }
+           },
+           "parameters": {
+            "handleErrors": false
+           }
+          },
+          {
+           "id": 22,
+           "mapper": {
+            "to": "{{2.aprovador}}",
+            "body": "*Nova avaliação marcada*\n{{7.titulo}}\nQuando: {{formatDate(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); \"DD/MM [às] H:mm\"; \"America/Sao_Paulo\")}}\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})"
+           },
+           "module": "whapi-cloud:text",
+           "onerror": [
+            {
+             "id": 29,
+             "mapper": null,
+             "module": "builtin:Ignore",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 7200,
+               "y": -100
+              }
+             },
+             "parameters": {}
+            }
+           ],
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 7200,
+             "y": -200,
+             "name": "Avisar a equipe da marcação"
+            }
+           },
+           "parameters": {
+            "__IMTCONN__": 12717425
+           }
+          },
+          {
+           "id": 30,
+           "mapper": {
+            "url": "https://hook.eu1.make.com/lh8ivqy3mf0civ6nygh9vjg9lddrsp71",
+            "gzip": true,
+            "method": "post",
+            "useMtls": false,
+            "bodyType": "x_www_form_urlencoded",
+            "formFields": [
+             {
+              "key": "phone",
+              "value": "{{1.phone}}"
+             },
+             {
+              "key": "fechamento",
+              "value": "{{7.fechamento}}"
+             },
+             {
+              "key": "tamanho",
+              "value": "{{length(45.historico)}}"
+             }
+            ],
+            "serializeUrl": false,
+            "shareCookies": false,
+            "parseResponse": false,
+            "followRedirect": true,
+            "useQuerystring": false,
+            "followAllRedirects": false,
+            "rejectUnauthorized": true
+           },
+           "module": "http:ActionSendData",
+           "onerror": [
+            {
+             "id": 31,
+             "mapper": null,
+             "module": "builtin:Ignore",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 7500,
+               "y": -100
+              }
+             },
+             "parameters": {}
+            }
+           ],
+           "version": 3,
+           "metadata": {
+            "designer": {
+             "x": 7500,
+             "y": -200,
+             "name": "Pedir o fechamento ao 1C"
+            }
+           },
+           "parameters": {
+            "handleErrors": false
+           }
+          }
+         ]
+        },
+        {
+         "flow": [
+          {
+           "id": 61,
+           "filter": {
+            "name": "Horário ocupado",
+            "conditions": [
+             [
+              {
+               "a": "{{length(18.body.calendars.primary.busy)}}",
+               "b": "0",
+               "o": "number:greater"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "key": "{{1.phone}}",
+            "data": {
+             "nome": "{{1.nome}}",
+             "conversa": "{{44.hist_base_c}}\nClara: Sinto muito, esse horário acabou de ser preenchido. Quer que eu veja outras opções para você?",
+             "pendente": "{{45.pendente_restante}}",
+             "ultimo_id": "{{43.ultimo_id}}",
+             "atualizado": "{{now}}",
+             "tratamento": "{{45.trat_final}}",
+             "nome_paciente": "{{45.nome_final}}",
+             "avaliacao_texto": "{{43.avaliacao_texto}}",
+             "avaliacao_evento": "{{43.avaliacao_evento}}",
+             "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+            },
+            "overwrite": true
+           },
+           "module": "datastore:AddRecord",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 6300,
+             "y": 0,
+             "name": "Corrigir a conversa (ocupado)"
+            }
+           },
+           "parameters": {
+            "datastore": 240983
+           }
+          },
+          {
+           "id": 24,
+           "mapper": {
+            "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+            "gzip": true,
+            "method": "post",
+            "useMtls": false,
+            "bodyType": "x_www_form_urlencoded",
+            "formFields": [
+             {
+              "key": "phone",
+              "value": "{{1.phone}}"
+             },
+             {
+              "key": "m1",
+              "value": "Sinto muito, esse horário acabou de ser preenchido."
+             },
+             {
+              "key": "m2",
+              "value": "Quer que eu veja outras opções para você?"
+             }
+            ],
+            "serializeUrl": false,
+            "shareCookies": false,
+            "parseResponse": false,
+            "followRedirect": true,
+            "useQuerystring": false,
+            "followAllRedirects": false,
+            "rejectUnauthorized": true
+           },
+           "module": "http:ActionSendData",
+           "version": 3,
+           "metadata": {
+            "designer": {
+             "x": 6600,
+             "y": 0,
+             "name": "Avisar que o horário foi ocupado"
+            }
+           },
+           "parameters": {
+            "handleErrors": false
+           }
+          }
+         ]
+        }
+       ],
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": -100
+        }
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 62,
+       "filter": {
+        "name": "Já tem avaliação marcada",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "agendar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{parseDate(43.avaliacao_inicio; \"YYYY-MM-DDTHH:mm:ssZ\")}}",
+           "b": "{{now}}",
+           "o": "date:greater"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "key": "{{1.phone}}",
+        "data": {
+         "nome": "{{1.nome}}",
+         "conversa": "{{44.hist_base_c}}\nClara: Vi aqui que você já tem uma avaliação marcada para {{43.avaliacao_texto}}. Prefere manter esse horário ou trocar por outro?",
+         "pendente": "{{45.pendente_restante}}",
+         "ultimo_id": "{{43.ultimo_id}}",
+         "atualizado": "{{now}}",
+         "tratamento": "{{45.trat_final}}",
+         "nome_paciente": "{{45.nome_final}}",
+         "avaliacao_texto": "{{43.avaliacao_texto}}",
+         "avaliacao_evento": "{{43.avaliacao_evento}}",
+         "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+        },
+        "overwrite": true
+       },
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": 300,
+         "name": "Corrigir a conversa (já marcada)"
+        }
+       },
+       "parameters": {
+        "datastore": 240983
+       }
+      },
+      {
+       "id": 63,
+       "mapper": {
+        "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+        "gzip": true,
+        "method": "post",
+        "useMtls": false,
+        "bodyType": "x_www_form_urlencoded",
+        "formFields": [
+         {
+          "key": "phone",
+          "value": "{{1.phone}}"
+         },
+         {
+          "key": "m1",
+          "value": "Vi aqui que você já tem uma avaliação marcada para {{43.avaliacao_texto}}."
+         },
+         {
+          "key": "m2",
+          "value": "Prefere manter esse horário ou trocar por outro?"
+         }
+        ],
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+       },
+       "module": "http:ActionSendData",
+       "version": 3,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": 300,
+         "name": "Avisar que já tem avaliação"
+        }
+       },
+       "parameters": {
+        "handleErrors": false
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 70,
+       "filter": {
+        "name": "Remarcar (tem avaliação)",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "remarcar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{43.avaliacao_evento}}",
+           "o": "exist"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "url": "/v3/freeBusy",
+        "body": "{\"timeMin\":\"{{7.inicio}}\",\"timeMax\":\"{{formatDate(addMinutes(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); 60); \"YYYY-MM-DDTHH:mm:ssZ\"; \"America/Sao_Paulo\")}}\",\"timeZone\":\"America/Sao_Paulo\",\"items\":[{\"id\":\"primary\"}]}",
+        "method": "POST",
+        "headers": [
+         {
+          "key": "Content-Type",
+          "value": "application/json"
+         }
+        ]
+       },
+       "module": "google-calendar:makeApiCall",
+       "version": 5,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": 600,
+         "name": "Conferir o novo horário"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12594327
+       }
+      },
+      {
+       "id": 71,
+       "mapper": null,
+       "module": "builtin:BasicRouter",
+       "routes": [
+        {
+         "flow": [
+          {
+           "id": 72,
+           "filter": {
+            "name": "Novo horário livre",
+            "conditions": [
+             [
+              {
+               "a": "{{length(70.body.calendars.primary.busy)}}",
+               "b": "0",
+               "o": "number:equal"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "url": "/v3/calendars/primary/events/{{43.avaliacao_evento}}",
+            "body": "{\"summary\":\"{{7.titulo}}\",\"start\":{\"dateTime\":\"{{7.inicio}}\",\"timeZone\":\"America/Sao_Paulo\"},\"end\":{\"dateTime\":\"{{formatDate(addMinutes(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); 60); \"YYYY-MM-DDTHH:mm:ssZ\"; \"America/Sao_Paulo\")}}\",\"timeZone\":\"America/Sao_Paulo\"}}",
+            "method": "PATCH",
+            "headers": [
+             {
+              "key": "Content-Type",
+              "value": "application/json"
+             }
+            ]
+           },
+           "module": "google-calendar:makeApiCall",
+           "onerror": [
+            {
+             "id": 130,
+             "mapper": {
+              "key": "{{1.phone}}",
+              "data": {
+               "nome": "{{1.nome}}",
+               "conversa": "{{44.hist_base_c}}\nClara: Só um instante, vou verificar aqui e já te retorno.",
+               "pendente": "{{45.pendente_restante}}",
+               "ultimo_id": "{{43.ultimo_id}}",
+               "atualizado": "{{now}}",
+               "tratamento": "{{45.trat_final}}",
+               "nome_paciente": "{{45.nome_final}}",
+               "avaliacao_texto": "{{43.avaliacao_texto}}",
+               "avaliacao_evento": "{{43.avaliacao_evento}}",
+               "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+              },
+              "overwrite": true
+             },
+             "module": "datastore:AddRecord",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 6300,
+               "y": 900,
+               "name": "Corrigir a conversa"
+              }
+             },
+             "parameters": {
+              "datastore": 240983
+             }
+            },
+            {
+             "id": 131,
+             "mapper": {
+              "to": "{{2.aprovador}}",
+              "body": "*Falha ao remarcar na agenda*\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})\nAvaliação atual: {{43.avaliacao_texto}}\nNovo horário pedido: {{7.inicio}}\nO paciente recebeu: Só um instante, vou verificar aqui e já te retorno."
+             },
+             "module": "whapi-cloud:text",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 6600,
+               "y": 900,
+               "name": "Avisar a falha"
+              }
+             },
+             "parameters": {
+              "__IMTCONN__": 12717425
+             }
+            },
+            {
+             "id": 132,
+             "mapper": {
+              "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+              "gzip": true,
+              "method": "post",
+              "useMtls": false,
+              "bodyType": "x_www_form_urlencoded",
+              "formFields": [
+               {
+                "key": "phone",
+                "value": "{{1.phone}}"
+               },
+               {
+                "key": "m1",
+                "value": "Só um instante, vou verificar aqui e já te retorno."
+               }
+              ],
+              "serializeUrl": false,
+              "shareCookies": false,
+              "parseResponse": false,
+              "followRedirect": true,
+              "useQuerystring": false,
+              "followAllRedirects": false,
+              "rejectUnauthorized": true
+             },
+             "module": "http:ActionSendData",
+             "version": 3,
+             "metadata": {
+              "designer": {
+               "x": 6900,
+               "y": 900,
+               "name": "Avisar o paciente"
+              }
+             },
+             "parameters": {
+              "handleErrors": false
+             }
+            },
+            {
+             "id": 133,
+             "mapper": null,
+             "module": "builtin:Ignore",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 7200,
+               "y": 900
+              }
+             },
+             "parameters": {}
+            }
+           ],
+           "version": 5,
+           "metadata": {
+            "designer": {
+             "x": 6300,
+             "y": 500,
+             "name": "Mudar a avaliação na agenda"
+            }
+           },
+           "parameters": {
+            "__IMTCONN__": 12594327
+           }
+          },
+          {
+           "id": 73,
+           "mapper": {
+            "key": "{{1.phone}}",
+            "data": {
+             "nome": "{{1.nome}}",
+             "conversa": "{{45.historico}}",
+             "pendente": "{{45.pendente_restante}}",
+             "ultimo_id": "{{43.ultimo_id}}",
+             "atualizado": "{{now}}",
+             "tratamento": "{{45.trat_final}}",
+             "nome_paciente": "{{45.nome_final}}",
+             "avaliacao_texto": "{{formatDate(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); \"DD/MM [às] H:mm\"; \"America/Sao_Paulo\")}}",
+             "avaliacao_evento": "{{43.avaliacao_evento}}",
+             "avaliacao_inicio": "{{7.inicio}}"
+            },
+            "overwrite": true
+           },
+           "module": "datastore:AddRecord",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 6600,
+             "y": 500,
+             "name": "Guardar o novo horário na ficha"
+            }
+           },
+           "parameters": {
+            "datastore": 240983
+           }
+          },
+          {
+           "id": 74,
+           "mapper": {
+            "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+            "gzip": true,
+            "method": "post",
+            "useMtls": false,
+            "bodyType": "x_www_form_urlencoded",
+            "formFields": [
+             {
+              "key": "phone",
+              "value": "{{1.phone}}"
+             },
+             {
+              "key": "m1",
+              "value": "{{7.mensagem1}}"
+             },
+             {
+              "key": "m2",
+              "value": "{{7.mensagem2}}"
+             },
+             {
+              "key": "m3",
+              "value": "{{7.mensagem3}}"
+             }
+            ],
+            "serializeUrl": false,
+            "shareCookies": false,
+            "parseResponse": false,
+            "followRedirect": true,
+            "useQuerystring": false,
+            "followAllRedirects": false,
+            "rejectUnauthorized": true
+           },
+           "module": "http:ActionSendData",
+           "version": 3,
+           "metadata": {
+            "designer": {
+             "x": 6900,
+             "y": 500,
+             "name": "Confirmar ao paciente"
+            }
+           },
+           "parameters": {
+            "handleErrors": false
+           }
+          },
+          {
+           "id": 75,
+           "mapper": {
+            "to": "{{2.aprovador}}",
+            "body": "*Avaliação remarcada*\nDe: {{43.avaliacao_texto}}\nPara: {{formatDate(parseDate(7.inicio; \"YYYY-MM-DDTHH:mm:ssZ\"); \"DD/MM [às] H:mm\"; \"America/Sao_Paulo\")}}\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})"
+           },
+           "module": "whapi-cloud:text",
+           "onerror": [
+            {
+             "id": 78,
+             "mapper": null,
+             "module": "builtin:Ignore",
+             "version": 1,
+             "metadata": {
+              "designer": {
+               "x": 7200,
+               "y": 600
+              }
+             },
+             "parameters": {}
+            }
+           ],
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 7200,
+             "y": 500,
+             "name": "Avisar a equipe"
+            }
+           },
+           "parameters": {
+            "__IMTCONN__": 12717425
+           }
+          }
+         ]
+        },
+        {
+         "flow": [
+          {
+           "id": 76,
+           "filter": {
+            "name": "Novo horário ocupado",
+            "conditions": [
+             [
+              {
+               "a": "{{length(70.body.calendars.primary.busy)}}",
+               "b": "0",
+               "o": "number:greater"
+              }
+             ]
+            ]
+           },
+           "mapper": {
+            "key": "{{1.phone}}",
+            "data": {
+             "nome": "{{1.nome}}",
+             "conversa": "{{44.hist_base_c}}\nClara: Sinto muito, esse horário acabou de ser preenchido. Quer que eu veja outras opções para você?",
+             "pendente": "{{45.pendente_restante}}",
+             "ultimo_id": "{{43.ultimo_id}}",
+             "atualizado": "{{now}}",
+             "tratamento": "{{45.trat_final}}",
+             "nome_paciente": "{{45.nome_final}}",
+             "avaliacao_texto": "{{43.avaliacao_texto}}",
+             "avaliacao_evento": "{{43.avaliacao_evento}}",
+             "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+            },
+            "overwrite": true
+           },
+           "module": "datastore:AddRecord",
+           "version": 1,
+           "metadata": {
+            "designer": {
+             "x": 6300,
+             "y": 700,
+             "name": "Corrigir a conversa (ocupado)"
+            }
+           },
+           "parameters": {
+            "datastore": 240983
+           }
+          },
+          {
+           "id": 77,
+           "mapper": {
+            "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+            "gzip": true,
+            "method": "post",
+            "useMtls": false,
+            "bodyType": "x_www_form_urlencoded",
+            "formFields": [
+             {
+              "key": "phone",
+              "value": "{{1.phone}}"
+             },
+             {
+              "key": "m1",
+              "value": "Sinto muito, esse horário acabou de ser preenchido."
+             },
+             {
+              "key": "m2",
+              "value": "Quer que eu veja outras opções para você?"
+             }
+            ],
+            "serializeUrl": false,
+            "shareCookies": false,
+            "parseResponse": false,
+            "followRedirect": true,
+            "useQuerystring": false,
+            "followAllRedirects": false,
+            "rejectUnauthorized": true
+           },
+           "module": "http:ActionSendData",
+           "version": 3,
+           "metadata": {
+            "designer": {
+             "x": 6600,
+             "y": 700,
+             "name": "Avisar que o horário foi ocupado"
+            }
+           },
+           "parameters": {
+            "handleErrors": false
+           }
+          }
+         ]
+        }
+       ],
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": 600
+        }
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 80,
+       "filter": {
+        "name": "Cancelar (tem avaliação)",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "cancelar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{43.avaliacao_evento}}",
+           "o": "exist"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "url": "/v3/calendars/primary/events/{{43.avaliacao_evento}}",
+        "method": "DELETE",
+        "headers": []
+       },
+       "module": "google-calendar:makeApiCall",
+       "onerror": [
+        {
+         "id": 140,
+         "mapper": {
+          "key": "{{1.phone}}",
+          "data": {
+           "nome": "{{1.nome}}",
+           "conversa": "{{44.hist_base_c}}\nClara: Só um instante, vou verificar aqui e já te retorno.",
+           "pendente": "{{45.pendente_restante}}",
+           "ultimo_id": "{{43.ultimo_id}}",
+           "atualizado": "{{now}}",
+           "tratamento": "{{45.trat_final}}",
+           "nome_paciente": "{{45.nome_final}}",
+           "avaliacao_texto": "{{43.avaliacao_texto}}",
+           "avaliacao_evento": "{{43.avaliacao_evento}}",
+           "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+          },
+          "overwrite": true
+         },
+         "module": "datastore:AddRecord",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 5700,
+           "y": 1400,
+           "name": "Corrigir a conversa"
+          }
+         },
+         "parameters": {
+          "datastore": 240983
+         }
+        },
+        {
+         "id": 141,
+         "mapper": {
+          "to": "{{2.aprovador}}",
+          "body": "*Falha ao cancelar na agenda*\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})\nAvaliação: {{43.avaliacao_texto}}\nO paciente recebeu: Só um instante, vou verificar aqui e já te retorno."
+         },
+         "module": "whapi-cloud:text",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 6000,
+           "y": 1400,
+           "name": "Avisar a falha"
+          }
+         },
+         "parameters": {
+          "__IMTCONN__": 12717425
+         }
+        },
+        {
+         "id": 142,
+         "mapper": {
+          "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+          "gzip": true,
+          "method": "post",
+          "useMtls": false,
+          "bodyType": "x_www_form_urlencoded",
+          "formFields": [
+           {
+            "key": "phone",
+            "value": "{{1.phone}}"
+           },
+           {
+            "key": "m1",
+            "value": "Só um instante, vou verificar aqui e já te retorno."
+           }
+          ],
+          "serializeUrl": false,
+          "shareCookies": false,
+          "parseResponse": false,
+          "followRedirect": true,
+          "useQuerystring": false,
+          "followAllRedirects": false,
+          "rejectUnauthorized": true
+         },
+         "module": "http:ActionSendData",
+         "version": 3,
+         "metadata": {
+          "designer": {
+           "x": 6300,
+           "y": 1400,
+           "name": "Avisar o paciente"
+          }
+         },
+         "parameters": {
+          "handleErrors": false
+         }
+        },
+        {
+         "id": 143,
+         "mapper": null,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 6600,
+           "y": 1400
+          }
+         },
+         "parameters": {}
+        }
+       ],
+       "version": 5,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": 1100,
+         "name": "Cancelar a avaliação na agenda"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12594327
+       }
+      },
+      {
+       "id": 84,
+       "mapper": {
+        "key": "{{1.phone}}",
+        "data": {
+         "nome": "{{1.nome}}",
+         "conversa": "{{45.historico}}",
+         "pendente": "{{45.pendente_restante}}",
+         "ultimo_id": "{{43.ultimo_id}}",
+         "atualizado": "{{now}}",
+         "tratamento": "{{45.trat_final}}",
+         "nome_paciente": "{{45.nome_final}}",
+         "avaliacao_texto": "",
+         "avaliacao_evento": "",
+         "avaliacao_inicio": ""
+        },
+        "overwrite": true
+       },
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": 1100,
+         "name": "Tirar a avaliação da ficha"
+        }
+       },
+       "parameters": {
+        "datastore": 240983
+       }
+      },
+      {
+       "id": 85,
+       "mapper": {
+        "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+        "gzip": true,
+        "method": "post",
+        "useMtls": false,
+        "bodyType": "x_www_form_urlencoded",
+        "formFields": [
+         {
+          "key": "phone",
+          "value": "{{1.phone}}"
+         },
+         {
+          "key": "m1",
+          "value": "{{7.mensagem1}}"
+         },
+         {
+          "key": "m2",
+          "value": "{{7.mensagem2}}"
+         },
+         {
+          "key": "m3",
+          "value": "{{7.mensagem3}}"
+         }
+        ],
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+       },
+       "module": "http:ActionSendData",
+       "version": 3,
+       "metadata": {
+        "designer": {
+         "x": 6300,
+         "y": 1100,
+         "name": "Confirmar ao paciente"
+        }
+       },
+       "parameters": {
+        "handleErrors": false
+       }
+      },
+      {
+       "id": 86,
+       "mapper": {
+        "to": "{{2.aprovador}}",
+        "body": "*Avaliação cancelada*\n{{43.avaliacao_texto}}\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})"
+       },
+       "module": "whapi-cloud:text",
+       "onerror": [
+        {
+         "id": 87,
+         "mapper": null,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 6600,
+           "y": 1200
+          }
+         },
+         "parameters": {}
+        }
+       ],
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 6600,
+         "y": 1100,
+         "name": "Avisar a equipe"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12717425
+       }
+      }
+     ]
+    },
+    {
+     "flow": [
+      {
+       "id": 90,
+       "filter": {
+        "name": "Remarcar ou cancelar sem avaliação na ficha",
+        "conditions": [
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "remarcar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{43.avaliacao_evento}}",
+           "o": "notexist"
+          }
+         ],
+         [
+          {
+           "a": "{{7.acao}}",
+           "b": "cancelar",
+           "o": "text:equal:ci"
+          },
+          {
+           "a": "{{43.avaliacao_evento}}",
+           "o": "notexist"
+          }
+         ]
+        ]
+       },
+       "mapper": {
+        "to": "{{2.aprovador}}",
+        "body": "*Pedido de {{7.acao}} sem avaliação registrada*\nPaciente: {{ifempty(45.nome_final; 1.nome)}} ({{1.phone}})\nMensagem: {{trim(42.pendente)}}\nConfira a agenda e responda o paciente."
+       },
+       "module": "whapi-cloud:text",
+       "onerror": [
+        {
+         "id": 93,
+         "mapper": null,
+         "module": "builtin:Ignore",
+         "version": 1,
+         "metadata": {
+          "designer": {
+           "x": 5700,
+           "y": 1800
+          }
+         },
+         "parameters": {}
+        }
+       ],
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 5700,
+         "y": 1700,
+         "name": "Avisar a equipe"
+        }
+       },
+       "parameters": {
+        "__IMTCONN__": 12717425
+       }
+      },
+      {
+       "id": 91,
+       "mapper": {
+        "key": "{{1.phone}}",
+        "data": {
+         "nome": "{{1.nome}}",
+         "conversa": "{{44.hist_base_c}}\nClara: Vou verificar aqui a sua avaliação e já te retorno.",
+         "pendente": "{{45.pendente_restante}}",
+         "ultimo_id": "{{43.ultimo_id}}",
+         "atualizado": "{{now}}",
+         "tratamento": "{{45.trat_final}}",
+         "nome_paciente": "{{45.nome_final}}",
+         "avaliacao_texto": "{{43.avaliacao_texto}}",
+         "avaliacao_evento": "{{43.avaliacao_evento}}",
+         "avaliacao_inicio": "{{43.avaliacao_inicio}}"
+        },
+        "overwrite": true
+       },
+       "module": "datastore:AddRecord",
+       "version": 1,
+       "metadata": {
+        "designer": {
+         "x": 6000,
+         "y": 1700,
+         "name": "Corrigir a conversa"
+        }
+       },
+       "parameters": {
+        "datastore": 240983
+       }
+      },
+      {
+       "id": 92,
+       "mapper": {
+        "url": "https://hook.eu1.make.com/txiqa2ndlcyd1jpv2kvihy4dnl3gjj9a",
+        "gzip": true,
+        "method": "post",
+        "useMtls": false,
+        "bodyType": "x_www_form_urlencoded",
+        "formFields": [
+         {
+          "key": "phone",
+          "value": "{{1.phone}}"
+         },
+         {
+          "key": "m1",
+          "value": "Vou verificar aqui a sua avaliação e já te retorno."
+         }
+        ],
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+       },
+       "module": "http:ActionSendData",
+       "version": 3,
+       "metadata": {
+        "designer": {
+         "x": 6300,
+         "y": 1700,
+         "name": "Avisar o paciente"
+        }
+       },
+       "parameters": {
+        "handleErrors": false
+       }
+      }
+     ]
+    }
+   ],
+   "version": 1,
+   "metadata": {
+    "designer": {
+     "x": 5400,
+     "y": 0
+    }
+   }
+  }
+ ],
+ "metadata": {
+  "instant": true,
+  "version": 1,
+  "designer": {
+   "orphans": []
+  },
+  "scenario": {
+   "dlq": false,
+   "slots": null,
+   "dataloss": false,
+   "maxErrors": 3,
+   "autoCommit": true,
+   "roundtrips": 1,
+   "sequential": false,
+   "confidential": false,
+   "freshVariables": false,
+   "autoCommitTriggerLast": true
+  }
+ }
+}

@@ -1,0 +1,7 @@
+{
+ "A": "claude-sonnet-5.5",
+ "B": "claude-haiku-5.5",
+ "C": "gpt-6-luna",
+ "D": "openrouter-auto",
+ "E": "gpt-6.1-terra"
+}

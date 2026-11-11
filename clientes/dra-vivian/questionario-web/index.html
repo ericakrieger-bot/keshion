@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Questionário Dra. Vivian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Coluna de leitura com índice das seções à esquerda no desktop; no celular o índice vira uma faixa rolável */
+:root {
+  --bg: #f4f7f7; --surface: #ffffff; --ink: #142329; --muted: #56676c; --line: #d8e2e3;
+  --accent: #0e6a6d; --accent-soft: #e2f0f0; --ok: #2f7a4a; --warn: #9a5b12;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f1719; --surface: #162226; --ink: #e4eeef; --muted: #9db0b4; --line: #2a3a3f;
+    --accent: #5cc3c5; --accent-soft: #1b3336; --ok: #6cc28a; --warn: #e0a85a; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 96px; display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 40px; }
+header.top { grid-column: 1 / -1; display: grid; gap: 10px; max-width: 720px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+h1 { font-family: var(--display); font-weight: 650; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0; max-width: 62ch; }
+.howto { display: grid; gap: 6px; margin: 6px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 15px; }
+.howto li::before { content: "·"; color: var(--accent); font-weight: 700; margin-right: 8px; }
+.status { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 8px; font-size: 14px; }
+.bar { flex: 1 1 180px; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; min-width: 120px; }
+.bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+nav.toc { position: sticky; top: 16px; align-self: start; display: grid; gap: 2px; }
+nav.toc a { display: flex; justify-content: space-between; gap: 8px; padding: 7px 10px; border-radius: 8px; color: var(--muted); text-decoration: none; font-size: 14px; }
+nav.toc a:hover, nav.toc a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+nav.toc a .n { font-variant-numeric: tabular-nums; font-size: 12px; }
+nav.toc a.done .n { color: var(--ok); font-weight: 600; }
+main { display: grid; gap: 28px; min-width: 0; }
+section.sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 20px; scroll-margin-top: 16px; }
+section.sec h2 { font-family: var(--display); font-weight: 650; font-size: 22px; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+section.sec h2 small { font-family: var(--body); font-size: 13px; color: var(--muted); font-weight: 500; }
+.intro { margin: -10px 0 0; color: var(--muted); font-size: 15px; max-width: 64ch; }
+.q { display: grid; gap: 6px; }
+.lbl { font-weight: 500; }
+.num { color: var(--accent); font-variant-numeric: tabular-nums; margin-right: 6px; font-weight: 600; }
+.hint { color: var(--muted); font-size: 14px; margin: 0; }
+input[type=text], textarea { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+textarea { min-height: 84px; resize: vertical; }
+textarea.tall { min-height: 150px; }
+input[type=text]:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts label { display: inline-flex; gap: 8px; align-items: center; font-size: 15px; cursor: pointer; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.opts label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.opts input { accent-color: var(--accent); margin: 0; }
+.trat { border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; background: var(--bg); }
+.trat h3 { font-family: var(--display); font-weight: 650; font-size: 18px; margin: 0; color: var(--accent); }
+.trat input[type=text], .trat textarea { background: var(--surface); }
+.trat .opts label { background: var(--surface); }
+.empty { color: var(--muted); font-size: 15px; margin: 0; padding: 14px; border: 1px dashed var(--line); border-radius: 10px; }
+.send { display: grid; gap: 12px; padding: 24px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.send h2 { font-family: var(--display); font-weight: 650; font-size: 22px; margin: 0; }
+.send p { margin: 0; color: var(--muted); }
+button { font: inherit; font-weight: 600; border: 0; border-radius: 10px; padding: 12px 18px; cursor: pointer; background: var(--accent); color: var(--surface); justify-self: start; }
+button[disabled] { opacity: .6; cursor: progress; }
+button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+#sendMsg { font-weight: 500; }
+#sendMsg.ok { color: var(--ok); }
+#sendMsg.warn { color: var(--warn); }
+@media (max-width: 820px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  nav.toc { position: static; display: flex; overflow-x: auto; gap: 4px; padding-bottom: 4px; }
+  nav.toc a { white-space: nowrap; background: var(--surface); border: 1px solid var(--line); }
+  section.sec, .send { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Keshion IA · piloto</div>
+    <h1>Questionário da clínica, Dra. Vivian</h1>
+    <p class="lead">O que a assistente precisa saber para atender seus pacientes do jeito que você atende hoje. Quanto mais detalhe, mais ela vai soar como você.</p>
+    <ul class="howto">
+      <li>Metade das perguntas é só marcar. Pode responder aos poucos: o que você escreve fica guardado neste aparelho.</li>
+      <li>O que não souber ou não quiser responder agora, deixe em branco. Revisamos juntas na chamada.</li>
+      <li>No fim da página, toque em Enviar respostas. Pode enviar de novo depois, se completar alguma coisa.</li>
+      <li>Não escreva dados de pacientes (nome, telefone, prontuário).</li>
+    </ul>
+    <div class="status">
+      <div class="bar" aria-hidden="true"><span id="barFill"></span></div>
+      <span id="progressTxt" class="hint">0 respondidas</span>
+    </div>
+  </header>
+  <nav class="toc" id="toc" aria-label="Seções do questionário"></nav>
+  <main id="form"></main>
+</div>
+
+<script>
+// Endereço do cenário do Make que recebe as respostas
+const WEBHOOK = "https://hook.eu1.make.com/pmyre6hk4tscdyi1egoaso2sn1ufmeyr";
+const STORAGE = "keshion-questionario-vivian-v2";
+
+const TRAT = ["Lentes de contato dental", "Facetas", "Clareamento", "Alinhadores invisíveis", "Implantes", "Protocolo", "Harmonização orofacial", "Limpeza e manutenção"];
+const TRAT_QS = [
+  ["explica", "Como você explicaria ao paciente?", "area"],
+  ["tempo", "Quanto tempo leva?", "text"],
+  ["sessoes", "Quantas sessões?", "text"],
+  ["preco", "Faixa de preço", "text"],
+  ["pode_preco", "A assistente pode informar o preço por mensagem?", "radio", ["Sim", "Só a faixa", "Não"]],
+  ["funciona", "Como funciona do começo ao fim (etapas, prazos, de quanto em quanto tempo o paciente volta)", "area"]
+];
+
+const S = [
+ { id: "clinica", t: "Clínica", qs: [
+  ["nome_clinica", "Nome da clínica, do jeito que deve aparecer nas mensagens"],
+  ["endereco", "Endereço completo, com ponto de referência", "", "area"],
+  ["estacionamento", "Estacionamento", "", "radio", ["Próprio", "Conveniado", "Só na rua"]],
+  ["cadeirante", "Tem acesso para cadeirante?", "", "radio", ["Sim", "Não"]],
+  ["horario", "Dias e horários de funcionamento", "", "area"],
+  ["feriados", "Fecha em feriados?", "", "radio", ["Sim", "Não"]],
+  ["recesso", "Tem recesso no fim do ano? Quais datas?"],
+  ["telefones", "Telefone e WhatsApp da clínica"]
+ ]},
+ { id: "voce", t: "Você e o atendimento", qs: [
+  ["cro", "Seu CRO e suas especialidades"],
+  ["como_chamam", "Como os pacientes chamam você?", "Ex.: Dra. Vivian, doutora, Vivian"],
+  ["nome_assistente", "Que nome você quer dar à assistente?", "Ela se apresenta com esse nome e diz que é assistente virtual quando perguntam. Pode deixar ideias."],
+  ["avisos_para", "Para onde vão os avisos da assistente (paciente com dor, pedido de desconto, quer falar com você)?", "", "radio", ["Meu WhatsApp pessoal", "Um grupo só comigo", "Outro"]],
+  ["avisos_numero", "Qual número? (ou explique, se escolheu outro)"],
+  ["horarios_ver", "Em quais horários você costuma conseguir ver os avisos e responder pacientes?", "", "area"],
+  ["pausa", "Quando você responde um paciente pelo celular, a assistente fica em silêncio por 12 horas naquela conversa. Esse tempo está bom?", "", "radio", ["Está bom", "Prefiro menos tempo", "Prefiro mais tempo"]]
+ ]},
+ { id: "tratamentos", t: "Tratamentos", qs: [
+  ["trat_faz", "Quais tratamentos você faz?", "Marque todos. Para cada um, abre um bloco logo abaixo.", "check", TRAT.concat(["Outros"])],
+  ["trat_outros_nomes", "Se marcou outros, quais? (separe por vírgula)"],
+  ["__blocos__"],
+  ["prioridades", "Quais três tratamentos você mais quer vender nos próximos meses?"],
+  ["nao_faz", "Algum tratamento que você não faz e que costumam perguntar? O que responder?", "", "area"],
+  ["tecnologia", "Marca ou tecnologia que vale citar", "Ex.: tipo de alinhador, scanner digital, laboratório parceiro"]
+ ]},
+ { id: "avaliacao", t: "Avaliação", qs: [
+  ["av_como", "Como funciona a primeira consulta de avaliação, passo a passo?", "", "area"],
+  ["av_duracao", "Quanto tempo dura?"],
+  ["av_paga", "A avaliação é", "", "radio", ["Paga", "Gratuita"]],
+  ["av_valor", "Se for paga, qual o valor?"],
+  ["av_abate", "O valor é abatido se o paciente fechar o tratamento?", "", "radio", ["Sim", "Não"]],
+  ["av_levar", "O paciente precisa levar algo (exames, radiografias, documentos)?"],
+  ["orc_mesmo_dia", "O orçamento sai no mesmo dia?", "", "radio", ["Sim", "Não, envio depois"]],
+  ["orc_canal", "Por qual canal você envia o orçamento?"]
+ ]},
+ { id: "pacientes", t: "Quem já é paciente", intro: "Além de avaliações, a assistente pode marcar alguns tipos de consulta para quem já é paciente da clínica.", qs: [
+  ["tipos_consulta", "Quais tipos de consulta a assistente pode marcar para quem já é paciente, com a duração de cada um?", "Ex.: limpeza, 40 minutos. Manutenção do alinhador, 20 minutos. Retorno pós-procedimento, 30 minutos.", "tall"],
+  ["tipos_horarios", "Em quais dias e horários esses tipos de consulta podem ser marcados?", "", "area"],
+  ["remarcar_suas", "A assistente pode remarcar e cancelar consultas que você mesma marcou na agenda?", "", "radio", ["Sim", "Não, só as que ela marcou", "Prefiro conversar sobre isso"]],
+  ["em_tratamento", "Quando um paciente em tratamento escreve sobre o tratamento (dor depois do procedimento, placa quebrou, dúvida do caso), o que você prefere?", "", "radio", ["A assistente me avisa na hora", "Me avisa e já orienta o básico que eu deixar escrito", "Outro"]],
+  ["em_tratamento_obs", "Observações ou orientações básicas que ela pode dar", "", "area"]
+ ]},
+ { id: "agenda", t: "Agenda", qs: [
+  ["agenda_onde", "Onde fica a agenda hoje?", "", "radio", ["Google Agenda", "Sistema odontológico", "Caderno", "Outro"]],
+  ["antecedencia", "Com quanta antecedência o paciente pode marcar?"],
+  ["encaixe", "Aceita encaixe no mesmo dia?", "", "radio", ["Sim", "Não", "Só urgência"]],
+  ["av_horarios", "Quais dias e horários a assistente pode oferecer para avaliação?", "", "area"],
+  ["intervalo", "Intervalo entre uma avaliação e outra"],
+  ["tolerancia", "Tolerância de atraso, em minutos"],
+  ["cobra_falta", "Cobra a falta sem aviso?", "", "radio", ["Sim", "Não"]],
+  ["valor_falta", "Se cobra, qual o valor?"],
+  ["aviso_cancelar", "Com quanta antecedência o paciente deve avisar que vai cancelar?"],
+  ["confirma", "Hoje você confirma as consultas?", "", "radio", ["Sim", "Não"]],
+  ["confirma_como", "Se confirma, como e com quanta antecedência?"]
+ ]},
+ { id: "preco", t: "Preço e pagamento", qs: [
+  ["regra_preco", "Regra para falar de preço por mensagem", "", "radio", ["Nunca falar, só convidar para a avaliação", "Pode informar a faixa", "Pode informar o preço de alguns tratamentos"]],
+  ["regra_preco_quais", "Quais tratamentos, se for o caso"],
+  ["insiste_preco", "Quando o paciente insiste no preço, o que responder?", "", "area"],
+  ["formas_pgto", "Formas de pagamento aceitas", "", "check", ["Pix", "Cartão de crédito", "Cartão de débito", "Transferência", "Boleto", "Dinheiro"]],
+  ["parcelas", "Parcela em até quantas vezes?"],
+  ["juros", "O parcelamento é", "", "radio", ["Sem juros", "Com juros"]],
+  ["financiamento", "Tem financiamento por empresa parceira?", "", "radio", ["Sim", "Não"]],
+  ["desconto_vista", "Desconto à vista ou no Pix: de quanto?"],
+  ["convenio", "Atende convênio odontológico?", "", "radio", ["Sim", "Não"]],
+  ["convenio_quais", "Quais convênios?"],
+  ["nota", "Emite nota fiscal e recibo para reembolso?", "", "radio", ["Sim", "Não"]]
+ ]},
+ { id: "orcamentos", t: "Orçamentos e acompanhamento", qs: [
+  ["orc_validade", "Por quanto tempo o orçamento vale?"],
+  ["orc_contato", "Hoje alguém entra em contato depois de entregar o orçamento?", "", "radio", ["Sim", "Não"]],
+  ["orc_contato_como", "Se sim, quando e como?"],
+  ["orc_motivos", "Principais motivos de o paciente não fechar", "", "check", ["Preço", "Medo", "Vai pensar", "Vai conversar com o marido ou a esposa", "Achou mais barato", "Outro"]],
+  ["orc_vezes", "Até quantas vezes a clínica pode procurar o paciente depois do orçamento?"],
+  ["orc_nao_dizer", "O que não pode ser dito nesse contato?"],
+  ["orc_condicao", "Tem alguma condição especial para quem está em dúvida? Quem autoriza?", "", "area"]
+ ]},
+ { id: "diaadia", t: "Perguntas do dia a dia", qs: [
+  ["acompanhante", "O paciente pode levar acompanhante?", "", "radio", ["Sim", "Não"]],
+  ["crianca", "Atende criança?", "", "radio", ["Sim", "Não"]],
+  ["idade_min", "A partir de que idade?"],
+  ["gestante", "Atende gestante?", "", "radio", ["Sim", "Não", "Depende do tratamento"]],
+  ["faq", "As perguntas que mais chegam no WhatsApp e a resposta ideal para cada uma", "Uma por linha, no formato: pergunta → resposta.", "tall"],
+  ["nunca_sozinha", "Perguntas que a assistente nunca deve responder sozinha", "Ex.: se um caso tem solução, se dói, quanto tempo dura o resultado", "area"]
+ ]},
+ { id: "objecoes", t: "Objeções", intro: "Como você responde quando o paciente diz:", qs: [
+  ["obj_caro", "\"Achei caro\""],
+  ["obj_pensar", "\"Vou pensar\""],
+  ["obj_artificial", "\"Tenho medo de ficar artificial\""],
+  ["obj_dor", "\"Tenho medo de dor\""],
+  ["obj_conjuge", "\"Vou conversar com meu marido ou minha esposa\""],
+  ["obj_barato", "\"Vi mais barato em outra clínica\""],
+  ["obj_tempo", "\"Não tenho tempo agora\""]
+ ]},
+ { id: "tom", t: "Seu jeito de falar", qs: [
+  ["tratar", "Como tratar o paciente", "", "radio", ["Você", "Senhor e senhora", "Depende do paciente"]],
+  ["emojis", "Emojis", "", "radio", ["Não usar", "Usar pouco", "Usar à vontade"]],
+  ["expressoes", "Palavras e expressões que você costuma usar"],
+  ["proibidas", "Palavras e expressões proibidas", "Ex.: barato, promoção, procedimento simples"],
+  ["cumprimenta", "Como você costuma cumprimentar?"],
+  ["encerra", "Como você costuma encerrar uma conversa?"]
+ ]},
+ { id: "chamar", t: "Quando chamar você", qs: [
+  ["casos_chamar", "Em quais situações a conversa passa direto para você?", "", "check", ["Dor forte, inchaço ou sangramento", "Reclamação", "Paciente em tratamento falando do tratamento", "Pedido para falar com a doutora", "Pagamento em atraso", "Pedido de desconto"]],
+  ["casos_outros", "Outras situações"],
+  ["urgencia", "Você faz atendimento de urgência?", "", "radio", ["Sim", "Não"]],
+  ["fora_horario", "Fora do horário, o que dizer para quem relata dor?", "", "area"],
+  ["proibido", "Algum assunto que a assistente não pode comentar de jeito nenhum?"]
+ ]},
+ { id: "whatsapp", t: "WhatsApp e agenda", qs: [
+  ["wpp_tipo", "O WhatsApp da clínica é", "", "radio", ["WhatsApp Business", "Comum"]],
+  ["wpp_web", "Você usa o WhatsApp no computador ou no WhatsApp Web?", "", "radio", ["Sim", "Não"]],
+  ["agenda_google", "Pode compartilhar a agenda do Google com a Keshion como editora?", "", "radio", ["Sim", "Não uso Google Agenda", "Prefiro conversar"]]
+ ]},
+ { id: "final", t: "Final", qs: [
+  ["gravacao", "Autoriza gravar a chamada de levantamento, só para uso interno da Keshion?", "", "radio", ["Sim", "Não"]],
+  ["conferir", "Na primeira semana, quer conferir as respostas da assistente antes de elas irem para o paciente?", "", "radio", ["Sim", "Não", "Tanto faz"]],
+  ["observacoes", "Observações ou pedidos", "", "area"]
+ ]}
+];
+
+let answers = {};
+try { answers = JSON.parse(localStorage.getItem(STORAGE) || "{}") || {}; } catch (e) { answers = {}; }
+const formEl = document.getElementById("form");
+const tocEl = document.getElementById("toc");
+
+function slug(s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""); }
+function filled(v) { return Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim()); }
+function persist() { try { localStorage.setItem(STORAGE, JSON.stringify(answers)); } catch (e) {} }
+
+function field(id, label, hint, type, opts, numText) {
+  const q = document.createElement("div"); q.className = "q";
+  const choice = type === "radio" || type === "check";
+  const lbl = document.createElement(choice ? "div" : "label"); lbl.className = "lbl";
+  if (!choice) lbl.htmlFor = "f_" + id;
+  if (numText) { const n = document.createElement("span"); n.className = "num"; n.textContent = numText; lbl.appendChild(n); }
+  lbl.appendChild(document.createTextNode(label));
+  q.appendChild(lbl);
+  if (hint) { const p = document.createElement("p"); p.className = "hint"; p.textContent = hint; q.appendChild(p); }
+  if (choice) {
+    const box = document.createElement("div"); box.className = "opts"; box.setAttribute("role", type === "radio" ? "radiogroup" : "group");
+    opts.forEach((o, i) => {
+      const l = document.createElement("label");
+      const inp = document.createElement("input");
+      inp.type = type === "radio" ? "radio" : "checkbox"; inp.name = id; inp.value = o; inp.id = "f_" + id + "_" + i;
+      const v = answers[id];
+      inp.checked = Array.isArray(v) ? v.includes(o) : v === o;
+      inp.addEventListener("change", () => {
+        if (type === "check") answers[id] = [...document.querySelectorAll('input[name="' + id + '"]:checked')].map(x => x.value);
+        else answers[id] = inp.value;
+        persist(); progress();
+        if (id === "trat_faz") renderBlocks();
+      });
+      l.appendChild(inp); l.appendChild(document.createTextNode(o)); box.appendChild(l);
+    });
+    q.appendChild(box);
+  } else {
+    const inp = document.createElement(type === "area" || type === "tall" ? "textarea" : "input");
+    if (inp.tagName === "INPUT") inp.type = "text";
+    if (type === "tall") inp.className = "tall";
+    inp.id = "f_" + id; inp.name = id; inp.value = answers[id] || "";
+    inp.addEventListener("input", () => { answers[id] = inp.value; persist(); progress(); if (id === "trat_outros_nomes") renderBlocksDebounced(); });
+    q.appendChild(inp);
+  }
+  return q;
+}
+
+let blocksEl = null, num = 0, blocksNum = "";
+function treatmentList() {
+  const marked = (answers.trat_faz || []).filter(t => t !== "Outros");
+  const extra = (answers.trat_faz || []).includes("Outros") ? String(answers.trat_outros_nomes || "").split(",").map(s => s.trim()).filter(Boolean) : [];
+  return marked.concat(extra);
+}
+function renderBlocks() {
+  if (!blocksEl) return;
+  blocksEl.textContent = "";
+  const list = treatmentList();
+  if (!list.length) {
+    const p = document.createElement("p"); p.className = "empty";
+    p.textContent = "Marque os tratamentos acima e um bloco de perguntas aparece aqui para cada um.";
+    blocksEl.appendChild(p); return;
+  }
+  list.forEach(name => {
+    const box = document.createElement("div"); box.className = "trat";
+    const h = document.createElement("h3"); h.textContent = name; box.appendChild(h);
+    TRAT_QS.forEach(([k, label, type, opts]) => box.appendChild(field("t_" + slug(name) + "_" + k, label, "", type, opts)));
+    blocksEl.appendChild(box);
+  });
+}
+let bt; function renderBlocksDebounced() { clearTimeout(bt); bt = setTimeout(renderBlocks, 600); }
+
+S.forEach(sec => {
+  const a = document.createElement("a"); a.href = "#" + sec.id; a.dataset.sec = sec.id;
+  const t = document.createElement("span"); t.textContent = sec.t;
+  const c = document.createElement("span"); c.className = "n";
+  a.appendChild(t); a.appendChild(c); tocEl.appendChild(a);
+  const el = document.createElement("section"); el.className = "sec"; el.id = sec.id;
+  const h = document.createElement("h2"); h.textContent = sec.t;
+  const sm = document.createElement("small"); sm.dataset.count = sec.id; h.appendChild(sm); el.appendChild(h);
+  if (sec.intro) { const p = document.createElement("p"); p.className = "intro"; p.textContent = sec.intro; el.appendChild(p); }
+  sec.qs.forEach(([id, label, hint, type, opts]) => {
+    if (id === "__blocos__") { num++; blocksNum = num + "."; blocksEl = document.createElement("div"); blocksEl.style.display = "grid"; blocksEl.style.gap = "14px"; el.appendChild(blocksEl); return; }
+    num++;
+    el.appendChild(field(id, label, hint, type || "text", opts, num + "."));
+  });
+  formEl.appendChild(el);
+});
+renderBlocks();
+
+const send = document.createElement("section"); send.className = "send"; send.id = "enviar";
+send.innerHTML = '<h2>Enviar respostas</h2><p>Pode enviar agora, mesmo com perguntas em branco. Se completar depois, envie de novo: vale o último envio.</p><p>Os prints de conversas (sem nomes nem fotos de pacientes), a tabela de preços e o logo podem ir pelo WhatsApp.</p><button type="button" id="sendBtn">Enviar respostas</button><span id="sendMsg" role="status"></span>';
+formEl.appendChild(send);
+
+function progress() {
+  let tot = 0, done = 0;
+  S.forEach(sec => {
+    let d = 0, n = 0;
+    sec.qs.forEach(([id]) => { if (id === "__blocos__") return; n++; if (filled(answers[id])) d++; });
+    tot += n; done += d;
+    document.querySelector('[data-count="' + sec.id + '"]').textContent = d + " de " + n;
+    const a = tocEl.querySelector('[data-sec="' + sec.id + '"]');
+    a.querySelector(".n").textContent = d + "/" + n; a.classList.toggle("done", d === n);
+  });
+  document.getElementById("barFill").style.width = (tot ? Math.round(done / tot * 100) : 0) + "%";
+  document.getElementById("progressTxt").textContent = done + " de " + tot + " perguntas respondidas";
+}
+progress();
+
+function asText() {
+  const out = ["QUESTIONÁRIO DA CLÍNICA · DRA. VIVIAN", ""];
+  let n = 0;
+  S.forEach(sec => {
+    out.push("== " + sec.t.toUpperCase() + " ==");
+    sec.qs.forEach(([id, label]) => {
+      n++;
+      if (id === "__blocos__") {
+        treatmentList().forEach(name => {
+          out.push(n + ". " + name.toUpperCase());
+          TRAT_QS.forEach(([k, l]) => { const v = answers["t_" + slug(name) + "_" + k]; out.push("   " + l + ": " + (filled(v) ? v : "(em branco)")); });
+        });
+        return;
+      }
+      const v = answers[id];
+      out.push(n + ". " + label + ": " + (filled(v) ? (Array.isArray(v) ? v.join("; ") : v) : "(em branco)"));
+    });
+    out.push("");
+  });
+  return out.join("\n");
+}
+
+document.getElementById("sendBtn").addEventListener("click", async () => {
+  const btn = document.getElementById("sendBtn"), msg = document.getElementById("sendMsg");
+  btn.disabled = true; msg.className = ""; msg.textContent = "Enviando";
+  const body = new URLSearchParams({ origem: "questionario-dra-vivian", enviado_em: new Date().toISOString(), respondidas: document.getElementById("progressTxt").textContent, texto: asText(), dados: JSON.stringify(answers) });
+  try {
+    await fetch(WEBHOOK, { method: "POST", mode: "no-cors", body: body });
+    msg.className = "ok"; msg.textContent = "Respostas enviadas. Obrigada, Vivian. Se completar mais alguma coisa, é só enviar de novo.";
+  } catch (e) {
+    msg.className = "warn"; msg.textContent = "Não foi possível enviar agora. Confira a internet e tente de novo. Suas respostas continuam guardadas neste aparelho.";
+  } finally { btn.disabled = false; }
+});
+</script>
+</body>
+</html>

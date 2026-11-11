@@ -1,0 +1,536 @@
+<title>Mapa de Concorrentes Odonto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: relatório de inteligência competitiva; resumo, mapa de posicionamento, tabela comparativa e uma ficha por concorrente. Mesma identidade visual do guia técnico do projeto. */
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --surface-2:#EAF1EF; --ink:#13262B; --muted:#56696C; --line:#D6E0DD;
+  --accent:#0E6B5F; --accent-ink:#FFFFFF; --accent-soft:#DCEEE9;
+  --warn:#9A5A12; --warn-soft:#FBF1E2; --risk:#A1303A; --risk-soft:#FBE7E8; --ok:#2C7A4E; --ok-soft:#E2F2E8;
+  --dot-1:#0E6B5F; --dot-2:#1D5FA8; --dot-3:#9A5A12; --dot-4:#A1303A;
+  --f-display:"Familjen Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --dot-1:#4DBFAC; --dot-2:#79AEEB; --dot-3:#E3A963; --dot-4:#EE7F86; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --dot-1:#4DBFAC; --dot-2:#79AEEB; --dot-3:#E3A963; --dot-4:#EE7F86; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:700}
+h2{font-size:clamp(1.4rem,3vw,1.85rem);font-weight:700}
+h3{font-size:1.2rem;font-weight:600}
+h4{font-size:1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.06rem;color:var(--muted);max-width:70ch}
+.muted{color:var(--muted)} .small{font-size:.88rem} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header.top{padding-block:40px 26px;border-bottom:1px solid var(--line)}
+nav.sections{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.sections ul{list-style:none;margin:0;padding:10px 0;display:flex;gap:6px;overflow-x:auto}
+nav.sections a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.88rem;white-space:nowrap;border:1px solid var(--line);background:var(--surface)}
+nav.sections a:hover{border-color:var(--accent)}
+
+section.block{padding-block:44px 6px;scroll-margin-top:64px}
+section.block > .wrap{display:flex;flex-direction:column;gap:20px}
+
+.chip{display:inline-flex;align-items:center;font-size:.76rem;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.risk{background:var(--risk-soft);color:var(--risk)} .chip.neu{background:var(--surface-2);color:var(--muted)}
+
+.findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.findings{grid-template-columns:1fr}}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.finding .k{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:600}
+
+/* mapa de posicionamento */
+.mapbox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:12px}
+.mapbox svg{display:block;width:100%;min-width:600px;height:auto}
+.mapbox text{font-family:var(--f-body);fill:var(--ink)}
+.mapbox .ax{fill:var(--muted);font-size:12px}
+.mapbox .q{fill:var(--muted);font-size:11px;font-family:var(--f-mono);letter-spacing:.06em}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:860px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;background:var(--surface-2);font-size:.86rem}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.me td{background:var(--accent-soft)}
+
+/* fichas */
+.cards{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px}
+.card .top{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
+.card .top .tag{display:flex;gap:6px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface-2);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat b{font-family:var(--f-mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:6px;min-width:0}
+.col h4{font-size:.92rem;color:var(--muted);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.col ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:.93rem}
+.quote{border-left:3px solid var(--line);padding:4px 0 4px 12px;font-style:italic;color:var(--muted);font-size:.92rem}
+.take{background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:.92rem}
+.take b{font-family:var(--f-display)}
+
+.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.verdict{border:2px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);padding:14px 16px;border-radius:var(--r);display:flex;flex-direction:column;gap:4px}
+.callout.risk{border-left-color:var(--risk);background:var(--risk-soft)}
+.sources{font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sources ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+footer{padding-block:40px 60px;color:var(--muted);font-size:.85rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap" style="display:flex;flex-direction:column;gap:8px">
+    <span class="eyebrow">Projeto Negócio de IA para Clínicas · pesquisa de 11/10/2026</span>
+    <h1>Mapa de Concorrentes Odonto</h1>
+    <p class="lead">Quem já vende atendimento com IA no WhatsApp para clínicas odontológicas, quem são os donos, há quanto tempo existem, o que entregam, quanto cobram e como aparecem dentro e fora das redes.</p>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Seções">
+  <div class="wrap"><ul>
+    <li><a href="#resumo">Resumo</a></li>
+    <li><a href="#mapa">Mapa</a></li>
+    <li><a href="#tabela">Comparativo</a></li>
+    <li><a href="#fichas">Fichas</a></li>
+    <li><a href="#lacunas">Onde você entra</a></li>
+    <li><a href="#metodo">Método e fontes</a></li>
+  </ul></div>
+</nav>
+
+<main>
+
+<section class="block" id="resumo">
+  <div class="wrap">
+    <div><span class="eyebrow">Resumo</span><h2>O que a pesquisa mostrou</h2></div>
+    <div class="findings">
+      <div class="finding"><span class="k">1 · corrida de 2026</span><h4>Metade dos concorrentes nasceu este ano</h4><p class="small">Gênesis (março), AtendeJá e Secretária Odonto (abril) e PRI (anúncios desde maio) abriram em 2026. Quase não têm seguidores, não mostram clientes reais e alguns sites ainda têm números de exemplo no lugar dos resultados.</p></div>
+      <div class="finding"><span class="k">2 · o gigante entrou</span><h4>Simples Dental lançou a própria Secretária IA</h4><p class="small">Software usado por mais de 100 mil profissionais e 19 mil clínicas. A IA é vendida à parte, "a partir de R$ 6 por dia" (cerca de R$ 180 por mês), em pré-lançamento, com anúncio ativo desde outubro. O robô sozinho virou produto barato.</p></div>
+      <div class="finding"><span class="k">3 · faixa de preço</span><h4>Software de R$ 259 a R$ 997 por mês</h4><p class="small">Implantação, quando existe, vai de R$ 497 a R$ 700. Só a agência Odonto Results vende IA junto com captação de pacientes e uma central humana, a partir de R$ 790 por mês mais o marketing.</p></div>
+      <div class="finding"><span class="k">4 · ninguém é do sorriso</span><h4>Todos falam com "odontologia" em geral, ou com saúde inteira</h4><p class="small">Nenhum concorrente se posiciona para lentes, facetas, alinhadores e clareamento, nem trata o acompanhamento do orçamento alto como o centro da oferta. Esse é o espaço livre.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="mapa">
+  <div class="wrap">
+    <div><span class="eyebrow">Posicionamento</span><h2>Onde cada um está</h2></div>
+    <p class="lead">Leitura qualitativa: no eixo horizontal, do software que a clínica configura sozinha até o serviço feito por uma equipe; no vertical, de quem fala com a saúde inteira até quem fala só com dentista.</p>
+    <div class="mapbox">
+      <svg viewBox="0 0 760 460" role="img" aria-label="Mapa de posicionamento dos concorrentes">
+        <rect x="80" y="30" width="640" height="370" fill="none" stroke="var(--line)" stroke-width="1"/>
+        <line x1="400" y1="30" x2="400" y2="400" stroke="var(--line)" stroke-dasharray="4 4"/>
+        <line x1="80" y1="215" x2="720" y2="215" stroke="var(--line)" stroke-dasharray="4 4"/>
+        <text class="ax" x="80" y="425">Software que a clínica configura</text>
+        <text class="ax" x="720" y="425" text-anchor="end">Serviço feito por uma equipe</text>
+        <text class="ax" x="20" y="40" transform="rotate(-90 20 40)" text-anchor="end">Só odontologia</text>
+        <text class="ax" x="20" y="400" transform="rotate(-90 20 400)" text-anchor="start">Saúde em geral</text>
+        <text class="q" x="96" y="52">SOFTWARE DE NICHO</text>
+        <text class="q" x="704" y="52" text-anchor="end">SERVIÇO DE NICHO</text>
+        <text class="q" x="96" y="388">SOFTWARE GENÉRICO</text>
+        <text class="q" x="704" y="388" text-anchor="end">SERVIÇO GENÉRICO</text>
+        <!-- pontos -->
+        <circle cx="150" cy="110" r="9" fill="var(--dot-2)"/><text x="164" y="114" font-size="13">Simples Dental (IA)</text>
+        <circle cx="185" cy="150" r="7" fill="var(--dot-3)"/><text x="198" y="154" font-size="13">Gênesis</text>
+        <circle cx="230" cy="88" r="7" fill="var(--dot-3)"/><text x="243" y="92" font-size="13">Secretária Odonto</text>
+        <circle cx="210" cy="190" r="7" fill="var(--dot-2)"/><text x="223" y="194" font-size="13">Beeia</text>
+        <circle cx="300" cy="300" r="9" fill="var(--dot-2)"/><text x="314" y="304" font-size="13">Cloudia</text>
+        <circle cx="340" cy="255" r="7" fill="var(--dot-2)"/><text x="354" y="259" font-size="13">Secretária IA</text>
+        <circle cx="470" cy="120" r="7" fill="var(--dot-3)"/><text x="484" y="124" font-size="13">AtendeJá</text>
+        <circle cx="520" cy="320" r="7" fill="var(--dot-3)"/><text x="534" y="324" font-size="13">PRI</text>
+        <circle cx="610" cy="95" r="9" fill="var(--dot-2)"/><text x="580" y="78" font-size="13" text-anchor="middle">Odonto Results</text>
+        <circle cx="650" cy="150" r="10" fill="none" stroke="var(--dot-1)" stroke-width="3"/><text x="640" y="182" font-size="13" font-weight="700" fill="var(--accent)" text-anchor="middle">Você</text>
+        <text x="640" y="198" font-size="11" fill="var(--muted)" text-anchor="middle">sorriso estético</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i style="background:var(--dot-2)"></i>Empresa com 2 anos ou mais</span><span><i style="background:var(--dot-3)"></i>Nasceu em 2026</span><span><i style="border:2px solid var(--dot-1)"></i>Sua posição proposta</span></div>
+  </div>
+</section>
+
+<section class="block" id="tabela">
+  <div class="wrap">
+    <div><span class="eyebrow">Comparativo</span><h2>Lado a lado</h2></div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Empresa</th><th>Desde</th><th>Base</th><th>Preço mensal</th><th>Implantação</th><th>Instagram</th><th>Anúncios ativos</th><th>Clientes que diz ter</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#cloudia">Cloudia</a></td><td class="num">2016</td><td>São Paulo/SP</td><td>Sob consulta (por volume)</td><td class="num">a partir de R$ 700</td><td class="num">30.134</td><td>Sim</td><td>+1.000 clínicas</td></tr>
+          <tr><td><a href="#simples">Simples Dental (IA)</a></td><td class="num">~2015</td><td>Nacional</td><td class="num">~R$ 180 + sistema R$ 150 a 350</td><td>Não cita</td><td class="num">32.351</td><td>Sim</td><td>19 mil clínicas no sistema</td></tr>
+          <tr><td><a href="#odontoresults">Odonto Results</a></td><td class="num">2020</td><td>Não informado</td><td class="num">a partir de R$ 790 + marketing</td><td>Não informado</td><td class="num">6.679</td><td>Sim, muitos</td><td>1.500 clínicas</td></tr>
+          <tr><td><a href="#secretariaia">Secretária IA</a></td><td class="num">nov/2024</td><td>Rio de Janeiro/RJ</td><td class="num">a partir de R$ 397,90</td><td>Sob consulta</td><td class="num">5.691</td><td>Sim</td><td>+300 consultórios</td></tr>
+          <tr><td><a href="#genesis">Gênesis</a></td><td class="num">mar/2026</td><td>Feira de Santana/BA</td><td class="num">R$ 297 e R$ 497</td><td>Não</td><td class="num">1.461</td><td>Não</td><td>Não informa</td></tr>
+          <tr><td><a href="#secretariaodonto">Secretária Odonto</a></td><td class="num">abr/2026</td><td>SP (telefone 11)</td><td class="num">R$ 297, 497 e 997</td><td>Cobra, valor não informado</td><td class="num">2</td><td>Não</td><td>Não informa</td></tr>
+          <tr><td><a href="#atendeja">AtendeJá</a></td><td class="num">abr/2026</td><td>Santana de Parnaíba/SP</td><td class="num">R$ 447 e R$ 897</td><td class="num">R$ 497</td><td>Não tem</td><td>Não</td><td>Não informa</td></tr>
+          <tr><td><a href="#beeia">Beeia</a></td><td class="num">2022 (empresa de 2000)</td><td>São Carlos/SP</td><td class="num">R$ 258,90 a 589,90</td><td>Não informado</td><td>Não tem</td><td>Não</td><td>Não informa</td></tr>
+          <tr><td><a href="#pri">PRI</a></td><td class="num">2026</td><td>Não informado</td><td>Não divulga</td><td>Até 6 semanas</td><td>Não encontrado</td><td>Sim</td><td>Não informa</td></tr>
+          <tr class="me"><td><b>Você (proposta)</b></td><td class="num">2026</td><td>Remoto</td><td class="num">R$ 1.200 a 2.500</td><td class="num">R$ 3.000 a 6.000</td><td>A construir</td><td>A construir</td><td>Primeiro case no piloto</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">"Desde" usa a data de abertura do CNPJ quando foi encontrado; nos outros casos, a data de registro do domínio. Seguidores contados em 11/10/2026.</p>
+  </div>
+</section>
+
+<section class="block" id="fichas">
+  <div class="wrap">
+    <div><span class="eyebrow">Fichas</span><h2>Cada concorrente em detalhe</h2></div>
+    <div class="cards">
+
+      <article class="card" id="cloudia">
+        <div class="top"><h3>Cloudia</h3><div class="tag"><span class="chip warn">Ameaça alta</span><span class="chip neu">Saúde em geral</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>2016</b><span>CNPJ aberto em 23/02/2016</span></div>
+          <div class="stat"><b>30.134</b><span>seguidores, 1.167 posts</span></div>
+          <div class="stat"><b>0,22%</b><span>engajamento médio</span></div>
+          <div class="stat"><b>+1.000</b><span>clínicas (dado dela)</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Cloudia Tecnologia em Software Ltda, CNPJ 24.227.108/0001-80, São Paulo/SP, microempresa</li>
+            <li>Sócios-administradores: Felipe Miranda Costa (CEO e criador do produto) e Tiago Miranda Costa, ambos desde 2018</li>
+            <li>Passou pela aceleradora Estação Hack, do Facebook com a Artemisia</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Planos Pro [IA] e Elite, preço por volume (200 a 1.200 atendimentos por mês), só sob consulta</li>
+            <li>Implantação a partir de R$ 700</li>
+            <li>Extras: resumo com IA R$ 100/mês, número adicional R$ 200/mês, atendente extra R$ 30/mês</li>
+            <li>Agente de IA, entende e responde áudio, lembretes, pesquisa de satisfação, envio em massa, rastreio de anúncios</li>
+            <li>Integra com mais de 40 sistemas: Clinicorp, Dental Office, Feegow, Controle Odonto, OdontoWay</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul>
+            <li>Posta quase todo dia (cases, bastidores de recepção, no-show)</li>
+            <li>Anúncios ativos na Meta: "Cloudia + ChatGPT", foco em lembrete, avaliação no Google e integração</li>
+            <li>Parceria paga com influenciadora em maio de 2026</li>
+          </ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul>
+            <li>CEO palestrou no CIOSP 2024, maior congresso de odontologia do país</li>
+            <li><b>Programa de agências parceiras</b> que revendem a Cloudia</li>
+            <li>Reclame Aqui: 13 reclamações no 1º semestre de 2026, sem nota calculada; queixas de suporte lento e falhas na implantação</li>
+          </ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> o líder da categoria fala com médicos, dentistas e estética ao mesmo tempo, esconde o preço e tem queixas de implantação. Implantação bem feita e acompanhamento próximo são argumentos contra ele.</div>
+      </article>
+
+      <article class="card" id="simples">
+        <div class="top"><h3>Simples Dental · Secretária IA</h3><div class="tag"><span class="chip risk">Ameaça de preço</span><span class="chip neu">Só odontologia</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>~R$ 180</b><span>por mês ("a partir de R$ 6/dia")</span></div>
+          <div class="stat"><b>32.351</b><span>seguidores</span></div>
+          <div class="stat"><b>100 mil</b><span>profissionais no sistema</span></div>
+          <div class="stat"><b>9,6</b><span>nota no Reclame Aqui</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa</h4><ul>
+            <li>Software de gestão odontológica com 11 anos de mercado, 19 mil clínicas e 60 milhões de pacientes cadastrados (dados da empresa)</li>
+            <li>Vendido também por distribuidoras de material odontológico, como Dental Cremer e Dental Speed</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Sistema: Basic R$ 149,90, Plus R$ 249,90, Pro R$ 349,90 (cerca de 8% menos no anual)</li>
+            <li>Secretária IA cobrada à parte em qualquer plano, em pré-lançamento</li>
+            <li>Conversa, tira dúvidas, entende áudio e agenda direto na agenda do próprio sistema</li>
+            <li>O plano Pro já inclui funil de orçamentos não aprovados e indicações</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul>
+            <li>Vídeo de lançamento da Secretária IA em 17/08/2026</li>
+            <li>Anúncio "Secretária IA do Simples Dental" ativo desde outubro</li>
+            <li>Videocast de gestão, conteúdo de mês do dentista</li>
+          </ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul>
+            <li>Distribuição pelas lojas de material odontológico</li>
+            <li>Teste grátis de 7 dias e migração gratuita</li>
+          </ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> quem usa Simples Dental vai ganhar um robô barato integrado à agenda. Você não ganha dele em preço nem em integração. Ganha com o que ele não faz: mensagens escritas para vender lente e alinhador, acompanhamento do orçamento, revisão semanal e relatório de reais recuperados. Melhor ainda: a clínica pode usar a IA dele e contratar você para o processo.</div>
+      </article>
+
+      <article class="card" id="odontoresults">
+        <div class="top"><h3>Odonto Results</h3><div class="tag"><span class="chip warn">Concorrente mais parecido</span><span class="chip neu">Só odontologia</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>2020</b><span>fundada em fevereiro</span></div>
+          <div class="stat"><b>6.679</b><span>seguidores, 373 posts</span></div>
+          <div class="stat"><b>1,00%</b><span>engajamento, o maior da lista</span></div>
+          <div class="stat"><b>1.500</b><span>clínicas atendidas (dado dela)</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Agência de marketing odontológico</li>
+            <li>Único sócio nomeado: Vinícius Ragazzi, CMO e sócio-fundador, engenheiro de produção, 12 anos de marketing</li>
+            <li>Diz ter 5 clínicas próprias e anuncia "feito por um dentista dono de clínica"</li>
+            <li>CNPJ não divulgado no site; domínio registrado por pessoa física em 2020</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Método "Paciente Previsível": anúncios na Meta e no Google, Google Maps, IA no WhatsApp (resposta em 4 segundos), central humana que liga para o paciente, CRM até o comparecimento</li>
+            <li>IA com CRM e agendamento a partir de R$ 790/mês; marketing com preço variável</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul>
+            <li>Muitos anúncios ativos (a busca retornou 29): "Só comemoramos no comparecimento", "IA que responde seu paciente em 4 segundos", "Mais de 1.500 clínicas atendidas"</li>
+            <li>Mostra números: "15% a 20% dos leads agendados"</li>
+          </ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul>
+            <li>Blog grande, feito para aparecer no Google ("melhor agência de marketing odontológico em Fortaleza", "Odonto Results é boa?")</li>
+            <li>Compara-se abertamente com Cloudia, Secretária IA e Agendaai</li>
+          </ul></div>
+        </div>
+        <div class="quote">"Só comemoramos no comparecimento." (anúncio ativo, outubro de 2026)</div>
+        <div class="take"><b>O que tirar daqui:</b> é o modelo que você quer, já rodando e com volume. A diferença possível é o foco no sorriso estético de ticket alto e o acompanhamento do orçamento, que eles não destacam. Vale entrar no funil deles como clínica fictícia para ver o processo de venda por dentro.</div>
+      </article>
+
+      <article class="card" id="secretariaia">
+        <div class="top"><h3>Secretária IA</h3><div class="tag"><span class="chip warn">Ameaça média</span><span class="chip neu">Médicos e dentistas</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>nov/2024</b><span>abertura (MEI, virou Ltda em 2025)</span></div>
+          <div class="stat"><b>5.691</b><span>seguidores, perfil verificado</span></div>
+          <div class="stat"><b>95 dias</b><span>sem postar (último: 07/07)</span></div>
+          <div class="stat"><b>+300</b><span>consultórios (dado dela)</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>CETI Desenvolvimento de Software Ltda, CNPJ 58.172.235/0001-40, Ipanema, Rio de Janeiro/RJ, capital de R$ 2.000</li>
+            <li>Sócios-administradores: Caio Emiliano Rodrigues e Tarek Ialmam Silva</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Essencial a partir de R$ 397,90/mês, teste de 3 dias (outra fonte cita R$ 597,99)</li>
+            <li>Profissional sob consulta, com implantação personalizada e especialista dedicado</li>
+            <li>Garantia de 7 dias, sem fidelidade</li>
+            <li>Integra com Clinicorp, Dental Office, Feegow, Clínica nas Nuvens e Kommo</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul>
+            <li>Anúncios ativos: "Atendimento no WhatsApp por 1/3 do custo CLT", depoimento de um cirurgião ("minha secretária infartou")</li>
+            <li>Discurso contra "robô milagroso que some depois de instalar"</li>
+            <li>YouTube, LinkedIn e Facebook ativos</li>
+          </ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul>
+            <li>Apresentou o produto num evento no Einstein em junho de 2026</li>
+            <li>Diagnóstico grátis do WhatsApp como isca</li>
+          </ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> o "diagnóstico grátis do WhatsApp" é a mesma isca que você planejou. O argumento de custo contra a CLT funciona em anúncio. Atendem médico e dentista juntos, então não falam a língua do sorriso estético.</div>
+      </article>
+
+      <article class="card" id="genesis">
+        <div class="top"><h3>Gênesis</h3><div class="tag"><span class="chip ok">Ameaça baixa</span><span class="chip neu">Só odontologia</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>mar/2026</b><span>abertura do CNPJ</span></div>
+          <div class="stat"><b>1.461</b><span>seguidores, seguindo 7.534</span></div>
+          <div class="stat"><b>~5</b><span>curtidas por post</span></div>
+          <div class="stat"><b>52 dias</b><span>sem postar (último: 19/08)</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Genesis System Ltda, CNPJ 65.474.970/0001-74, Feira de Santana/BA, capital de R$ 20.000</li>
+            <li>Sócia-administradora: Jessica Luanda Batista Oliveira, a "Dra. Luanda Oliveira" que o Kelvin cita como parceira da Acelera 360</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Software completo: IA no WhatsApp com áudio, CRM, agenda, anamnese, orçamentos, financeiro</li>
+            <li>R$ 297 (500 atendimentos) e R$ 497 (1.000 atendimentos), 7 dias grátis, sem fidelidade</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul>
+            <li>Posts em imagem estática sobre gestão e tráfego, quase sem interação</li>
+            <li>Segue 7.534 perfis para ganhar seguidores</li>
+            <li>Nenhum anúncio ativo</li>
+          </ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul>
+            <li>Nada encontrado além do site</li>
+            <li>Depoimentos com nome no site, mas a empresa tem 7 meses</li>
+          </ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> é o exemplo que você trouxe. Mostra que o caminho que a mentoria do Kelvin gera é um software de R$ 300 a 500, sem presença e sem prova. Não é esse o jogo que você quer jogar.</div>
+      </article>
+
+      <article class="card" id="secretariaodonto">
+        <div class="top"><h3>Secretária Odonto</h3><div class="tag"><span class="chip ok">Ameaça baixa</span><span class="chip neu">Só odontologia</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>abr/2026</b><span>domínio registrado</span></div>
+          <div class="stat"><b>2</b><span>seguidores, 0 posts</span></div>
+          <div class="stat"><b>R$ 297</b><span>plano de entrada</span></div>
+          <div class="stat"><b>0</b><span>clientes mostrados</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Sem CNPJ, razão social ou endereço no site nem na política de privacidade</li>
+            <li>Domínio em nome de pessoa física; contato só por WhatsApp de São Paulo</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Essencial R$ 297 (1 agenda), Profissional R$ 497 (2 a 4 dentistas), Premium R$ 997 (até 10, com ligação de voz e relatórios), riscados de R$ 597, 997 e 1.997</li>
+            <li>Taxa de implantação conforme o plano, valor não informado; 7 dias grátis; sem fidelidade</li>
+            <li>Diferenciais: várias agendas, gestor manda comandos pelo WhatsApp, lê o e-mail da clínica</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul><li>Praticamente inexistente</li><li>Nenhum anúncio ativo</li></ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul><li>Site com números de exemplo ("+0%", "0h") no lugar de resultados</li></ul></div>
+        </div>
+        <div class="quote">"A única IA especializada em Odontologia." (título do site)</div>
+        <div class="take"><b>O que tirar daqui:</b> a lista de funções é boa referência (comandos do gestor por WhatsApp, ligação de confirmação). A promessa de ser "a única" é fácil de derrubar com prova real.</div>
+      </article>
+
+      <article class="card" id="atendeja">
+        <div class="top"><h3>AtendeJá</h3><div class="tag"><span class="chip ok">Ameaça baixa</span><span class="chip neu">Só odontologia</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>abr/2026</b><span>domínio registrado</span></div>
+          <div class="stat"><b>R$ 497</b><span>implantação em 7 dias</span></div>
+          <div class="stat"><b>5 vagas</b><span>programa fundador</span></div>
+          <div class="stat"><b>60 dias</b><span>garantia de execução</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Santana de Parnaíba/SP, sem CNPJ nem nome de sócio no site</li>
+            <li>Domínio em nome de pessoa física</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>Pós-horário R$ 447/mês; 24 horas R$ 897/mês</li>
+            <li>Programa fundador: R$ 347 e R$ 697, congelados por 12 meses</li>
+            <li>Fidelidade de 3 meses (multa de 50% do restante); garantia de 30 dias sem perguntas e devolução total se em 60 dias os 7 itens prometidos não funcionarem</li>
+            <li>Reativação de inativos em 30, 60 e 90 dias, painel de "receita resgatada", sinal por Pix</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul><li>Sem Instagram, sem anúncios</li></ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul><li>Demonstração de 15 minutos como porta de entrada</li></ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> a oferta mais bem desenhada da lista, apesar de nova. Vale copiar a estrutura: garantia dupla, preço de fundador para os primeiros clientes, painel de receita resgatada e plano só para fora do horário como porta de entrada.</div>
+      </article>
+
+      <article class="card" id="beeia">
+        <div class="top"><h3>Beeia</h3><div class="tag"><span class="chip ok">Ameaça baixa</span><span class="chip neu">Plataforma genérica com página de odonto</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>2000</b><span>empresa-mãe aberta em dez/2000</span></div>
+          <div class="stat"><b>R$ 258,90</b><span>plano de entrada</span></div>
+          <div class="stat"><b>Oficial</b><span>usa a API da Meta</span></div>
+          <div class="stat"><b>1</b><span>case, fora da odontologia</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>Empresa e donos</h4><ul>
+            <li>Reallink Ltda, CNPJ 04.221.906/0001-97, São Carlos/SP, software sob encomenda</li>
+            <li>Sócio-administrador: Rodrigo Augusto Campaner Matheus</li>
+          </ul></div>
+          <div class="col"><h4>O que vende e quanto custa</h4><ul>
+            <li>GO R$ 258,90 (5 usuários), FULL R$ 469,90 (10), FULL+ R$ 589,90 (15)</li>
+            <li>Fluxos por especialidade: ortodontia, implante, estética, prótese</li>
+            <li>IA com limites clínicos, registro de orçamentos, CRM, confirmações e manutenções</li>
+          </ul></div>
+          <div class="col"><h4>Nas redes</h4><ul><li>Sem perfil próprio encontrado; sem anúncios</li></ul></div>
+          <div class="col"><h4>Fora das redes</h4><ul><li>Blog e páginas por segmento para o Google</li></ul></div>
+        </div>
+        <div class="take"><b>O que tirar daqui:</b> a ideia de fluxo separado por especialidade (alinhador, implante, estética) é boa e é exatamente o que o seu nicho pede.</div>
+      </article>
+
+      <article class="card" id="pri">
+        <div class="top"><h3>PRI e Agendaai IA</h3><div class="tag"><span class="chip ok">Ameaça baixa</span><span class="chip neu">Médicos / dentistas</span></div></div>
+        <div class="cols">
+          <div class="col"><h4>PRI (vaipri.com)</h4><ul>
+            <li>Secretária de IA para médicos, com página no Facebook também falando com dentistas</li>
+            <li>Anúncios ativos desde maio de 2026: "Secretária 24h, 3x mais conversão"</li>
+            <li>Implantação em até 6 semanas, 4 fases, com gerente de conta; preço não divulgado</li>
+            <li>Diz ter sido criada por alguém com 10 anos em vendas que treina secretárias</li>
+          </ul></div>
+          <div class="col"><h4>Agendaai IA</h4><ul>
+            <li>Secretária virtual para dentistas, sem preço, sem CNPJ e sem redes no site</li>
+            <li>Diz atender "centenas de clínicas", com depoimentos só com primeiro nome</li>
+          </ul></div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="callout">
+      <strong>Fora da lista principal, mas no radar</strong>
+      <p class="small">Clinicorp (gestão odontológica com mais de 100 mil usuários; não encontrei IA própria de WhatsApp, mas Cloudia e Secretária IA se integram a ela) e Meta One (o agente da própria Meta, de R$ 199 a R$ 1.999 por mês).</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="lacunas">
+  <div class="wrap">
+    <div><span class="eyebrow">Conclusão</span><h2>Onde você entra</h2></div>
+    <div class="grid2">
+      <div class="panel">
+        <h4><span class="chip ok">Espaço livre</span> O que ninguém faz</h4>
+        <ul>
+          <li><b>Foco no sorriso estético.</b> Ninguém fala só com quem vende lente, faceta, alinhador e clareamento.</li>
+          <li><b>Orçamento alto como centro.</b> Só o Simples Dental Pro e a Beeia mencionam acompanhamento de orçamento, e como função secundária.</li>
+          <li><b>Mensagens escritas por quem entende de venda.</b> Todos vendem a IA; ninguém vende a qualidade do que ela fala.</li>
+          <li><b>Transparência.</b> Metade esconde preço, CNPJ ou dono. Mostrar tudo já diferencia.</li>
+          <li><b>Prova com número real.</b> Só a Odonto Results publica números, e são dela mesma.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4><span class="chip risk">Atenção</span> O que pode atrapalhar</h4>
+        <ul>
+          <li><b>Preço do robô caiu para R$ 180.</b> Sua mensalidade só se sustenta se for claramente serviço e resultado, não software.</li>
+          <li><b>Odonto Results já ocupa "serviço completo para dentista"</b> com anúncio pesado e 6 anos de estrada.</li>
+          <li><b>Clínicas já ouviram muita promessa.</b> Com tanta empresa nova prometendo "3x mais", o dono desconfia. Garantia e piloto com meta resolvem.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="verdict">
+      <span class="eyebrow">Posicionamento sugerido</span>
+      <h3>"Recuperamos os orçamentos de lente e alinhador que a sua clínica deixa esfriar"</h3>
+      <p>Serviço feito por você para clínicas de sorriso estético: atendimento em segundos, acompanhamento do orçamento até o fechamento, confirmação das avaliações e relatório mensal de reais recuperados. A IA pode ser a sua ou a que a clínica já usa (Simples Dental, Cloudia); o que você vende é o processo e as mensagens. Da AtendeJá, copiar a estrutura de oferta: preço de fundador para os 3 primeiros, garantia de 30 dias e meta de 60 dias.</p>
+    </div>
+    <div class="callout">
+      <strong>Um caminho alternativo que a pesquisa revelou</strong>
+      <p class="small">A Cloudia tem programa de agências parceiras. Em vez de montar toda a estrutura técnica, dá para começar revendendo a IA dela e cobrar só pelo seu processo. Isso encurta a Fase B do guia técnico, em troca de margem menor e dependência de um fornecedor com queixas de suporte.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="metodo">
+  <div class="wrap">
+    <div><span class="eyebrow">Método</span><h2>Como os dados foram levantados</h2></div>
+    <div class="panel small">
+      <ul>
+        <li><b>Sites e páginas de preço:</b> lidos em 11/10/2026. Preços riscados e promoções podem mudar a qualquer momento.</li>
+        <li><b>Empresa, data de abertura e sócios:</b> cadastro público da Receita Federal (via BrasilAPI) para os CNPJs encontrados; data de registro do domínio no Registro.br para os demais.</li>
+        <li><b>Instagram:</b> coleta automática dos perfis públicos (seguidores, posts, últimas 12 publicações). Engajamento = média de curtidas e comentários dividida pelos seguidores.</li>
+        <li><b>Anúncios:</b> Biblioteca de Anúncios da Meta, anúncios ativos no Brasil.</li>
+        <li><b>Números de clientes e resultados</b> ("+1.000 clínicas", "3x mais") são declarações das próprias empresas, sem verificação independente.</li>
+        <li><b>Custo da coleta automática:</b> cerca de US$ 0,15 no Apify.</li>
+      </ul>
+    </div>
+    <div class="sources">
+      <p><b>Fontes</b></p>
+      <ul>
+        <li><a href="https://cloudia.com.br/planos/" target="_blank" rel="noopener">Cloudia: planos</a>, <a href="https://www.drclas.harvard.edu/cloudia" target="_blank" rel="noopener">Harvard DRCLAS</a>, <a href="https://gust.com/companies/cloudia" target="_blank" rel="noopener">Gust</a>, <a href="https://www.reclameaqui.com.br/empresa/cloudia/lista-reclamacoes/" target="_blank" rel="noopener">Reclame Aqui</a>, <a href="https://medicinasa.com.br/cloudia-edicao29/" target="_blank" rel="noopener">MedicinaSA</a></li>
+        <li><a href="https://www.simplesdental.com/ia-para-dentistas" target="_blank" rel="noopener">Simples Dental: IA para dentistas</a>, <a href="https://www.simplesdental.com/planos-e-precos" target="_blank" rel="noopener">planos e preços</a>, <a href="https://blog.dentalcremer.com.br/secretaria-ia-vantagens/" target="_blank" rel="noopener">Dental Cremer</a></li>
+        <li><a href="https://blog.odontoresults.com.br/post/melhor-ia-para-clinica-odontologica-2026" target="_blank" rel="noopener">Odonto Results: blog</a></li>
+        <li><a href="https://usesecretariaia.com/" target="_blank" rel="noopener">Secretária IA</a></li>
+        <li><a href="https://genesisclinicas.com.br/planos" target="_blank" rel="noopener">Gênesis: planos</a></li>
+        <li><a href="https://secretariaodonto.com.br/" target="_blank" rel="noopener">Secretária Odonto</a></li>
+        <li><a href="https://atendeja.ia.br/" target="_blank" rel="noopener">AtendeJá</a></li>
+        <li><a href="https://www.beeia.com.br/automacao-whatsapp-clinicas-odontologia/" target="_blank" rel="noopener">Beeia</a></li>
+        <li><a href="https://vaipri.com/" target="_blank" rel="noopener">PRI</a>, <a href="https://www.agendaai-ia.digital/" target="_blank" rel="noopener">Agendaai IA</a></li>
+        <li><a href="https://www.reclameaqui.com.br/empresa/clinicorp/" target="_blank" rel="noopener">Clinicorp no Reclame Aqui</a>, <a href="https://economicnewsbrasil.com.br/2026/09/15/preco-meta-one-brasil-planos/" target="_blank" rel="noopener">Meta One</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><p>Pesquisa feita em 11/10/2026 para uso interno. Dados públicos; números de clientes e resultados são declarados pelas próprias empresas.</p></div></footer>

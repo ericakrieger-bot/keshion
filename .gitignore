@@ -1,0 +1,14 @@
+# Chaves e segredos: nunca entram no repositório (ficam só no .env da raiz do projeto)
+.env
+.env.*
+*.key
+*.pem
+
+# Cache de ferramentas e plugins
+.claude/data/
+__pycache__/
+*.pyc
+
+# Dados de pacientes reais nunca ficam nesta pasta.
+# Se algum dia houver exportações de conversas reais, use esta pasta (fica fora do Git):
+dados-reais/

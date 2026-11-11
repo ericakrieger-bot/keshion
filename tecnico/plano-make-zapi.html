@@ -1,0 +1,463 @@
+<title>Plano de Montagem Solo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: plano operacional; resumo, caminho da mensagem, escolha do número, custos, passo a passo com dono de cada tarefa, divisão de papéis, ferramentas e rotina. Mesma identidade dos outros documentos do projeto; cada tarefa leva a marca de quem faz. */
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --surface-2:#EAF1EF; --ink:#13262B; --muted:#56696C; --line:#D6E0DD;
+  --accent:#0E6B5F; --accent-ink:#FFFFFF; --accent-soft:#DCEEE9;
+  --warn:#9A5A12; --warn-soft:#FBF1E2; --risk:#A1303A; --risk-soft:#FBE7E8; --ok:#2C7A4E; --ok-soft:#E2F2E8;
+  --who-voce:#8A3E73; --who-voce-soft:#F5E6F0;
+  --who-claude:#1D5FA8; --who-claude-soft:#E3EDF9;
+  --who-juntas:#0E6B5F; --who-juntas-soft:#DCEEE9;
+  --f-display:"Familjen Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --who-voce:#DB8EC4; --who-voce-soft:#33202D;
+  --who-claude:#79AEEB; --who-claude-soft:#172638;
+  --who-juntas:#4DBFAC; --who-juntas-soft:#173430; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --who-voce:#DB8EC4; --who-voce-soft:#33202D;
+  --who-claude:#79AEEB; --who-claude-soft:#172638;
+  --who-juntas:#4DBFAC; --who-juntas-soft:#173430; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:700}
+h2{font-size:clamp(1.4rem,3vw,1.85rem);font-weight:700}
+h3{font-size:1.2rem;font-weight:600}
+h4{font-size:1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.06rem;color:var(--muted);max-width:70ch}
+.muted{color:var(--muted)} .small{font-size:.88rem} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header.top{padding-block:40px 26px;border-bottom:1px solid var(--line)}
+nav.sections{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.sections ul{list-style:none;margin:0;padding:10px 0;display:flex;gap:6px;overflow-x:auto}
+nav.sections a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.88rem;white-space:nowrap;border:1px solid var(--line);background:var(--surface)}
+nav.sections a:hover{border-color:var(--accent)}
+
+section.block{padding-block:44px 6px;scroll-margin-top:64px}
+section.block > .wrap{display:flex;flex-direction:column;gap:20px}
+
+.chip{display:inline-flex;align-items:center;font-size:.76rem;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.risk{background:var(--risk-soft);color:var(--risk)} .chip.neu{background:var(--surface-2);color:var(--muted)}
+.who{display:inline-flex;align-items:center;font-family:var(--f-mono);font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.who.voce{background:var(--who-voce-soft);color:var(--who-voce)}
+.who.claude{background:var(--who-claude-soft);color:var(--who-claude)}
+.who.juntas{background:var(--who-juntas-soft);color:var(--who-juntas)}
+
+.findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.findings{grid-template-columns:1fr}}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.finding .k{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:600}
+
+/* caminho da mensagem */
+.path{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:4px}
+.node b{font-family:var(--f-display)}
+.node span{font-size:.82rem;color:var(--muted)}
+.node.hub{border:2px solid var(--accent)}
+.arrow{align-self:center;color:var(--muted);font-family:var(--f-mono)}
+@media (max-width:720px){.arrow{display:none}}
+.outs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:720px){.outs{grid-template-columns:1fr}}
+.out{background:var(--surface-2);border-radius:8px;padding:10px 12px;font-size:.9rem;min-width:0}
+.out b{font-family:var(--f-display);display:block}
+
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:760px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;background:var(--surface-2);font-size:.86rem}
+tr:last-child td{border-bottom:none}
+td.num,th.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+tr.total td{background:var(--accent-soft);font-weight:700}
+tr.rec td{background:var(--ok-soft)}
+
+/* fases */
+.phases{display:flex;flex-direction:column;gap:18px}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:70px}
+.phase-head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;justify-content:space-between}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:34px 92px minmax(0,1fr);gap:10px;align-items:start;padding:9px 0;border-top:1px solid var(--line);counter-increment:s}
+.steps li:first-child{border-top:none}
+.steps li::before{content:counter(s);font-family:var(--f-mono);font-size:.82rem;color:var(--muted);padding-top:2px}
+.steps li .txt{min-width:0;font-size:.94rem}
+.steps li .txt small{display:block;color:var(--muted);font-size:.84rem;margin-top:2px}
+@media (max-width:560px){.steps li{grid-template-columns:26px minmax(0,1fr)}.steps li .who{grid-column:2;justify-self:start}.steps li .txt{grid-column:2}}
+
+.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.grid3{grid-template-columns:1fr}}
+.verdict{border:2px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);padding:14px 16px;border-radius:var(--r);display:flex;flex-direction:column;gap:4px}
+.callout.risk{border-left-color:var(--risk);background:var(--risk-soft)}
+.sources{font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sources ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+footer{padding-block:40px 60px;color:var(--muted);font-size:.85rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap" style="display:flex;flex-direction:column;gap:8px">
+    <span class="eyebrow">Projeto Negócio de IA para Clínicas · plano de 11/10/2026</span>
+    <h1>Plano de Montagem Solo</h1>
+    <p class="lead">Como montar o atendente para clínicas odontológicas de alto padrão usando Make e Z-API: quanto custa, o passo a passo do produto, o que é tarefa sua, o que o Claude Code faz por você e as ferramentas para tocar tudo sozinha e a distância.</p>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Seções">
+  <div class="wrap"><ul>
+    <li><a href="#resumo">Resumo</a></li>
+    <li><a href="#caminho">Como funciona</a></li>
+    <li><a href="#numero">O número</a></li>
+    <li><a href="#custos">Custos</a></li>
+    <li><a href="#passos">Passo a passo</a></li>
+    <li><a href="#papeis">Quem faz o quê</a></li>
+    <li><a href="#ferramentas">Ferramentas</a></li>
+    <li><a href="#rotina">Rotina</a></li>
+    <li><a href="#cuidados">Cuidados</a></li>
+  </ul></div>
+</nav>
+
+<main>
+
+<section class="block" id="resumo">
+  <div class="wrap">
+    <div><span class="eyebrow">Resumo</span><h2>O plano em quatro pontos</h2></div>
+    <div class="findings">
+      <div class="finding"><span class="k">custo por clínica</span><h4>Cerca de R$ 280 a 390 por mês</h4><p class="small">Z-API, créditos do Make e Claude, para uma clínica de alto padrão com cerca de 2.000 mensagens recebidas por mês. Cobrando R$ 2.000 a 3.500, sobram mais de 80%.</p></div>
+      <div class="finding"><span class="k">antes do primeiro cliente</span><h4>Cerca de R$ 200 a 550 por mês</h4><p class="small">Make, Z-API do seu número de demonstração e testes no Claude. O valor maior já inclui empresa aberta e contador.</p></div>
+      <div class="finding"><span class="k">o ponto delicado</span><h4>A Z-API não é a API oficial da Meta</h4><p class="small">Ela funciona como um WhatsApp Web, sem custo por mensagem, mas o número pode ser bloqueado sem aviso. Ótima para a sua demonstração. No número principal de uma clínica de alto padrão, a recomendação é a API oficial.</p></div>
+      <div class="finding"><span class="k">quem constrói</span><h4>Eu monto direto no seu Make</h4><p class="small">Seu Make está conectado a esta sessão. Eu crio, testo e corrijo os cenários, e você aprova antes de ativar. Contas, pagamentos, senhas e o QR code ficam com você.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="caminho">
+  <div class="wrap">
+    <div><span class="eyebrow">Como funciona</span><h2>O caminho de uma mensagem</h2></div>
+    <div class="path" role="img" aria-label="Paciente, WhatsApp da clínica, Z-API, Make, Claude, e a saída">
+      <div class="node"><b>Paciente</b><span>Manda mensagem, áudio ou foto</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>WhatsApp</b><span>Número da clínica ou número do atendimento</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Z-API</b><span>Avisa o Make na hora e envia a resposta</span></div>
+      <span class="arrow">→</span>
+      <div class="node hub"><b>Make</b><span>Lê a regra da clínica, o histórico e a agenda</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Claude</b><span>Escreve a resposta no tom da clínica</span></div>
+    </div>
+    <div class="outs">
+      <div class="out"><b>Fora do horário</b>Responde sozinho, agenda a avaliação no Google Agenda e registra o contato na planilha.</div>
+      <div class="out"><b>No horário (modo copiloto)</b>Manda o rascunho da resposta para a secretária, no grupo interno da equipe. Ela confere e envia.</div>
+      <div class="out"><b>Caso delicado</b>Dor, reclamação, pergunta clínica ou paciente pedindo pessoa: avisa a equipe e não responde sozinho.</div>
+    </div>
+    <h3>Os 6 cenários do Make</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Cenário</th><th>Quando roda</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td><b>1. Atendimento</b></td><td>A cada mensagem recebida</td><td>Ignora grupos e mensagens da própria equipe, transcreve áudio, busca o histórico, pede a resposta ao Claude e decide entre responder, mandar rascunho ou chamar uma pessoa</td></tr>
+          <tr><td><b>2. Agenda</b></td><td>Quando o paciente aceita horário</td><td>Consulta os horários livres e marca a avaliação no Google Agenda da clínica</td></tr>
+          <tr><td><b>3. Confirmações</b></td><td>Todo dia no fim da tarde</td><td>Confirma as avaliações do dia seguinte e remarca quem não pode ir</td></tr>
+          <tr><td><b>4. Acompanhamento do orçamento</b></td><td>Todo dia de manhã</td><td>Procura orçamentos em aberto na planilha e manda a mensagem do dia certo (1, 3, 7, 15 e 30 dias), só para quem já conversou com a clínica</td></tr>
+          <tr><td><b>5. Relatório</b></td><td>Toda semana e todo mês</td><td>Conta contatos, avaliações, faltas evitadas e orçamentos recuperados em reais; manda para o dono</td></tr>
+          <tr><td><b>6. Alarme</b></td><td>Quando qualquer cenário falha</td><td>Avisa você no WhatsApp para corrigir antes de a clínica perceber</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Primeira versão sem servidor: histórico no próprio Make, contatos e orçamentos numa planilha do Google, agenda no Google Agenda da clínica. O painel de atendimento (Chatwoot) entra depois, quando houver 3 clínicas ou quando uma pedir.</p>
+  </div>
+</section>
+
+<section class="block" id="numero">
+  <div class="wrap">
+    <div><span class="eyebrow">Decisão importante</span><h2>Qual número a IA vai usar</h2></div>
+    <p class="lead">O Make é o mesmo nos três caminhos. Muda só a peça que liga o WhatsApp, e eu troco essa peça em poucas horas se a clínica mudar de ideia.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Caminho</th><th>Como fica para a clínica</th><th class="num">Custo extra por mês</th><th>Risco</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td><b>A. Z-API no número</b></td><td>Mesmo número, o aplicativo continua no celular da secretária</td><td class="num">R$ 99,99</td><td><span class="chip risk">Bloqueio sem aviso</span><br><span class="small muted">a Meta apertou a fiscalização desde 15/01/2026</span></td><td>Seu número de demonstração. Na clínica, só com aceite do risco por escrito e só para responder quem escreveu</td></tr>
+          <tr class="rec"><td><b>B. API oficial, número novo</b></td><td>Um número só para o atendimento automático; o número antigo segue como está</td><td class="num">R$ 0 + mensagens</td><td><span class="chip ok">Baixo</span></td><td>Padrão para clínicas que topam divulgar um número novo nos anúncios</td></tr>
+          <tr class="rec"><td><b>C. API oficial no mesmo número</b></td><td>Mesmo número e o aplicativo continua, por um parceiro autorizado da Meta</td><td class="num">~R$ 300 + mensagens</td><td><span class="chip ok">Baixo</span></td><td>Clínica que não abre mão do número de sempre</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Mensagens na API oficial: desde 01/10/2026 a Meta cobra também as respostas dentro da janela de 24 horas, cerca de R$ 0,04 a 0,08 cada, no cartão da clínica. Conversas que começam por anúncio que leva direto ao WhatsApp ficam grátis por 72 horas. O parceiro do caminho C usado como referência é a 360dialog (a partir de € 49 por número).</p>
+    <div class="verdict">
+      <span class="eyebrow">Recomendação</span>
+      <h3>Z-API para aprender e demonstrar; API oficial para a clínica</h3>
+      <p>Comece com a Z-API no seu próprio número: liga em minutos, custa pouco e serve para testar tudo e fazer as demonstrações. Para cliente de alto padrão, ofereça o caminho B ou C como padrão. Perder o WhatsApp de uma clínica que vende lente de R$ 30 mil é o tipo de erro que acaba com o seu nome no mercado.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="custos">
+  <div class="wrap">
+    <div><span class="eyebrow">Custos</span><h2>Quanto custa, em reais</h2></div>
+    <p class="lead">Valores de outubro de 2026, com dólar a cerca de R$ 5,60 e euro a cerca de R$ 6,20. Os itens em dólar mudam com o câmbio.</p>
+    <h3>Antes do primeiro cliente (por mês)</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Item</th><th>Para quê</th><th class="num">Custo</th></tr></thead>
+        <tbody>
+          <tr><td>Make Core</td><td>Rodar os 6 cenários. O plano grátis que você tem hoje aceita só 2 cenários e 1.000 créditos</td><td class="num">US$ 10,59 · ~R$ 60</td></tr>
+          <tr><td>Z-API (1 instância)</td><td>Seu número de demonstração. Teste grátis de 2 dias</td><td class="num">R$ 99,99</td></tr>
+          <tr><td>Claude API (testes)</td><td>Respostas da IA durante a montagem, com limite de gasto ligado</td><td class="num">~R$ 30 a 60</td></tr>
+          <tr><td>Chip para a demonstração</td><td>Número só seu para testar (pago uma vez)</td><td class="num">~R$ 20</td></tr>
+          <tr><td>Domínio</td><td>Seu site e e-mail profissional (registro.br, por ano)</td><td class="num">~R$ 40/ano</td></tr>
+          <tr><td>Empresa e contador</td><td>Emitir nota fiscal. Entra quando o primeiro cliente estiver perto de fechar</td><td class="num">~R$ 100 a 300</td></tr>
+          <tr class="total"><td>Total</td><td>Sem empresa / com empresa</td><td class="num">~R$ 200 / ~R$ 550</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">A assinatura do Claude que você já usa para o Claude Code fica fora da conta.</p>
+
+    <h3>Por clínica (por mês, caminho A)</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Item</th><th>Como calculei</th><th class="num">Custo</th></tr></thead>
+        <tbody>
+          <tr><td>Z-API</td><td>Uma instância por clínica (R$ 89,99 a partir de 10 instâncias)</td><td class="num">R$ 99,99</td></tr>
+          <tr><td>Créditos do Make</td><td>~2.000 mensagens recebidas × ~9 créditos + ~2.000 das rotinas = ~20 mil créditos</td><td class="num">~R$ 110 a 170</td></tr>
+          <tr><td>Claude API</td><td>~2.000 respostas com o modelo rápido + casos difíceis e resumos com o modelo maior</td><td class="num">~R$ 60 a 110</td></tr>
+          <tr><td>Transcrição de áudio</td><td>~300 áudios curtos por mês</td><td class="num">~R$ 5</td></tr>
+          <tr class="total"><td>Total por clínica</td><td>Varia com o volume de mensagens</td><td class="num">~R$ 280 a 390</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h4>Nos caminhos B e C</h4>
+        <ul>
+          <li><b>B:</b> sai a Z-API (−R$ 100). As mensagens da Meta vão para o cartão da clínica. Seu custo fica perto de R$ 180 a 290.</li>
+          <li><b>C:</b> troca a Z-API pelo parceiro autorizado (~R$ 300). Seu custo fica perto de R$ 480 a 590, mais as mensagens da Meta no cartão da clínica.</li>
+          <li>Repasse o custo do caminho C no preço; ele é a escolha da clínica que quer manter o número.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Conta de uma clínica</h4>
+        <ul>
+          <li>Mensalidade de R$ 2.500</li>
+          <li>Custo de ~R$ 350 (caminho A)</li>
+          <li><b>Sobra ~R$ 2.150 (86%)</b> antes de impostos</li>
+          <li>Com 10 clínicas: ~R$ 21 mil por mês, mais as implantações</li>
+          <li>Impostos dependem do regime da empresa; o contador define</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="passos">
+  <div class="wrap">
+    <div><span class="eyebrow">Passo a passo</span><h2>Do zero à primeira clínica</h2></div>
+    <div class="legend small muted" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><span class="who voce">Você</span>só você pode fazer<span class="who claude">Claude</span>eu faço por você<span class="who juntas">Juntas</span>eu preparo, você decide ou executa comigo</div>
+    <div class="phases">
+
+      <article class="phase" id="fase0">
+        <div class="phase-head"><h3>Fase 0 · Contas e chaves</h3><span class="mono small muted">semana 1</span></div>
+        <ol class="steps">
+          <li><span class="who voce">Você</span><span class="txt">Comprar um chip para a demonstração e ativar o WhatsApp nele<small>É o número da "clínica de demonstração", sempre apresentada como demonstração, nunca como cliente real</small></span></li>
+          <li><span class="who voce">Você</span><span class="txt">Criar a instância na Z-API (teste de 2 dias) e ler o QR code com o celular do chip</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Criar a conta no console da Anthropic, gerar a chave da API e ligar um limite de gasto mensal</span></li>
+          <li><span class="who juntas">Juntas</span><span class="txt">Guardar as chaves no <code>.env</code><small>O comando /configurar-zapi já salva as da Z-API sem mostrar na tela; eu te guio para as outras. Nenhuma chave aparece escrita em arquivo ou no chat</small></span></li>
+          <li><span class="who voce">Você</span><span class="txt">Passar o Make para o plano Core quando chegarmos ao terceiro cenário</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Criar no Make a pasta do projeto, o armazenamento do histórico e a planilha de contatos e orçamentos no seu Google</span></li>
+        </ol>
+      </article>
+
+      <article class="phase" id="fase1">
+        <div class="phase-head"><h3>Fase 1 · Atendente de demonstração</h3><span class="mono small muted">semanas 2 e 3, em sessões curtas</span></div>
+        <ol class="steps">
+          <li><span class="who claude">Claude</span><span class="txt">Escrever a base da clínica de demonstração: tratamentos, regras, perguntas frequentes e o que a IA nunca responde</span></li>
+          <li><span class="who juntas">Juntas</span><span class="txt">Escrever o manual de voz do alto padrão: palavras que usa, palavras proibidas, sem preço na primeira mensagem, convite para avaliação<small>Eu escrevo, você aprova. É o coração do produto</small></span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Montar os cenários 1 (Atendimento) e 2 (Agenda) no seu Make e testar com conversas simuladas</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Fazer o papel de paciente pelo seu celular: pedir preço, mandar áudio, sumir e voltar, reclamar<small>Eu preparo um roteiro com 30 situações para você testar</small></span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Ler os registros de cada execução no Make, corrigir o que falhou e ajustar o texto</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Montar os cenários 3 a 6 (confirmações, acompanhamento do orçamento, relatório e alarme)</span></li>
+          <li><span class="who juntas">Juntas</span><span class="txt">Escrever as mensagens de acompanhamento do orçamento (1, 3, 7, 15 e 30 dias) e aprovar uma a uma</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Aprovar a demonstração final: um dono de clínica manda mensagem e vê a resposta chegar em segundos</span></li>
+        </ol>
+      </article>
+
+      <article class="phase" id="fase2">
+        <div class="phase-head"><h3>Fase 2 · Vender a distância</h3><span class="mono small muted">semanas 3 a 6, em paralelo</span></div>
+        <ol class="steps">
+          <li><span class="who claude">Claude</span><span class="txt">Montar a lista de clínicas de alto padrão: quem anuncia lentes e alinhadores na Biblioteca de Anúncios, Instagram e Google Maps</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Fazer o cliente oculto: mandar mensagem como paciente para 20 a 30 clínicas da lista<small>Eu preparo o roteiro e a planilha de anotação (tempo de resposta, o que disseram, se voltaram)</small></span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Transformar cada cliente oculto num "Diagnóstico do atendimento": página com prints, tempos e o que a clínica deixou escapar</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Enviar o diagnóstico ao dono e convidar para 30 minutos por vídeo<small>Eu escrevo o rascunho; o envio é sempre seu</small></span></li>
+          <li><span class="who voce">Você</span><span class="txt">Fazer a reunião: diagnóstico, demonstração ao vivo e proposta</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Preparar proposta, contrato-base e o anexo de proteção de dados (para um advogado revisar uma vez)</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Fechar: assinatura eletrônica e primeira cobrança</span></li>
+        </ol>
+      </article>
+
+      <article class="phase" id="fase3">
+        <div class="phase-head"><h3>Fase 3 · Primeira clínica</h3><span class="mono small muted">4 a 5 semanas</span></div>
+        <ol class="steps">
+          <li><span class="who juntas">Juntas</span><span class="txt">Chamada de levantamento gravada com o dono e a secretária: tratamentos, preços autorizados por escrito, horários, regras e tom<small>Eu preparo o questionário e transformo a gravação na base da clínica</small></span></li>
+          <li><span class="who voce">Você</span><span class="txt">Acompanhar, por tela compartilhada, o dono conectando o número (QR code na Z-API ou verificação na Meta, conforme o caminho escolhido)<small>A clínica te dá acesso de administradora; você nunca recebe a senha dela</small></span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Copiar os cenários para a clínica, ligar na agenda dela e carregar a base e o manual de voz</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Treinar a secretária por vídeo (30 minutos) e deixar vídeos curtos gravados para consulta</span></li>
+          <li><span class="who juntas">Juntas</span><span class="txt">Duas semanas em modo copiloto: revisar os rascunhos todo dia e ajustar o texto</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Liberar a resposta automática fora do horário, com aprovação do dono</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Montar o primeiro relatório de 30 dias, com reais recuperados</span></li>
+        </ol>
+      </article>
+
+      <article class="phase" id="fase4">
+        <div class="phase-head"><h3>Fase 4 · Escalar até 10 a 20 clínicas</h3><span class="mono small muted">do mês 4 em diante</span></div>
+        <ol class="steps">
+          <li><span class="who claude">Claude</span><span class="txt">Juntar todas as clínicas num conjunto único de cenários que lê a configuração de cada uma: corrigiu uma vez, vale para todas</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Instalar o painel de atendimento (Chatwoot) num servidor, quando houver 3 clínicas ou quando uma pedir</span></li>
+          <li><span class="who claude">Claude</span><span class="txt">Trocar a Z-API pela API oficial nas clínicas que escolherem os caminhos B ou C</span></li>
+          <li><span class="who voce">Você</span><span class="txt">Transformar os 3 primeiros resultados em cases (com autorização das clínicas) e subir o preço</span></li>
+        </ol>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="papeis">
+  <div class="wrap">
+    <div><span class="eyebrow">Divisão</span><h2>Quem faz o quê</h2></div>
+    <div class="grid3">
+      <div class="panel">
+        <h4><span class="who voce">Você</span></h4>
+        <ul>
+          <li>Criar contas, pagar e guardar senhas</li>
+          <li>Ler QR codes e receber códigos de ativação</li>
+          <li>Testar como paciente</li>
+          <li>Aprovar todo texto que vai para paciente</li>
+          <li>Conversar, vender e assinar com as clínicas</li>
+          <li>Enviar qualquer mensagem ou e-mail</li>
+          <li>Ser a pessoa de contato quando algo sai do roteiro</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4><span class="who claude">Claude Code</span></h4>
+        <ul>
+          <li>Montar, testar e corrigir os cenários no seu Make</li>
+          <li>Escrever base, manual de voz, regras e mensagens</li>
+          <li>Planilhas, relatórios e alarmes</li>
+          <li>Lista de clínicas e diagnósticos do atendimento</li>
+          <li>Rascunhos de proposta, contrato, e-mails e roteiros</li>
+          <li>Servidor e painel, quando chegar a hora</li>
+          <li>Manter o contexto do projeto atualizado entre as sessões</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>O que eu não faço</h4>
+        <ul>
+          <li>Criar contas ou digitar senhas e dados de pagamento</li>
+          <li>Enviar mensagem ou e-mail sem a sua aprovação</li>
+          <li>Ativar um cenário que fala com paciente sem o seu "pode ligar"</li>
+          <li>Guardar chave fora do <code>.env</code></li>
+          <li>Salvar dado de paciente na pasta do projeto</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="ferramentas">
+  <div class="wrap">
+    <div><span class="eyebrow">Caixa de ferramentas</span><h2>Para tocar sozinha e a distância</h2></div>
+    <p class="lead">Várias já estão conectadas a esta sessão, o que quer dizer que eu consigo trabalhar nelas por você. Comece pelas gratuitas e pague só quando precisar.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Para quê</th><th>Ferramenta</th><th>Custo</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Construir</td><td>Claude Code, Make, Z-API, Claude API</td><td>Ver custos acima</td><td>Make já conectado aqui</td></tr>
+          <tr><td>Agenda e dados da clínica</td><td>Google Agenda e Google Planilhas</td><td>Grátis</td><td>A clínica usa a própria conta</td></tr>
+          <tr><td>Painel de atendimento (fase 4)</td><td>Chatwoot</td><td>Grátis no seu servidor (~R$ 40 a 80/mês para todas as clínicas) ou US$ 19 por atendente na nuvem</td><td>Eu instalo e mantenho</td></tr>
+          <tr><td>Achar clínicas</td><td>Apify, Biblioteca de Anúncios da Meta, Google Maps</td><td>Apify por uso (centavos por coleta)</td><td>Apify e anúncios já conectados aqui</td></tr>
+          <tr><td>Reuniões</td><td>Google Meet e uma página de agendamento (Cal.com ou Calendly)</td><td>Grátis para começar</td><td>Seu Google Agenda já está conectado aqui</td></tr>
+          <tr><td>Anotações de reunião</td><td>Granola</td><td>Conforme seu plano</td><td>Já conectado: eu leio as notas e transformo em base da clínica</td></tr>
+          <tr><td>Propostas e diagnósticos</td><td>Páginas como esta, Gamma ou Lovable</td><td>Conforme seu plano</td><td>Gamma e Lovable já conectados aqui</td></tr>
+          <tr><td>Contrato</td><td>Assinatura gov.br, Autentique, Clicksign ou D4Sign</td><td>gov.br grátis; outras com plano gratuito ou pago</td><td>Contrato-base revisado por advogado uma vez</td></tr>
+          <tr><td>Cobrança recorrente</td><td>Asaas ou similar (Pix, boleto, cartão)</td><td>Sem mensalidade, taxa por cobrança</td><td>Cobra a implantação e a mensalidade sozinho</td></tr>
+          <tr><td>Empresa</td><td>CNPJ no Simples e contabilidade online</td><td>~R$ 100 a 300/mês</td><td>Confirme com o contador se a atividade cabe no MEI; provavelmente vai precisar de ME</td></tr>
+          <tr><td>Senhas e acessos dos clientes</td><td>Bitwarden ou 1Password</td><td>Bitwarden grátis</td><td>Nunca em planilha, nota ou conversa</td></tr>
+          <tr><td>Treinar as secretárias</td><td>Loom (vídeos curtos de tela)</td><td>Grátis para começar</td><td>Um vídeo por tarefa, de 2 a 3 minutos</td></tr>
+          <tr><td>Organizar clientes e rotinas</td><td>Notion ou Google Drive</td><td>Grátis</td><td>Uma página por clínica, sem dado de paciente</td></tr>
+          <tr><td>Relatório visual para o dono</td><td>Looker Studio ligado à planilha</td><td>Grátis</td><td>Ou uma página publicada por mim</td></tr>
+          <tr><td>Seu próprio atendimento</td><td>WhatsApp Business no seu número</td><td>Grátis</td><td>Use o seu próprio atendente como vitrine</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="rotina">
+  <div class="wrap">
+    <div><span class="eyebrow">Com clientes rodando</span><h2>Uma semana de solopreneur</h2></div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Quando</th><th>O que</th><th class="num">Tempo</th></tr></thead>
+        <tbody>
+          <tr><td>Todo dia</td><td>Olhar alarmes e conversas marcadas como "chamar pessoa"</td><td class="num">15 min</td></tr>
+          <tr><td>Segunda</td><td>Prospecção: 5 clientes ocultos e 5 diagnósticos enviados</td><td class="num">2 h</td></tr>
+          <tr><td>Terça e quarta</td><td>Reuniões de venda e de implantação</td><td class="num">3 a 4 h</td></tr>
+          <tr><td>Quinta</td><td>Revisão das conversas de cada clínica e ajuste de texto, comigo</td><td class="num">20 a 30 min por clínica</td></tr>
+          <tr><td>Sexta</td><td>Relatórios, melhorias nos cenários e conteúdo para o seu Instagram</td><td class="num">2 h</td></tr>
+          <tr><td>Uma vez por mês</td><td>Reunião de 30 minutos com o dono de cada clínica</td><td class="num">30 min por clínica</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Com 10 clínicas, a operação toma cerca de 10 a 15 horas por semana. O resto fica para vender e para a Mamãe Planejada.</p>
+  </div>
+</section>
+
+<section class="block" id="cuidados">
+  <div class="wrap">
+    <div><span class="eyebrow">Cuidados</span><h2>O que pode dar errado e como evitar</h2></div>
+    <div class="grid2">
+      <div class="callout risk"><strong>Bloqueio do número na Z-API</strong><p class="small">Sem aviso e sem volta. Evite: só responder quem escreveu, nada de disparo em massa, acompanhamento só para quem já conversou, número de demonstração separado do seu pessoal. Na clínica, caminho B ou C.</p></div>
+      <div class="callout risk"><strong>Dado de saúde</strong><p class="small">A mensagem do paciente passa pela Z-API (Brasil), pelo Make (servidores na Europa) e pela Anthropic (Estados Unidos). Contrato com a clínica como operadora de dados, guardar o mínimo, nada de prontuário, e apagar o histórico antigo.</p></div>
+      <div class="callout"><strong>Créditos do Make estourando</strong><p class="small">Repetições mal feitas multiplicam o consumo. Eu deixo um alarme de consumo e reviso o gasto de cada clínica no relatório mensal.</p></div>
+      <div class="callout"><strong>Gasto do Claude</strong><p class="small">Limite mensal ligado no console da Anthropic e modelo rápido para a maioria das respostas. O modelo maior só entra em caso difícil e nos resumos.</p></div>
+      <div class="callout"><strong>Erro de informação</strong><p class="small">A IA só fala de preço autorizado por escrito, nunca dá orientação clínica e chama uma pessoa em caso de dor, reclamação ou dúvida fora da base.</p></div>
+      <div class="callout"><strong>Dependência de você</strong><p class="small">Mesmo sozinha, deixe tudo documentado: cada clínica com sua base, seu manual de voz e seu checklist. Eu mantenho isso na pasta do projeto.</p></div>
+    </div>
+    <div class="sources">
+      <p><b>Fontes</b></p>
+      <ul>
+        <li><a href="https://www.z-api.io/" target="_blank" rel="noopener">Z-API: planos e preços</a></li>
+        <li><a href="https://www.jetadmin.io/blog/make-pricing/" target="_blank" rel="noopener">Make: preços em créditos (setembro de 2026)</a> e <a href="https://www.costbench.com/software/ai-automation/make/hidden-costs/" target="_blank" rel="noopener">custos escondidos do Make</a></li>
+        <li><a href="https://www.eesel.ai/blog/chatwoot-pricing" target="_blank" rel="noopener">Chatwoot: preços 2026</a></li>
+        <li><a href="https://www.em.com.br/mundo-corporativo/2026/02/7361830-banimento-de-numeros-no-whatsapp-dispara-no-brasil.html" target="_blank" rel="noopener">Estado de Minas: banimento de números dispara no Brasil</a> e <a href="https://clint.digital/blog/riscos-whatsapp-nao-oficial-2026" target="_blank" rel="noopener">riscos do WhatsApp não oficial em 2026</a></li>
+        <li><a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing/non-template-messages" target="_blank" rel="noopener">Meta: cobrança de mensagens de serviço desde 01/10/2026</a> e <a href="https://docs.360dialog.com/partner/waba-management/whatsapp-coexistence" target="_blank" rel="noopener">360dialog: mesmo número com aplicativo</a></li>
+        <li><a href="https://claude.ai/artifact/8H1edqNrByYMJuWPvCd316" target="_blank" rel="noopener">Guia técnico do projeto (caminho com n8n e API oficial)</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><p>Plano de 11/10/2026 para uso interno. Custos aproximados; câmbio e planos mudam. Créditos do Make e respostas do Claude são estimativas para cerca de 2.000 mensagens recebidas por clínica por mês.</p></div></footer>

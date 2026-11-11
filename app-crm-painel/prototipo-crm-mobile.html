@@ -1,0 +1,408 @@
+<title>CRM Keshion IA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: celular primeiro. Coluna única com barra de navegação flutuante escura embaixo; a partir de 900px vira barra lateral + conteúdo em grade. Fichas e conversas sobem de baixo. */
+:root{
+  --page:#efece4;--blob1:#dfe6cf;--blob2:#efdcc6;
+  --surface:#fbfaf6;--card:#ffffff;--soft:#f3f1ea;--ink:#1d2416;--ink2:#5c6455;--line:#e7e3d8;
+  --accent:#3f5a2a;--accent-ink:#ffffff;--accent-soft:#e6ecd9;--hero:#2c3a1f;--hero-ink:#f4f6ee;--nav:#1f2618;
+  --late:#c2462a;--late-soft:#fbe6df;--warn:#9a6a00;--warn-soft:#f8eed3;--good:#2f7a4b;--good-soft:#dff0e5;--info:#2d5f86;--info-soft:#e0ecf5;
+  --shadow:0 1px 2px rgba(30,35,20,.05),0 8px 24px rgba(30,35,20,.06);
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;--r:22px;
+}
+:root[data-pal="menta"]{--page:#e8f2ef;--blob1:#cfece4;--blob2:#dfe9f6;--accent:#0f7a6a;--accent-soft:#d9f1ec;--hero:#0d4d45;--hero-ink:#effaf7;--nav:#0f2a27}
+:root[data-pal="lavanda"]{--page:#ece9f7;--blob1:#f6d9ea;--blob2:#d9def8;--accent:#5b45d6;--accent-soft:#e7e3fb;--hero:#2a2160;--hero-ink:#f3f1ff;--nav:#17142e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#121410;--blob1:#1d2418;--blob2:#241e17;--surface:#171a14;--card:#1f231b;--soft:#272b22;--ink:#eef0e8;--ink2:#a9b0a0;--line:#30352b;--accent:#a9c98a;--accent-ink:#17200f;--accent-soft:#2b3522;--hero:#2b3820;--hero-ink:#f1f5ea;--nav:#0b0d09;--late:#f0937a;--late-soft:#3d2219;--warn:#e7bd55;--warn-soft:#3a2f12;--good:#7fcf9c;--good-soft:#1b3324;--info:#8dbde6;--info-soft:#1a2c3c;--shadow:none;color-scheme:dark}
+ :root[data-pal="menta"]:not([data-theme="light"]){--accent:#6fd3c1;--accent-soft:#163a35;--hero:#123c36}
+ :root[data-pal="lavanda"]:not([data-theme="light"]){--accent:#b3a6ff;--accent-soft:#2a2550;--hero:#2a2458}}
+:root[data-theme="dark"]{--page:#121410;--blob1:#1d2418;--blob2:#241e17;--surface:#171a14;--card:#1f231b;--soft:#272b22;--ink:#eef0e8;--ink2:#a9b0a0;--line:#30352b;--accent:#a9c98a;--accent-ink:#17200f;--accent-soft:#2b3522;--hero:#2b3820;--hero-ink:#f1f5ea;--nav:#0b0d09;--late:#f0937a;--late-soft:#3d2219;--warn:#e7bd55;--warn-soft:#3a2f12;--good:#7fcf9c;--good-soft:#1b3324;--info:#8dbde6;--info-soft:#1a2c3c;--shadow:none;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--page);background-image:radial-gradient(60% 40% at 10% 0%,var(--blob1),transparent 70%),radial-gradient(50% 40% at 100% 20%,var(--blob2),transparent 70%);background-attachment:fixed;color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:15;background:var(--page)}
+svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:12px}
+.shell{max-width:1180px;margin:0 auto;display:flex;min-height:100vh}
+.side{display:none}
+.main{flex:1;min-width:0;padding-block:16px calc(110px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px;max-width:560px;margin:0 auto;width:100%}
+.top{display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;flex:none;background:var(--accent-soft);color:var(--accent)}
+.avatar.sm{width:40px;height:40px;font-size:14px}.avatar.lg{width:64px;height:64px;font-size:22px}
+.hello{flex:1;min-width:0}.hello small{color:var(--ink2);font-size:13px;display:block}.hello b{font-size:16px}
+.iconbtn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;position:relative;box-shadow:var(--shadow)}
+.dot{position:absolute;top:9px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--late);border:2px solid var(--card)}
+h1{font-size:34px;line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.sub{color:var(--ink2);margin:4px 0 0;font-size:15px}
+.pills{display:flex;gap:8px;overflow-x:auto;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:2px max(16px,env(safe-area-inset-left,0px));scrollbar-width:none}
+.pill{border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:0 16px;min-height:42px;font-weight:600;font-size:14px;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px;box-shadow:var(--shadow)}
+.pill i{font-style:normal;background:var(--soft);border-radius:999px;padding:0 7px;font-size:12px;min-width:22px;text-align:center}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.pill[aria-pressed="true"] i{background:rgba(255,255,255,.18);color:inherit}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;border:24px solid rgba(255,255,255,.06)}
+.hero .big{font-size:44px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.hero p{margin:0;opacity:.85;font-size:15px}
+.hero .row{display:flex;gap:10px;flex-wrap:wrap}
+.chipline{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:4px 2px -6px}
+.sec h2{font-size:19px;font-weight:700;margin:0}.sec span{color:var(--ink2);font-size:14px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px;min-width:0}
+.person{display:flex;align-items:center;gap:12px;min-width:0;background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;width:100%}
+.person .nm{flex:1;min-width:0}.person b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.person small{color:var(--ink2);font-size:13px}
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.t-late{background:var(--late-soft);color:var(--late)}.t-warn{background:var(--warn-soft);color:var(--warn)}.t-good{background:var(--good-soft);color:var(--good)}.t-info{background:var(--info-soft);color:var(--info)}.t-neutral{background:var(--soft);color:var(--ink2)}.t-acc{background:var(--accent-soft);color:var(--accent)}
+.quote{background:var(--soft);border-radius:16px;padding:12px 14px;font-size:15px;margin:0}
+.quote em{display:block;font-style:normal;font-size:12px;color:var(--ink2);font-weight:600;margin-bottom:2px}
+.acts{display:flex;gap:8px;align-items:center}
+.btn{border:0;border-radius:999px;min-height:48px;padding:0 18px;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;transition:transform .12s,filter .15s}
+.btn:active{transform:scale(.97)}
+.btn.dark{background:var(--ink);color:var(--surface);flex:1}
+.btn.acc{background:var(--accent);color:var(--accent-ink);flex:1}
+.btn.soft{background:var(--soft);color:var(--ink);flex:1}
+.btn.round{width:48px;padding:0;flex:none;background:var(--soft);color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.agenda{display:flex;flex-direction:column}
+.slot{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.slot:last-child{border-bottom:0}
+.time{background:var(--ink);color:var(--surface);border-radius:14px;padding:8px 10px;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;min-width:62px;text-align:center}
+.slot .nm{flex:1;min-width:0}.slot b{display:block;font-size:15px}.slot small{color:var(--ink2);font-size:13px}
+.ia{display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;color:inherit;font:inherit}
+.ia .n{font-size:30px;font-weight:800;color:var(--accent);line-height:1}
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:0 16px;min-height:50px;box-shadow:var(--shadow)}
+.search input{flex:1;border:0;background:none;color:var(--ink);font:16px var(--font);min-width:0;outline:none}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--soft);border-radius:999px;padding:4px;gap:4px}
+.seg button{border:0;background:none;border-radius:999px;min-height:40px;font-weight:600;font-size:14px;color:var(--ink2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--soft);border-radius:18px;padding:12px 14px;min-width:0}
+.tile span{display:block;color:var(--ink2);font-size:12px;font-weight:600}.tile b{font-size:16px}
+.bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.conv{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;background:none;border:0;border-bottom:1px solid var(--line);width:100%;text-align:left;color:inherit}
+.conv:last-child{border-bottom:0}
+.conv .nm{flex:1;min-width:0}.conv b{font-size:15px}.conv p{margin:2px 0 0;color:var(--ink2);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv time{font-size:12px;color:var(--ink2);white-space:nowrap}
+.list{padding:0;gap:0;overflow:hidden}
+nav.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 24px),520px);background:var(--nav);border-radius:999px;padding:7px;display:flex;justify-content:space-between;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.dk{border:0;background:none;color:rgba(255,255,255,.72);border-radius:999px;min-height:50px;min-width:50px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 12px;cursor:pointer;font-weight:700;font-size:14px;position:relative}
+.dk span{display:none}
+.dk[aria-current="page"]{background:#fff;color:#141810}
+.dk[aria-current="page"] span{display:inline}
+.dk .cnt{position:absolute;top:6px;right:6px;background:var(--late);color:#fff;font-size:10px;font-weight:800;border-radius:99px;min-width:17px;height:17px;display:grid;place-items:center;padding:0 4px}
+.scrim{position:fixed;inset:0;background:rgba(10,12,8,.5);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:28px 28px 0 0;padding-block:10px calc(22px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+.grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto}
+.sheet h2{margin:0;font-size:24px;font-weight:800;letter-spacing:-.01em}
+.lbl{font-size:13px;font-weight:700;color:var(--ink2);margin:0 0 8px}
+.wrap{display:flex;flex-wrap:wrap;gap:8px}
+.choice{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:0 14px;min-height:42px;font-weight:600;font-size:14px;cursor:pointer}
+.choice[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tl{display:flex;flex-direction:column;gap:14px;border-left:2px solid var(--line);margin-left:8px;padding-left:16px;font-size:15px}
+.tl em{display:block;font-style:normal;color:var(--ink2);font-size:12px;font-weight:600}
+.chat{display:flex;flex-direction:column;gap:8px;background:var(--soft);border-radius:20px;padding:14px}
+.msg{max-width:85%;padding:10px 14px;border-radius:18px;font-size:15px}
+.msg.p{background:var(--card);align-self:flex-start;border-bottom-left-radius:6px}
+.msg.a{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:6px}
+.msg.e{background:var(--ink);color:var(--surface);align-self:flex-end;border-bottom-right-radius:6px}
+.msg small{display:block;font-size:11px;opacity:.75;font-weight:700;margin-bottom:2px}
+textarea,.inp{width:100%;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);font:16px var(--font);padding:12px 14px;min-height:50px}
+textarea{min-height:110px;resize:vertical}
+.err{color:var(--late);font-size:13px;font-weight:600}
+.check{display:flex;align-items:center;gap:12px;cursor:pointer}
+.check input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+.kpi{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi span{color:var(--ink2);font-size:13px;font-weight:600}.kpi b{font-size:28px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.kpi small{font-size:12px;color:var(--ink2)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.how{border:0;background:none;color:var(--accent);font-weight:700;font-size:12px;padding:0;cursor:pointer;text-align:left;min-height:28px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:120px}
+.bars i{flex:1;border-radius:6px 6px 3px 3px;background:var(--accent);min-height:4px}
+.bars i.off{background:var(--late)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--ink2);font-weight:600}.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.cmp{display:flex;align-items:center;gap:14px}.cmp div{flex:1}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);border-radius:18px;padding:8px 8px 8px 18px;min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;width:min(92%,480px);z-index:40;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.toast button{background:none;border:0;color:inherit;font-weight:800;text-decoration:underline;min-height:44px;padding:0 12px;cursor:pointer}
+.note{color:var(--ink2);font-size:14px;margin:0}
+.empty{text-align:center;padding:26px 10px}.empty b{display:block;font-size:18px}.empty p{color:var(--ink2);margin:4px 0 0}
+.palette{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sw{border:2px solid var(--line);border-radius:18px;padding:10px;background:var(--card);cursor:pointer;color:var(--ink);font-weight:700;font-size:13px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.sw[aria-pressed="true"]{border-color:var(--ink)}
+.sw i{display:flex;gap:4px}.sw i b{width:18px;height:18px;border-radius:50%}
+@media (min-width:900px){
+  .shell{gap:24px;padding:24px}
+  .side{display:flex;flex-direction:column;gap:6px;width:240px;flex:none;background:var(--card);border-radius:28px;padding:22px 14px;box-shadow:var(--shadow);border:1px solid var(--line);position:sticky;top:24px;height:calc(100vh - 48px)}
+  .brand{font-weight:800;font-size:19px;padding:0 10px 18px;display:flex;align-items:center;gap:10px}
+  .brand i{width:30px;height:30px;border-radius:10px;background:var(--accent);display:block}
+  .sd{border:0;background:none;color:var(--ink2);border-radius:16px;min-height:48px;display:flex;align-items:center;gap:12px;padding:0 14px;font-weight:600;font-size:15px;cursor:pointer;position:relative}
+  .sd[aria-current="page"]{background:var(--ink);color:var(--surface)}
+  .sd .cnt{margin-left:auto;background:var(--late);color:#fff;font-size:11px;font-weight:800;border-radius:99px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 5px}
+  .main{max-width:none;margin:0;padding:0 0 24px}
+  nav.dock{display:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .kpis{grid-template-columns:repeat(4,1fr)}
+  .scrim{align-items:center}.sheet{border-radius:28px;max-height:86vh}
+  .toast{bottom:24px}
+}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .25s cubic-bezier(.2,.8,.2,1)}@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}}
+</style>
+
+<div class="shell">
+  <aside class="side" aria-label="Navegação">
+    <div class="brand"><i></i>Keshion IA</div>
+    <div id="sidenav"></div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<nav class="dock" id="dock" aria-label="Seções"></nav>
+
+<script>
+const IC={
+ pend:'<svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>',
+ conv:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
+ pac:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/></svg>',
+ ret:'<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg>',
+ res:'<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+ tel:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+ wa:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
+ edit:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+ search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" style="width:14px;height:14px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ spark:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>',
+ next:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',
+ plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+ brush:'<svg viewBox="0 0 24 24"><path d="M18 3l3 3-9 9-3-3zM9 12l-3 3c-2 0-3 2-3 5 3 0 5-1 5-3l3-3"/></svg>'
+};
+const TABS=[["pendencias","Pendências",IC.pend],["conversas","Conversas",IC.conv],["pacientes","Pacientes",IC.pac],["retornos","Retornos",IC.ret],["resultados","Resultados",IC.res]];
+const SIT=["Novo contato","Em conversa","Avaliação marcada","Avaliou, aguardando orçamento","Orçamento em aberto","Em tratamento","Tratamento concluído","Não fechou"];
+const SITTAG={"Novo contato":"t-info","Em conversa":"t-info","Avaliação marcada":"t-acc","Avaliou, aguardando orçamento":"t-warn","Orçamento em aberto":"t-warn","Em tratamento":"t-good","Tratamento concluído":"t-neutral","Não fechou":"t-late"};
+
+let S={
+ pend:[
+  {id:1,pid:11,tipo:"Urgência",tag:"t-late",msg:"Estou com muita dor e o rosto inchou desde ontem à noite. Coloquei o implante na semana passada.",espera:8,quando:"Responder agora"},
+  {id:2,pid:12,tipo:"Pediu a doutora",tag:"t-late",msg:"Queria falar com a Dra. Suzana antes de decidir. Tenho dúvida sobre o prazo do alinhador.",espera:35,quando:"Responder agora"},
+  {id:3,pid:13,tipo:"A IA não sabe",tag:"t-warn",msg:"Vocês aceitam o convênio OdontoPrev?",espera:12,quando:"Responder agora",ensinar:true},
+  {id:4,pid:14,tipo:"Pedido de desconto",tag:"t-info",msg:"Se eu fechar as 10 lentes à vista, consigo algum desconto?",espera:20,quando:"Decidir",opcoes:["Oferecer 5% à vista","Oferecer 10% à vista","Manter o valor","Ligar para ela"]}
+ ],
+ agenda:[
+  {dia:"Hoje",h:"14:00",pid:15,st:"Confirmou",tag:"t-good"},
+  {dia:"Hoje",h:"16:30",pid:16,st:"Sem resposta",tag:"t-warn"},
+  {dia:"Amanhã",h:"10:00",pid:17,st:"Remarcou pela IA",tag:"t-info"},
+  {dia:"Amanhã",h:"15:00",pid:18,st:"Confirmou",tag:"t-good"}
+ ],
+ pac:[
+  {id:11,nome:"Paula Antunes",tel:"(41) 99610-2231",sit:"Em tratamento",ja:true,origem:"Indicação",inicio:"08/2026",trat:{nome:"Implante unitário",feitas:2,total:4,prox:"12/11 às 9h",valor:9800,pag:"6× no cartão"},notas:"Prefere ser chamada de Paula. Tem receio de dor, explicar cada etapa.",hist:[["Hoje 07:40","Relatou dor e inchaço. Pendência aberta para a equipe."],["25/10","Cirurgia do implante"],["10/08","Fechou o tratamento"]]},
+  {id:12,nome:"Carlos Mendes",tel:"(41) 98877-3301",sit:"Orçamento em aberto",ja:false,origem:"Google",inicio:"10/2026",trat:{nome:"Alinhador invisível",feitas:0,total:0,prox:"",valor:14000,pag:"A definir"},notas:"",hist:[["Hoje 10:05","Pediu para falar com a doutora sobre o prazo"],["30/10","Lembrete do orçamento (dia 3) enviado pela IA"],["27/10","Orçamento entregue: R$ 14.000"]]},
+  {id:13,nome:"Henrique Sá",tel:"(41) 99470-1182",sit:"Em conversa",ja:false,origem:"Instagram",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 09:12","Perguntou sobre convênio. A IA não encontrou na base."]]},
+  {id:14,nome:"Mariana Costa",tel:"(41) 99812-4410",sit:"Orçamento em aberto",ja:false,origem:"Anúncio",inicio:"10/2026",trat:{nome:"Lentes de contato dental (10)",feitas:0,total:0,prox:"",valor:28000,pag:"A definir"},notas:"Casamento em março. Quer o sorriso pronto até lá.",hist:[["Hoje 09:30","Pediu desconto para pagamento à vista"],["29/10","Orçamento entregue: R$ 28.000"],["24/10","Avaliação com a Dra. Suzana"]]},
+  {id:15,nome:"Juliana Prado",tel:"(41) 99120-7781",sit:"Avaliação marcada",ja:false,origem:"Indicação",inicio:"10/2026",trat:null,notas:"Indicada pela Mariana Costa.",hist:[["Ontem 17:02","Confirmou a avaliação"],["31/10","IA marcou a avaliação"]]},
+  {id:16,nome:"Larissa Duarte",tel:"(41) 99011-8823",sit:"Avaliação marcada",ja:false,origem:"Instagram",inicio:"10/2026",trat:null,notas:"",hist:[["Ontem 17:00","Confirmação enviada, sem resposta"]]},
+  {id:17,nome:"Beatriz Lima",tel:"(41) 99731-5520",sit:"Avaliação marcada",ja:false,origem:"Anúncio",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 08:01","IA remarcou a avaliação de sexta para amanhã às 10h"],["Hoje 07:58","Chegou pelo anúncio"]]},
+  {id:18,nome:"Thiago Alves",tel:"(41) 99345-1187",sit:"Em tratamento",ja:true,origem:"Anúncio",inicio:"10/2026",trat:{nome:"Implante",feitas:1,total:3,prox:"02/11 às 15h",valor:9500,pag:"Pix à vista"},notas:"",hist:[["30/10","Fechou após o lembrete do orçamento do dia 7"]]},
+  {id:19,nome:"Rafael Nogueira",tel:"(41) 99654-0192",sit:"Em conversa",ja:false,origem:"Instagram",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 08:43","IA explicou como é o implante e ofereceu horários"]]},
+  {id:20,nome:"Pedro Henrique",tel:"(41) 98712-0040",sit:"Não fechou",ja:false,origem:"Google",inicio:"09/2026",motivo:"Outra clínica",trat:{nome:"Facetas",feitas:0,total:0,prox:"",valor:18000,pag:""},notas:"",hist:[["20/10","Disse que vai fazer em outra cidade"]]},
+  {id:21,nome:"Sônia Batista",tel:"(41) 99550-2201",sit:"Tratamento concluído",ja:true,origem:"Paciente antiga",inicio:"2023",trat:{nome:"Limpeza e revisão",feitas:1,total:1,prox:"",valor:0,pag:""},notas:"",hist:[["03/2026","Última limpeza"]]}
+ ],
+ conv:[
+  {pid:19,ult:"Ótimo, então fica quinta às 10h?",st:"IA respondeu",tag:"t-acc",h:"08:43",fora:false},
+  {pid:17,ult:"Pode ser amanhã às 10h, obrigada",st:"Agendou",tag:"t-good",h:"08:01",fora:true},
+  {pid:13,ult:"Vocês aceitam o convênio OdontoPrev?",st:"Aguardando a equipe",tag:"t-warn",h:"09:12",fora:false},
+  {pid:11,ult:"Estou com muita dor e o rosto inchou",st:"Aguardando a equipe",tag:"t-late",h:"07:40",fora:true},
+  {pid:12,ult:"Queria falar com a Dra. Suzana antes",st:"Aguardando a equipe",tag:"t-late",h:"10:05",fora:false},
+  {pid:15,ult:"Confirmado, até amanhã",st:"IA respondeu",tag:"t-acc",h:"Ontem",fora:true},
+  {pid:14,ult:"Consigo desconto à vista?",st:"Aguardando a equipe",tag:"t-info",h:"09:30",fora:false}
+ ],
+ ret:[
+  {id:21,motivo:"Limpeza vencida há 7 meses",ult:"03/2026",sel:true},
+  {id:31,nome:"André Furtado",motivo:"Manutenção do clareamento (14 meses)",ult:"09/2025",sel:true},
+  {id:32,nome:"Cláudia Ramos",motivo:"Retorno do alinhador atrasado",ult:"07/2026",sel:true},
+  {id:33,nome:"Marcos Vieira",motivo:"Limpeza vencida há 6 meses",ult:"04/2026",sel:false}
+ ],
+ assumidas:{}
+};
+let view=(TABS.map(t=>t[0]).includes(location.hash.slice(1))&&location.hash.slice(1))||"pendencias";
+let fPend="tudo",fConv="todas",fPac="todos",fSit="",busca="",periodo="Mês",dia="Hoje";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const brl=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const P=id=>S.pac.find(p=>p.id===id);
+const ini=n=>n.split(" ").map(w=>w[0]).slice(0,2).join("");
+const first=n=>n.split(" ")[0];
+const snap=()=>JSON.stringify(S);
+const restore=s=>{S=JSON.parse(s);render()};
+const AVC=["#e6ecd9","#f6e2d6","#dde8f3","#efe0f0","#f3ecd2","#dcefe8"];const AVI=["#3f5a2a","#8a4a2a","#2d5f86","#7a3f84","#7a6012","#1f6b55"];
+const av=(p,cls="")=>`<span class="avatar ${cls}" style="background:${AVC[p.id%6]};color:${AVI[p.id%6]}" aria-hidden="true">${ini(p.nome)}</span>`;
+
+let tt;function toast(m,undo){document.querySelectorAll(".toast").forEach(t=>t.remove());clearTimeout(tt);const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.innerHTML=`<span>${esc(m)}</span>${undo?'<button type="button">Desfazer</button>':""}`;if(undo)d.querySelector("button").onclick=()=>{restore(undo);d.remove()};document.body.appendChild(d);tt=setTimeout(()=>d.remove(),undo?5000:2800)}
+
+function header(t,sub){const h=new Date().getHours();const sau=h<12?"Bom dia":h<18?"Boa tarde":"Boa noite";
+ return `<div class="top"><span class="avatar" aria-hidden="true">E</span><div class="hello"><small>${sau}, Erica</small><b>Clínica Dra. Suzana</b></div><button class="iconbtn" data-act="estilo" aria-label="Trocar estilo visual">${IC.brush}</button><button class="iconbtn" data-act="avisos" aria-label="Avisos">${IC.pend}${S.pend.length?'<span class="dot"></span>':""}</button></div><div><h1>${t}</h1>${sub?`<p class="sub">${sub}</p>`:""}</div>`}
+
+/* PENDÊNCIAS */
+function pendencias(){
+ const all=S.pend,lst=fPend==="tudo"?all:all.filter(x=>x.quando===fPend);
+ const maisAntiga=all.reduce((m,x)=>Math.max(m,x.espera),0);
+ const ag=S.agenda.filter(a=>a.dia===dia);
+ return header("Pendências","Só o que precisa de uma pessoa. O resto a IA resolve.")+
+ `<div class="grid2"><div class="stack">
+ <section class="hero" aria-label="Resumo">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px"><div><p>Esperando a equipe</p><div class="big">${all.length}</div></div><span class="chipline">${IC.clock} a mais antiga há ${maisAntiga} min</span></div>
+  <div class="row"><span class="chipline">${IC.spark} 27 conversas resolvidas pela IA hoje</span></div>
+ </section>
+ <div class="pills" role="group" aria-label="Filtrar">${[["tudo","Tudo",all.length],["Responder agora","Responder agora",all.filter(x=>x.quando==="Responder agora").length],["Decidir","Decidir",all.filter(x=>x.quando==="Decidir").length]].map(f=>`<button class="pill" data-fp="${f[0]}" aria-pressed="${fPend===f[0]}">${f[1]} <i>${f[2]}</i></button>`).join("")}</div>
+ <div class="stack">${lst.sort((a,b)=>(a.tag==="t-late"?0:1)-(b.tag==="t-late"?0:1)||b.espera-a.espera).map(cardPend).join("")||`<div class="card empty"><b>Tudo em dia</b><p>Quando algo precisar da equipe, aparece aqui e no WhatsApp do grupo.</p></div>`}</div>
+ </div><div class="stack">
+ <div class="sec"><h2>Avaliações</h2><span>${ag.length} ${dia.toLowerCase()}</span></div>
+ <div class="card"><div class="seg" style="grid-template-columns:1fr 1fr">${["Hoje","Amanhã"].map(d=>`<button data-dia="${d}" aria-pressed="${dia===d}">${d}</button>`).join("")}</div>
+ <div class="agenda">${ag.map(a=>{const p=P(a.pid);return `<div class="slot"><span class="time">${a.h}</span><button class="person" data-open="${p.id}" style="flex:1"><span class="nm"><b>${esc(p.nome)}</b><small>Avaliação · ${esc(p.origem)}</small></span></button><span class="tag ${a.tag}">${a.st}</span></div>`}).join("")}</div></div>
+ <button class="card ia" data-go="conversas"><span class="n">27</span><span style="flex:1"><b style="display:block">Resolvidas pela IA hoje</b><small class="note">9 fora do horário · 4 avaliações marcadas · 2 remarcações</small></span>${IC.next}</button>
+ </div></div>`;
+}
+function cardPend(x){const p=P(x.pid);const late=x.espera>15;
+ return `<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><span class="tag ${x.tag}">${x.tipo}</span><span class="tag ${late?"t-late":"t-neutral"}">${IC.clock} ${x.espera} min</span></div>
+ <button class="person" data-open="${p.id}">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${p.ja?"Já é paciente":"Novo contato"} · ${esc(p.sit)}</small></span></button>
+ <p class="quote"><em>Mensagem do paciente</em>${esc(x.msg)}</p>
+ ${x.opcoes?`<div><p class="lbl">Qual resposta a IA deve dar?</p><div class="wrap">${x.opcoes.map(o=>`<button class="choice" data-dec="${x.id}" data-op="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`:
+ x.ensinar?`<div class="acts"><button class="btn acc" data-act="ensinar" data-id="${x.id}">Responder e ensinar a IA</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button></div>`:
+ `<div class="acts"><button class="btn dark" data-act="assumir" data-pid="${p.id}" data-id="${x.id}">${IC.wa}Abrir conversa</button><button class="btn round" data-act="ligar" aria-label="Ligar para ${esc(p.nome)}">${IC.tel}</button><button class="btn round" data-act="resolvido" data-id="${x.id}" aria-label="Marcar como resolvido"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></button></div>`}
+ </article>`}
+
+/* CONVERSAS */
+function conversas(){
+ const fl={todas:()=>true,equipe:c=>c.st==="Aguardando a equipe",fora:c=>c.fora,assumidas:c=>S.assumidas[c.pid]};
+ const lst=S.conv.filter(fl[fConv]);
+ return header("Conversas","Tudo o que entrou hoje, com o que a IA fez em cada uma.")+
+ `<div class="pills" role="group" aria-label="Filtrar conversas">${[["todas","Todas"],["equipe","Aguardando a equipe"],["fora","Fora do horário"],["assumidas","A equipe assumiu"]].map(f=>`<button class="pill" data-fc="${f[0]}" aria-pressed="${fConv===f[0]}">${f[1]} <i>${S.conv.filter(fl[f[0]]).length}</i></button>`).join("")}</div>
+ <div class="card list">${lst.map(c=>{const p=P(c.pid);const st=S.assumidas[c.pid]?["A equipe assumiu","t-neutral"]:[c.st,c.tag];return `<button class="conv" data-chat="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px"><b>${esc(p.nome)}</b><time>${c.h}</time></span><p>${esc(c.ult)}</p><span class="tag ${st[1]}" style="margin-top:6px">${st[0]}</span>${c.fora?' <span class="tag t-neutral" style="margin-top:6px">Fora do horário</span>':""}</span></button>`}).join("")||`<div class="empty"><b>Nenhuma conversa aqui</b><p>Troque o filtro para ver as outras.</p></div>`}</div>`;
+}
+function chat(pid){const p=P(pid);const ass=!!S.assumidas[pid];const c=S.conv.find(x=>x.pid===pid);
+ const linhas=[["p","Paciente",c?c.ult:"Olá"],...(c&&c.st==="Aguardando a equipe"?[["a","IA","Obrigada por avisar. Já chamei a equipe e alguém fala com você em instantes."]]:[["a","IA","Perfeito. Ficou registrado e você recebe a confirmação na véspera."]])];
+ sheet(`<div style="display:flex;gap:12px;align-items:center">${av(p)}<div style="flex:1;min-width:0"><h2 style="font-size:20px">${esc(p.nome)}</h2><small class="note">${esc(p.tel)}</small></div><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button></div>
+ <div class="chat">${linhas.map(l=>`<div class="msg ${l[0]}"><small>${l[1]}</small>${esc(l[2])}</div>`).join("")}${ass?`<div class="msg e"><small>Equipe</small>Oi, ${esc(first(p.nome))}, aqui é a Erica. Já vou te ajudar.</div>`:""}</div>
+ ${ass?`<textarea id="resp" aria-label="Sua mensagem" placeholder="Escreva para ${esc(first(p.nome))}"></textarea><div class="acts"><button class="btn dark" data-act="enviarEq" data-pid="${pid}">Enviar</button><button class="btn soft" data-act="devolver" data-pid="${pid}">Devolver para a IA</button></div>`:
+ `<div class="acts"><button class="btn dark" data-act="assumirChat" data-pid="${pid}">Assumir conversa</button><button class="btn soft" data-open="${pid}">Ver ficha</button></div><p class="note">Ao assumir, a IA para de responder esta pessoa até você devolver.</p>`}`);
+}
+
+/* PACIENTES */
+function pacientes(){
+ const f=p=>(fPac==="todos"||(fPac==="novos"?!p.ja:p.ja))&&(!fSit||p.sit===fSit)&&(p.nome+p.tel).toLowerCase().includes(busca.toLowerCase());
+ const lst=S.pac.filter(f);
+ return header("Pacientes",`${S.pac.length} pessoas · ${S.pac.filter(p=>p.ja).length} já são pacientes`)+
+ `<div class="acts"><label class="search" style="flex:1">${IC.search}<input id="busca" type="search" placeholder="Nome ou telefone" value="${esc(busca)}" aria-label="Buscar paciente"></label><button class="btn round" style="background:var(--ink);color:var(--surface)" data-act="novo" aria-label="Cadastrar paciente">${IC.plus}</button></div>
+ <div class="seg" role="group" aria-label="Tipo">${[["todos","Todos"],["novos","Novos contatos"],["ja","Já pacientes"]].map(s=>`<button data-fpac="${s[0]}" aria-pressed="${fPac===s[0]}">${s[1]}</button>`).join("")}</div>
+ <div class="pills" role="group" aria-label="Situação"><button class="pill" data-fsit="" aria-pressed="${!fSit}">Todas</button>${SIT.map(s=>{const n=S.pac.filter(p=>p.sit===s).length;return n?`<button class="pill" data-fsit="${s}" aria-pressed="${fSit===s}">${s} <i>${n}</i></button>`:""}).join("")}</div>
+ <div class="card list">${lst.map(p=>`<button class="conv" data-open="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>${esc(p.nome)}</b>${IC.next}</span><span class="tag ${SITTAG[p.sit]}" style="margin-top:4px">${p.sit}</span>${p.trat&&p.trat.total>1?`<span style="display:flex;align-items:center;gap:8px;margin-top:8px"><span class="bar" style="flex:1"><i style="width:${Math.round(p.trat.feitas/p.trat.total*100)}%"></i></span><small class="note" style="font-size:12px">${p.trat.feitas} de ${p.trat.total} sessões</small></span>`:p.trat&&p.trat.valor?`<p>${esc(p.trat.nome)} · ${brl(p.trat.valor)}</p>`:""}</span></button>`).join("")||`<div class="empty"><b>Ninguém encontrado</b><p>Confira a grafia ou cadastre pelo botão +.</p></div>`}</div>`;
+}
+function ficha(id){const p=P(id);if(!p)return;const t=p.trat;
+ sheet(`<div style="display:flex;gap:14px;align-items:center">${av(p,"lg")}<div style="flex:1;min-width:0"><h2>${esc(p.nome)}</h2><div class="wrap" style="margin-top:6px"><span class="tag ${p.ja?"t-good":"t-info"}">${p.ja?"Já é paciente":"Novo contato"}</span><span class="tag t-neutral">Veio por ${esc(p.origem)}</span></div></div></div>
+ <div class="acts"><button class="btn dark" data-act="wa">${IC.wa}WhatsApp</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button><button class="btn round" data-chat="${p.id}" aria-label="Ver conversa">${IC.conv}</button></div>
+ <div class="row2"><button class="tile" data-act="sit" data-pid="${p.id}" style="border:0;text-align:left;cursor:pointer;color:inherit"><span>Situação · tocar para mudar</span><b>${p.sit}</b></button><div class="tile"><span>Primeiro contato</span><b>${p.inicio}</b></div></div>
+ ${t?`<div class="card" style="box-shadow:none"><div style="display:flex;justify-content:space-between;align-items:center"><p class="lbl" style="margin:0">Tratamento</p><button class="how" data-act="edtrat" data-pid="${p.id}">Editar</button></div><b style="font-size:17px">${esc(t.nome)}</b>${t.total>1?`<div class="bar"><i style="width:${Math.round(t.feitas/t.total*100)}%"></i></div><small class="note">${t.feitas} de ${t.total} sessões feitas${t.prox?" · próxima "+t.prox:""}</small>`:""}<div class="row2"><div class="tile"><span>Valor</span><b>${t.valor?brl(t.valor):"—"}</b></div><div class="tile"><span>Pagamento</span><b>${esc(t.pag||"—")}</b></div></div></div>`:`<button class="btn soft" data-act="edtrat" data-pid="${p.id}">${IC.plus}Registrar orçamento ou tratamento</button>`}
+ ${p.motivo?`<div class="tile"><span>Motivo de não ter fechado</span><b>${esc(p.motivo)}</b></div>`:""}
+ <div><p class="lbl">Anotações da equipe</p><textarea id="nota" placeholder="Preferências, como gosta de ser chamado, o que falta para decidir">${esc(p.notas)}</textarea><p class="note" style="font-size:12px;margin-top:6px">Anotação clínica fica no prontuário do sistema da clínica, não aqui.</p><button class="btn soft" style="margin-top:8px;width:100%" data-act="salvanota" data-pid="${p.id}">Salvar anotação</button></div>
+ <div><p class="lbl">Histórico</p><div class="tl">${p.hist.map(h=>`<div><em>${h[0]}</em>${esc(h[1])}</div>`).join("")}</div></div>
+ <button class="btn soft" data-close>Fechar</button>`);
+}
+function mudarSit(pid){const p=P(pid);
+ sheet(`<h2>Mudar situação</h2><p class="note">${esc(p.nome)}</p><div class="stack">${SIT.map(s=>`<button class="choice" style="min-height:52px;text-align:left;padding:0 18px" data-setsit="${s}" data-pid="${pid}" aria-pressed="${p.sit===s}">${s}</button>`).join("")}</div><button class="btn soft" data-close>Cancelar</button>`)}
+function motivoNao(pid){const p=P(pid);
+ sheet(`<h2>Por que não fechou?</h2><p class="note">${esc(p.nome)}. Isso entra nos Resultados.</p><div class="wrap">${["Preço","Medo","Tempo","Outra clínica","Sem resposta","Outro"].map(m=>`<button class="choice" data-motivo="${m}" data-pid="${pid}">${m}</button>`).join("")}</div><button class="btn soft" data-close>Cancelar</button>`)}
+function edTrat(pid){const p=P(pid);const t=p.trat||{nome:"",feitas:0,total:0,prox:"",valor:0,pag:""};
+ sheet(`<h2>Tratamento</h2><p class="note">${esc(p.nome)}</p>
+ <label class="lbl" for="tn">O que foi orçado</label><input class="inp" id="tn" value="${esc(t.nome)}" placeholder="Lentes de contato dental (10)">
+ <div class="row2"><div><label class="lbl" for="tv">Valor em reais</label><input class="inp" id="tv" inputmode="numeric" value="${t.valor||""}" placeholder="28000"></div><div><label class="lbl" for="tp">Pagamento</label><input class="inp" id="tp" value="${esc(t.pag)}" placeholder="10× no cartão"></div></div>
+ <div class="row2"><div><label class="lbl" for="tf">Sessões feitas</label><input class="inp" id="tf" inputmode="numeric" value="${t.feitas||0}"></div><div><label class="lbl" for="tt">Total de sessões</label><input class="inp" id="tt" inputmode="numeric" value="${t.total||0}"></div></div>
+ <label class="lbl" for="tx">Próxima sessão</label><input class="inp" id="tx" value="${esc(t.prox)}" placeholder="12/11 às 9h">
+ <span class="err" id="terr" aria-live="polite"></span>
+ <div class="acts"><button class="btn dark" data-act="salvatrat" data-pid="${pid}">Salvar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
+
+/* RETORNOS */
+function retornos(){const nomeR=r=>r.nome||P(r.id).nome;const sel=S.ret.filter(r=>r.sel);const n=sel.length;
+ return header("Retornos","Pacientes antigos no tempo da revisão, da manutenção ou do retorno.")+
+ `<div class="grid2"><div class="stack"><div class="sec"><h2>${n} de ${S.ret.length} selecionados</h2><button class="how" data-act="todos">${n===S.ret.length?"Limpar":"Selecionar todos"}</button></div>
+ <div class="card list">${S.ret.map(r=>`<label class="conv check"><input type="checkbox" data-sel="${r.id}" ${r.sel?"checked":""}>${av({id:r.id,nome:nomeR(r)},"sm")}<span class="nm"><b>${esc(nomeR(r))}</b><p>${esc(r.motivo)} · última visita ${r.ult}</p></span></label>`).join("")}</div></div>
+ <div class="stack"><div class="sec"><h2>Mensagem</h2><span>assinada pela equipe</span></div>
+ <div class="card"><div class="chat"><div class="msg e"><small>Erica · Clínica Dra. Suzana</small>Olá, ${esc(first(sel[0]?nomeR(sel[0]):"Sônia"))}, tudo bem? Aqui é a Erica, da clínica da Dra. Suzana. Vi que já faz um tempo da sua última visita e queria saber se você quer marcar sua revisão. Quer que eu veja os horários livres da doutora?</div><div class="msg p"><small>Paciente</small>Quero sim</div><div class="msg a"><small>IA</small>Tenho quinta às 9h ou sexta às 14h. Qual fica melhor?</div></div>
+ <p class="note">Rascunho de tom. O texto final ajustamos com as respostas da clínica. Se a pessoa disser que sim, a IA oferece os horários e marca.</p>
+ <button class="btn dark" data-act="lote" ${n?"":"disabled"}>${n?`Aprovar envio para ${n}`:"Selecione ao menos um paciente"}</button><p class="note" style="font-size:12px">Saem em lotes pequenos ao longo do dia. Quem responder SAIR não recebe mais.</p></div></div></div>`;
+}
+
+/* RESULTADOS */
+function resultados(){
+ const k=(l,v,s)=>`<div class="kpi"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+ const hrs=[3,6,9,12,10,8,9,11,10,9,8,12,15,17,14,9,4],lab=["7h","","9h","","11h","","13h","","15h","","17h","","19h","","21h","","23h"];
+ return header("Resultados","Cada número diz de onde vem.")+
+ `<div class="pills" role="group" aria-label="Período">${["Semana","Mês","3 meses"].map(x=>`<button class="pill" data-per="${x}" aria-pressed="${periodo===x}">${x}</button>`).join("")}</div>
+ <section class="hero"><p>Valor fechado depois de um lembrete da IA</p><div class="big">R$ 48 mil</div><div class="row"><span class="chipline">4 tratamentos</span><span class="chipline">16× o valor da mensalidade</span></div><button class="how" style="color:var(--hero-ink);text-decoration:underline" data-act="how" data-h="recuperado">Como calculamos</button></section>
+ <div class="sec"><h2>Medido pelo sistema</h2><span>automático</span></div>
+ <div class="kpis">${k("Mensagens respondidas","412","38% fora do horário")+k("Primeira resposta","1 min","média do período")+k("Avaliações marcadas pela IA","31","de 184 contatos novos")+k("Remarcações pela IA","9","horários reaproveitados")+k("Confirmações respondidas","86%","das avaliações")+k("Lembretes de orçamento","42","11 pacientes responderam")+k("Retornos que agendaram","6","de 24 mensagens")+k("Conversas com a equipe","23","o resto a IA resolveu")}</div>
+ <div class="grid2"><div class="card"><div style="display:flex;justify-content:space-between"><b>Mensagens por hora</b><div class="legend"><span><b style="background:var(--accent)"></b>Horário comercial</span><span><b style="background:var(--late)"></b>Fora</span></div></div><div class="bars" role="img" aria-label="Mensagens por hora do dia; o pico é entre 19h e 21h, fora do horário comercial">${hrs.map((v,i)=>`<i class="${i<2||i>=11?"off":""}" style="height:${v/17*100}%"></i>`).join("")}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2)">${lab.filter(Boolean).map(l=>`<span>${l}</span>`).join("")}</div></div>
+ <div class="card"><b>Faltas: antes e agora</b><div class="cmp"><div><small class="note">Antes (informado pela clínica)</small><div style="font-size:28px;font-weight:800">18%</div></div><div><small class="note">Agora (marcado pela equipe)</small><div style="font-size:28px;font-weight:800;color:var(--good)">9%</div></div></div><p class="note" style="font-size:13px">Comparação com o período anterior, não uma contagem de faltas evitadas.</p></div></div>
+ <div class="sec"><h2>Depende da equipe marcar</h2><span>"fechou" e "compareceu"</span></div>
+ <div class="kpis">${k("Valor fechado no período","R$ 96 mil","9 tratamentos")+k("Comparecimento","91%","nas avaliações")+k("Orçamentos em aberto","R$ 186 mil","14 pacientes")+k("Não fecharam","5","2 por preço · 2 outra clínica")}</div>`;
+}
+
+/* NAV, AVISOS, ESTILO */
+function avisos(){
+ sheet(`<h2>Avisos para a equipe</h2><p class="note">Cada pendência gera um aviso no grupo de WhatsApp da clínica. Se ninguém resolver, o lembrete sobe de nível.</p>
+ <div class="stack">${S.pend.map(x=>{const p=P(x.pid);const nivel=x.espera>=30?["Avisado à doutora","t-late"]:x.espera>=10?["Lembrete reenviado à recepção","t-warn"]:["Aviso enviado à recepção","t-info"];return `<div class="card" style="box-shadow:none"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(p.nome)}</b><span class="tag ${nivel[1]}">${nivel[0]}</span></div><small class="note">${x.tipo} · esperando há ${x.espera} min</small></div>`}).join("")}</div>
+ <div class="chat"><div class="msg p"><small>Keshion IA · grupo Equipe Dra. Suzana</small>Pendência: Paula Antunes relatou dor e inchaço depois do implante. Esperando há 8 min. Abrir: keshion.app/p/11</div></div>
+ <div class="card" style="box-shadow:none"><p class="lbl">Regras deste protótipo</p><p class="note">Aviso imediato no grupo. Sem resposta em 10 min no horário comercial: lembrete para a recepção. Em 30 min: aviso direto para a doutora. Fora do horário: o paciente recebe o horário de retorno e o aviso sai na abertura da clínica. Os tempos são ajustáveis por clínica.</p></div>
+ <button class="btn soft" data-close>Fechar</button>`)}
+function estilo(){const cur=document.documentElement.dataset.pal||"oliva";
+ const pal=[["oliva","Oliva",["#2c3a1f","#3f5a2a","#efece4"]],["menta","Menta",["#0d4d45","#0f7a6a","#e8f2ef"]],["lavanda","Lavanda",["#2a2160","#5b45d6","#ece9f7"]]];
+ sheet(`<h2>Estilo visual</h2><p class="note">Três direções inspiradas nas referências. Toque para comparar.</p><div class="palette">${pal.map(p=>`<button class="sw" data-pal="${p[0]}" aria-pressed="${cur===p[0]}"><i>${p[2].map(c=>`<b style="background:${c}"></b>`).join("")}</i>${p[1]}</button>`).join("")}</div><button class="btn soft" data-close>Fechar</button>`)}
+function nav(){
+ const cnt=S.pend.length;
+ $("#dock").innerHTML=TABS.map(t=>`<button class="dk" data-v="${t[0]}" ${t[0]===view?'aria-current="page"':""} aria-label="${t[1]}">${t[2]}<span>${t[1]}</span>${t[0]==="pendencias"&&cnt&&t[0]!==view?`<b class="cnt">${cnt}</b>`:""}</button>`).join("");
+ $("#sidenav").innerHTML=TABS.map(t=>`<button class="sd" data-v="${t[0]}" ${t[0]===view?'aria-current="page"':""}>${t[2]}${t[1]}${t[0]==="pendencias"&&cnt?`<b class="cnt">${cnt}</b>`:""}</button>`).join("");
+}
+const V={pendencias,conversas,pacientes,retornos,resultados};
+function render(){$("#main").innerHTML=V[view]();nav();
+ const b=$("#busca");if(b)b.oninput=e=>{busca=e.target.value;const pos=e.target.selectionStart;render();const nb=$("#busca");nb.focus();nb.setSelectionRange(pos,pos)}}
+function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render();window.scrollTo(0,0)}
+function sheet(html){closeSheets();const sc=document.createElement("div");sc.className="scrim";sc.innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="grab" aria-hidden="true"></div>${html}</div>`;
+ sc.addEventListener("click",e=>{if(e.target===sc||e.target.closest("[data-close]"))sc.remove()});document.body.appendChild(sc);(sc.querySelector("button,textarea,input"))?.focus()}
+function closeSheets(){document.querySelectorAll(".scrim").forEach(s=>s.remove())}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheets()});
+function resolvePend(id,msg,linha){const u=snap();const x=S.pend.find(y=>y.id===id);S.pend=S.pend.filter(y=>y.id!==id);const c=S.conv.find(y=>y.pid===x.pid);if(c){c.st="IA respondeu";c.tag="t-acc"}if(linha)P(x.pid).hist.unshift(["Agora",linha]);closeSheets();render();toast(msg,u)}
+
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-v],[data-go],[data-open],[data-chat],[data-fp],[data-fc],[data-fpac],[data-fsit],[data-dia],[data-per],[data-dec],[data-sel],[data-setsit],[data-motivo],[data-pal],[data-act]");if(!t)return;const d=t.dataset;
+ if(d.v)return go(d.v);if(d.go)return go(d.go);
+ if(d.open)return ficha(+d.open);if(d.chat)return chat(+d.chat);
+ if(d.fp){fPend=d.fp;return render()}if(d.fc){fConv=d.fc;return render()}if(d.fpac){fPac=d.fpac;return render()}if(d.fsit!==undefined&&t.matches("[data-fsit]")){fSit=d.fsit;return render()}
+ if(d.dia){dia=d.dia;return render()}if(d.per){periodo=d.per;render();return toast("No app real, os números mudam para o período escolhido")}
+ if(d.dec){const x=S.pend.find(y=>y.id===+d.dec);return resolvePend(x.id,"A IA vai responder: "+d.op.toLowerCase(),"Equipe decidiu: "+d.op)}
+ if(d.sel){S.ret.find(r=>r.id===+d.sel).sel=t.checked;return render()}
+ if(d.setsit){const p=P(+d.pid);if(d.setsit==="Não fechou")return motivoNao(p.id);const u=snap();p.sit=d.setsit;if(["Em tratamento","Tratamento concluído"].includes(p.sit))p.ja=true;p.hist.unshift(["Agora","Situação: "+p.sit]);closeSheets();render();return toast(first(p.nome)+": "+p.sit,u)}
+ if(d.motivo){const p=P(+d.pid);const u=snap();p.sit="Não fechou";p.motivo=d.motivo;p.hist.unshift(["Agora","Não fechou: "+d.motivo]);closeSheets();render();return toast(first(p.nome)+" marcado como não fechou",u)}
+ if(d.pal){document.documentElement.dataset.pal=d.pal;try{localStorage.setItem("kpal",d.pal)}catch(_){}document.querySelectorAll(".sw").forEach(s=>s.setAttribute("aria-pressed",s.dataset.pal===d.pal));return}
+ const pid=+d.pid,id=+d.id;
+ switch(d.act){
+  case "avisos":return avisos();
+  case "estilo":return estilo();
+  case "assumir":{S.assumidas[pid]=true;const x=S.pend.find(y=>y.id===id);S.pend=S.pend.filter(y=>y.id!==id);render();chat(pid);return toast("Você assumiu a conversa. A IA pausou para "+first(P(pid).nome))}
+  case "assumirChat":S.assumidas[pid]=true;S.pend=S.pend.filter(y=>y.pid!==pid);render();return chat(pid);
+  case "devolver":delete S.assumidas[pid];closeSheets();render();return toast("Conversa devolvida para a IA");
+  case "enviarEq":{const v=$("#resp").value.trim();if(!v){$("#resp").focus();return toast("Escreva a mensagem antes de enviar")}P(pid).hist.unshift(["Agora","Equipe: "+v]);closeSheets();render();return toast("Mensagem enviada para "+first(P(pid).nome))}
+  case "resolvido":return resolvePend(id,"Pendência resolvida","Resolvido pela equipe");
+  case "ensinar":{const x=S.pend.find(y=>y.id===id);return sheet(`<h2>Responder e ensinar a IA</h2><p class="quote"><em>Pergunta</em>${esc(x.msg)}</p><label class="lbl" for="ens">Resposta</label><textarea id="ens" placeholder="Ex.: Não atendemos pelo OdontoPrev, mas oferecemos parcelamento em até 12 vezes."></textarea><span class="err" id="enserr" aria-live="polite"></span><label class="check"><input type="checkbox" id="base" checked> Guardar na base da clínica para as próximas vezes</label><div class="acts"><button class="btn dark" data-act="ensinarOk" data-id="${id}">Enviar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
+  case "ensinarOk":{const v=$("#ens").value.trim();if(!v){$("#enserr").textContent="Escreva a resposta antes de enviar.";return}const b=$("#base").checked;return resolvePend(id,b?"Enviado. A IA aprendeu essa resposta":"Resposta enviada","Equipe respondeu"+(b?" e a resposta entrou na base da clínica":""))}
+  case "sit":return mudarSit(pid);
+  case "edtrat":return edTrat(pid);
+  case "salvatrat":{const v=parseInt(($("#tv").value||"").replace(/\D/g,""),10)||0,f=parseInt($("#tf").value,10)||0,tot=parseInt($("#tt").value,10)||0;if(!$("#tn").value.trim()){$("#terr").textContent="Escreva o que foi orçado.";return}if(f>tot&&tot){$("#terr").textContent="Sessões feitas não pode ser maior que o total.";return}const p=P(pid),u=snap();p.trat={nome:$("#tn").value.trim(),valor:v,pag:$("#tp").value.trim(),feitas:f,total:tot,prox:$("#tx").value.trim()};if(p.sit==="Avaliou, aguardando orçamento"||p.sit==="Em conversa"||p.sit==="Avaliação marcada")p.sit="Orçamento em aberto";p.hist.unshift(["Agora","Tratamento atualizado"]);closeSheets();render();ficha(pid);return toast("Tratamento salvo",u)}
+  case "salvanota":{const p=P(pid);p.notas=$("#nota").value;return toast("Anotação salva")}
+  case "novo":return sheet(`<h2>Novo paciente</h2><p class="note">Para quem ligou ou chegou pela recepção.</p><label class="lbl" for="nn">Nome</label><input class="inp" id="nn" autocomplete="off"><label class="lbl" for="nt">WhatsApp com DDD</label><input class="inp" id="nt" inputmode="tel" placeholder="(41) 99999-0000"><label class="lbl">Já é paciente da clínica?</label><div class="seg" style="grid-template-columns:1fr 1fr"><button data-act="ja" data-v2="0" aria-pressed="true">Não</button><button data-act="ja" data-v2="1" aria-pressed="false">Sim</button></div><span class="err" id="nerr" aria-live="polite"></span><div class="acts"><button class="btn dark" data-act="cad">Cadastrar</button><button class="btn soft" data-close>Cancelar</button></div>`);
+  case "ja":t.parentNode.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===t));return;
+  case "cad":{const n=$("#nn").value.trim(),tel=$("#nt").value.replace(/\D/g,"");if(n.length<2){$("#nerr").textContent="Digite o nome do paciente.";return}if(tel.length<10){$("#nerr").textContent="Digite o WhatsApp com DDD.";return}const ja=document.querySelector('[data-act="ja"][aria-pressed="true"]').dataset.v2==="1";const u=snap();S.pac.unshift({id:Date.now()%100000,nome:n,tel:$("#nt").value,sit:ja?"Tratamento concluído":"Novo contato",ja,origem:"Recepção",inicio:"11/2026",trat:null,notas:"",hist:[["Agora","Cadastrado pela recepção"]]});closeSheets();render();return toast(first(n)+" cadastrado",u)}
+  case "todos":{const all=S.ret.every(r=>r.sel);S.ret.forEach(r=>r.sel=!all);return render()}
+  case "lote":return toast(S.ret.filter(r=>r.sel).length+" mensagens aprovadas. Saem ao longo do dia");
+  case "how":return sheet(`<h2>Como calculamos</h2><p>Soma dos tratamentos marcados como fechados pela equipe em que o paciente: fez o primeiro contato fora do horário comercial, ou fechou depois de pelo menos um lembrete de orçamento enviado pela IA, ou voltou por uma mensagem de retorno.</p><p class="note">O valor depende de a equipe marcar o tratamento como fechado na ficha do paciente.</p><button class="btn soft" data-close>Entendi</button>`);
+  case "wa":return toast("No app real, abre a conversa no WhatsApp");
+  case "ligar":return toast("No app real, abre a ligação");
+ }
+});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(V[h]&&h!==view){view=h;render()}});
+try{const p=localStorage.getItem("kpal");if(p)document.documentElement.dataset.pal=p}catch(_){}
+render();
+</script>

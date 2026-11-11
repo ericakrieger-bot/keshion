@@ -1,0 +1,524 @@
+<title>Três Nichos Comparados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: relatório de decisão; resumo, placar por critério, raio-x de cada nicho, concorrentes de estética e solar, opinião sobre o recorte odontológico e recomendação. Mesma identidade do guia e do mapa de concorrentes do projeto, com uma cor por nicho. */
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --surface-2:#EAF1EF; --ink:#13262B; --muted:#56696C; --line:#D6E0DD;
+  --accent:#0E6B5F; --accent-ink:#FFFFFF; --accent-soft:#DCEEE9;
+  --warn:#9A5A12; --warn-soft:#FBF1E2; --risk:#A1303A; --risk-soft:#FBE7E8; --ok:#2C7A4E; --ok-soft:#E2F2E8;
+  --n-odonto:#0E6B5F; --n-odonto-soft:#DCEEE9;
+  --n-estetica:#8A3E73; --n-estetica-soft:#F5E6F0;
+  --n-solar:#A86B00; --n-solar-soft:#FBEFD6;
+  --f-display:"Familjen Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --n-odonto:#4DBFAC; --n-odonto-soft:#173430;
+  --n-estetica:#DB8EC4; --n-estetica-soft:#33202D;
+  --n-solar:#E8B54F; --n-solar-soft:#312611; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --n-odonto:#4DBFAC; --n-odonto-soft:#173430;
+  --n-estetica:#DB8EC4; --n-estetica-soft:#33202D;
+  --n-solar:#E8B54F; --n-solar-soft:#312611; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:700}
+h2{font-size:clamp(1.4rem,3vw,1.85rem);font-weight:700}
+h3{font-size:1.2rem;font-weight:600}
+h4{font-size:1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.06rem;color:var(--muted);max-width:70ch}
+.muted{color:var(--muted)} .small{font-size:.88rem} .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header.top{padding-block:40px 26px;border-bottom:1px solid var(--line)}
+nav.sections{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.sections ul{list-style:none;margin:0;padding:10px 0;display:flex;gap:6px;overflow-x:auto}
+nav.sections a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.88rem;white-space:nowrap;border:1px solid var(--line);background:var(--surface)}
+nav.sections a:hover{border-color:var(--accent)}
+
+section.block{padding-block:44px 6px;scroll-margin-top:64px}
+section.block > .wrap{display:flex;flex-direction:column;gap:20px}
+
+.chip{display:inline-flex;align-items:center;font-size:.76rem;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.risk{background:var(--risk-soft);color:var(--risk)} .chip.neu{background:var(--surface-2);color:var(--muted)}
+.tag-odonto{background:var(--n-odonto-soft);color:var(--n-odonto)}
+.tag-estetica{background:var(--n-estetica-soft);color:var(--n-estetica)}
+.tag-solar{background:var(--n-solar-soft);color:var(--n-solar)}
+
+.findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.findings{grid-template-columns:1fr}}
+.finding{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.finding .k{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:600}
+
+/* placar */
+.totals{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.trow{display:grid;grid-template-columns:150px minmax(0,1fr) 70px;gap:12px;align-items:center}
+@media (max-width:520px){.trow{grid-template-columns:96px minmax(0,1fr) 56px}}
+.trow .name{font-family:var(--f-display);font-weight:600}
+.track{height:14px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.fill{height:100%;border-radius:4px}
+.fill.odonto{background:var(--n-odonto)} .fill.estetica{background:var(--n-estetica)} .fill.solar{background:var(--n-solar)}
+.trow .val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.meter{display:inline-flex;gap:3px;vertical-align:middle}
+.meter i{width:10px;height:10px;border-radius:2px;background:var(--line);display:inline-block}
+.c-odonto .meter i.on{background:var(--n-odonto)}
+.c-estetica .meter i.on{background:var(--n-estetica)}
+.c-solar .meter i.on{background:var(--n-solar)}
+.cellnote{display:block;font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.35}
+
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:860px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;background:var(--surface-2);font-size:.86rem}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.me td{background:var(--accent-soft)}
+th.h-odonto{color:var(--n-odonto)} th.h-estetica{color:var(--n-estetica)} th.h-solar{color:var(--n-solar)}
+
+/* raio-x */
+.cards{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px;border-top:4px solid var(--line)}
+.card.odonto{border-top-color:var(--n-odonto)} .card.estetica{border-top-color:var(--n-estetica)} .card.solar{border-top-color:var(--n-solar)}
+.card .top{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
+.card .top .tag{display:flex;gap:6px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface-2);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat b{font-family:var(--f-mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:6px;min-width:0}
+.col h4{font-size:.92rem;color:var(--muted);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.col ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:.93rem}
+.col.good h4{color:var(--ok)} .col.bad h4{color:var(--risk)}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.86rem}
+.flow span{background:var(--surface-2);border-radius:999px;padding:3px 10px}
+.flow em{font-style:normal;color:var(--muted)}
+.take{background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:.92rem}
+.take b{font-family:var(--f-display)}
+.quote{border-left:3px solid var(--line);padding:4px 0 4px 12px;font-style:italic;color:var(--muted);font-size:.92rem}
+
+.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.grid3{grid-template-columns:1fr}}
+.verdict{border:2px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);padding:14px 16px;border-radius:var(--r);display:flex;flex-direction:column;gap:4px}
+.callout.risk{border-left-color:var(--risk);background:var(--risk-soft)}
+.step{display:flex;flex-direction:column;gap:6px}
+.step .when{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.sources{font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sources ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+footer{padding-block:40px 60px;color:var(--muted);font-size:.85rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap" style="display:flex;flex-direction:column;gap:8px">
+    <span class="eyebrow">Projeto Negócio de IA para Clínicas · pesquisa de 11/10/2026</span>
+    <h1>Três Nichos Comparados</h1>
+    <p class="lead">Odontologia de alto valor, clínicas de estética e integradoras de energia solar, lado a lado: tamanho do mercado, quanto vale cada venda, onde o dinheiro escapa, quem já vende para eles, os perigos de cada um e qual faz mais sentido para você.</p>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Seções">
+  <div class="wrap"><ul>
+    <li><a href="#resumo">Resumo</a></li>
+    <li><a href="#placar">Placar</a></li>
+    <li><a href="#raiox">Raio-x</a></li>
+    <li><a href="#estetica-conc">Concorrentes estética</a></li>
+    <li><a href="#solar-conc">Concorrentes solar</a></li>
+    <li><a href="#recorte">Nichar em odonto?</a></li>
+    <li><a href="#riscos">Riscos comuns</a></li>
+    <li><a href="#decisao">Recomendação</a></li>
+    <li><a href="#metodo">Método e fontes</a></li>
+  </ul></div>
+</nav>
+
+<main>
+
+<section class="block" id="resumo">
+  <div class="wrap">
+    <div><span class="eyebrow">Resumo</span><h2>O que a pesquisa mostrou</h2></div>
+    <div class="findings">
+      <div class="finding"><span class="k">1 · odontologia</span><h4>Continua a melhor aposta para começar</h4><p class="small">Venda mais cara por cliente final, decisão demorada (onde o acompanhamento vale mais), dono com registro no CRO e nenhum dos 9 concorrentes falando com quem vende sorriso e implante. O perigo é o preço do robô: o Simples Dental vende IA por cerca de R$ 180 por mês.</p></div>
+      <div class="finding"><span class="k">2 · estética</span><h4>O mercado mais quente e o mais lotado</h4><p class="small">Cresce acima da média (franquias do setor +18% no 1º trimestre de 2026) e tem retorno natural (toxina a cada 4 a 6 meses). Mas tem software de IA a R$ 1,99 por atendimento, dezenas de anúncios de "secretária de IA" para esse público e insegurança jurídica sobre quem pode aplicar o quê.</p></div>
+      <div class="finding"><span class="k">3 · energia solar</span><h4>Venda alta, dor clara, mercado encolhendo</h4><p class="small">Sistema residencial de R$ 12 mil a 25 mil e "quem responde primeiro vende primeiro". Só que a instalação cai pelo segundo ano seguido, a demanda por painéis caiu 48% no 1º semestre, 68% das integradoras têm até 4 pessoas e já existe IA com CRM a partir de R$ 79 por mês.</p></div>
+      <div class="finding"><span class="k">4 · vale para os três</span><h4>Responder dúvida virou grátis</h4><p class="small">O agente de IA da própria Meta está no WhatsApp Business desde fevereiro de 2026, e o software ficou barato nos três nichos. Em qualquer um deles, o que se vende com margem é o processo e o resultado medido em reais, não o robô.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="placar">
+  <div class="wrap">
+    <div><span class="eyebrow">Placar</span><h2>Os três nichos, critério por critério</h2></div>
+    <p class="lead">Notas de 1 a 5, sempre do ponto de vista do seu negócio (5 é melhor para você). São uma leitura minha a partir dos dados abaixo, servem para comparar, não são medição.</p>
+    <div class="totals" role="img" aria-label="Pontuação total: odontologia 38 de 45, estética 33 de 45, energia solar 27 de 45">
+      <div class="trow"><span class="name">Odontologia</span><div class="track"><div class="fill odonto" style="width:84.4%"></div></div><span class="val">38/45</span></div>
+      <div class="trow"><span class="name">Estética</span><div class="track"><div class="fill estetica" style="width:73.3%"></div></div><span class="val">33/45</span></div>
+      <div class="trow"><span class="name">Energia solar</span><div class="track"><div class="fill solar" style="width:60%"></div></div><span class="val">27/45</span></div>
+    </div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th style="width:24%">Critério</th><th class="h-odonto">Odontologia de alto valor</th><th class="h-estetica">Clínicas de estética</th><th class="h-solar">Integradoras solares</th></tr></thead>
+        <tbody>
+          <tr><td><b>Quanto vale cada venda</b> do cliente dele</td>
+            <td class="c-odonto"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Caso de lentes R$ 10 mil a 40 mil; alinhador R$ 4 mil a 20 mil; implante R$ 3 mil a 8 mil por dente</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="cellnote">Toxina R$ 600 a 2.000 por área; bioestimulador R$ 3 mil a 5,5 mil; esteticista cobra bem menos</span></td>
+            <td class="c-solar"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Residencial R$ 12 mil a 25 mil; comercial e rural, mais</span></td></tr>
+          <tr><td><b>Dinheiro esquecido na base</b> (retorno, manutenção)</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Clareamento, revisão de lentes, contenção, manutenção semestral</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Toxina a cada 4 a 6 meses, pacotes de sessões, manutenção</span></td>
+            <td class="c-solar"><span class="meter" aria-label="1 de 5"><i class="on"></i><i></i><i></i><i></i><i></i></span><span class="cellnote">Compra única; sobra limpeza, monitoramento, bateria e indicação</span></td></tr>
+          <tr><td><b>Dor que o atendente resolve</b> (demora, orçamento que esfria)</td>
+            <td class="c-odonto"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Orçamento alto sem acompanhamento morre em uma semana</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Decisão mais rápida e por impulso; dor maior é falta e retorno esquecido</span></td>
+            <td class="c-solar"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Ciclo de 30 a 60 dias e várias integradoras disputando o mesmo lead</span></td></tr>
+          <tr><td><b>Dinheiro do cliente</b> para pagar R$ 1.200 a 2.500 por mês</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Clínica com 2 ou mais cadeiras e anúncio rodando costuma ter caixa</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="cellnote">Muitos MEIs e salas pequenas; clínica médica paga bem</span></td>
+            <td class="c-solar"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">Segundo ano de queda; maioria com até 4 pessoas; margem apertada</span></td></tr>
+          <tr><td><b>Espaço livre</b> na concorrência</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Ninguém se posiciona para sorriso estético e orçamento alto</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">26 anúncios ativos de "secretária IA para estética"; serviço com tráfego por R$ 1.500</span></td>
+            <td class="c-solar"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">SolarZ com 7 mil integradores; IA com CRM a partir de R$ 79</span></td></tr>
+          <tr><td><b>Segurança de regras</b> (conselhos, justiça, dado de saúde)</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Regras do CFO para preço; só a harmonização está em disputa</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">Disputas entre CFM e biomédicos, farmacêuticos, enfermeiros e dentistas</span></td>
+            <td class="c-solar"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Sem conselho profissional e sem dado de saúde</span></td></tr>
+          <tr><td><b>Saúde do mercado</b> (crescendo ou encolhendo)</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Estável e grande; estética do sorriso em alta</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Crescendo acima da média do franchising</span></td>
+            <td class="c-solar"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">ABSOLAR projeta −7% em 2026, depois da queda de 2025</span></td></tr>
+          <tr><td><b>Encaixe com você</b> (público, Instagram, copy)</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Venda por Instagram e antes e depois; linguagem de saúde que você conhece</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="5 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="cellnote">Donas e clientes mulheres, vida no Instagram, compra emocional</span></td>
+            <td class="c-solar"><span class="meter" aria-label="2 de 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="cellnote">Dono técnico, venda por cálculo de economia, longe do seu repertório</span></td></tr>
+          <tr><td><b>Facilidade técnica</b> do atendente</td>
+            <td class="c-odonto"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Agenda por dentista, avaliação, orçamento</span></td>
+            <td class="c-estetica"><span class="meter" aria-label="4 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="cellnote">Vários profissionais, pacotes e sessões</span></td>
+            <td class="c-solar"><span class="meter" aria-label="3 de 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="cellnote">Ler conta de luz, estimar economia com Fio B sem prometer errado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="raiox">
+  <div class="wrap">
+    <div><span class="eyebrow">Raio-x</span><h2>Cada nicho por dentro</h2></div>
+    <div class="cards">
+
+      <article class="card odonto" id="odonto">
+        <div class="top"><h3>Odontologia de alto valor</h3><div class="tag"><span class="chip tag-odonto">Nicho 1</span><span class="chip ok">Começar por aqui</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>~460 mil</b><span>dentistas ativos no CFO (agosto de 2026)</span></div>
+          <div class="stat"><b>R$ 38 bi</b><span>por ano em odontologia no Brasil</span></div>
+          <div class="stat"><b>9</b><span>concorrentes de IA mapeados</span></div>
+          <div class="stat"><b>~R$ 180</b><span>IA do Simples Dental, o preço a vencer</span></div>
+        </div>
+        <div class="flow" aria-label="Como o paciente compra"><span>Anúncio com antes e depois</span><em>→</em><span>WhatsApp pergunta preço</span><em>→</em><span>Avaliação</span><em>→</em><span>Orçamento</span><em>→</em><span>Parcelamento 10 a 18x</span></div>
+        <div class="cols">
+          <div class="col"><h4>Onde o dinheiro escapa</h4><ul>
+            <li>Resposta manual leva de 30 a 90 minutos</li>
+            <li>Falta na avaliação, que muitas vezes é grátis</li>
+            <li>Orçamento de R$ 10 mil sem acompanhamento esfria em uma semana</li>
+            <li>Manutenção e clareamento que ninguém lembra de oferecer</li>
+          </ul></div>
+          <div class="col"><h4>O que o atendente faz</h4><ul>
+            <li>Responde em segundos e agenda a avaliação</li>
+            <li>Confirma na véspera e remarca quem não pode</li>
+            <li>Acompanha o orçamento em 1, 3, 7 e 15 dias</li>
+            <li>Reativa a base parada e pede avaliação no Google</li>
+          </ul></div>
+          <div class="col good"><h4>Potencial</h4><ul>
+            <li>A venda mais cara por clínica atendida: um caso recuperado paga meses de mensalidade</li>
+            <li>Decisão demorada, que é onde o acompanhamento mais rende</li>
+            <li>Dono com CRO, longe da briga sobre quem pode aplicar injetáveis</li>
+            <li>Ninguém fala com esse dono do jeito certo</li>
+          </ul></div>
+          <div class="col bad"><h4>Perigos</h4><ul>
+            <li>Simples Dental colocou IA barata dentro de um sistema usado por 19 mil clínicas</li>
+            <li>Odonto Results já vende serviço completo com anúncio pesado</li>
+            <li>Regras de publicidade do CFO: o atendente só informa preço autorizado por escrito</li>
+            <li>Harmonização em disputa (TRF1, agosto de 2026) e novas resoluções do CFO contestadas pelo CFM</li>
+            <li>Dado de saúde exige cuidado com a LGPD</li>
+          </ul></div>
+        </div>
+      </article>
+
+      <article class="card estetica" id="estetica">
+        <div class="top"><h3>Clínicas de estética</h3><div class="tag"><span class="chip tag-estetica">Nicho 2</span><span class="chip warn">Só com filtro de cliente</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>R$ 70 a 74 bi</b><span>franquias de estética, saúde e bem-estar em 2025</span></div>
+          <div class="stat"><b>+18%</b><span>no 1º trimestre de 2026, contra ~10% do franchising</span></div>
+          <div class="stat"><b>4 a 6 meses</b><span>retorno natural da toxina botulínica</span></div>
+          <div class="stat"><b>R$ 1,99</b><span>por atendimento de IA (BeautyBot): o piso de preço</span></div>
+        </div>
+        <div class="flow" aria-label="Como a cliente compra"><span>Instagram</span><em>→</em><span>Direct ou WhatsApp</span><em>→</em><span>Avaliação</span><em>→</em><span>Sessão ou pacote</span><em>→</em><span>Até 10x</span><em>→</em><span>Retorno em meses</span></div>
+        <div class="cols">
+          <div class="col"><h4>Onde o dinheiro escapa</h4><ul>
+            <li>Mensagens no Direct e no WhatsApp sem resposta à noite e no fim de semana</li>
+            <li>Falta e remarcação</li>
+            <li>Pacote vendido com sessões que nunca são agendadas</li>
+            <li>Retorno da toxina e do bioestimulador esquecido</li>
+          </ul></div>
+          <div class="col"><h4>O que o atendente faz</h4><ul>
+            <li>Responde, agenda e confirma</li>
+            <li>Avisa no mês certo que está na hora do retorno</li>
+            <li>Agenda as sessões restantes do pacote</li>
+            <li>Campanhas para a base em datas fortes (verão, Black Friday, Dia das Mães)</li>
+          </ul></div>
+          <div class="col good"><h4>Potencial</h4><ul>
+            <li>Mercado crescendo, Brasil entre os maiores do mundo em estética</li>
+            <li>Recorrência natural: o resultado tem prazo de validade</li>
+            <li>Donas e clientes vivem no Instagram, linguagem que você domina</li>
+            <li>Clínica médica (dermatologia, cirurgia plástica) tem venda alta e pode divulgar preço (CFM 2.336/23)</li>
+          </ul></div>
+          <div class="col bad"><h4>Perigos</h4><ul>
+            <li>Quem pode fazer o quê está na Justiça: biomédicos fora dos invasivos; farmacêuticos e enfermeiros em disputa com o CFM; dentistas na harmonização em disputa. O carro-chefe da cliente pode ser proibido</li>
+            <li>Muito negócio pequeno com venda baixa (limpeza de pele, depilação)</li>
+            <li>Concorrência lotada e barata, com anúncios de cursos ensinando a montar "agência de IA" para esse público</li>
+            <li>Antes e depois e publicidade seguem regras de cada conselho</li>
+          </ul></div>
+        </div>
+      </article>
+
+      <article class="card solar" id="solar">
+        <div class="top"><h3>Integradoras de energia solar</h3><div class="tag"><span class="chip tag-solar">Nicho 3</span><span class="chip risk">Não agora</span></div></div>
+        <div class="stats">
+          <div class="stat"><b>−7%</b><span>instalação projetada para 2026, 2º ano de queda (ABSOLAR)</span></div>
+          <div class="stat"><b>−48%</b><span>demanda por painéis no 1º semestre de 2026 (Greener)</span></div>
+          <div class="stat"><b>R$ 12 a 25 mil</b><span>sistema residencial típico</span></div>
+          <div class="stat"><b>68%</b><span>das integradoras têm até 4 pessoas (Greener)</span></div>
+        </div>
+        <div class="flow" aria-label="Como o cliente compra"><span>Anúncio ou indicação</span><em>→</em><span>WhatsApp com a conta de luz</span><em>→</em><span>Visita técnica</span><em>→</em><span>Proposta</span><em>→</em><span>Financiamento até 120x</span><em>→</em><span>Instalação e homologação</span></div>
+        <div class="cols">
+          <div class="col"><h4>Onde o dinheiro escapa</h4><ul>
+            <li>Lead pede orçamento para três empresas e fecha com quem responde primeiro</li>
+            <li>Vendedor atende no celular pessoal; a empresa não vê o que foi prometido</li>
+            <li>Proposta enviada e nunca mais cobrada</li>
+            <li>Engenheiro perde tempo com curioso</li>
+          </ul></div>
+          <div class="col"><h4>O que o atendente faria</h4><ul>
+            <li>Lê a foto da conta de luz e pergunta telhado, cidade e distribuidora</li>
+            <li>Filtra quem tem conta baixa demais ou só está pesquisando</li>
+            <li>Agenda a visita técnica e acompanha a proposta</li>
+            <li>Oferece a simulação de financiamento</li>
+          </ul></div>
+          <div class="col good"><h4>Potencial</h4><ul>
+            <li>Venda alta e dor de velocidade fácil de explicar</li>
+            <li>Sem conselho profissional e sem dado de saúde</li>
+            <li>Decisão do dono, negócio entre empresas</li>
+            <li>Financeiras como a Solfácil têm rede de mais de 20 mil integradores: canal possível</li>
+          </ul></div>
+          <div class="col bad"><h4>Perigos</h4><ul>
+            <li>Mercado encolhendo: só 10% das integradoras abertas antes de 2016 seguem ativas</li>
+            <li>Cliente com pouco caixa para R$ 1.200 a 2.500 por mês</li>
+            <li>Fio B a 60% em 2026, subindo até 90% em 2028: a conta de economia ficou complicada, e uma promessa errada da IA vira problema</li>
+            <li>33% das integradoras já enfrentaram negativa de conexão por inversão de fluxo</li>
+            <li>Plataformas fortes e baratas já atendem esse público</li>
+          </ul></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="estetica-conc">
+  <div class="wrap">
+    <div><span class="eyebrow">Concorrentes · estética</span><h2>Quem já vende IA para clínicas de estética</h2></div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Empresa</th><th>Desde</th><th>Base</th><th>Quem está por trás</th><th>Preço</th><th>Instagram</th><th>Clientes que diz ter</th></tr></thead>
+        <tbody>
+          <tr><td><b>Cloudia</b></td><td class="num">2016</td><td>São Paulo/SP</td><td>Felipe e Tiago Miranda Costa</td><td>Sob consulta; implantação a partir de R$ 700</td><td class="num">30.134</td><td>+1.000 clínicas (saúde e estética)</td></tr>
+          <tr><td><b>Chat Inteligente</b></td><td>Produto de 2023; empresa-mãe de 2009</td><td>Belo Horizonte e Nova Lima/MG</td><td>Gabriel Dell Isola Teixeira Resende e Guilherme Martins Reis (LojaVirtual Ltda e Elevatia Ltda, aberta em nov/2025)</td><td>Não divulga; 7 dias grátis</td><td class="num">6.398</td><td>"2 mil clínicas" e "88+ clínicas de estética", números que se contradizem</td></tr>
+          <tr><td><b>SOS Estética · Secretár-IA</b></td><td>Loja de 2017; IA de 2025</td><td>Salvador/BA</td><td>Anderson Dórea da Costa, loja de equipamentos para estética</td><td>Sob consulta, créditos mensais, sem fidelidade; "até 59% menos que uma secretária CLT"</td><td class="num">28.323</td><td>"+15.000 clientes" (da loja)</td></tr>
+          <tr><td><b>Esthetic Manager</b></td><td>Domínio de 2017</td><td>Não informa</td><td>Pessoa física no registro do domínio</td><td>Sistema de gestão; buscador mostra 12x R$ 99 e 12x R$ 200 (o site não exibe)</td><td class="num">1.625</td><td>Não informa</td></tr>
+          <tr><td><b>BeautyBot</b></td><td>abr/2025</td><td>Não informa</td><td>Pessoa física no registro do domínio</td><td>A partir de R$ 23,92 por usuário/mês no anual + R$ 1,99 por atendimento da IA</td><td>Não encontrado</td><td>Não informa</td></tr>
+          <tr><td><b>Atendente.AI</b></td><td>Não informa</td><td>Campinas e São Paulo/SP</td><td>CX Software</td><td>Não divulga; teste grátis</td><td>Só LinkedIn</td><td>Não informa</td></tr>
+          <tr><td><b>HOF advisor</b></td><td>Só em anúncios</td><td>Não informa</td><td>Não informa</td><td>"Tráfego + secretária de IA por R$ 1.500"</td><td>Não encontrado</td><td>9 ou mais anúncios ativos em outubro</td></tr>
+          <tr class="me"><td><b>Você (proposta)</b></td><td class="num">2026</td><td>Remoto</td><td>Erica</td><td>R$ 1.200 a 2.500/mês + implantação</td><td>A construir</td><td>Primeiro case no piloto</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">"Desde" usa a data de abertura do CNPJ quando encontrado e, nos outros casos, a data de registro do domínio. Seguidores contados em 11/10/2026.</p>
+    <div class="grid2">
+      <div class="panel">
+        <h4>O que os perfis mostram</h4>
+        <ul>
+          <li><b>SOS Estética</b> tem o maior perfil (28 mil), mas segue 6.497 contas e tem 0,08% de engajamento. Fala de locação de equipamentos; a IA é um produto extra da loja.</li>
+          <li><b>Chat Inteligente</b> está há 151 dias sem postar. Vende "a melhor IA para WhatsApp em 2026" para salão, clínica e qualquer negócio.</li>
+          <li><b>Esthetic Manager</b>, "criado dentro de uma clínica de estética", está há 198 dias sem postar.</li>
+          <li><b>AgendLy</b>, app de agendamento lançado em novembro de 2025, tem 23 seguidores.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>O que os anúncios mostram</h4>
+        <ul>
+          <li>A busca "secretária IA clínica de estética" trouxe <b>26 anúncios ativos</b> no Brasil.</li>
+          <li>Promessas: "Tráfego + secretária de IA por R$ 1.500", "essa ferramenta vende e agenda procedimentos estéticos SOZINHO", "A IA exclusiva da sua clínica de estética", "Quero minha atendente 24 horas".</li>
+          <li>No mesmo termo aparecem cursos do tipo "como eu construí uma agência de IA que fatura milhões": muita gente sendo treinada para vender a mesma coisa para o mesmo dono.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="take"><b>O que tirar daqui:</b> o software para estética já custa quase nada e o dono de clínica é bombardeado por ofertas de IA. O HOF advisor mostra que o modelo "tráfego + IA" já chegou a R$ 1.500 por mês nesse público. A SOS Estética repete o que a Dental Cremer faz com o Simples Dental: loja de equipamento revendendo IA. Se um dia entrar em estética, entre por clínica médica, com venda alta, onde R$ 1.500 é pouco.</div>
+  </div>
+</section>
+
+<section class="block" id="solar-conc">
+  <div class="wrap">
+    <div><span class="eyebrow">Concorrentes · energia solar</span><h2>Quem já vende IA para integradoras</h2></div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Empresa</th><th>Desde</th><th>Base</th><th>Quem está por trás</th><th>Preço</th><th>Instagram</th><th>Clientes que diz ter</th></tr></thead>
+        <tbody>
+          <tr><td><b>SolarZ</b></td><td class="num">mai/2019</td><td>São Paulo/SP (cadastro)</td><td>SolarZ Tecnologia S.A.; diretor Thiago Silvano Rego Lima; investidores Triaxis, Crescera (fundo Criatec 4), DOMO VC e Bossa Invest</td><td>Não divulga; teste grátis</td><td class="num">26.787</td><td>+7.000 integradores</td></tr>
+          <tr><td><b>SolarMarket</b></td><td>2019 (diz); domínio de 2020</td><td>Não informa</td><td>Fundador Guilherme Mello; "nasceu dentro de uma integradora"</td><td>Proposta por módulo depois de diagnóstico grátis</td><td>Perfil não encontrado na coleta</td><td>"10 mil+ profissionais na plataforma"</td></tr>
+          <tr><td><b>CRM Solar Simples</b></td><td>mai/2026</td><td>Fortaleza/CE</td><td>Pessoa física no registro do domínio</td><td class="num">R$ 79, 149, 249 e 499/mês com IA, CRM e propostas</td><td class="num">29</td><td>+300 integradores</td></tr>
+          <tr><td><b>EnergiaBot</b> (BotBrasil)</td><td>mar/2025</td><td>Não informa</td><td>Pessoa física no registro do domínio</td><td>Sob medida depois de diagnóstico; implantação de 7 a 21 dias</td><td>Não encontrado</td><td>Não informa</td></tr>
+          <tr><td><b>Parli</b></td><td>Não informa</td><td>Não informa</td><td>Não informa</td><td class="num">R$ 97/mês por número; R$ 1.497/mês com implantação</td><td>Não encontrado</td><td>Não informa; foco em energia por assinatura</td></tr>
+          <tr><td><b>Verboo</b></td><td>Não informa</td><td>Não informa</td><td>Verbeux Serviços Ltda</td><td>Não divulga</td><td>Não encontrado</td><td>+390 empresas (de todas as áreas)</td></tr>
+          <tr><td><b>Prospectar</b></td><td class="num">2026</td><td>Curitiba/PR</td><td>Não informa</td><td class="num">R$ 1.185 a 7.095/mês em créditos, sem implantação</td><td class="num">2</td><td>Genérico; usa solar só como exemplo</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h4>O que os perfis mostram</h4>
+        <ul>
+          <li><b>SolarZ</b> é o gigante: perfil verificado, 2.940 posts, posta todo dia, faz premiação do setor (SolarZ Awards 2026) e imersão presencial para donos (Imersão Galaxy, 200 vagas). Vende CRM, chat no WhatsApp oficial, propostas, monitoramento, IA e consultoria comercial.</li>
+          <li><b>CRM Solar Simples</b> nasceu em maio de 2026, tem 29 seguidores e conecta o WhatsApp por código de pareamento, o que indica uso fora da API oficial (risco de bloqueio do número).</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>O que os anúncios mostram</h4>
+        <ul>
+          <li>A busca "integrador solar IA WhatsApp" trouxe <b>13 anúncios ativos</b>.</li>
+          <li>SolarZ: "Quem responde primeiro, vende primeiro". SolarMarket: "Fale com a SolarMarket".</li>
+          <li>Agências e assessorias de marketing para integradoras também anunciam: "Indicação não pode ser sua estratégia inteira", "Pare de perder leads. Coloque IA para qualificar e agendar suas vendas".</li>
+        </ul>
+      </div>
+    </div>
+    <div class="take"><b>O que tirar daqui:</b> o setor solar já tem plataformas próprias, uma delas com 7 mil integradores, dinheiro de investidor e eventos presenciais. Na outra ponta, IA com CRM por R$ 79. Sobra pouco espaço para um serviço de R$ 1.200 a 2.500 num mercado que está encolhendo.</div>
+  </div>
+</section>
+
+<section class="block" id="recorte">
+  <div class="wrap">
+    <div><span class="eyebrow">Sua dúvida</span><h2>Vale nichar em odontologia estética?</h2></div>
+    <div class="verdict">
+      <span class="eyebrow">Minha opinião</span>
+      <h3>Sim, mas defina o nicho pelo problema, não pelo procedimento</h3>
+      <p>O nicho é "clínica odontológica que vende tratamento caro e perde orçamento". O sorriso estético (lentes, facetas, alinhadores, clareamento) fica na vitrine: é o que aparece no seu anúncio, nas mensagens e no case. Mas implante e protocolo entram também, porque são o mesmo problema com o mesmo processo: orçamento alto, decisão demorada, acompanhamento que ninguém faz.</p>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h4><span class="chip ok">A favor</span> Por que nichar ajuda</h4>
+        <ul>
+          <li><b>Sua mensagem acerta.</b> "Recuperamos os orçamentos de lente e alinhador que a sua clínica deixa esfriar" fala com um dono específico. Nenhum dos 9 concorrentes fala assim.</li>
+          <li><b>Tamanho não é o problema.</b> Com 10 a 20 clínicas você tem um negócio de R$ 15 mil a 40 mil por mês. O país tem centenas de milhares de dentistas; mesmo uma fração pequena dá milhares de clínicas possíveis.</li>
+          <li><b>Cada case vende o próximo.</b> Dono de clínica conversa com outros donos em cursos, congressos e grupos. Um resultado em lentes convence outra clínica de lentes.</li>
+          <li><b>Você monta uma vez e repete.</b> As mensagens, o acompanhamento e o relatório ficam quase iguais de clínica para clínica.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4><span class="chip warn">Cuidado</span> Onde o recorte pode atrapalhar</h4>
+        <ul>
+          <li><b>Não recuse uma boa clínica de implantes</b> por não ser "estética". O implante tem o público mais velho e algumas das vendas mais altas.</li>
+          <li><b>Muitas clínicas fazem de tudo.</b> Use um filtro simples em vez do rótulo: vende tratamento acima de R$ 5 mil e recebe contato por anúncio.</li>
+          <li><b>Harmonização como extra, nunca como base.</b> Ela está em disputa na Justiça; se a regra mudar, seu cliente continua vendendo sorriso.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="riscos">
+  <div class="wrap">
+    <div><span class="eyebrow">Vale para os três</span><h2>Riscos comuns</h2></div>
+    <div class="grid2">
+      <div class="callout risk"><strong>A Meta entrou no jogo</strong><p class="small">O agente de IA do WhatsApp Business chegou ao Brasil em fevereiro de 2026, grátis por enquanto, com cobrança prevista pelo plano Meta One. Responder dúvida frequente deixou de ser produto.</p></div>
+      <div class="callout risk"><strong>O robô ficou barato</strong><p class="small">R$ 79 no solar, R$ 1,99 por atendimento na estética, R$ 180 na odontologia. Sua mensalidade só se sustenta vendendo processo, mensagens de venda e relatório de reais recuperados.</p></div>
+      <div class="callout"><strong>O dono está desconfiado</strong><p class="small">Com tanta empresa nova e tanto curso de "agência de IA", o dono já ouviu a promessa. Garantia, piloto com meta no contrato e prova com número real são o que separa você do resto.</p></div>
+      <div class="callout"><strong>Cada mensagem agora custa</strong><p class="small">Desde 01/10/2026 a Meta cobra também as respostas dentro da janela de 24 horas. O custo é da conta do cliente, mas entra na conta dele de quanto o serviço rende.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="decisao">
+  <div class="wrap">
+    <div><span class="eyebrow">Recomendação</span><h2>Em que ordem atacar</h2></div>
+    <div class="grid3">
+      <div class="panel step"><span class="when">Agora</span><h4><span class="chip tag-odonto">Odontologia de alto valor</span></h4><p class="small">Sorriso estético na vitrine, implantes incluídos. Validação, piloto com 1 ou 2 clínicas e os 3 primeiros cases. É onde a venda é mais cara, a concorrência menos específica e o risco jurídico menor.</p></div>
+      <div class="panel step"><span class="when">Depois de 3 cases</span><h4><span class="chip tag-estetica">Estética médica</span></h4><p class="small">Só clínica tocada por médico (dermatologista, cirurgião plástico) ou por dentista que já é seu cliente e faz harmonização. Evitar clínica só de biomédico e esteticista de venda baixa. O que muda é o foco no retorno e no pacote.</p></div>
+      <div class="panel step"><span class="when">Não agora</span><h4><span class="chip tag-solar">Energia solar</span></h4><p class="small">Reavaliar só se o mercado voltar a crescer, se aparecer uma integradora parceira de porte (10 ou mais pessoas) ou se você quiser um nicho sem dado de saúde. A estrutura técnica seria a mesma; o que falta é cliente com caixa e encaixe com você.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="metodo">
+  <div class="wrap">
+    <div><span class="eyebrow">Método</span><h2>Como os dados foram levantados</h2></div>
+    <div class="panel small">
+      <ul>
+        <li><b>Sites e páginas de preço:</b> lidos em 11/10/2026. Preços e promoções mudam a qualquer momento.</li>
+        <li><b>Empresas e sócios:</b> cadastro público da Receita Federal (via BrasilAPI) para os CNPJs encontrados; data de registro do domínio no Registro.br para os demais. Pessoas físicas que só aparecem no registro de domínio não são nomeadas.</li>
+        <li><b>Instagram:</b> coleta automática dos perfis públicos em 11/10/2026. Dois perfis buscados por nome não existiam e um era de outra pessoa; foram descartados.</li>
+        <li><b>Anúncios:</b> Biblioteca de Anúncios da Meta, anúncios ativos no Brasil.</li>
+        <li><b>Números de clientes e resultados</b> são declarações das próprias empresas. Dados de mercado de associações e consultorias (ABSOLAR, Greener, ABF) foram lidos em reportagens e páginas que os citam.</li>
+        <li><b>Notas do placar:</b> leitura qualitativa, para comparar os nichos entre si.</li>
+      </ul>
+    </div>
+    <div class="sources">
+      <p><b>Fontes · energia solar</b></p>
+      <ul>
+        <li><a href="https://canalsolar.com.br/previsao-da-energia-solar-em-2026/" target="_blank" rel="noopener">ABSOLAR prevê retração de 7% em 2026</a> e <a href="https://www.pv-magazine-brasil.com/2026/01/16/agenda-2026-desaceleracao-do-crescimento-solar-e-foco-em-diversificacao-de-solucoes-para-o-consumidor/" target="_blank" rel="noopener">pv magazine: agenda 2026</a></li>
+        <li><a href="https://www.cnnbrasil.com.br/infra/demanda-por-equipamentos-solares-cai-quase-pela-metade-no-1o-semestre/" target="_blank" rel="noopener">CNN: demanda por equipamentos solares cai quase pela metade</a></li>
+        <li><a href="https://www.solarmarket.com.br/blog/inteligencia-artificial-para-integrador-solar" target="_blank" rel="noopener">SolarMarket: pesquisa Greener com integradoras</a></li>
+        <li><a href="https://mtx26.com.br/geracao-distribuida-2026-lei-14300/" target="_blank" rel="noopener">Fio B a 60% em 2026</a> e <a href="https://catracalivre.com.br/noticias/quanto-custa-ter-energia-solar-em-casa-em-2026/" target="_blank" rel="noopener">quanto custa energia solar em casa em 2026</a></li>
+        <li><a href="https://canalsolar.com.br/solfacil-financiamentos-para-energia-solar/" target="_blank" rel="noopener">Solfácil: financiamento e rede de integradores</a></li>
+        <li><a href="https://solarz.com.br/" target="_blank" rel="noopener">SolarZ</a>, <a href="https://latamlist.com/solarz-raises-1-2m-to-expand-fintech-services/" target="_blank" rel="noopener">rodada de investimento</a>, <a href="https://www.solarmarket.com.br/planos" target="_blank" rel="noopener">SolarMarket: planos</a>, <a href="https://crmsolarsimples.com.br/" target="_blank" rel="noopener">CRM Solar Simples</a>, <a href="https://energiabot.com.br/" target="_blank" rel="noopener">EnergiaBot</a>, <a href="https://parlichat.com/para-energia-solar" target="_blank" rel="noopener">Parli</a>, <a href="https://verboo.ai/en/blog/energia-solar-ia-whatsapp-leads" target="_blank" rel="noopener">Verboo</a>, <a href="https://prospectar.io/" target="_blank" rel="noopener">Prospectar</a></li>
+      </ul>
+      <p><b>Fontes · estética</b></p>
+      <ul>
+        <li><a href="https://timesbrasil.com.br/empresas-e-negocios/estetica-cresce-acima-da-media-e-abre-espaco-para-expansao/" target="_blank" rel="noopener">Times Brasil: estética cresce acima da média</a> e <a href="https://www.poder360.com.br/poder-saude/setor-de-estetica-projeta-faturamento-de-us-416-bi-ate-2028/" target="_blank" rel="noopener">Poder360: setor de estética</a></li>
+        <li><a href="https://www.cofen.gov.br/wp-content/uploads/2025/09/decisao-estetica.pdf" target="_blank" rel="noopener">Cofen: decisão sobre enfermagem estética</a>, <a href="https://site.cff.org.br/noticia/noticias-do-cff/16/11/2023/mais-uma-vitoria-do-cff-na-saude-estetica" target="_blank" rel="noopener">CFF: farmacêuticos na estética</a>, <a href="https://www.sbp.com.br/justica-federal-proibe-biomedicos-de-fazer-procedimentos-dermatologicos-e-cirurgicos/" target="_blank" rel="noopener">biomédicos e procedimentos invasivos</a></li>
+        <li><a href="https://www.sosestetica.com.br/secretar-ia-da-estetica/secretar-ia-da-estetica" target="_blank" rel="noopener">SOS Estética: Secretár-IA</a>, <a href="https://www.beautybot.com.br/secretaria-virtual-clinica-estetica" target="_blank" rel="noopener">BeautyBot</a>, <a href="https://www.atendente.ai/estetica" target="_blank" rel="noopener">Atendente.AI</a>, <a href="https://estheticmanager.com.br/" target="_blank" rel="noopener">Esthetic Manager</a>, <a href="https://www.chatinteligente.com.br/blog/clinicas-estetica/" target="_blank" rel="noopener">Chat Inteligente</a>, <a href="https://agendlyapp.com.br/" target="_blank" rel="noopener">AgendLy</a></li>
+      </ul>
+      <p><b>Fontes · odontologia e geral</b></p>
+      <ul>
+        <li><a href="https://claude.ai/artifact/HN1F5p8XKExVSE6edRW9Mc" target="_blank" rel="noopener">Mapa de Concorrentes Odonto (pesquisa anterior do projeto)</a></li>
+        <li><a href="https://scrap.io/pt/lista-de-dentistas" target="_blank" rel="noopener">Número de dentistas ativos no CFO</a>, <a href="https://plusdin.com.br/implante-dentario-valor/" target="_blank" rel="noopener">preço de implante dentário</a>, <a href="https://catracalivre.com.br/saude-bem-estar/quanto-custa-colocar-lente-de-contato-dental-e-o-que-pesa-no-preco/" target="_blank" rel="noopener">preço de lentes de contato dental</a></li>
+        <li><a href="https://med.estrategia.com/portal/noticias/cfo-reconhece-cirurgia-estetica-orofacial-cfm-reforca-defesa-do-ato-medico/" target="_blank" rel="noopener">CFO reconhece Cirurgia Estética Orofacial; reação do CFM</a> e <a href="https://www.oliberal.com/saude/decisao-sobre-harmonizacao-orofacial-nao-impede-atuacao-de-dentistas-de-imediato-entenda-1.1159777" target="_blank" rel="noopener">harmonização: o que vale agora</a></li>
+        <li><a href="https://canaltech.com.br/apps/whatsapp-business-ganha-agente-de-ia-para-responder-mensagens-de-clientes/" target="_blank" rel="noopener">WhatsApp Business ganha agente de IA</a> e <a href="https://www.digisac.com.br/blog/meta-conversations-2026" target="_blank" rel="noopener">novidades da Meta em 2026</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><p>Pesquisa feita em 11/10/2026 para uso interno. Dados públicos; números de clientes e resultados são declarados pelas próprias empresas.</p></div></footer>

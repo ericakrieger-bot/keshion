@@ -1,0 +1,95 @@
+<title>Painel Keshion IA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500&display=swap">
+<style>
+/* Layout: cabeçalho da clínica, faixa de indicadores, dois gráficos lado a lado, tabela de orçamentos parados */
+:root{
+  --bg:#f6f7f8;--card:#ffffff;--fg:#14181d;--muted:#5d6670;--line:#e2e6ea;
+  --accent:#1f5f8b;--warm:#d9663a;--ok:#1f7a4d;--warn:#a26a00;--bad:#b23b3b;--warnbg:#fbf1dc;
+  --display:"Fraunces",Georgia,serif;--body:"Figtree",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111417;--card:#191d21;--fg:#eef1f3;--muted:#9aa4ad;--line:#2a3036;--accent:#5aa3d6;--warm:#ec835a;--ok:#4cbf86;--warn:#e0a83a;--bad:#e06a6a;--warnbg:#3a2e14;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111417;--card:#191d21;--fg:#eef1f3;--muted:#9aa4ad;--line:#2a3036;--accent:#5aa3d6;--warm:#ec835a;--ok:#4cbf86;--warn:#e0a83a;--bad:#e06a6a;--warnbg:#3a2e14;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}
+h1{font-family:var(--display);font-weight:500;font-size:26px;margin:0;text-wrap:balance}
+.sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+.tag{font-size:12px;padding:5px 10px;border-radius:6px;background:var(--warnbg);color:var(--warn);font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.kpi p{margin:0}.kpi .l{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.kpi .v{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;margin:2px 0}
+.kpi .d{font-size:12px;color:var(--muted)}.kpi .d.up{color:var(--ok)}
+.kpi.hero{border-color:var(--accent)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.panel h2{font-size:14px;font-weight:600;margin:0 0 10px}
+.chart{position:relative;height:240px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-size:12px;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}
+.pill{font-size:12px;padding:3px 8px;border-radius:999px;font-weight:500}
+.pill.bad{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}
+.pill.ok{background:color-mix(in srgb,var(--muted) 14%,transparent);color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin:0;max-width:70ch}
+</style>
+
+<div class="wrap">
+<header>
+  <div><h1>Clínica Dra. Suzana · painel de atendimento</h1><p class="sub">Keshion IA · outubro de 2026</p></div>
+  <span class="tag">Prévia com dados fictícios</span>
+</header>
+
+<section class="kpis" aria-label="Indicadores do mês">
+  <div class="kpi"><p class="l">Contatos novos</p><p class="v">184</p><p class="d up">+12% sobre setembro</p></div>
+  <div class="kpi"><p class="l">Primeira resposta</p><p class="v">2 min</p><p class="d">94% em até 5 min</p></div>
+  <div class="kpi"><p class="l">Avaliações marcadas</p><p class="v">41</p><p class="d">22% dos contatos</p></div>
+  <div class="kpi"><p class="l">Comparecimento</p><p class="v">88%</p><p class="d">7 faltas evitadas</p></div>
+  <div class="kpi"><p class="l">Orçamentos em aberto</p><p class="v">R$ 186 mil</p><p class="d">14 pacientes</p></div>
+  <div class="kpi hero"><p class="l">Valor recuperado</p><p class="v">R$ 48 mil</p><p class="d">4 fechamentos</p></div>
+</section>
+
+<section class="grid2">
+  <div class="panel"><h2>Funil do mês</h2><div class="chart"><canvas id="funil" role="img" aria-label="Funil: 184 novos, 132 conversando, 41 avaliação marcada, 36 compareceram, 22 orçamentos enviados, 6 fecharam">Funil de exemplo.</canvas></div></div>
+  <div class="panel"><h2>Mensagens por hora do dia</h2><div class="chart"><canvas id="horas" role="img" aria-label="Mensagens recebidas por hora; 38% chegam fora do horário comercial">Mensagens por hora de exemplo.</canvas></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Horário comercial</span><span><i style="background:var(--warm)"></i>Fora do horário (38%)</span></div></div>
+</section>
+
+<section class="panel">
+  <h2>Orçamentos em aberto há mais tempo</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Paciente</th><th>Tratamento</th><th>Valor</th><th>Parado há</th><th>Último acompanhamento</th></tr></thead>
+    <tbody>
+      <tr><td>Paciente A</td><td>Lentes de contato dental (10)</td><td>R$ 28.000</td><td><span class="pill bad">21 dias</span></td><td>há 6 dias</td></tr>
+      <tr><td>Paciente B</td><td>Implante unitário</td><td>R$ 9.500</td><td><span class="pill warn">12 dias</span></td><td>há 5 dias</td></tr>
+      <tr><td>Paciente C</td><td>Alinhador invisível</td><td>R$ 14.000</td><td><span class="pill ok">5 dias</span></td><td>há 2 dias</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<p class="note">Valor recuperado: soma dos fechamentos de pacientes que fizeram o primeiro contato fora do horário comercial ou que fecharam depois de pelo menos uma mensagem de acompanhamento automática. Todos os números desta página são exemplos.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const charts=[];
+  function draw(){
+    charts.forEach(c=>c.destroy());charts.length=0;
+    const tick=css('--muted'),grid=css('--line'),acc=css('--accent'),warm=css('--warm');
+    charts.push(new Chart(document.getElementById('funil'),{type:'bar',data:{labels:['Novo','Conversando','Avaliação marcada','Compareceu','Orçamento enviado','Fechou'],datasets:[{data:[184,132,41,36,22,6],backgroundColor:acc,borderRadius:4,barThickness:18}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:grid},ticks:{color:tick}},y:{grid:{display:false},ticks:{color:tick}}}}}));
+    const h=['7h','8h','9h','10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h','21h','22h','23h'];
+    const v=[6,14,22,25,21,18,20,24,23,22,19,26,31,34,29,18,9];
+    charts.push(new Chart(document.getElementById('horas'),{type:'bar',data:{labels:h,datasets:[{data:v,backgroundColor:h.map(x=>{const n=parseInt(x);return(n<9||n>=18)?warm:acc}),borderRadius:4,barThickness:12}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:tick,autoSkip:false,maxRotation:0,font:{size:10}}},y:{grid:{color:grid},ticks:{color:tick}}}}}));
+  }
+  draw();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+})();
+</script>

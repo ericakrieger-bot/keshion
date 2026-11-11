@@ -1,0 +1,857 @@
+<title>Atendente IA para Clínicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: guia de leitura longa com navegação fixa por seções; cada etapa é um cartão de ficha técnica (o que é, como conseguir, custo, quem faz). */
+:root{
+  --bg:#F3F6F5; --surface:#FFFFFF; --surface-2:#EAF1EF; --ink:#13262B; --muted:#56696C; --line:#D6E0DD;
+  --accent:#0E6B5F; --accent-ink:#FFFFFF; --accent-soft:#DCEEE9;
+  --you:#1D5FA8; --you-soft:#E1ECF8; --cc:#7A3FA0; --cc-soft:#F0E6F6; --cl:#9A5A12; --cl-soft:#F7EBDB;
+  --warn:#9A5A12; --warn-soft:#FBF1E2; --risk:#A1303A; --risk-soft:#FBE7E8; --ok:#2C7A4E; --ok-soft:#E2F2E8;
+  --bubble-in:#FFFFFF; --bubble-out:#D7F2E3; --phone:#E7EEEC;
+  --f-display:"Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --you:#79AEEB; --you-soft:#16283D; --cc:#C59AE3; --cc-soft:#2A1D33; --cl:#E3A963; --cl-soft:#33261A;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --bubble-in:#1E2D30; --bubble-out:#1D3B2E; --phone:#11201F; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1618; --surface:#152124; --surface-2:#1A2A2D; --ink:#E4EDEB; --muted:#9BAEAC; --line:#28393C;
+  --accent:#4DBFAC; --accent-ink:#0B1A17; --accent-soft:#173430;
+  --you:#79AEEB; --you-soft:#16283D; --cc:#C59AE3; --cc-soft:#2A1D33; --cl:#E3A963; --cl-soft:#33261A;
+  --warn:#E3A963; --warn-soft:#2E2417; --risk:#EE7F86; --risk-soft:#351C1F; --ok:#6CCB93; --ok-soft:#18301F;
+  --bubble-in:#1E2D30; --bubble-out:#1D3B2E; --phone:#11201F; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(1.45rem,3vw,1.9rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:600}
+h4{font-size:1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.08rem;color:var(--muted);max-width:68ch}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.small{font-size:.88rem}
+
+/* cabeçalho */
+header.top{padding-block:40px 28px;border-bottom:1px solid var(--line)}
+header.top .row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between}
+header.top .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.chip.you{background:var(--you-soft);color:var(--you)}
+.chip.cc{background:var(--cc-soft);color:var(--cc)}
+.chip.cl{background:var(--cl-soft);color:var(--cl)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.risk{background:var(--risk-soft);color:var(--risk)}
+
+/* navegação */
+nav.sections{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.sections ul{list-style:none;margin:0;padding:10px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+nav.sections a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-size:.9rem;white-space:nowrap;border:1px solid var(--line);background:var(--surface)}
+nav.sections a:hover{border-color:var(--accent)}
+nav.sections a.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+section.block{padding-block:48px 8px;scroll-margin-top:64px}
+section.block > .wrap{display:flex;flex-direction:column;gap:22px}
+.callout{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);padding:14px 16px;border-radius:var(--r);display:flex;flex-direction:column;gap:6px}
+.callout.risk{border-left-color:var(--risk);background:var(--risk-soft)}
+.callout.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.callout strong{font-family:var(--f-display)}
+
+/* infográfico: conversa + caminho */
+.flow{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.flow{grid-template-columns:1fr}}
+.phone{background:var(--phone);border:1px solid var(--line);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.phone .bar{display:flex;align-items:center;gap:10px;padding:4px 4px 10px;border-bottom:1px solid var(--line)}
+.phone .avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:.85rem;flex:none}
+.bub{max-width:88%;padding:8px 11px;border-radius:12px;font-size:.92rem;line-height:1.45;box-shadow:0 1px 0 var(--line)}
+.bub.in{background:var(--bubble-in);align-self:flex-start;border-top-left-radius:4px}
+.bub.out{background:var(--bubble-out);align-self:flex-end;border-top-right-radius:4px}
+.bub .t{display:block;text-align:right;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);margin-top:2px}
+.audio{display:flex;align-items:center;gap:8px}
+.wave{display:flex;gap:2px;align-items:center;height:18px}
+.wave i{display:block;width:3px;border-radius:2px;background:var(--muted)}
+.sysnote{align-self:center;font-family:var(--f-mono);font-size:.7rem;color:var(--muted);background:var(--surface);border:1px dashed var(--line);padding:3px 8px;border-radius:6px;text-align:center}
+.btns{display:flex;gap:6px;margin-top:6px}
+.btns span{flex:1;text-align:center;font-size:.8rem;padding:5px;border-radius:8px;background:var(--surface);color:var(--accent);font-weight:700;border:1px solid var(--line)}
+
+ol.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:p}
+ol.path li{counter-increment:p;display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;position:relative;padding-bottom:16px}
+ol.path li::before{content:counter(p);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--accent);color:var(--accent);font-family:var(--f-mono);font-weight:600;font-size:.85rem;z-index:1}
+ol.path li:not(:last-child)::after{content:"";position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--line)}
+ol.path .where{display:inline-block;font-family:var(--f-mono);font-size:.7rem;padding:1px 7px;border-radius:5px;background:var(--surface-2);color:var(--muted);margin-left:6px;vertical-align:1px}
+
+/* mapa das peças */
+.stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.stack{grid-template-columns:1fr}}
+.zone{border:1px solid var(--line);border-radius:var(--r);padding:14px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.zone > .eyebrow{color:var(--accent)}
+.piece{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;background:var(--surface-2)}
+.piece b{font-family:var(--f-display);font-weight:600}
+.piece span{font-size:.86rem;color:var(--muted)}
+
+/* linha do tempo das automações */
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.timeline{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.timeline{grid-template-columns:1fr}}
+.tl{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tl .when{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:600}
+.tl .cat{font-size:.74rem;color:var(--muted)}
+
+/* etapas */
+.phase{display:flex;flex-direction:column;gap:14px}
+.phase-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;border-top:2px solid var(--ink);padding-top:12px}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.step .head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.step .id{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-weight:600}
+.step .who{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+dl.spec{margin:0;display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 12px;font-size:.92rem}
+dl.spec dt{color:var(--muted);font-size:.8rem;font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
+dl.spec dd{margin:0;min-width:0}
+@media (max-width:420px){dl.spec{grid-template-columns:1fr}dl.spec dt{padding-top:6px}}
+.howcc{background:var(--cc-soft);border-radius:8px;padding:10px 12px;font-size:.9rem;display:flex;flex-direction:column;gap:4px}
+.howcc b{color:var(--cc);font-family:var(--f-display)}
+
+/* escolha do número */
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.choices{grid-template-columns:1fr}}
+.choice{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:8px}
+.choice.pick{border:2px solid var(--accent)}
+.choice ul{margin:0;padding-left:18px;font-size:.9rem;display:flex;flex-direction:column;gap:3px}
+
+/* tabelas */
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:620px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:700;background:var(--surface-2)}
+
+/* escala de cor dental como régua da seção de mercado */
+.shade{display:flex;gap:4px;flex-wrap:wrap}
+.shade span{font-family:var(--f-mono);font-size:.68rem;padding:10px 6px 4px;border-radius:0 0 10px 10px;min-width:38px;text-align:center;color:#3B3226;border:1px solid rgba(0,0,0,.08)}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.verdict{border:2px solid var(--accent);background:var(--accent-soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+
+.sources{font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sources ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+footer{padding-block:40px 60px;color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="row">
+      <div class="meta">
+        <span class="eyebrow">Projeto Negócio de IA para Clínicas · atualizado em 04/10/2026</span>
+        <h1>Atendente IA para Clínicas</h1>
+        <p class="lead">Como a estrutura funciona, o que você precisa conseguir, como cada passo é feito, quanto custa, e o que as clínicas de odontologia estética e de estética vendem hoje.</p>
+      </div>
+      <div class="legend" aria-label="Quem faz cada etapa">
+        <span class="chip you">Você</span>
+        <span class="chip cc">Claude Code</span>
+        <span class="chip cl">Clínica</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Seções">
+  <div class="wrap">
+    <ul>
+      <li><a href="#como">Como funciona</a></li>
+      <li><a href="#pecas">As peças</a></li>
+      <li><a href="#passos">Passo a passo</a></li>
+      <li><a href="#numero">O número da clínica</a></li>
+      <li><a href="#custos">Custos</a></li>
+      <li><a href="#manutencao">Manutenção</a></li>
+      <li><a href="#mercado">Mercado</a></li>
+      <li><a href="#fontes">Fontes</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+<!-- COMO FUNCIONA -->
+<section class="block" id="como">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 1</span>
+      <h2>O caminho de uma mensagem</h2>
+    </div>
+    <p class="lead">O paciente fala com o WhatsApp da clínica como sempre. Por trás, cinco peças conversam entre si em poucos segundos. A conversa abaixo é um exemplo fictício.</p>
+
+    <div class="flow">
+      <div class="phone" aria-label="Exemplo de conversa no WhatsApp">
+        <div class="bar">
+          <span class="avatar">CE</span>
+          <div><b>Clínica Exemplo</b><br><span class="small muted">conta comercial</span></div>
+        </div>
+        <div class="bub in">
+          <span class="audio">▶
+            <span class="wave" aria-hidden="true"><i style="height:6px"></i><i style="height:12px"></i><i style="height:16px"></i><i style="height:9px"></i><i style="height:14px"></i><i style="height:7px"></i><i style="height:12px"></i><i style="height:15px"></i><i style="height:8px"></i><i style="height:11px"></i><i style="height:5px"></i></span>
+            <span class="mono small">0:12</span></span>
+          <span class="t">21:47</span>
+        </div>
+        <span class="sysnote">transcrição: "oi, queria saber quanto custa lente de contato"</span>
+        <div class="bub out">Oi, Mariana. Sou a assistente da Clínica Exemplo. As lentes de porcelana começam em R$ 1.800 por dente. O valor certo sai na avaliação, porque depende de quantos dentes entram e do formato do seu sorriso. A avaliação leva 40 minutos e inclui a simulação digital. Tenho quinta às 10h ou sexta às 16h. Qual fica melhor?<span class="t">21:47</span></div>
+        <div class="bub in">sexta<span class="t">21:49</span></div>
+        <div class="bub out">Agendado: sexta, 16h, com a Dra. Paula. Endereço: Rua das Flores, 120, sala 4. Na quinta à tarde eu te mando um lembrete.<span class="t">21:49</span></div>
+        <span class="sysnote">quinta, 18h · lembrete automático</span>
+        <div class="bub out">Mariana, sua avaliação é amanhã às 16h. Você confirma?
+          <div class="btns"><span>Confirmo</span><span>Preciso remarcar</span></div>
+          <span class="t">18:00</span></div>
+      </div>
+
+      <ol class="path">
+        <li><div><h4>O paciente manda texto ou áudio <span class="where">WhatsApp</span></h4><p class="muted">Às 21h47, com a clínica fechada.</p></div></li>
+        <li><div><h4>A Meta entrega a mensagem ao Chatwoot <span class="where">seu servidor</span></h4><p class="muted">A secretária já vê a conversa na caixa de entrada, no computador ou no app de celular do Chatwoot.</p></div></li>
+        <li><div><h4>O Chatwoot avisa o n8n <span class="where">seu servidor</span></h4><p class="muted">O n8n é o "maestro": decide o que acontece com cada mensagem.</p></div></li>
+        <li><div><h4>Se for áudio, vira texto <span class="where">transcrição</span></h4><p class="muted">O n8n manda o áudio para o serviço de transcrição e recebe o texto em segundos.</p></div></li>
+        <li><div><h4>O Claude recebe o contexto <span class="where">API da Anthropic</span></h4><p class="muted">Vão juntos: o manual da clínica (procedimentos, preços autorizados, horários, regras), o histórico da conversa e a mensagem nova.</p></div></li>
+        <li><div><h4>O Claude escolhe o que fazer</h4><p class="muted">Responder, consultar horários livres, pré-agendar, ou passar para a secretária. Passa sempre que houver dúvida clínica, sintoma, reclamação ou pedido fora das regras.</p></div></li>
+        <li><div><h4>A resposta volta ao paciente <span class="where">Chatwoot → WhatsApp</span></h4><p class="muted">Em menos de um minuto, 24 horas por dia.</p></div></li>
+        <li><div><h4>Tudo vira dado <span class="where">banco + painel</span></h4><p class="muted">Cada conversa, agendamento, falta e reativação alimenta o painel do mês. É esse painel que prova o resultado para a clínica.</p></div></li>
+      </ol>
+    </div>
+
+    <div>
+      <h3>O segundo caminho: as mensagens que a clínica nunca lembra de mandar</h3>
+      <p class="muted small" style="margin-top:4px">Disparadas pelo n8n no horário certo, usando modelos de mensagem aprovados pela Meta.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl"><span class="when">na hora</span><b>Resposta ao lead</b><span class="cat">Menos de 1 minuto, inclusive à noite e no fim de semana</span></div>
+      <div class="tl"><span class="when">ao agendar</span><b>Confirmação com endereço</b><span class="cat">Profissional, data, hora, como chegar</span></div>
+      <div class="tl"><span class="when">véspera, 18h</span><b>Confirmo / Preciso remarcar</b><span class="cat">Quem remarca libera o horário para outro paciente</span></div>
+      <div class="tl"><span class="when">2 h antes</span><b>Lembrete do dia</b><span class="cat">Reduz falta por esquecimento</span></div>
+      <div class="tl"><span class="when">faltou</span><b>Remarcação no mesmo dia</b><span class="cat">Antes que o paciente esfrie</span></div>
+      <div class="tl"><span class="when">2, 7 e 14 dias</span><b>Orçamento não fechado</b><span class="cat">Tira dúvida, lembra do parcelamento, oferece conversa com a dentista</span></div>
+      <div class="tl"><span class="when">3 dias depois</span><b>Satisfação + avaliação no Google</b><span class="cat">Prova social para os próximos pacientes</span></div>
+      <div class="tl"><span class="when">4 a 12 meses</span><b>Retorno programado</b><span class="cat">Toxina a cada 4 a 6 meses, revisão de lentes, manutenção do clareamento</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PEÇAS -->
+<section class="block" id="pecas">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 2</span>
+      <h2>As peças e onde cada uma mora</h2>
+    </div>
+    <div class="stack">
+      <div class="zone">
+        <span class="eyebrow">Fora, contratado por você</span>
+        <div class="piece"><b>API oficial do WhatsApp</b><span>Meta Cloud API. Canal oficial, sem risco de banimento por automação.</span></div>
+        <div class="piece"><b>Claude (Anthropic)</b><span>O cérebro. Haiku 4.5 para a maioria das conversas, Sonnet 5.5 para as difíceis.</span></div>
+        <div class="piece"><b>Transcrição de áudio</b><span>gpt-4o-mini-transcribe (OpenAI). Cerca de US$ 0,003 por minuto.</span></div>
+        <div class="piece"><b>Google Agenda</b><span>Uma agenda por profissional. Grátis.</span></div>
+      </div>
+      <div class="zone">
+        <span class="eyebrow">No seu servidor</span>
+        <div class="piece"><b>Coolify ou Easypanel</b><span>Painel que instala e atualiza os programas com poucos cliques.</span></div>
+        <div class="piece"><b>Chatwoot</b><span>Caixa de entrada da equipe. Uma conta por clínica. Código aberto.</span></div>
+        <div class="piece"><b>n8n</b><span>Fluxos e automações. Só você acessa: é exigência da licença gratuita.</span></div>
+        <div class="piece"><b>Postgres + Metabase</b><span>Banco de dados e painel de resultados.</span></div>
+        <div class="piece"><b>Monitor + backup</b><span>Aviso no seu celular se algo cair. Cópia diária fora do servidor.</span></div>
+      </div>
+      <div class="zone">
+        <span class="eyebrow">Na clínica</span>
+        <div class="piece"><b>Business Manager da Meta</b><span>Da clínica, em nome dela. Você entra como parceira.</span></div>
+        <div class="piece"><b>Número de WhatsApp</b><span>Veja as três opções na Parte 4.</span></div>
+        <div class="piece"><b>Cartão na conta do WhatsApp</b><span>As mensagens da Meta são cobradas direto da clínica.</span></div>
+        <div class="piece"><b>Equipe no Chatwoot</b><span>Secretária e dentistas respondem quando a IA passa a conversa.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASSO A PASSO -->
+<section class="block" id="passos">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 3</span>
+      <h2>Passo a passo da montagem</h2>
+    </div>
+    <p class="lead">Quatro fases. As fases A, B e C são feitas uma vez só e viram sua estrutura. A fase D se repete a cada clínica nova e fica mais rápida a cada vez.</p>
+
+    <div class="callout ok">
+      <strong>Como o Claude Code trabalha em cada passo técnico</strong>
+      <p>Você abre o Claude Code na pasta do projeto e pede, em português, a etapa da vez. Ele explica o que vai fazer, pede sua aprovação, executa (no seu computador ou no servidor), testa e conta o resultado em linguagem simples. Chaves e senhas ficam só no arquivo <span class="mono">.env</span>, nunca escritas em outro lugar.</p>
+    </div>
+
+    <!-- FASE A -->
+    <div class="phase">
+      <div class="phase-head"><h3>Fase A · Contas e acessos</h3><span class="mono small muted">1 a 3 semanas, por causa das aprovações</span></div>
+      <div class="steps">
+        <article class="step">
+          <div class="head"><span class="id">A1</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>CNPJ e conta bancária da empresa</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>A Meta exige empresa verificada. Também é preciso para emitir nota e cobrar das clínicas.</dd>
+            <dt>Como</dt><dd>Contador abre uma ME no Simples Nacional. Depois, conta PJ em banco digital.</dd>
+            <dt>Custo</dt><dd class="mono">R$ 0 a 1.000 + contador R$ 200 a 500/mês</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A2</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>Domínio, e-mail e site simples</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>A verificação da Meta pede site com o nome da empresa. E-mail no próprio domínio passa credibilidade.</dd>
+            <dt>Como</dt><dd>Domínio no <a href="https://registro.br" target="_blank" rel="noopener">registro.br</a>. Site de uma página feito pelo Claude Code e publicado de graça na Vercel.</dd>
+            <dt>Custo</dt><dd class="mono">~R$ 40/ano + e-mail R$ 0 a 50/mês</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A3</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>Business Manager da sua empresa, verificado</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>É a sua identidade na Meta. Sem ela você não cria o app nem vira parceira das clínicas.</dd>
+            <dt>Como</dt><dd><a href="https://business.facebook.com" target="_blank" rel="noopener">business.facebook.com</a> → Configurações → Central de segurança → Verificação da empresa. Envia o cartão CNPJ e confirma por e-mail do domínio ou telefone.</dd>
+            <dt>Prazo</dt><dd>De alguns dias a 2 semanas</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A4</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>App de desenvolvedor com WhatsApp</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>Dá um número de teste grátis para montar a demonstração, que só manda mensagem para até 5 números cadastrados.</dd>
+            <dt>Como</dt><dd><a href="https://developers.facebook.com/apps" target="_blank" rel="noopener">developers.facebook.com/apps</a> → Criar app → tipo "Empresa" → adicionar o produto WhatsApp. Depois, criar um "usuário do sistema" no Business Manager para gerar a chave permanente.</dd>
+            <dt>Custo</dt><dd class="mono">R$ 0</dd>
+          </dl>
+          <div class="howcc"><b>O Claude Code</b><span>Te guia tela a tela, recebe a chave que você colar no <span class="mono">.env</span> e testa o envio de uma mensagem para o seu celular.</span></div>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A5</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>Chave da API do Claude</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>É por ela que o atendente "pensa". Separada da sua assinatura do Claude Code.</dd>
+            <dt>Como</dt><dd><a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> → criar conta da empresa → comprar créditos pré-pagos → gerar chave → definir limite de gasto mensal.</dd>
+            <dt>Custo</dt><dd class="mono">US$ 20 a 50 iniciais (rende meses de teste)</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A6</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>Chave para transcrição de áudio</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>O Claude não ouve áudio. Esse serviço transforma o áudio do paciente em texto.</dd>
+            <dt>Como</dt><dd><a href="https://platform.openai.com" target="_blank" rel="noopener">platform.openai.com</a> → créditos pré-pagos → gerar chave com limite.</dd>
+            <dt>Custo</dt><dd class="mono">US$ 5 iniciais; menos de R$ 10 por clínica/mês</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A7</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>Servidor (VPS)</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>Onde moram Chatwoot, n8n, banco e painel de todas as clínicas.</dd>
+            <dt>Como</dt><dd>Contratar uma VPS com 2 núcleos e 8 GB (ex.: Hostinger KVM 2) com Ubuntu. Apontar subdomínios como <span class="mono">chat.suaempresa.com.br</span> e <span class="mono">auto.suaempresa.com.br</span>.</dd>
+            <dt>Custo</dt><dd class="mono">R$ 35 a 80/mês (promoção vs. renovação)</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">A8</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>Projeto no Google Cloud (Agenda)</h4>
+          <dl class="spec">
+            <dt>Para quê</dt><dd>Permite ao n8n ler horários livres e criar pré-agendamentos na agenda da clínica.</dd>
+            <dt>Como</dt><dd><a href="https://console.cloud.google.com" target="_blank" rel="noopener">console.cloud.google.com</a> → novo projeto → ativar Google Calendar API → credencial OAuth. A clínica autoriza o acesso à agenda dela.</dd>
+            <dt>Custo</dt><dd class="mono">R$ 0</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+
+    <!-- FASE B -->
+    <div class="phase">
+      <div class="phase-head"><h3>Fase B · Montar a estrutura no servidor</h3><span class="mono small muted">2 a 3 semanas, em sessões curtas</span></div>
+      <div class="steps">
+        <article class="step">
+          <div class="head"><span class="id">B1</span><span class="who"><span class="chip cc">Claude Code</span></span></div>
+          <h4>Preparar o servidor</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Acesso seguro, firewall, atualizações e o painel Coolify ou Easypanel, com certificado de segurança automático nos subdomínios.</dd>
+            <dt>Você faz</dt><dd>Gera a chave de acesso SSH quando ele pedir e aprova cada comando.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B2</span><span class="who"><span class="chip cc">Claude Code</span></span></div>
+          <h4>Instalar Chatwoot e n8n</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Chatwoot com banco e fila; n8n protegido por senha forte e verificação em duas etapas.</dd>
+            <dt>Você faz</dt><dd>Cria seu usuário administrador e guarda as senhas no gerenciador de senhas.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B3</span><span class="who"><span class="chip cc">Claude Code</span><span class="chip you">Você</span></span></div>
+          <h4>Ligar o WhatsApp ao Chatwoot</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Criar o canal "WhatsApp Cloud" no Chatwoot com os códigos do número e da conta, e cadastrar o endereço de retorno (webhook) no app da Meta.</dd>
+            <dt>Teste</dt><dd>Você manda "oi" do seu celular e a mensagem aparece no Chatwoot.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B4</span><span class="who"><span class="chip cc">Claude Code</span><span class="chip you">Você</span></span></div>
+          <h4>Montar o atendente</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Fluxo no n8n: recebe a mensagem, transcreve se for áudio, chama o Claude com o manual da clínica e as ferramentas (ver horários, pré-agendar, passar para humano, etiquetar) e devolve a resposta.</dd>
+            <dt>Você faz</dt><dd>Escreve o tom de voz e as regras do manual. É aqui que entra a sua copy.</dd>
+          </dl>
+          <div class="howcc"><b>Regras fixas do atendente</b><span>Nunca orienta sobre sintoma, remédio ou diagnóstico. Só informa preço autorizado por escrito. Passa para humano em reclamação, urgência e pedido de desconto.</span></div>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B5</span><span class="who"><span class="chip cc">Claude Code</span><span class="chip you">Você</span></span></div>
+          <h4>Mensagens automáticas</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Fluxos com horário para confirmação, lembrete, falta, orçamento, satisfação e retorno.</dd>
+            <dt>Você faz</dt><dd>Escreve os modelos de mensagem e envia para aprovação da Meta no WhatsApp Manager (minutos a dias).</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B6</span><span class="who"><span class="chip cc">Claude Code</span></span></div>
+          <h4>Banco, painel e segurança</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Tabelas de consultas e eventos; painel no Metabase com tempo de resposta, agendamentos, faltas, reativações e reais recuperados. Backup diário e monitor com aviso no seu celular.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B7</span><span class="who"><span class="chip cc">Claude Code</span><span class="chip you">Você</span></span></div>
+          <h4>Roteiro de 100 conversas de teste</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>O Claude Code cria 100 pacientes simulados (áudio, pedido de desconto, pessoa irritada, pergunta de sintoma, emergência, assunto aleatório) e roda todos contra o atendente.</dd>
+            <dt>Você faz</dt><dd>Lê as respostas reprovadas e decide a correção. Repete até passar em todas.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">B8</span><span class="who"><span class="chip cc">Claude Code</span></span></div>
+          <h4>Transformar em modelo</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Tudo vira um "kit clínica": questionário, manual, fluxos e painel prontos para duplicar. É o que faz a quarta clínica levar 10 horas em vez de 50.</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+
+    <!-- FASE C -->
+    <div class="phase">
+      <div class="phase-head"><h3>Fase C · Demonstração de vendas</h3><span class="mono small muted">1 semana</span></div>
+      <div class="steps">
+        <article class="step">
+          <div class="head"><span class="id">C1</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>A "Clínica Exemplo" no seu número de teste</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Uma clínica fictícia completa, com manual, agenda e painel com dados de exemplo. Na reunião, o dono da clínica manda um áudio e vê a resposta chegar.</dd>
+            <dt>Extra</dt><dd>Vídeo de 2 minutos gravando a tela para mandar a quem não pode fazer reunião.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">C2</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>Usar no seu próprio negócio</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>O mesmo atendente responde quem chega pelo seu site e pelos seus anúncios. É o teste mais honesto e vira argumento de venda.</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+
+    <!-- FASE D -->
+    <div class="phase">
+      <div class="phase-head"><h3>Fase D · Cada clínica nova</h3><span class="mono small muted">4 a 5 semanas na primeira; 1 a 2 depois</span></div>
+      <div class="steps">
+        <article class="step">
+          <div class="head"><span class="id">D1</span><span class="who"><span class="chip you">Você</span><span class="chip cl">Clínica</span></span></div>
+          <h4>Contrato e questionário</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Contrato com cláusula de LGPD. Questionário: procedimentos, preços autorizados, profissionais, horários, endereço, regras de cancelamento, perguntas frequentes, tom de voz.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D2</span><span class="who"><span class="chip cl">Clínica</span><span class="chip you">Você</span></span></div>
+          <h4>Meta da clínica</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>A clínica verifica o Business Manager dela, te adiciona como parceira e cadastra o cartão na conta do WhatsApp. Desde 01/10/2026, sem cartão a Meta para de entregar as respostas.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D3</span><span class="who"><span class="chip you">Você</span><span class="chip cc">Claude Code</span></span></div>
+          <h4>Número, nome e modelos de mensagem</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Registrar o número escolhido (Parte 4), aprovar o nome de exibição e enviar os modelos da clínica para aprovação.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D4</span><span class="who"><span class="chip cc">Claude Code</span></span></div>
+          <h4>Duplicar o kit</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Conta da clínica no Chatwoot, fluxos com as configurações dela, manual montado a partir do questionário, agenda conectada, base de pacientes importada.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D5</span><span class="who"><span class="chip cc">Claude Code</span><span class="chip cl">Clínica</span></span></div>
+          <h4>Testes com a equipe</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Roteiro de teste da clínica + secretária e dentista tentando "quebrar" o atendente durante 2 ou 3 dias.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D6</span><span class="who"><span class="chip you">Você</span><span class="chip cl">Clínica</span></span></div>
+          <h4>Entrada no ar com cuidado</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Primeiro só à noite e no fim de semana, ou com a secretária aprovando cada resposta. Uma semana depois, horário integral. Treinamento de 1 hora com a equipe.</dd>
+          </dl>
+        </article>
+        <article class="step">
+          <div class="head"><span class="id">D7</span><span class="who"><span class="chip you">Você</span></span></div>
+          <h4>Primeira leitura dos números</h4>
+          <dl class="spec">
+            <dt>O que é</dt><dd>Em 30 dias: tempo de resposta, agendamentos, faltas antes e depois. Reunião de 30 minutos e ajustes. Esse relatório vira o seu case.</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMERO -->
+<section class="block" id="numero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 4</span>
+      <h2>A decisão mais importante: o número da clínica</h2>
+    </div>
+    <div class="callout">
+      <strong>Regra da Meta que muda o desenho</strong>
+      <p>Usar o app WhatsApp Business no celular e a API no mesmo número (a "coexistência") só pode ser ativado por um parceiro oficial da Meta (Solution Partner ou Tech Provider). Quem monta a própria integração, como você no começo, não consegue ativar sozinho.</p>
+    </div>
+    <div class="choices">
+      <div class="choice pick">
+        <span class="chip ok" style="align-self:flex-start">Recomendado no piloto</span>
+        <h4>Número novo só para o atendimento</h4>
+        <ul>
+          <li>Chip novo, divulgado no site, Instagram e anúncios</li>
+          <li>O número antigo continua no celular da clínica</li>
+          <li>Sem custo extra e sem risco para o número atual</li>
+          <li>Contra: pacientes antigos continuam no número velho</li>
+        </ul>
+      </div>
+      <div class="choice">
+        <span class="chip warn" style="align-self:flex-start">Possível</span>
+        <h4>Migrar o número atual para a API</h4>
+        <ul>
+          <li>A equipe passa a responder pelo Chatwoot (computador ou app de celular)</li>
+          <li>O app WhatsApp Business deixa de funcionar nesse número</li>
+          <li>Histórico de conversas antigas não vem junto</li>
+          <li>Exige equipe disposta a mudar o jeito de trabalhar</li>
+        </ul>
+      </div>
+      <div class="choice">
+        <span class="chip warn" style="align-self:flex-start">Quando crescer</span>
+        <h4>Manter o app junto (coexistência)</h4>
+        <ul>
+          <li>Via parceiro como 360dialog: a partir de € 49/mês por número</li>
+          <li>Ou você vira Tech Provider da Meta (aprovação técnica da Meta)</li>
+          <li>Respostas pelo app saem grátis; grupos e listas ficam limitados</li>
+          <li>Faz sentido a partir de umas 5 clínicas</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small muted">Nos primeiros clientes, cada clínica tem um app próprio na Meta, criado dentro do Business Manager dela, com você como administradora parceira. Quando o volume justificar, o cadastro de Tech Provider simplifica a entrada de clínicas novas. As regras da Meta mudam com frequência: confira na hora de cada implantação.</p>
+  </div>
+</section>
+
+<!-- CUSTOS -->
+<section class="block" id="custos">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 5</span>
+      <h2>Quanto custa</h2>
+    </div>
+    <div class="callout risk">
+      <strong>Mudança de 01/10/2026</strong>
+      <p>A Meta passou a cobrar cada resposta enviada pela API dentro da janela de atendimento, ao preço de "utilidade" (cerca de R$ 0,04 a 0,08 no Brasil). Continuam grátis as conversas abertas por anúncio que leva direto ao WhatsApp (janela de 72 horas) e o que a clínica responde pelo app.</p>
+    </div>
+
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Para começar (uma vez)</th><th>Valor</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Abertura da ME</td><td class="num">R$ 0 a 1.000</td><td>Muitos contadores online abrem de graça</td></tr>
+          <tr><td>Contrato com cláusula de LGPD revisado por advogado</td><td class="num">R$ 1.000 a 3.000</td><td>Serve para todas as clínicas</td></tr>
+          <tr><td>Domínio</td><td class="num">~R$ 40/ano</td><td>registro.br</td></tr>
+          <tr><td>Créditos iniciais Claude + transcrição</td><td class="num">US$ 25 a 55</td><td>Rendem a fase de testes inteira</td></tr>
+          <tr><td>Chip para o número de demonstração</td><td class="num">~R$ 20</td><td>Pré-pago</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Fixo por mês (seu)</th><th>Valor</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Servidor VPS 8 GB</td><td class="num">R$ 35 a 80</td><td>Aguenta as primeiras 10 a 15 clínicas</td></tr>
+          <tr><td>Backup fora do servidor</td><td class="num">R$ 5 a 20</td><td>Armazenamento em nuvem</td></tr>
+          <tr><td>E-mail profissional</td><td class="num">R$ 0 a 50</td><td></td></tr>
+          <tr><td>Contador</td><td class="num">R$ 200 a 500</td><td></td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="num">R$ 240 a 650</td><td>Claude Code você já paga</td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Por clínica, por mês</th><th>Valor</th><th>Quem paga</th></tr></thead>
+        <tbody>
+          <tr><td>Mensagens da Meta (500 conversas, lembretes, reativação)</td><td class="num">R$ 250 a 450</td><td>A clínica, no cartão dela</td></tr>
+          <tr><td>Claude (Haiku 4.5 + Sonnet 5.5)</td><td class="num">R$ 80 a 250</td><td>Você, dentro da mensalidade</td></tr>
+          <tr><td>Transcrição de áudio</td><td class="num">até R$ 10</td><td>Você</td></tr>
+          <tr><td>Parte do servidor</td><td class="num">R$ 10 a 30</td><td>Você</td></tr>
+          <tr><td>Parceiro para coexistência (opcional)</td><td class="num">€ 49 (~R$ 300)</td><td>Repassar à clínica</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Premissas: 500 conversas por mês com cerca de 8 respostas cada; preços do Claude de US$ 1 / 5 (Haiku 4.5) e US$ 2 / 10 (Sonnet 5.5) por milhão de tokens de entrada / saída, com dólar perto de R$ 5,50.</p>
+  </div>
+</section>
+
+<!-- MANUTENÇÃO -->
+<section class="block" id="manutencao">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 6</span>
+      <h2>Manutenção depois que está no ar</h2>
+    </div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Quando</th><th>O que fazer</th><th>Tempo por clínica</th></tr></thead>
+        <tbody>
+          <tr><td>Sempre (automático)</td><td>Monitor avisa se algo cair; backup diário; registro de erros</td><td class="num">0</td></tr>
+          <tr><td>Toda semana</td><td>Ler 15 a 20 conversas, corrigir respostas ruins, ver mensagens que falharam e a nota de qualidade do número na Meta</td><td class="num">20 a 30 min</td></tr>
+          <tr><td>Todo mês</td><td>Relatório e reunião; atualizar preços, procedimentos e agenda; campanha de reativação do mês</td><td class="num">1 a 2 h</td></tr>
+          <tr><td>A cada 3 meses</td><td>Atualizar Chatwoot e n8n (testando antes numa cópia); revisar custos</td><td class="num">1 h no total</td></tr>
+          <tr><td>Quando acontece</td><td>Mudança de regra ou preço da Meta, troca de modelo de IA, modelo de mensagem pausado, chave expirada</td><td class="num">varia</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h4>Se o servidor cair</h4>
+        <p>As mensagens ficam guardadas e a Meta tenta entregar de novo por um tempo. O monitor te avisa na hora. Com número dedicado, a clínica avisa os pacientes pelo número antigo; com coexistência, a equipe responde pelo app normalmente.</p>
+      </div>
+      <div class="panel">
+        <h4>Quanto você aguenta sozinha</h4>
+        <p>Com o kit pronto, 3 a 5 horas por clínica por mês. Isso dá 10 a 15 clínicas antes de precisar de ajuda para revisar conversas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERCADO -->
+<section class="block" id="mercado">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Parte 7 · Pesquisa</span>
+      <h2>Odontologia estética e clínicas de estética em 2026</h2>
+    </div>
+    <div class="shade" aria-label="Escala de cor dental, usada como régua decorativa">
+      <span style="background:#FBFAF5">BL1</span><span style="background:#F8F5EC">BL2</span><span style="background:#F5EFDF">A1</span><span style="background:#F1E7D0">B1</span><span style="background:#EEE0C0">A2</span><span style="background:#EBD9B4">B2</span><span style="background:#E6CFA4">A3</span><span style="background:#E1C595">A3.5</span>
+    </div>
+    <p class="lead">O Brasil é o terceiro maior mercado de estética do mundo, com cerca de 400 mil dentistas e R$ 38 bilhões por ano em odontologia. A odontologia estética é a parte que mais cresce e a que mais vende pelo WhatsApp.</p>
+
+    <h3>O que uma clínica odontológica com foco em estética oferece hoje</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Serviço</th><th>O que é</th><th>Preço típico em 2026</th><th>Onde o atendente ajuda</th></tr></thead>
+        <tbody>
+          <tr><td><b>Lentes de contato dental</b></td><td>Lâminas finas de porcelana coladas na frente dos dentes. Duram mais de 10 anos.</td><td class="num">R$ 1.200 a 2.500/dente (capitais)<br>R$ 2.500 a 4.500 (premium)<br>R$ 900 a 2.000 (cidades médias)</td><td>Ticket de R$ 10 mil a 40 mil por caso: decisão demorada, muito acompanhamento de orçamento e objeção de preço</td></tr>
+          <tr><td><b>Facetas de resina</b></td><td>Feitas na cadeira, mais baratas, exigem polimento e manutenção</td><td class="num">R$ 200 a 2.000/dente</td><td>Porta de entrada e retorno programado de manutenção</td></tr>
+          <tr><td><b>Alinhadores invisíveis</b></td><td>Placas transparentes trocadas a cada poucas semanas. Marcas: Invisalign, Spark, ClearCorrect e nacionais</td><td class="num">R$ 4.000 a 20.000+</td><td>Avaliação com escaneamento, acompanhamento das trocas, contenção no fim</td></tr>
+          <tr><td><b>Clareamento</b></td><td>No consultório ou caseiro com moldeira supervisionada</td><td class="num">R$ 900 a 2.000 (consultório)<br>R$ 600 a 1.500 (caseiro)</td><td>Entrada para lentes; manutenção anual</td></tr>
+          <tr><td><b>Implantes e protocolo</b></td><td>Reposição de dentes; protocolo de carga imediata para arcada inteira</td><td>Ticket alto, varia muito por caso</td><td>Público mais velho, decisão com família, financiamento</td></tr>
+          <tr><td><b>Harmonização orofacial</b></td><td>Toxina botulínica, preenchimento, bioestimulador, bichectomia, fios</td><td class="num">Toxina R$ 20 a 40/unidade (terço superior: 30 a 50 U)<br>Ácido hialurônico a partir de R$ 1.800/ml<br>Sculptra R$ 3.000 a 5.500</td><td>Retorno da toxina a cada 4 a 6 meses. <b>Em disputa judicial</b>, ver abaixo</td></tr>
+          <tr><td><b>Ferramentas de venda</b></td><td>Planejamento digital do sorriso, escaneamento intraoral, CAD/CAM</td><td>Incluídas na avaliação</td><td>"Simulação do seu sorriso" é o melhor convite para a avaliação</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>O que uma clínica de estética oferece hoje</h3>
+    <div class="grid2">
+      <div class="panel">
+        <h4>Injetáveis</h4>
+        <ul>
+          <li>Toxina botulínica (rugas, contorno)</li>
+          <li>Preenchimento com ácido hialurônico (lábios, olheiras, mandíbula)</li>
+          <li>Bioestimuladores de colágeno no rosto, pescoço e corpo (forte tendência em 2026)</li>
+          <li>Skinbooster e intradermoterapia</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Tecnologias e protocolos</h4>
+        <ul>
+          <li>Ultrassom microfocado, radiofrequência, lasers</li>
+          <li>Depilação a laser, peelings, microagulhamento</li>
+          <li>Pacotes por sessão e programas de manutenção</li>
+          <li>Parcelamento em até 10x é padrão</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Como essas clínicas vendem, e onde perdem dinheiro</h3>
+    <div class="timeline">
+      <div class="tl"><span class="when">1 · anúncio</span><b>Instagram e Meta</b><span class="cat">Antes e depois, simulação, condição de parcelamento</span></div>
+      <div class="tl"><span class="when">2 · WhatsApp</span><b>Pergunta de preço</b><span class="cat">Resposta manual leva 30 a 90 min. Quem responde em 5 min converte até 21x mais</span></div>
+      <div class="tl"><span class="when">3 · avaliação</span><b>Muitas vezes grátis</b><span class="cat">Falta na avaliação é o maior vazamento</span></div>
+      <div class="tl"><span class="when">4 · orçamento</span><b>R$ 5 mil a 40 mil</b><span class="cat">Sem acompanhamento, morre em uma semana</span></div>
+      <div class="tl"><span class="when">5 · fechamento</span><b>Parcelamento</b><span class="cat">10 a 18 vezes, financiamento</span></div>
+      <div class="tl"><span class="when">6 · tratamento</span><b>Várias sessões</b><span class="cat">Confirmação e lembrete a cada uma</span></div>
+      <div class="tl"><span class="when">7 · pós</span><b>Avaliação no Google</b><span class="cat">Prova social que quase ninguém pede</span></div>
+      <div class="tl"><span class="when">8 · retorno</span><b>Manutenção</b><span class="cat">Toxina, clareamento, revisão de lentes: dinheiro esquecido na base</span></div>
+    </div>
+
+    <h3>Quem já vende para elas</h3>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th>Tipo</th><th>Exemplos</th><th>Preço</th><th>Limite</th></tr></thead>
+        <tbody>
+          <tr><td>Software de IA no WhatsApp</td><td>Gênesis, Secretária Odonto, AtendeJá, Beeia</td><td class="num">R$ 259 a 897/mês</td><td>A clínica configura sozinha; ninguém cuida do resultado</td></tr>
+          <tr><td>Gestão de clínica</td><td>Clinicorp, Simples Dental</td><td>Assinatura + implantação</td><td>Organiza a agenda, não vende</td></tr>
+          <tr><td>Agência de marketing odontológico</td><td>Locais e nacionais</td><td class="num">R$ 2.000 a 5.000/mês + anúncios</td><td>Entrega lead, não acompanha até a cadeira</td></tr>
+          <tr><td>Agente da própria Meta</td><td>Meta One</td><td class="num">R$ 199 a 1.999/mês</td><td>Genérico, sem processo de clínica</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Seu espaço: o serviço completo (mensagens escritas por quem entende de copy, processo de acompanhamento, revisão semanal e relatório de reais recuperados), que nenhum desses entrega sozinho.</p>
+
+    <h3>Riscos regulatórios que mudam a escolha do cliente</h3>
+    <div class="grid2">
+      <div class="callout risk">
+        <strong>Biomédicos fora dos invasivos</strong>
+        <p>Em 2026, o TRF1 manteve a anulação da norma que permitia biomédicos aplicarem toxina botulínica e outros procedimentos invasivos. Clínica de estética tocada só por biomédico é cliente de risco: o carro-chefe dela pode ser proibido.</p>
+      </div>
+      <div class="callout">
+        <strong>Harmonização por dentistas em disputa</strong>
+        <p>Em 20/08/2026, o TRF1 anulou a resolução do CFO que criou a harmonização orofacial como especialidade odontológica. Ainda não vale até a publicação do acórdão, e o CFO recorre e orienta os dentistas a continuarem. Venda o atendente para o sorriso; a harmonização entra como extra.</p>
+      </div>
+      <div class="callout ok">
+        <strong>Médicos podem divulgar preço</strong>
+        <p>A Resolução CFM 2.336/23 liberou médicos a divulgar preço, inclusive pelo WhatsApp. Para dentistas as regras de publicidade são do CFO: o atendente só informa preço autorizado por escrito.</p>
+      </div>
+      <div class="callout">
+        <strong>LGPD e dado de saúde</strong>
+        <p>Dado de saúde é sensível. Contrato de operadora de dados, guardar o mínimo, nada de prontuário no atendente.</p>
+      </div>
+    </div>
+
+    <h3>Cliente ideal</h3>
+    <div class="grid2">
+      <div class="panel">
+        <h4><span class="chip ok">Sim</span> Sinais de bom cliente</h4>
+        <ul>
+          <li>Clínica independente de odontologia estética, dona dentista</li>
+          <li>Carro-chefe: lentes, facetas, alinhadores ou clareamento</li>
+          <li>Já roda anúncio no Instagram e recebe lead no WhatsApp</li>
+          <li>Faturamento a partir de R$ 80 mil por mês, 2 ou mais cadeiras</li>
+          <li>Secretária sobrecarregada, sem CRM ou com CRM abandonado</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4><span class="chip risk">Não</span> Sinais de alerta</h4>
+        <ul>
+          <li>Franquia ou rede grande, que já tem central de atendimento</li>
+          <li>Clínica só de biomédico com foco em toxina</li>
+          <li>Briga por preço baixo como estratégia principal</li>
+          <li>Não aceita mudar nenhum processo</li>
+          <li>Não investe nada em divulgação</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <span class="eyebrow">Recomendação atualizada</span>
+      <h3>Começar por odontologia estética do sorriso</h3>
+      <p>Lentes, facetas, alinhadores e clareamento têm ticket alto, decisão demorada (que é onde o acompanhamento vale mais) e dono com registro no CRO, longe das duas disputas judiciais. A harmonização entra como serviço complementar dentro dessas clínicas. Clínicas de estética médica, tocadas por dermatologista, ficam como segundo nicho. Isso substitui a recomendação anterior de começar por estética geral.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FONTES -->
+<section class="block" id="fontes">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Referências</span>
+      <h2>Fontes</h2>
+    </div>
+    <div class="sources">
+      <p><b>Técnico</b></p>
+      <ul>
+        <li><a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing/non-template-messages" target="_blank" rel="noopener">Meta: cobrança de mensagens de serviço a partir de 01/10/2026</a></li>
+        <li><a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users" target="_blank" rel="noopener">Meta: coexistência só via parceiros</a></li>
+        <li><a href="https://docs.360dialog.com/partner/waba-management/whatsapp-coexistence" target="_blank" rel="noopener">360dialog: coexistência</a> e <a href="https://ezcontact.ai/en/blog/2026-07-04-360dialog-pricing-2026-real-monthly-costs-api-fees" target="_blank" rel="noopener">preços</a></li>
+        <li><a href="https://docs.n8n.io/n8n-community-license/community-license/license-faq" target="_blank" rel="noopener">n8n: perguntas frequentes sobre a licença</a></li>
+        <li><a href="https://www.chatwoot.com/hc/user-guide/articles/1783938358-migrate-a-whats_app-embedded-signup-inbox-to-manual-setup" target="_blank" rel="noopener">Chatwoot: WhatsApp e coexistência</a></li>
+        <li><a href="https://diyai.io/ai-tools/speech-to-text/openai-whisper-api-pricing-2026/" target="_blank" rel="noopener">Preços de transcrição OpenAI 2026</a></li>
+        <li><a href="https://horadecodar.com.br/melhores-vps-hostinger-desenvolvedores-2026/" target="_blank" rel="noopener">VPS Hostinger 2026</a></li>
+        <li><a href="https://hyperleap.ai/whatsapp-pricing-calculator-brazil" target="_blank" rel="noopener">Preços do WhatsApp no Brasil</a></li>
+      </ul>
+      <p><b>Mercado</b></p>
+      <ul>
+        <li><a href="https://catracalivre.com.br/saude-bem-estar/quanto-custa-colocar-lente-de-contato-dental-e-o-que-pesa-no-preco/" target="_blank" rel="noopener">Preço de lentes de contato dental</a> e <a href="https://www.nsctotal.com.br/noticias/lentes-de-resina-valor" target="_blank" rel="noopener">facetas de resina</a></li>
+        <li><a href="https://catracalivre.com.br/saude-bem-estar/quanto-custa-colocar-aparelho-invisivel-em-2026-no-brasil/" target="_blank" rel="noopener">Preço de alinhadores invisíveis em 2026</a></li>
+        <li><a href="https://catracalivre.com.br/saude-bem-estar/quanto-custa-fazer-clareamento-dental-em-2026/" target="_blank" rel="noopener">Preço de clareamento em 2026</a></li>
+        <li><a href="https://catracalivre.com.br/saude-bem-estar/quanto-custa-fazer-botox-preenchimento-labial-e-bioestimulador-em-2026/" target="_blank" rel="noopener">Preço de toxina, preenchimento e bioestimulador em 2026</a> e <a href="https://cidesp.com.br/conteudo/tabela-de-precos-botox-valores-e-dicas-atualizadas" target="_blank" rel="noopener">tabela de toxina</a></li>
+        <li><a href="https://ohoje.com/2026/03/02/mercado-estetica-e-odontologia/" target="_blank" rel="noopener">Brasil potência da estética e odontologia</a> e <a href="https://futurodasaude.com.br/?p=14352" target="_blank" rel="noopener">400 mil dentistas, R$ 38 bi</a></li>
+        <li><a href="https://diariodonordeste.verdesmares.com.br/ultima-hora/pais/justica-derruba-resolucao-que-autorizava-dentistas-a-realizarem-harmonizacao-facial-no-brasil-1.3785834" target="_blank" rel="noopener">TRF1 derruba resolução de harmonização orofacial</a> e <a href="https://legismap.com.br/conteudos/artigos-e-noticias/cfo-esclarece-decisao-judicial-sobre-a-harmonizacao-orofacial" target="_blank" rel="noopener">posição do CFO</a></li>
+        <li><a href="https://www.lex.com.br/turma-anula-resolucao-que-autorizava-biomedicos-a-fazerem-procedimentos-esteticos-invasivos/" target="_blank" rel="noopener">TRF1: biomédicos e procedimentos invasivos</a></li>
+        <li><a href="https://www.migalhas.com.br/depeso/430062/resolucao-cfm-2-336-23-publicidade-e-propaganda-medica" target="_blank" rel="noopener">Resolução CFM 2.336/23</a></li>
+        <li><a href="https://dealism.ai/pt/learn/whatsapp-lead-leakage-prevention" target="_blank" rel="noopener">Tempo de resposta e conversão em clínicas estéticas</a></li>
+        <li><a href="https://genesisclinicas.com.br/planos" target="_blank" rel="noopener">Gênesis</a>, <a href="https://secretariaodonto.com.br/" target="_blank" rel="noopener">Secretária Odonto</a>, <a href="https://atendeja.ia.br/" target="_blank" rel="noopener">AtendeJá</a>, <a href="https://www.beeia.com.br/automacao-whatsapp-clinicas-odontologia/" target="_blank" rel="noopener">Beeia</a>, <a href="https://economicnewsbrasil.com.br/2026/09/15/preco-meta-one-brasil-planos/" target="_blank" rel="noopener">Meta One</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Preços pesquisados em outubro de 2026. Valores de mercado variam por cidade e por clínica; use como referência, não como tabela.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.sections a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.remove('on')});
+        var a=map[e.target.id]; if(a){a.classList.add('on');
+          try{a.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  Object.keys(map).forEach(function(id){var s=document.getElementById(id); if(s)io.observe(s)});
+})();
+</script>
