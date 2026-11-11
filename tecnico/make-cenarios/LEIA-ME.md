@@ -9,6 +9,8 @@ Cópia de segurança dos cenários da Keshion, para restaurar ou levar para o n8
 | `1B-resposta-8302452.json` | Keshion · 1B Resposta (IA e modo copiloto) | Fila de 7 s, ficha, agenda, Claude Haiku, marcar, remarcar, cancelar, avisos |
 | `1C-fechamento-8463643.json` | Keshion · 1C Fechamento depois da marcação | Despedida 1 minuto depois de marcar, se o paciente não respondeu |
 | `1D-envio-8464848.json` | Keshion · 1D Envio (até 3 mensagens) | Envia até 3 mensagens com "digitando" e avisa a Erica se falhar |
+| `questionario-dra-vivian-8491037.json` | Keshion · Questionário Dra. Vivian (respostas) | Recebe as respostas da página do questionário e grava na planilha |
+| `secretaria-ia-8372976.json` | Secretaria IA (inativo) | Primeiro teste simples de 05/11/2026 (Whapi + gpt-5-nano), guardado só como histórico |
 
 As instruções da assistente e a base da clínica ficam no data store 240983 (registros `_instrucoes` e `_base`). As cópias em texto estão em `clientes/clinica-demo/instrucoes-sarah.md` e `clientes/clinica-demo/base-clinica.md`.
 
