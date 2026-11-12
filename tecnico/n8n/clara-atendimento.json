@@ -51,7 +51,7 @@
      },
      "conditions": [
       {
-       "id": "8f07b767-017b-413c-942b-c0f39aa3f674",
+       "id": "7056c630-e48d-4f64-9781-76745fc4dd46",
        "leftValue": "={{ $json.rota }}",
        "operator": {
         "type": "string",
@@ -146,7 +146,7 @@
         },
         "conditions": [
          {
-          "id": "f37775be-3040-454c-8890-111d4e8df80a",
+          "id": "50200449-d135-4c9e-bc44-c20bbff483d6",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -170,7 +170,7 @@
         },
         "conditions": [
          {
-          "id": "a85872a7-5f6a-4e2f-9caf-9efb9e62252d",
+          "id": "23b9f3db-96f4-40dd-8d65-7970a8b6660b",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -194,7 +194,7 @@
         },
         "conditions": [
          {
-          "id": "dd802638-dfa9-4603-be4b-834c8ccaf528",
+          "id": "d341eac8-5879-4c0d-acbe-5aeae1630af1",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -218,7 +218,7 @@
         },
         "conditions": [
          {
-          "id": "642e92d9-cd6a-4adc-ab8d-d3e733dbc198",
+          "id": "9354ec1f-5888-434f-b6a5-d6b158c63b7e",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -242,7 +242,7 @@
         },
         "conditions": [
          {
-          "id": "70fac21f-a3eb-4718-9ac8-a424480ebae4",
+          "id": "bd97e7c3-acbc-4dd0-bd93-b2fc6556a24e",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -266,7 +266,7 @@
         },
         "conditions": [
          {
-          "id": "a9c1a4e6-5a50-4aae-96e1-52da2a00e15d",
+          "id": "a32cbd87-639b-4cd3-94b6-7e675f361814",
           "leftValue": "={{ $json.caminho }}",
           "operator": {
            "type": "string",
@@ -386,6 +386,19 @@
     }
    },
    "onError": "continueRegularOutput"
+  },
+  {
+   "id": "f7337b33-d4da-5f7f-82b4-4d44d9f99029",
+   "name": "Ajustar o nome do áudio",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1460,
+    -220
+   ],
+   "parameters": {
+    "jsCode": "// A voz do WhatsApp chega como .oga (Ogg com outra extensão) e a OpenAI recusa esse nome\n// (\"Unsupported file format oga\"). O Make mandava sempre \"audio.ogg\". Aqui: .oga, .opus ou sem\n// extensão viram .ogg; formatos que a OpenAI já aceita ficam como estão.\nconst aceitos = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'ogg', 'wav', 'webm'];\nreturn $input.all().map(it => {\n  const b = it.binary && it.binary.data;\n  if (b) {\n    const nome = String(b.fileName || 'audio');\n    const ext = (nome.match(/\\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();\n    if (!aceitos.includes(ext)) {\n      b.fileName = nome.replace(/\\.[a-z0-9]+$/i, '') + '.ogg';\n      b.fileExtension = 'ogg';\n      b.mimeType = 'audio/ogg';\n    }\n  }\n  return it;\n});"
+   }
   },
   {
    "id": "ffe620cc-f435-5431-9026-12357249d023",
@@ -654,7 +667,7 @@
      },
      "conditions": [
       {
-       "id": "d97be93c-5d83-4438-bcb4-e3f701e7c5d7",
+       "id": "2a54d0d3-fca3-4771-8d8a-24a6f5ed5d8d",
        "leftValue": "={{ $json.ok }}",
        "operator": {
         "type": "boolean",
@@ -736,7 +749,7 @@
         },
         "conditions": [
          {
-          "id": "5e0d0e60-e6cc-4e21-b6bd-8cfdfd56f6aa",
+          "id": "e159e82f-193b-4682-9613-6f4b2925acd7",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -760,7 +773,7 @@
         },
         "conditions": [
          {
-          "id": "52293d25-532b-490f-879b-e880daee51d2",
+          "id": "d5c13b47-5448-4814-9e0d-cdd578d6e8a5",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -784,7 +797,7 @@
         },
         "conditions": [
          {
-          "id": "ba2816ca-4d45-496c-9abb-50e43dcd7cb9",
+          "id": "9f67ef96-e75f-42d2-8054-fc27a7987a31",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -808,7 +821,7 @@
         },
         "conditions": [
          {
-          "id": "0787bad6-77cd-439d-b297-67114747b9fd",
+          "id": "26ec9086-045d-46ba-9b28-df303e028237",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -832,7 +845,7 @@
         },
         "conditions": [
          {
-          "id": "b567585f-ddf7-4b36-8830-850ea1f73992",
+          "id": "147ec025-f6ad-4188-8ca4-b87db77a31a0",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -856,7 +869,7 @@
         },
         "conditions": [
          {
-          "id": "45bdf642-b789-42ed-af0b-71511c415eee",
+          "id": "421e069e-cb82-4179-be05-15e94eedcde2",
           "leftValue": "={{ $json.rota }}",
           "operator": {
            "type": "string",
@@ -939,7 +952,7 @@
         },
         "conditions": [
          {
-          "id": "d80e4318-b2ae-424a-a44a-185065fdfad6",
+          "id": "0103e3f3-9981-4d4c-970d-e54b6187524e",
           "leftValue": "={{ $json.passo }}",
           "operator": {
            "type": "string",
@@ -963,7 +976,7 @@
         },
         "conditions": [
          {
-          "id": "836b6722-d903-46fc-86d4-11de64bbdc56",
+          "id": "4a9ae3a4-1305-44b3-b0bb-9b62bb206bf7",
           "leftValue": "={{ $json.passo }}",
           "operator": {
            "type": "string",
@@ -987,7 +1000,7 @@
         },
         "conditions": [
          {
-          "id": "80fabace-4a73-4612-aa85-bd0d4f197ea8",
+          "id": "afffd0d5-85dd-41b1-b194-b4af7186aa4d",
           "leftValue": "={{ $json.passo }}",
           "operator": {
            "type": "string",
@@ -1011,7 +1024,7 @@
         },
         "conditions": [
          {
-          "id": "c7485177-744d-46d4-a2e5-78fe2f19d274",
+          "id": "b1f09927-2129-49a2-b427-31d727ff6c3a",
           "leftValue": "={{ $json.passo }}",
           "operator": {
            "type": "string",
@@ -1280,7 +1293,7 @@
      },
      "conditions": [
       {
-       "id": "6832b265-486f-45d6-a01b-9e93b4f5cf63",
+       "id": "a2f107e1-9769-4b64-9963-512781674176",
        "leftValue": "={{ $json.fechamento }}",
        "operator": {
         "type": "string",
@@ -1351,7 +1364,7 @@
      },
      "conditions": [
       {
-       "id": "7977286c-5b0d-493a-b4a0-b971152f64de",
+       "id": "ce59f6d4-4f2c-427d-93ed-15fdfe0c4e15",
        "leftValue": "={{ $json.sem_resposta }}",
        "operator": {
         "type": "boolean",
@@ -1531,6 +1544,17 @@
    ]
   },
   "Baixar o áudio": {
+   "main": [
+    [
+     {
+      "node": "Ajustar o nome do áudio",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Ajustar o nome do áudio": {
    "main": [
     [
      {

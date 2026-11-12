@@ -9,7 +9,7 @@ Instalado em 12/11/2026. Este arquivo não tem senhas nem chaves. Elas estão s�
 | Provedor | Contabo |
 | IP | 169.58.41.107 |
 | Sistema | Ubuntu 24.04.5 LTS (4 núcleos, 7,8 GB de memória, 96 GB de disco) |
-| Entrar | `ssh -i ~/.ssh/keshion_vps root@169.58.41.107` |
+| Entrar | `ssh -i ~/.ssh/keshion_vps root@169.58.41.107` (atenção, conferido em 12/11: o servidor **ainda aceita senha** para o root, por causa de `/etc/ssh/sshd_config.d/50-cloud-init.conf`; desligar) |
 | Endereço do n8n (provisório) | https://n8n.169-58-41-107.sslip.io |
 | Certificado | Let's Encrypt, renovação automática pelo Caddy (primeiro vence em 10/02/2027) |
 | Fuso | America/Sao_Paulo (servidor e n8n) |

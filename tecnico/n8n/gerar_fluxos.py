@@ -258,6 +258,25 @@ WHERE telefone = $1::text;
 
 # áudio
 http(A, "Baixar o áudio", "GET", "={{ $json.audio }}", (1340, -100), file_out=True, onError="continueRegularOutput")
+code(A, "Ajustar o nome do áudio", r"""
+// A voz do WhatsApp chega como .oga (Ogg com outra extensão) e a OpenAI recusa esse nome
+// ("Unsupported file format oga"). O Make mandava sempre "audio.ogg". Aqui: .oga, .opus ou sem
+// extensão viram .ogg; formatos que a OpenAI já aceita ficam como estão.
+const aceitos = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'ogg', 'wav', 'webm'];
+return $input.all().map(it => {
+  const b = it.binary && it.binary.data;
+  if (b) {
+    const nome = String(b.fileName || 'audio');
+    const ext = (nome.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
+    if (!aceitos.includes(ext)) {
+      b.fileName = nome.replace(/\.[a-z0-9]+$/i, '') + '.ogg';
+      b.fileExtension = 'ogg';
+      b.mimeType = 'audio/ogg';
+    }
+  }
+  return it;
+});
+""", (1460, -220))
 A.add("Transcrever o áudio (OpenAI)", "n8n-nodes-base.httpRequest", 4.2, {
     "method": "POST", "url": "https://api.openai.com/v1/audio/transcriptions",
     "authentication": "predefinedCredentialType", "nodeCredentialType": "openAiApi",
@@ -544,7 +563,8 @@ L("Apagar a conversa de teste", "Aviso de reinício")
 L("Aviso de reinício", "Enviar aviso de reinício")
 L("Tipo de mensagem", "Só guardar na conversa", out=1)
 L("Tipo de mensagem", "Baixar o áudio", out=2)
-L("Baixar o áudio", "Transcrever o áudio (OpenAI)")
+L("Baixar o áudio", "Ajustar o nome do áudio")
+L("Ajustar o nome do áudio", "Transcrever o áudio (OpenAI)")
 L("Transcrever o áudio (OpenAI)", "Texto final da mensagem")
 L("Tipo de mensagem", "Ler a foto (OpenAI)", out=3)
 L("Ler a foto (OpenAI)", "Texto final da mensagem")

@@ -83,7 +83,7 @@
      },
      "conditions": [
       {
-       "id": "f73d6737-8d4a-432e-895d-9bfe6dc756f0",
+       "id": "4bcff12c-afae-4438-8344-db2e8b54118d",
        "leftValue": "={{ $json.teste }}",
        "operator": {
         "type": "boolean",
