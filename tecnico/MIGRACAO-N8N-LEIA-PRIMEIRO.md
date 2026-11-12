@@ -26,16 +26,18 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
 
 ## 3. Próximos passos, em ordem
 
-1. **Reinstalar o VPS** pelo painel da Contabo (a Erica abre no Chrome; o Claude pode guiar ou operar pela extensão Claude in Chrome):
+> **Estado em 12/11/2026:** passos 1 a 4 feitos (servidor reinstalado, preparado e com n8n, Postgres e Caddy no ar em https://n8n.169-58-41-107.sslip.io). Detalhes e pendências em `tecnico/servidor-n8n.md`. Próximo: a Erica cria o usuário dono do n8n e segue para o passo 5.
+
+1. ✅ **Reinstalar o VPS** pelo painel da Contabo (a Erica abre no Chrome; o Claude pode guiar ou operar pela extensão Claude in Chrome):
    - Your services → VPS 169.58.41.107 → Manage → **Reinstall**.
    - Sistema: **Ubuntu 24.04**.
    - Colar a chave pública da tabela no campo de SSH key.
    - Antes de clicar no botão final de reinstalar, confirmar com a Erica (ação irreversível).
    - Esperar de 10 a 20 minutos.
-2. **Testar o acesso:** `ssh -i ~/.ssh/keshion_vps root@169.58.41.107 "hostname; free -h; df -h /"`.
+2. ✅ **Testar o acesso:** `ssh -i ~/.ssh/keshion_vps root@169.58.41.107 "hostname; free -h; df -h /"`.
    - Se der aviso de chave de servidor mudada, é esperado depois da reinstalação: remover a linha antiga com `ssh-keygen -R 169.58.41.107`.
-3. **Preparar o servidor:** atualizar pacotes, firewall (portas 22, 80 e 443), usuário não root com sudo, fail2ban, trocas automáticas de segurança.
-4. **Instalar com Docker Compose:**
+3. ✅ **Preparar o servidor:** atualizar pacotes, firewall (portas 22, 80 e 443), fail2ban, trocas automáticas de segurança, Docker. (Usuário não root com sudo: não feito, em aberto.)
+4. ✅ **Instalar com Docker Compose** (n8n, Postgres 16 e Caddy em `/opt/keshion`, backup diário dos últimos 7; o Postgres da Clara ainda será criado no passo 7):
    - **n8n** (com Postgres como banco do próprio n8n);
    - **Postgres** também para os dados da Clara (substitui o data store 240983 do Make: fichas, conversas, `_instrucoes`, `_base`);
    - **Caddy** para HTTPS automático.
