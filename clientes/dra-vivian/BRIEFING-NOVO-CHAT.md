@@ -25,7 +25,7 @@
 
 | Arquivo | O que é |
 |---|---|
-| `clientes/dra-vivian/apresentacao-piloto.md` | Apresentação do piloto, versão 2 (10/11/2026). Conversa com ela na semana de 16/11, quando volta de férias |
+| `clientes/dra-vivian/apresentacao-piloto.md` | Apresentação do piloto, versão 2 (10/11/2026). Conversa com ela na semana de 16/11, quando volta de férias. **Atualização de 12/11/2026: ela está de férias e o piloto deve começar em 01/12/2026** |
 | `clientes/dra-vivian/questionario-dra-vivian.html` | Questionário adaptado para ela (95 perguntas em 15 seções, sem secretária, com pacientes da clínica e avisos). Publicado em https://claude.ai/artifact/RQSUXr6Unojv3enM7pJgXh, com salvamento automático no banco da página (coleção `respostas`, documento `questionario`). Ainda não compartilhado com ela |
 | `clientes/dra-vivian/ficha-oferta-piloto.md` | **Ficha da oferta, versão 2**, já com as decisões acima. Base para tudo que for enviado a ela |
 | `clientes/clinica-demo/Questionario-Keshion-Dra-Suzana.docx` e `.md` | Questionário da clínica (74 perguntas). Trocar o nome para a Dra. Vivian antes de enviar e tirar as perguntas sobre secretária e equipe |
