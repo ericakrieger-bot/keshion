@@ -40,7 +40,7 @@ O relatório é sólido e honesto. Concordo com a conclusão principal: **a Clar
 
 **Hoje (com OK da Erica):** ✅ desligar o login por senha no SSH (feito em 12/11, tarde; acesso por chave conferido).
 
-**Próxima sessão (correções rápidas, cerca de meio dia):** canal e host de mídia validados, novo caminho de webhook, todas as mensagens do lote, tabela de ids recebidos, avisos antes do paciente, erros do Google e da IA virando "chamar uma pessoa", conferência do id do evento, despedida por id, `N8N_WEBHOOK_URL`, versões fixas, retenção das execuções, ordem no script de teste. Depois, repetir os testes do Codex que falharam.
+**Correções rápidas: ✅ feitas e testadas em 12/11/2026 (tarde):** canal e host de mídia validados, novo caminho de webhook (secreto, fora do Git, já trocado no Whapi), todas as mensagens do lote, tabela de ids recebidos, avisos antes do paciente, erros do Google e da IA virando "chamar uma pessoa", conferência do id do evento, despedida por id, `N8N_WEBHOOK_URL`, versões fixas (n8n 2.47.5, Postgres 16.15, Caddy 2.11.9), retenção das execuções (14 dias), ordem no script de teste. Repetidos os testes do Codex que falharam (lote, reenvio atrasado): ok. Pendente desta lista: a regra "remarcar só depois do sim" nas instruções (precisa do OK da Erica) e testes simulados de falha da IA e da agenda.
 
 **Antes de 01/12 (estrutura):** isolamento por clínica, backup externo com restauração testada, app do Google publicado com domínio, canal de alerta fora do WhatsApp, autenticação do webhook (se o Whapi permitir), decisão sobre o modo copiloto, base e instruções da Vivian.
 

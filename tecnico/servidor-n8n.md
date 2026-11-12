@@ -32,6 +32,8 @@ Observação: o Norton do computador da Erica intercepta o HTTPS e mostra o cert
 | `n8n` | `docker.n8n.io/n8nio/n8n:stable` | Versão 2.47.5 na instalação. Sem porta aberta para fora. |
 | `caddy` | `caddy:2` | Única porta pública (80 e 443). HTTPS automático e repasse para o n8n. |
 
+Versões fixas desde 12/11/2026 (tarde), para nenhuma atualização chegar de surpresa: `docker.n8n.io/n8nio/n8n:2.47.5`, `postgres:16.15`, `caddy:2.11.9`. Variáveis novas: `N8N_WEBHOOK_URL` (no lugar da obsoleta `WEBHOOK_URL`), `EXECUTIONS_DATA_PRUNE=true` e `EXECUTIONS_DATA_MAX_AGE=336` (execuções guardadas por 14 dias). Cópia do Compose anterior: `docker-compose.yml.bak-20261112`. Para atualizar uma versão: trocar a etiqueta no Compose, fazer backup antes e testar.
+
 Todos com `restart: always` (voltam sozinhos depois de reinício). Dados em volumes Docker: `postgres_data`, `n8n_data`, `caddy_data`, `caddy_config`.
 
 Arquivos importantes no servidor:
@@ -54,7 +56,7 @@ Configuração do n8n: banco Postgres, `N8N_HOST` e `WEBHOOK_URL` com o endereç
 - Ver estado: `docker compose ps`
 - Ver registros do n8n: `docker compose logs --tail 100 n8n`
 - Reiniciar: `docker compose restart`
-- Atualizar o n8n: `docker compose pull && docker compose up -d` (fazer um backup antes: `./backup-postgres.sh`)
+- Atualizar o n8n: trocar a versão fixa no `docker-compose.yml`, depois `docker compose pull && docker compose up -d` (fazer um backup antes: `./backup-postgres.sh`)
 
 ## Pendências deste servidor
 

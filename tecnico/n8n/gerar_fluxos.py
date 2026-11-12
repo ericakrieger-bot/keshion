@@ -1,7 +1,7 @@
 # Gera os fluxos da Clara para o n8n (importar com "n8n import:workflow").
 # Saída: clara-envio.json e clara-atendimento.json, nesta mesma pasta.
 # Nenhuma chave aqui: os fluxos apontam para credenciais já criadas no n8n (só o id).
-import json, uuid, pathlib
+import json, uuid, pathlib, sys
 
 PASTA = pathlib.Path(__file__).parent
 
@@ -14,7 +14,13 @@ CRED = {
 }
 ID_ENVIO = "ClaraEnvio000001"
 ID_ATEND = "ClaraAtendimento"
-WEBHOOK_PATH = "clara-whapi-7f3c9a2e51b84d06"
+# O caminho do webhook funciona como senha: fica só em segredos.local.json (fora do Git).
+_SEG = PASTA / "segredos.local.json"
+if not _SEG.exists():
+    sys.exit("Falta tecnico/n8n/segredos.local.json com {\"webhook_path\": \"...\"} (fora do Git).")
+WEBHOOK_PATH = json.loads(_SEG.read_text(encoding="utf-8"))["webhook_path"]
+BASE_URL = "https://n8n.169-58-41-107.sslip.io"   # trocar quando o domínio keshion.com.br entrar
+CANAL_WHAPI = "GRNLTR-4K8ZF"                       # só aceita mensagens deste canal
 AVISO_FALHA_ENVIO = "972584285541"   # Erica
 TZ = "America/Sao_Paulo"
 GCAL = "https://www.googleapis.com/calendar/v3"
@@ -176,7 +182,8 @@ A.add("Mensagem recebida (Whapi)", "n8n-nodes-base.webhook", 2.1,
 
 code(A, "Normalizar mensagem", r"""
 const body = $input.first().json.body || {};
-const m = (body.messages || [])[0];
+if (body.channel_id !== '__CANAL__') return [];     // só o canal da Keshion (revisão Codex, item 1)
+const m = (body.messages || [])[0];                 // as demais do mesmo pacote são reenviadas ao webhook
 if (!m) return [];                                  // status, eventos sem mensagem
 const chat = String(m.chat_id || '');
 if (chat.includes('@g.us')) return [];              // grupos
@@ -185,8 +192,12 @@ if (tipo === 'action' || tipo === 'system') return [];
 const fromMe = m.from_me === true || m.from_me === 'true';
 const texto = (m.text && m.text.body) || '';
 const legenda = (m.image && m.image.caption) || (m.video && m.video.caption) || (m.document && m.document.caption) || '';
-const audio = (m.voice && m.voice.link) || (m.audio && m.audio.link) || '';
-const imagem = (m.image && m.image.link) || '';
+// Mídia só de endereços do Whapi (Wasabi): o servidor não baixa links de qualquer lugar.
+const doWhapi = u => /^https:\/\/([a-z0-9-]+\.)*(wasabisys\.com|whapi\.cloud)\//i.test(String(u || ''));
+const audioBruto = (m.voice && m.voice.link) || (m.audio && m.audio.link) || '';
+const imagemBruta = (m.image && m.image.link) || '';
+const audio = doWhapi(audioBruto) ? audioBruto : '';
+const imagem = doWhapi(imagemBruta) ? imagemBruta : '';
 let rota, telefone;
 if (fromMe) {
   if (m.source === 'api' || m.source === 'system') return [];  // mensagens da própria Clara voltando
@@ -205,7 +216,17 @@ return [{ json: {
   arquivo: (m.document && m.document.filename) || '',
   resumo: texto || legenda || '(enviou áudio, foto ou arquivo)'
 } }];
-""", (220, 0))
+""".replace("__CANAL__", CANAL_WHAPI), (220, 0))
+
+# Pacote com mais de uma mensagem: cada extra volta ao webhook sozinha e entra na fila normal.
+code(A, "Separar mensagens extras do pacote", r"""
+const body = $input.first().json.body || {};
+if (body.channel_id !== '__CANAL__') return [];
+const ms = body.messages || [];
+return ms.slice(1).map(m => ({ json: { corpo: { channel_id: body.channel_id, event: body.event, messages: [m] } } }));
+""".replace("__CANAL__", CANAL_WHAPI), (220, -250))
+http(A, "Reenviar cada extra ao webhook", "POST", BASE_URL + "/webhook/" + WEBHOOK_PATH, (440, -250),
+     body_expr="$json.corpo", onError="continueRegularOutput")
 se(A, "Doutora respondeu pelo celular?", cond("={{ $json.rota }}", "equals", "doutora"), (440, 0))
 
 pg(A, "Guardar resposta da doutora e pausar 12 h", r"""
@@ -317,8 +338,12 @@ return [{ json: { telefone: msg.telefone, nome: msg.nome, id: msg.id, tipo: msg.
 
 # fila de 7 s
 pg(A, "Guardar na fila (ignora repetida)", r"""
+WITH novo AS (   -- id já recebido antes (reenvio do Whapi, mesmo horas depois): para aqui
+  INSERT INTO mensagens_recebidas (id, telefone) VALUES ($4::text, $1::text)
+  ON CONFLICT (id) DO NOTHING RETURNING id
+)
 INSERT INTO pacientes (telefone, nome, pendente, ultimo_id, atualizado)
-VALUES ($1::text, $2::text, $3::text, $4::text, now())
+SELECT $1::text, $2::text, $3::text, $4::text, now() FROM novo
 ON CONFLICT (telefone) DO UPDATE SET
   nome = EXCLUDED.nome,
   pendente = CASE WHEN pacientes.pendente = '' THEN EXCLUDED.pendente ELSE pacientes.pendente || E'\n' || EXCLUDED.pendente END,
@@ -350,8 +375,10 @@ const fAgora = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, weekday: 'long',
 const fDia = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 const dias = [];
 for (let i = 1; i <= 90; i++) dias.push(fDia.format(new Date(agora.getTime() + i * 86400000)).replace(',', ''));
-const busy = r.calendars && r.calendars.primary && r.calendars.primary.busy;
-const ocupados = Array.isArray(busy) ? JSON.stringify(busy)
+const prim = (r.calendars && r.calendars.primary) || {};
+const busy = prim.busy;
+const agendaOk = Array.isArray(busy) && !(Array.isArray(prim.errors) && prim.errors.length);
+const ocupados = agendaOk ? JSON.stringify(busy)
   : 'AGENDA INDISPONÍVEL AGORA: não ofereça horários nem marque. Diga que vai verificar e já retorna (ação humano).';
 const conteudo =
   'Data e hora em Curitiba agora: ' + fAgora.format(agora) + '\n\n' +
@@ -365,7 +392,7 @@ const conteudo =
   'Tipo da última mensagem: ' + (fila.tipo || 'texto') + '\n\n' +
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
   'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim();
-return [{ json: { pedido: {
+return [{ json: { agenda_ok: agendaOk, pedido: {
   model: f.modelo, max_tokens: 2000,
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
   messages: [{ role: 'user', content: conteudo }]
@@ -400,9 +427,9 @@ code(A, "Falha técnica: avisar", r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const erro = $input.first().json.erro || '';
 const espera = 'Só um instante, vou verificar aqui e já te retorno.';
-return [
-  { json: { phone: f.telefone, m1: espera } },
-  { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na Clara (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } }
+return [   // aviso para a equipe primeiro, sem esperar o "digitando" do paciente
+  { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na Clara (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
+  { json: { phone: f.telefone, m1: espera } }
 ];
 """, (3980, 400))
 chamar_envio(A, "Enviar aviso de falha", (4220, 400))
@@ -411,14 +438,20 @@ code(A, "Decidir a ação", r"""
 const ia = $input.first().json;
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const futura = !!f.avaliacao_inicio && new Date(f.avaliacao_inicio) > new Date();
+const agendaOk = $('Montar o pedido para a IA').first().json.agenda_ok;
+const texto = [ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' ');
+const ofereceHorario = /\b\d{1,2}h\b|\b\d{1,2}:\d{2}\b/.test(texto);
 let rota = 'responder';
-if (ia.acao === 'humano') rota = 'humano';
+// Decisões que não dependem do texto da IA (revisão Codex, item 4):
+if (!['responder', 'humano', 'agendar', 'remarcar', 'cancelar'].includes(ia.acao)) rota = 'humano';
+else if (!agendaOk && (ia.acao === 'agendar' || ia.acao === 'remarcar' || ofereceHorario)) rota = 'sem_agenda';
+else if (ia.acao === 'humano') rota = 'humano';
 else if (ia.acao === 'agendar') rota = futura ? 'ja_marcada' : 'agenda';
 else if (ia.acao === 'remarcar') rota = f.avaliacao_evento ? 'agenda' : 'sem_avaliacao';
 else if (ia.acao === 'cancelar') rota = f.avaliacao_evento ? 'cancelar' : 'sem_avaliacao';
 return [{ json: { ...ia, rota } }];
 """, (3980, 0))
-escolha(A, "Qual ação?", "rota", ["responder", "humano", "ja_marcada", "sem_avaliacao", "agenda", "cancelar"], (4220, 0))
+escolha(A, "Qual ação?", "rota", ["responder", "humano", "ja_marcada", "sem_avaliacao", "agenda", "cancelar", "sem_agenda"], (4220, 0))
 
 http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (4460, 300), cred="google",
      onError="continueRegularOutput",
@@ -426,10 +459,11 @@ http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (4460,
 code(A, "Horário livre?", r"""
 const ia = $('Decidir a ação').first().json;
 const r = $input.first().json || {};
-const busy = r.calendars && r.calendars.primary && r.calendars.primary.busy;
+const prim = (r.calendars && r.calendars.primary) || {};
+const busy = prim.busy;
 const ini = new Date(ia.inicio);
 let passo;
-if (!Array.isArray(busy) || isNaN(ini.getTime())) passo = 'erro';
+if (!Array.isArray(busy) || (Array.isArray(prim.errors) && prim.errors.length) || isNaN(ini.getTime())) passo = 'erro';
 else if (busy.length > 0) passo = 'ocupado';
 else passo = ia.acao === 'remarcar' ? 'mudar' : 'criar';
 return [{ json: { passo, inicio: ia.inicio, fim: isNaN(ini.getTime()) ? '' : new Date(ini.getTime() + 3600000).toISOString(), titulo: ia.titulo } }];
@@ -470,6 +504,7 @@ const avisos = [];
 let tipo = TIPO;
 if (tipo === 'agenda') {
   if (j.error) tipo = 'falha';
+  else if ((ia.acao === 'agendar' || ia.acao === 'remarcar') && !j.id) tipo = 'falha';   // Google não devolveu o evento
   else tipo = { agendar: 'marcado', remarcar: 'remarcado', cancelar: 'cancelado' }[ia.acao] || 'falha';
 }
 const verbo = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[ia.acao] || ia.acao;
@@ -483,6 +518,10 @@ switch (tipo) {
   case 'sem_avaliacao':
     m = ['Vou verificar aqui a sua avaliação e já te retorno.', '', ''];
     avisos.push('*Pedido de ' + ia.acao + ' sem avaliação registrada*\n' + quem + '\nMensagem: ' + pend + '\nConfira a agenda e responda o paciente.');
+    break;
+  case 'sem_agenda':
+    m = ['Vou conferir a agenda aqui e já te retorno com os horários.', '', ''];
+    avisos.push('*Agenda do Google não respondeu*\n' + quem + '\nMensagem: ' + pend + '\nResponda o paciente com os horários.');
     break;
   case 'ocupado':
     m = ['Sinto muito, esse horário acabou de ser preenchido.', 'Quer que eu veja outras opções para você?', ''];
@@ -506,8 +545,9 @@ switch (tipo) {
     break;
 }
 m = m.map(x => (x || '').trim());
-const envios = [{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]
-  .concat(avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true })));
+// Avisos para a equipe primeiro: uma urgência não espera o "digitando" do paciente (revisão Codex).
+const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }))
+  .concat([{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]);
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, aval, aval_inicio, aval_texto, aval_evento,
@@ -517,7 +557,7 @@ return [{ json: {
 RES = {}
 for tipo, pos in [("responder", (4460, -600)), ("humano", (4460, -400)), ("ja_marcada", (4460, -200)),
                   ("sem_avaliacao", (4460, 0)), ("ocupado", (5180, 600)), ("falha", (5180, 800)),
-                  ("agenda", (5420, 300))]:
+                  ("agenda", (5420, 300)), ("sem_agenda", (4460, 900))]:
     RES[tipo] = code(A, "Resultado · " + tipo, RESULTADO_JS.replace("__TIPO__", tipo), pos)
 
 pg(A, "Salvar conversa e ficha", r"""
@@ -531,7 +571,7 @@ UPDATE pacientes SET
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
   atualizado = now()
 WHERE telefone = $1::text
-RETURNING telefone, length(conversa) AS tamanho, $12::text AS fechamento, $13::text AS envios;
+RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
      "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
@@ -541,8 +581,11 @@ chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 se(A, "Tem despedida para depois?", cond("={{ $json.fechamento }}", "notEmpty"), (5940, 200))
 espera(A, "Esperar 1 minuto", 60, (6180, 200))
 pg(A, "O paciente respondeu?", r"""
-SELECT length(conversa) = $2::int AND pendente = '' AS sem_resposta FROM pacientes WHERE telefone = $1::text;
-""", "[ $('Salvar conversa e ficha').first().json.telefone, $('Salvar conversa e ficha').first().json.tamanho ]", (6420, 200))
+-- Sem mensagem nova (mesmo último id), sem pendência, sem a doutora ter assumido e com a mesma avaliação.
+SELECT ultimo_id = $2::text AND pendente = '' AND coalesce(pausado_ate < now(), true)
+       AND coalesce(avaliacao_evento, '') = $3::text AS sem_resposta
+FROM pacientes WHERE telefone = $1::text;
+""", "[ $('Salvar conversa e ficha').first().json.telefone, $('Salvar conversa e ficha').first().json.ultimo_id, $('Salvar conversa e ficha').first().json.evento ]", (6420, 200))
 se(A, "Ninguém respondeu?", cond("={{ $json.sem_resposta }}", "true", typ="boolean"), (6660, 200))
 code(A, "Montar a despedida", r"""
 const s = $('Salvar conversa e ficha').first().json;
@@ -553,6 +596,8 @@ chamar_envio(A, "Enviar a despedida", (7140, 200))
 # ---------- ligações ----------
 L = A.link
 L("Mensagem recebida (Whapi)", "Normalizar mensagem")
+L("Mensagem recebida (Whapi)", "Separar mensagens extras do pacote")
+L("Separar mensagens extras do pacote", "Reenviar cada extra ao webhook")
 L("Normalizar mensagem", "Doutora respondeu pelo celular?")
 L("Doutora respondeu pelo celular?", "Guardar resposta da doutora e pausar 12 h", out=0)
 L("Doutora respondeu pelo celular?", "Ler a ficha (pausa e comando)", out=1)
@@ -586,6 +631,7 @@ for i, t in enumerate(["responder", "humano", "ja_marcada", "sem_avaliacao"]):
     L("Qual ação?", RES[t], out=i)
 L("Qual ação?", "Conferir se o horário segue livre", out=4)
 L("Qual ação?", "Cancelar a avaliação na agenda", out=5)
+L("Qual ação?", RES["sem_agenda"], out=6)
 L("Conferir se o horário segue livre", "Horário livre?")
 L("Horário livre?", "Próximo passo na agenda")
 L("Próximo passo na agenda", "Criar a avaliação na agenda", out=0)
@@ -615,4 +661,4 @@ for fluxo, arq in ((E, "clara-envio.json"), (A, "clara-atendimento.json")):
                 assert c["node"] in nomes, c["node"]
     (PASTA / arq).write_text(json.dumps(fluxo.json(), ensure_ascii=False, indent=1), encoding="utf-8")
     print(arq, len(fluxo.nodes), "nós")
-print("Webhook:", "https://n8n.169-58-41-107.sslip.io/webhook/" + WEBHOOK_PATH)
+print("Webhook: " + BASE_URL + "/webhook/<caminho em segredos.local.json>")

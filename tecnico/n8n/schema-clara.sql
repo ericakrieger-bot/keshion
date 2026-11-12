@@ -21,6 +21,13 @@ CREATE TABLE IF NOT EXISTS config (
   valor text NOT NULL
 );
 
+-- Ids de mensagens do Whapi já recebidas: evita responder de novo a um reenvio (revisão Codex, item 2).
+CREATE TABLE IF NOT EXISTS mensagens_recebidas (
+  id       text PRIMARY KEY,
+  telefone text,
+  recebido timestamptz NOT NULL DEFAULT now()
+);
+
 -- Só usada quando config.modo_teste = '1': guarda o que seria enviado, sem mandar pelo WhatsApp.
 CREATE TABLE IF NOT EXISTS saidas_teste (
   id        bigserial PRIMARY KEY,

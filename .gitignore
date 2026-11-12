@@ -12,3 +12,7 @@ __pycache__/
 # Dados de pacientes reais nunca ficam nesta pasta.
 # Se algum dia houver exportações de conversas reais, use esta pasta (fica fora do Git):
 dados-reais/
+
+# Caminho secreto do webhook da Clara e fluxos gerados que o contêm
+tecnico/n8n/segredos.local.json
+tecnico/n8n/clara-*.json

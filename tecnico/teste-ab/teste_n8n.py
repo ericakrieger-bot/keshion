@@ -5,7 +5,9 @@
 # Saída: /root/teste-n8n-resultado.json
 import json, subprocess, threading, time, urllib.request
 
-URL = "https://n8n.169-58-41-107.sslip.io/webhook/clara-whapi-7f3c9a2e51b84d06"
+# O caminho do webhook é secreto: passe como argumento (python3 teste_n8n.py <caminho>).
+import sys
+URL = "https://n8n.169-58-41-107.sslip.io/webhook/" + sys.argv[1]
 ENV = dict(l.split("=", 1) for l in open("/opt/keshion/.env").read().splitlines() if "=" in l)
 
 CONVERSAS = {
@@ -59,7 +61,7 @@ def ficha(tel):
 
 
 def enviar(tel, mid, texto):
-    corpo = {"messages": [{"id": mid, "from_me": False, "type": "text", "chat_id": tel + "@s.whatsapp.net",
+    corpo = {"channel_id": "GRNLTR-4K8ZF", "messages": [{"id": mid, "from_me": False, "type": "text", "chat_id": tel + "@s.whatsapp.net",
                            "from": tel, "from_name": "Teste", "source": "mobile", "text": {"body": texto}}],
              "event": {"type": "messages", "event": "post"}}
     urllib.request.urlopen(urllib.request.Request(URL, json.dumps(corpo, ensure_ascii=False).encode("utf-8"),
@@ -94,13 +96,14 @@ def rodar(k, nome, msgs, saida):
 
 
 def main():
-    tels = ",".join(f"'5541999001{k:02d}'" for k in range(1, 8))
-    sql(f"DELETE FROM pacientes WHERE telefone IN ({tels}); TRUNCATE saidas_teste;")
     # Seguro com a Clara no ar: os números 5541999001xx começam com o prefixo de teste,
-    # então nada (nem os avisos para a equipe) sai pelo WhatsApp.
+    # então nada (nem os avisos para a equipe) sai pelo WhatsApp. Confere ANTES de apagar qualquer coisa.
     prefixo = sql("select valor from config where chave = 'prefixo_teste'")
     assert sql("select valor from config where chave = 'modo_teste'") == "1" or \
         (prefixo and "554199900101".startswith(prefixo)), "sem modo teste nem prefixo de teste: abortando"
+    tels = ",".join(f"'5541999001{k:02d}'" for k in range(1, 8))
+    sql(f"DELETE FROM pacientes WHERE telefone IN ({tels}); "
+        "DELETE FROM saidas_teste WHERE telefone LIKE '554199900%' OR texto LIKE '%(5541999001%';")
     resultados = {}
     threads = []
     for k, (nome, msgs) in enumerate(CONVERSAS.items(), 1):

@@ -24,7 +24,7 @@ Leia primeiro, nesta ordem:
 ## Onde as coisas estão
 
 - n8n: https://n8n.169-58-41-107.sslip.io (fluxos `Clara · Atendimento (WhatsApp)`, id `ClaraAtendimento`, e `Clara · Envio (até 3 mensagens)`, id `ClaraEnvio000001`)
-- Webhook que o Whapi chama: `https://n8n.169-58-41-107.sslip.io/webhook/clara-whapi-7f3c9a2e51b84d06`
+- Webhook que o Whapi chama: `https://n8n.169-58-41-107.sslip.io/webhook/<caminho secreto>`. Desde 12/11/2026 (tarde) o caminho fica só em `tecnico/n8n/segredos.local.json` (fora do Git); peça à Erica ou leia esse arquivo local. O corpo precisa ter `"channel_id": "GRNLTR-4K8ZF"`, e mídia só é baixada de links do Whapi (Wasabi).
 - Servidor: `ssh -i ~/.ssh/keshion_vps root@169.58.41.107`, tudo em `/opt/keshion` (Docker Compose com n8n, Postgres 16 e Caddy)
 - Banco da Clara: Postgres, banco `clara`, usuário `clara`. Senha só em `/opt/keshion/.env` (`CLARA_DB_PASSWORD`). Exemplo de leitura, sem mostrar a senha:
   `cd /opt/keshion && set -a && . ./.env && set +a && docker compose exec -T postgres sh -c "PGPASSWORD=\"$CLARA_DB_PASSWORD\" psql -h localhost -U clara -d clara -c 'select chave, left(valor, 40) from config'"`
