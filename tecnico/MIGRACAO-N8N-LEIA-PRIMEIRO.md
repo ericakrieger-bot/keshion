@@ -1,0 +1,87 @@
+# Migração da Clara do Make para o n8n · LEIA PRIMEIRO
+
+Documento de passagem para uma conversa nova do Claude Code. Escrito em 12/11/2026.
+Leia também `negocio-ia-clinicas/CLAUDE.md` (contexto completo do negócio Keshion).
+
+## 1. Onde estamos
+
+- **Clara** é a assistente de WhatsApp da clínica demo (Dra. Suzana, fictícia). Antes se chamava Sarah.
+- Hoje ela roda no **Make** (cenários 1A, 1B, 1C e 1D) e responde com o **Claude Haiku 5.5** (`claude-haiku-5-5`), escolhido no teste A/B de 11/11/2026.
+- **Decisão de 11/11/2026:** levar a Clara para o **n8n** agora. No Make fica só o cenário `Keshion · Questionário Dra. Vivian (respostas)` (id 8491037).
+- **Piloto com a Dra. Vivian:** previsto para **01/12/2026** (ela está de férias). A Clara precisa estar no n8n, testada, antes disso.
+- A Clara continua no Make até o n8n estar pronto e testado. A virada é trocar o webhook no Whapi. Dá para voltar atrás.
+
+## 2. O servidor (VPS)
+
+| Item | Valor |
+|---|---|
+| Provedor | Contabo (painel: my.contabo.com) |
+| IP | 169.58.41.107 |
+| Sistema | Ubuntu 24.04 (OpenSSH 9.6) |
+| O que tinha | Hermes. A Erica autorizou apagar; ela reinstala depois, se quiser |
+| Acesso | Chave SSH dedicada: `~/.ssh/keshion_vps` (privada) e `~/.ssh/keshion_vps.pub` (pública), já criadas no computador da Erica |
+| Chave pública (pode ser colada no painel) | `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHOqjJmoB9SMAdXavzyRBDGHtcpJ7QacwOF7/X/bZbGG keshion-n8n` |
+
+A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **Caminho 2**: reinstalar o servidor pelo painel da Contabo colando a chave pública acima. A reinstalação apaga tudo (inclusive o Hermes), e a Erica já aceitou isso.
+
+## 3. Próximos passos, em ordem
+
+1. **Reinstalar o VPS** pelo painel da Contabo (a Erica abre no Chrome; o Claude pode guiar ou operar pela extensão Claude in Chrome):
+   - Your services → VPS 169.58.41.107 → Manage → **Reinstall**.
+   - Sistema: **Ubuntu 24.04**.
+   - Colar a chave pública da tabela no campo de SSH key.
+   - Antes de clicar no botão final de reinstalar, confirmar com a Erica (ação irreversível).
+   - Esperar de 10 a 20 minutos.
+2. **Testar o acesso:** `ssh -i ~/.ssh/keshion_vps root@169.58.41.107 "hostname; free -h; df -h /"`.
+   - Se der aviso de chave de servidor mudada, é esperado depois da reinstalação: remover a linha antiga com `ssh-keygen -R 169.58.41.107`.
+3. **Preparar o servidor:** atualizar pacotes, firewall (portas 22, 80 e 443), usuário não root com sudo, fail2ban, trocas automáticas de segurança.
+4. **Instalar com Docker Compose:**
+   - **n8n** (com Postgres como banco do próprio n8n);
+   - **Postgres** também para os dados da Clara (substitui o data store 240983 do Make: fichas, conversas, `_instrucoes`, `_base`);
+   - **Caddy** para HTTPS automático.
+   - Endereço provisório sem domínio: `n8n.169-58-41-107.sslip.io` (o sslip.io aponta para o IP e o Caddy gera o certificado). Trocar para `n8n.keshion.com.br` quando o domínio for registrado.
+   - Senhas e chaves geradas no servidor, num arquivo `.env` dentro do servidor, nunca no chat nem no repositório. A Erica cria o usuário de login do n8n ela mesma na primeira tela.
+5. **Credenciais no n8n** (a Erica cola as chaves direto na tela do n8n, nunca no chat): Anthropic, OpenAI (áudio e foto), Whapi, Google (Agenda).
+6. **Reconstruir os fluxos** a partir das cópias em `tecnico/make-cenarios/` (1A, 1B, 1C, 1D, com LEIA-ME). Pontos de atenção:
+   - **1B no Make lê o bloco de texto da resposta do Haiku**, porque o primeiro bloco vem como "thinking" vazio. No n8n, pegar o bloco `type = text` e tirar as cercas ```json.
+   - Fila de 7 s (só a última mensagem responde), ficha do paciente, marcar sem duplicar, remarcar, cancelar, até 3 mensagens com "digitando", aviso de falha para a Erica (972584285541), pausa de 12 h quando a doutora responde pelo celular, comando `#reiniciar` (remover antes do piloto ou limitar aos números da Keshion).
+   - No n8n dá para filtrar as próprias mensagens da Clara que voltam do Whapi (no Make isso gastava crédito).
+   - Aproveitar para incluir a proteção contra chamada sem telefone.
+7. **Copiar os dados** do data store 240983 do Make para o Postgres (instruções, base e fichas de teste).
+8. **Testar** com as 56 mensagens do teste A/B. Script e conversas em `tecnico/teste-ab/teste_ab.py`. Comparar com a 2ª rodada (planilha "Keshion · Teste da Sarah", aba "Teste A/B 2", id `1hvF2r7wvUsax7mZ7m0Ja3sAODjntbpm-HnIOhCNkVyU`).
+   - Nunca testar com números fictícios que façam o fluxo enviar pelo Whapi: cada número conta como conversa no plano.
+9. **Virar:** trocar o webhook no painel do Whapi (canal GRNLTR-4K8ZF) do Make para o n8n. Testar com o número da Erica. Depois desativar 1A, 1B, 1C e 1D no Make (sem apagar ainda).
+10. **Atualizar** `negocio-ia-clinicas/CLAUDE.md`, a memória e o repositório (`git push` dentro de `negocio-ia-clinicas/`).
+
+## 4. Regras que valem em toda a migração
+
+- Português do Brasil com acentos, sem travessão. A Erica não é programadora: explicar em linguagem simples, passo a passo.
+- **Chaves e senhas nunca no chat nem no repositório.** No computador ficam só no `.env` da raiz do projeto; no servidor, no `.env` do servidor.
+- Pedir confirmação antes de ações irreversíveis (reinstalar, apagar, trocar webhook) e antes de gastar dinheiro.
+- Dados de pacientes reais nunca na pasta do projeto.
+- Repositório privado: `negocio-ia-clinicas/` tem Git próprio, remoto `ericakrieger-bot/keshion`. A raiz `fluxo-criativo` é o repositório do curso e ignora essa pasta.
+- Toda memória nova ou alterada também vai para o segundo cérebro (`Documents\segundo-cerebro`, GitHub `ericakrieger-bot/segundocerebro`).
+
+## 5. IDs úteis
+
+| O quê | ID |
+|---|---|
+| Make, equipe | 3084523 (zona eu1) |
+| 1A Entrada | 8302405 |
+| 1B Resposta | 8302452 |
+| 1C Fechamento | 8463643 (webhook 4068828) |
+| 1D Envio | 8464848 |
+| Questionário Dra. Vivian (fica no Make) | 8491037 |
+| Data store da Clara | 240983 |
+| Conexão Anthropic no Make | 12954190 |
+| Whapi, canal | GRNLTR-4K8ZF (pago até 12/12/2026) |
+| Google da demo | keshion.ai.2026@gmail.com |
+
+## 6. Depois da migração (fila de trabalho)
+
+- Rota de rascunho para a doutora aprovar antes de enviar (primeira semana do piloto).
+- Haiku no dia a dia e Sonnet nas mensagens clínicas (dor, gravidez, reclamação).
+- Confirmações (48 h, véspera às 18h, 2 h antes) e CRM em Google Planilhas.
+- Versão da Dra. Vivian: base, manual de voz, nome da assistente, ligação no número dela, termo do piloto assinado.
+- Teste do Jev (ver memória `pendencia-teste-jev`).
+- Logística: domínio keshion.com.br, e-mail @keshion.com.br, site, perfis, acordo de sócios, contador.

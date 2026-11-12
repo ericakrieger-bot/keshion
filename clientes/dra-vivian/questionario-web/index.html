@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Questionário Dra. Vivian</title>
+<title>Questionário da clínica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
 <style>
@@ -84,7 +84,7 @@ button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
       <span>keshion AI</span>
     </div>
     <div class="eyebrow">Piloto · questionário da clínica</div>
-    <h1>Questionário da clínica, Dra. Vivian</h1>
+    <h1>Questionário da clínica</h1>
     <p class="lead">O que a assistente precisa saber para atender seus pacientes do jeito que você atende hoje. Quanto mais detalhe, mais ela vai soar como você.</p>
     <ul class="howto">
       <li>Metade das perguntas é só marcar. Pode responder aos poucos: o que você escreve fica guardado neste aparelho.</li>
@@ -104,7 +104,7 @@ button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 <script>
 // Endereço do cenário do Make que recebe as respostas
 const WEBHOOK = "https://hook.eu1.make.com/pmyre6hk4tscdyi1egoaso2sn1ufmeyr";
-const STORAGE = "keshion-questionario-vivian-v2";
+const STORAGE = "keshion-questionario-clinica-v2";
 
 const TRAT = ["Lentes de contato dental", "Facetas", "Clareamento", "Alinhadores invisíveis", "Implantes", "Protocolo", "Harmonização orofacial", "Limpeza e manutenção"];
 const TRAT_QS = [
@@ -129,7 +129,7 @@ const S = [
  ]},
  { id: "voce", t: "Você e o atendimento", qs: [
   ["cro", "Seu CRO e suas especialidades"],
-  ["como_chamam", "Como os pacientes chamam você?", "Ex.: Dra. Vivian, doutora, Vivian"],
+  ["como_chamam", "Como os pacientes chamam você?", "Ex.: Dra. Ana, doutora, Ana"],
   ["nome_assistente", "Que nome você quer dar à assistente?", "Ela se apresenta com esse nome e diz que é assistente virtual quando perguntam. Pode deixar ideias."],
   ["avisos_para", "Para onde vão os avisos da assistente (paciente com dor, pedido de desconto, quer falar com você)?", "", "radio", ["Meu WhatsApp pessoal", "Um grupo só comigo", "Outro"]],
   ["avisos_numero", "Qual número? (ou explique, se escolheu outro)"],
@@ -348,7 +348,7 @@ function progress() {
 progress();
 
 function asText() {
-  const out = ["QUESTIONÁRIO DA CLÍNICA · DRA. VIVIAN", ""];
+  const out = ["QUESTIONÁRIO DA CLÍNICA", ""];
   let n = 0;
   S.forEach(sec => {
     out.push("== " + sec.t.toUpperCase() + " ==");
@@ -372,10 +372,10 @@ function asText() {
 document.getElementById("sendBtn").addEventListener("click", async () => {
   const btn = document.getElementById("sendBtn"), msg = document.getElementById("sendMsg");
   btn.disabled = true; msg.className = ""; msg.textContent = "Enviando";
-  const body = new URLSearchParams({ origem: "questionario-dra-vivian", enviado_em: new Date().toISOString(), respondidas: document.getElementById("progressTxt").textContent, texto: asText(), dados: JSON.stringify(answers) });
+  const body = new URLSearchParams({ origem: "questionario-clinica", enviado_em: new Date().toISOString(), respondidas: document.getElementById("progressTxt").textContent, texto: asText(), dados: JSON.stringify(answers) });
   try {
     await fetch(WEBHOOK, { method: "POST", mode: "no-cors", body: body });
-    msg.className = "ok"; msg.textContent = "Respostas enviadas. Obrigada, Vivian. Se completar mais alguma coisa, é só enviar de novo.";
+    msg.className = "ok"; msg.textContent = "Respostas enviadas. Obrigada. Se completar mais alguma coisa, é só enviar de novo.";
   } catch (e) {
     msg.className = "warn"; msg.textContent = "Não foi possível enviar agora. Confira a internet e tente de novo. Suas respostas continuam guardadas neste aparelho.";
   } finally { btn.disabled = false; }
