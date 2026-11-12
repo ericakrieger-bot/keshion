@@ -1,5 +1,6 @@
 # Passo 8 da migração: as 56 mensagens do teste A/B passando pelo fluxo da Clara no n8n.
-# Roda NO SERVIDOR (python3 teste_n8n.py), com config.modo_teste = 1 (nada sai pelo WhatsApp).
+# Roda NO SERVIDOR (python3 teste_n8n.py). Nada sai pelo WhatsApp: os números usados começam com
+# config.prefixo_teste (554199900), ou o modo teste geral está ligado.
 # Usa números fictícios 554199900101 a 554199900107. Lê a senha do banco do /opt/keshion/.env.
 # Saída: /root/teste-n8n-resultado.json
 import json, subprocess, threading, time, urllib.request
@@ -95,7 +96,11 @@ def rodar(k, nome, msgs, saida):
 def main():
     tels = ",".join(f"'5541999001{k:02d}'" for k in range(1, 8))
     sql(f"DELETE FROM pacientes WHERE telefone IN ({tels}); TRUNCATE saidas_teste;")
-    assert sql("select valor from config where chave = 'modo_teste'") == "1", "modo teste desligado: abortando"
+    # Seguro com a Clara no ar: os números 5541999001xx começam com o prefixo de teste,
+    # então nada (nem os avisos para a equipe) sai pelo WhatsApp.
+    prefixo = sql("select valor from config where chave = 'prefixo_teste'")
+    assert sql("select valor from config where chave = 'modo_teste'") == "1" or \
+        (prefixo and "554199900101".startswith(prefixo)), "sem modo teste nem prefixo de teste: abortando"
     resultados = {}
     threads = []
     for k, (nome, msgs) in enumerate(CONVERSAS.items(), 1):

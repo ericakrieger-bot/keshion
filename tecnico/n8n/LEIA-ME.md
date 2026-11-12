@@ -7,7 +7,9 @@ Montada em 12/11/2026, a partir das cópias do Make em `tecnico/make-cenarios/`.
 | Fluxo no n8n | id | Substitui | O que faz |
 |---|---|---|---|
 | `Clara · Atendimento (WhatsApp)` | `ClaraAtendimento` | 1A + 1B + 1C | Recebe do Whapi, separa texto, áudio, foto e outros, pausa 12 h quando a doutora responde, `#reiniciar`, fila de 7 s, ficha, agenda, Claude Haiku, marcar, remarcar, cancelar, avisos, despedida 1 minuto depois de marcar |
-| `Clara · Envio (até 3 mensagens)` | `ClaraEnvio000001` | 1D | Envia até 3 mensagens com "digitando" e avisa a Erica se o Whapi falhar. Com `modo_teste = 1`, não envia: grava na tabela `saidas_teste` |
+| `Clara · Envio (até 3 mensagens)` | `ClaraEnvio000001` | 1D | Envia até 3 mensagens com "digitando" e avisa a Erica se o Whapi falhar. Não envia, e grava na tabela `saidas_teste`, quando `modo_teste = 1` ou quando o lote envolve um número que começa com `prefixo_teste` (554199900). O prefixo permite testar com a Clara no ar, sem mandar nada real, nem os avisos para a equipe |
+
+**No ar desde 12/11/2026:** o Whapi chama o n8n e `modo_teste = 0`. Revisão independente: `PROMPT-CODEX-REVISAO.md`.
 
 Endereço do webhook (vai no Whapi na hora da virada):
 `https://n8n.169-58-41-107.sslip.io/webhook/clara-whapi-7f3c9a2e51b84d06`

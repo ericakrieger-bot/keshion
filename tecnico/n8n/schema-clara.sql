@@ -34,5 +34,7 @@ INSERT INTO config (chave, valor) VALUES
   ('aprovador', '972584285541'),
   ('modo_teste', '0'),
   ('local_avaliacao', 'Rua Desembargador Motta, 2000, sala 1404, Batel, Curitiba/PR'),
-  ('numeros_keshion', '972584285541,972552994413')
+  ('numeros_keshion', '972584285541,972552994413'),
+  -- Números que começam com este prefixo nunca recebem WhatsApp de verdade: o lote vai para saidas_teste.
+  ('prefixo_teste', '554199900')
 ON CONFLICT (chave) DO NOTHING;

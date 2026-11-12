@@ -116,12 +116,20 @@ def chamar_envio(f, name, pos):
 E = Fluxo("Clara · Envio (até 3 mensagens)", ID_ENVIO)
 E.add("Recebe pedido de envio", "n8n-nodes-base.executeWorkflowTrigger", 1.1,
       {"inputSource": "passthrough"}, (0, 0))
-pg(E, "Modo teste?", "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste;",
+pg(E, "Modo teste?", "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste, "
+   "coalesce((SELECT valor FROM config WHERE chave = 'prefixo_teste'), '') AS prefixo;",
    None, (220, 0), executeOnce=True)
 code(E, "Montar mensagens", r"""
-const teste = !!$('Modo teste?').first().json.teste;
+// Teste quando o modo teste geral está ligado OU quando o pedido envolve um número de teste
+// (prefixo em config.prefixo_teste). Nesse caso o lote inteiro, inclusive os avisos para a
+// equipe, vai para a tabela saidas_teste e nada sai pelo WhatsApp.
+const cfg = $('Modo teste?').first().json;
+const pedidos = $('Recebe pedido de envio').all();
+const prefixo = String(cfg.prefixo || '').trim();
+const loteTeste = !!prefixo && pedidos.some(it => String(it.json.phone || '').replace(/\D/g, '').startsWith(prefixo));
+const teste = !!cfg.teste || loteTeste;
 const saida = [];
-for (const it of $('Recebe pedido de envio').all()) {
+for (const it of pedidos) {
   const j = it.json;
   const phone = String(j.phone || '').replace(/\D/g, '');
   if (!phone) continue;   // proteção: sem telefone não envia nada

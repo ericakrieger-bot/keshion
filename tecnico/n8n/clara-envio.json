@@ -26,7 +26,7 @@
    ],
    "parameters": {
     "operation": "executeQuery",
-    "query": "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste;",
+    "query": "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste, coalesce((SELECT valor FROM config WHERE chave = 'prefixo_teste'), '') AS prefixo;",
     "options": {}
    },
    "credentials": {
@@ -47,7 +47,7 @@
     0
    ],
    "parameters": {
-    "jsCode": "const teste = !!$('Modo teste?').first().json.teste;\nconst saida = [];\nfor (const it of $('Recebe pedido de envio').all()) {\n  const j = it.json;\n  const phone = String(j.phone || '').replace(/\\D/g, '');\n  if (!phone) continue;   // proteção: sem telefone não envia nada\n  const ms = [j.m1, j.m2, j.m3].map(x => (x == null ? '' : String(x)).trim()).filter(Boolean);\n  ms.forEach((body, i) => {\n    const typing = j.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(body.length / 5)));\n    saida.push({ json: { to: phone, body, typing_time: typing,\n      espera: i < ms.length - 1 ? typing + 1 : 1, teste } });\n  });\n}\nreturn saida;"
+    "jsCode": "// Teste quando o modo teste geral está ligado OU quando o pedido envolve um número de teste\n// (prefixo em config.prefixo_teste). Nesse caso o lote inteiro, inclusive os avisos para a\n// equipe, vai para a tabela saidas_teste e nada sai pelo WhatsApp.\nconst cfg = $('Modo teste?').first().json;\nconst pedidos = $('Recebe pedido de envio').all();\nconst prefixo = String(cfg.prefixo || '').trim();\nconst loteTeste = !!prefixo && pedidos.some(it => String(it.json.phone || '').replace(/\\D/g, '').startsWith(prefixo));\nconst teste = !!cfg.teste || loteTeste;\nconst saida = [];\nfor (const it of pedidos) {\n  const j = it.json;\n  const phone = String(j.phone || '').replace(/\\D/g, '');\n  if (!phone) continue;   // proteção: sem telefone não envia nada\n  const ms = [j.m1, j.m2, j.m3].map(x => (x == null ? '' : String(x)).trim()).filter(Boolean);\n  ms.forEach((body, i) => {\n    const typing = j.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(body.length / 5)));\n    saida.push({ json: { to: phone, body, typing_time: typing,\n      espera: i < ms.length - 1 ? typing + 1 : 1, teste } });\n  });\n}\nreturn saida;"
    }
   },
   {
@@ -83,7 +83,7 @@
      },
      "conditions": [
       {
-       "id": "7e4ffb85-0933-4023-b777-5420e5009de7",
+       "id": "f73d6737-8d4a-432e-895d-9bfe6dc756f0",
        "leftValue": "={{ $json.teste }}",
        "operator": {
         "type": "boolean",
