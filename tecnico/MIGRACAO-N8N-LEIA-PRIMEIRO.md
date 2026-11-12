@@ -26,7 +26,7 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
 
 ## 3. Próximos passos, em ordem
 
-> **Estado em 12/11/2026 (noite):** passos 1 a 6 feitos e o 7 quase todo. Servidor no ar (`tecnico/servidor-n8n.md`). Credenciais criadas. Clara reconstruída em dois fluxos ativos, com banco `clara` próprio e **modo teste ligado** (nada sai pelo WhatsApp). Como está montada e o que foi testado: `tecnico/n8n/LEIA-ME.md`. Próximo: passo 8 (teste com as 56 mensagens) e depois a virada do webhook (passo 9, com OK da Erica).
+> **Estado em 12/11/2026 (noite):** passos 1 a 6 feitos e o 7 quase todo. Servidor no ar (`tecnico/servidor-n8n.md`). Credenciais criadas. Clara reconstruída em dois fluxos ativos, com banco `clara` próprio e **modo teste ligado** (nada sai pelo WhatsApp). Como está montada e o que foi testado: `tecnico/n8n/LEIA-ME.md`. Passo 8 feito na manhã de 12/11 (56 de 56). Próximo: a virada do webhook (passo 9, com OK da Erica), desligando o modo teste no mesmo momento.
 
 1. ✅ **Reinstalar o VPS** pelo painel da Contabo (a Erica abre no Chrome; o Claude pode guiar ou operar pela extensão Claude in Chrome):
    - Your services → VPS 169.58.41.107 → Manage → **Reinstall**.
@@ -50,7 +50,7 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
    - No n8n dá para filtrar as próprias mensagens da Clara que voltam do Whapi (no Make isso gastava crédito).
    - Aproveitar para incluir a proteção contra chamada sem telefone.
 7. ✅ **Copiar os dados** do data store 240983 do Make para o Postgres. Feito em 12/11: `_instrucoes` e `_base` (conferidos, idênticos ao Make) no banco `clara`, tabela `config`. As fichas de teste não foram copiadas, de propósito: o banco começa limpo.
-8. **Testar** com as 56 mensagens do teste A/B. Script e conversas em `tecnico/teste-ab/teste_ab.py`. Comparar com a 2ª rodada (planilha "Keshion · Teste da Sarah", aba "Teste A/B 2", id `1hvF2r7wvUsax7mZ7m0Ja3sAODjntbpm-HnIOhCNkVyU`).
+8. ✅ **Testar** com as 56 mensagens do teste A/B (feito em 12/11 pelo fluxo inteiro do n8n, em modo teste: 56 de 56 respondidas, ações certas, tom igual ao da rodada 2; ver `tecnico/teste-ab/relatorio-n8n.md`; script `tecnico/teste-ab/teste_n8n.py`, roda no servidor). Script e conversas em `tecnico/teste-ab/teste_ab.py`. Comparar com a 2ª rodada (planilha "Keshion · Teste da Sarah", aba "Teste A/B 2", id `1hvF2r7wvUsax7mZ7m0Ja3sAODjntbpm-HnIOhCNkVyU`).
    - Nunca testar com números fictícios que façam o fluxo enviar pelo Whapi: cada número conta como conversa no plano.
 9. **Virar:** trocar o webhook no painel do Whapi (canal GRNLTR-4K8ZF) do Make para o n8n. Testar com o número da Erica. Depois desativar 1A, 1B, 1C e 1D no Make (sem apagar ainda).
 10. **Atualizar** `negocio-ia-clinicas/CLAUDE.md`, a memória e o repositório (`git push` dentro de `negocio-ia-clinicas/`).

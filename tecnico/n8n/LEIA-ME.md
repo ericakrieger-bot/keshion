@@ -48,6 +48,6 @@ Para mudar tom ou regras da Clara, altere `_instrucoes` ou `_base` na tabela `co
 
 Funcionaram: primeira mensagem, fila de 7 s (2 mensagens, 1 resposta), pedido de nome, marcação com evento criado no Google Agenda, aviso de marcação para o aprovador, despedida 1 minuto depois, cancelamento (evento apagado e aviso), pausa de 12 h quando a doutora responde, `#reiniciar`, leitura de foto.
 
-Ainda não testados: áudio (precisa de um áudio real do Whapi), remarcar, horário que ficou ocupado, falha da IA, envio real pelo Whapi.
+Passo 8 (12/11/2026, manhã): as 56 mensagens do teste A/B passaram pelo fluxo inteiro, todas respondidas (14 a 19 s cada), incluindo marcar, remarcar (evento mudado no Google), cancelar e 6 avisos de "chamar uma pessoa". Respostas muito próximas às do Haiku na rodada 2. Comparação mensagem por mensagem em `tecnico/teste-ab/relatorio-n8n.md`.
 
-Observação de tom para o passo 8: num teste às 21h a Clara ofereceu "hoje às 16h", um horário que já tinha passado. O pedido informa a hora certa; vale reforçar nas instruções que horários passados não podem ser oferecidos.
+Ainda não testados: áudio (precisa de um áudio real do Whapi), horário que ficou ocupado no meio da conversa, falha da IA, envio real pelo Whapi.
