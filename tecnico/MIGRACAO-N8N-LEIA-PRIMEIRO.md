@@ -81,6 +81,8 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
 
 ## 6. Depois da migração (fila de trabalho)
 
+- **PRIMEIRO DA FILA (12/11/2026): áudio não funciona.** A Erica mandou um áudio real pelo WhatsApp e a Clara respondeu pedindo para ela escrever, ou seja, caiu no caminho "não foi possível ouvir" do nó `Texto final da mensagem`. Falhou o `Baixar o áudio` ou o `Transcrever o áudio (OpenAI)` (os dois estão com "continuar mesmo com erro", por isso não apareceu como falha). Para investigar: ler a execução do número 972584285541 em `execution_data` (banco `n8n`) e ver o erro desses dois nós. Suspeitas: o link de mídia do Whapi pede autenticação (token) ao contrário do que o Make fazia, o arquivo chega sem nome ou extensão (a OpenAI exige `.ogg`/`.mp3` no nome do arquivo), ou o tipo do campo binário. Corrigir em `tecnico/n8n/gerar_fluxos.py`, reimportar e testar com um áudio real (só o número da Erica). A Erica pediu para não corrigir antes do reset do limite dela.
+
 - Rota de rascunho para a doutora aprovar antes de enviar (primeira semana do piloto).
 - Haiku no dia a dia e Sonnet nas mensagens clínicas (dor, gravidez, reclamação).
 - Confirmações (48 h, véspera às 18h, 2 h antes) e CRM em Google Planilhas.
