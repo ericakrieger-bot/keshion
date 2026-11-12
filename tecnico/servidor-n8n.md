@@ -28,7 +28,7 @@ Observação: o Norton do computador da Erica intercepta o HTTPS e mostra o cert
 
 | Serviço | Imagem | Observação |
 |---|---|---|
-| `postgres` | `postgres:16` | Banco do n8n. Sem porta aberta para fora. Reserva também para os dados da Clara. |
+| `postgres` | `postgres:16` | Banco do n8n (`n8n`) e da Clara (`clara`, usuário `clara`, senha `CLARA_DB_PASSWORD` no `.env`). Sem porta aberta para fora. O n8n 2.47 avisa que prefere Postgres 17: funciona, mas planejar a atualização. |
 | `n8n` | `docker.n8n.io/n8nio/n8n:stable` | Versão 2.47.5 na instalação. Sem porta aberta para fora. |
 | `caddy` | `caddy:2` | Única porta pública (80 e 443). HTTPS automático e repasse para o n8n. |
 

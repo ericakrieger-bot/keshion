@@ -26,7 +26,7 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
 
 ## 3. Próximos passos, em ordem
 
-> **Estado em 12/11/2026:** passos 1 a 4 feitos (servidor reinstalado, preparado e com n8n, Postgres e Caddy no ar em https://n8n.169-58-41-107.sslip.io). Detalhes e pendências em `tecnico/servidor-n8n.md`. Próximo: a Erica cria o usuário dono do n8n e segue para o passo 5.
+> **Estado em 12/11/2026 (noite):** passos 1 a 6 feitos e o 7 quase todo. Servidor no ar (`tecnico/servidor-n8n.md`). Credenciais criadas. Clara reconstruída em dois fluxos ativos, com banco `clara` próprio e **modo teste ligado** (nada sai pelo WhatsApp). Como está montada e o que foi testado: `tecnico/n8n/LEIA-ME.md`. Próximo: passo 8 (teste com as 56 mensagens) e depois a virada do webhook (passo 9, com OK da Erica).
 
 1. ✅ **Reinstalar o VPS** pelo painel da Contabo (a Erica abre no Chrome; o Claude pode guiar ou operar pela extensão Claude in Chrome):
    - Your services → VPS 169.58.41.107 → Manage → **Reinstall**.
@@ -43,13 +43,13 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
    - **Caddy** para HTTPS automático.
    - Endereço provisório sem domínio: `n8n.169-58-41-107.sslip.io` (o sslip.io aponta para o IP e o Caddy gera o certificado). Trocar para `n8n.keshion.com.br` quando o domínio for registrado.
    - Senhas e chaves geradas no servidor, num arquivo `.env` dentro do servidor, nunca no chat nem no repositório. A Erica cria o usuário de login do n8n ela mesma na primeira tela.
-5. **Credenciais no n8n** (a Erica cola as chaves direto na tela do n8n, nunca no chat): Anthropic, OpenAI (áudio e foto), Whapi, Google (Agenda).
-6. **Reconstruir os fluxos** a partir das cópias em `tecnico/make-cenarios/` (1A, 1B, 1C, 1D, com LEIA-ME). Pontos de atenção:
+5. ✅ **Credenciais no n8n** (feito em 12/11: Anthropic, OpenAI, Whapi como "Header Auth account", Google Agenda; mais "Postgres Clara", criada pelo servidor. O app do Google ficou em modo Teste: a autorização expira a cada 7 dias até publicar o app, o que exige domínio, página inicial e política de privacidade. Resolver antes do piloto.) (a Erica cola as chaves direto na tela do n8n, nunca no chat): Anthropic, OpenAI (áudio e foto), Whapi, Google (Agenda).
+6. ✅ **Reconstruir os fluxos** (feito em 12/11: `Clara · Atendimento` e `Clara · Envio`, gerados por `tecnico/n8n/gerar_fluxos.py`) a partir das cópias em `tecnico/make-cenarios/` (1A, 1B, 1C, 1D, com LEIA-ME). Pontos de atenção:
    - **1B no Make lê o bloco de texto da resposta do Haiku**, porque o primeiro bloco vem como "thinking" vazio. No n8n, pegar o bloco `type = text` e tirar as cercas ```json.
    - Fila de 7 s (só a última mensagem responde), ficha do paciente, marcar sem duplicar, remarcar, cancelar, até 3 mensagens com "digitando", aviso de falha para a Erica (972584285541), pausa de 12 h quando a doutora responde pelo celular, comando `#reiniciar` (remover antes do piloto ou limitar aos números da Keshion).
    - No n8n dá para filtrar as próprias mensagens da Clara que voltam do Whapi (no Make isso gastava crédito).
    - Aproveitar para incluir a proteção contra chamada sem telefone.
-7. **Copiar os dados** do data store 240983 do Make para o Postgres (instruções, base e fichas de teste).
+7. ✅ **Copiar os dados** do data store 240983 do Make para o Postgres. Feito em 12/11: `_instrucoes` e `_base` (conferidos, idênticos ao Make) no banco `clara`, tabela `config`. As fichas de teste não foram copiadas, de propósito: o banco começa limpo.
 8. **Testar** com as 56 mensagens do teste A/B. Script e conversas em `tecnico/teste-ab/teste_ab.py`. Comparar com a 2ª rodada (planilha "Keshion · Teste da Sarah", aba "Teste A/B 2", id `1hvF2r7wvUsax7mZ7m0Ja3sAODjntbpm-HnIOhCNkVyU`).
    - Nunca testar com números fictícios que façam o fluxo enviar pelo Whapi: cada número conta como conversa no plano.
 9. **Virar:** trocar o webhook no painel do Whapi (canal GRNLTR-4K8ZF) do Make para o n8n. Testar com o número da Erica. Depois desativar 1A, 1B, 1C e 1D no Make (sem apagar ainda).
