@@ -38,7 +38,7 @@ O relatório é sólido e honesto. Concordo com a conclusão principal: **a Clar
 
 ## Plano
 
-**Hoje (com OK da Erica):** desligar o login por senha no SSH.
+**Hoje (com OK da Erica):** ✅ desligar o login por senha no SSH (feito em 12/11, tarde; acesso por chave conferido).
 
 **Próxima sessão (correções rápidas, cerca de meio dia):** canal e host de mídia validados, novo caminho de webhook, todas as mensagens do lote, tabela de ids recebidos, avisos antes do paciente, erros do Google e da IA virando "chamar uma pessoa", conferência do id do evento, despedida por id, `N8N_WEBHOOK_URL`, versões fixas, retenção das execuções, ordem no script de teste. Depois, repetir os testes do Codex que falharam.
 

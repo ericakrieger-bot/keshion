@@ -9,7 +9,7 @@ Instalado em 12/11/2026. Este arquivo não tem senhas nem chaves. Elas estão s�
 | Provedor | Contabo |
 | IP | 169.58.41.107 |
 | Sistema | Ubuntu 24.04.5 LTS (4 núcleos, 7,8 GB de memória, 96 GB de disco) |
-| Entrar | `ssh -i ~/.ssh/keshion_vps root@169.58.41.107` (atenção, conferido em 12/11: o servidor **ainda aceita senha** para o root, por causa de `/etc/ssh/sshd_config.d/50-cloud-init.conf`; desligar) |
+| Entrar | `ssh -i ~/.ssh/keshion_vps root@169.58.41.107` (só por chave desde 12/11/2026, tarde: `/etc/ssh/sshd_config.d/00-keshion.conf` desliga senha e teclado interativo e deixa o root só com chave; vem antes do `50-cloud-init.conf` da Contabo, que ligava a senha. Conferido com `sshd -T` e com tentativa de senha recusada. Se perder a chave, entrar pelo console VNC do painel da Contabo) |
 | Endereço do n8n (provisório) | https://n8n.169-58-41-107.sslip.io |
 | Certificado | Let's Encrypt, renovação automática pelo Caddy (primeiro vence em 10/02/2027) |
 | Fuso | America/Sao_Paulo (servidor e n8n) |
