@@ -52,6 +52,10 @@ Atenção regulatória (verificada em 04/10/2026):
   - Observação: o Sleep do Make tem limite de 300 s por módulo e o tempo conta na execução do cenário; o 1B já tem `delayTyping: 3` no envio da Z-API.
 - **Pilha alternativa em avaliação (11/10/2026), pedida pela Erica:** Make (no lugar do n8n) + Z-API (no lugar da API oficial), sem servidor na primeira versão (histórico no Make, planilha do Google, Google Agenda). A conta do Make da Erica (zona eu1) está conectada por MCP e hoje está no plano Free (1.000 créditos, 2 cenários); o Core é necessário para os 6 cenários. Recomendação: Z-API só no número de demonstração; na clínica, API oficial com número novo (caminho B) ou no mesmo número via parceiro (caminho C). Custo estimado por clínica no caminho A: R$ 280 a 390/mês.
 
+## Identidade visual (obrigatória desde 12/11/2026)
+
+Todo material da Keshion (questionários, aplicativos, CRM, painéis, materiais explicativos, apresentações, propostas, contratos) usa a marca Keshion AI. Antes de gerar qualquer material visual, ler `branding/guia-de-marca.md` (cores, fontes, símbolo do "o" azul e verde, tokens CSS). PDF original em `branding/Keshion_AI_Comparativo_Paletas_e_Fontes.pdf`. Ao mexer num material antigo, aplicar a marca nele também.
+
 ## Como trabalhar nesta pasta
 
 - Aqui o Claude também atua como construtor técnico: monta servidor, fluxos, agente e painel. Sempre explicar em linguagem simples, passo a passo, e pedir aprovação antes de criar contas, gastar dinheiro ou mexer em número de WhatsApp de cliente.

@@ -6,20 +6,18 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Questionário Dra. Vivian</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Coluna de leitura com índice das seções à esquerda no desktop; no celular o índice vira uma faixa rolável */
+/* Identidade Keshion AI, direção 01 "Azul-noite" (Manrope + Inter). Questionário é documento: sempre fundo claro, sem modo escuro */
 :root {
-  --bg: #f4f7f7; --surface: #ffffff; --ink: #142329; --muted: #56676c; --line: #d8e2e3;
-  --accent: #0e6a6d; --accent-soft: #e2f0f0; --ok: #2f7a4a; --warn: #9a5b12;
-  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --bg: #F7F8F4; --surface: #ffffff; --ink: #0B1126; --muted: #4E5A70; --line: #DCE3EE;
+  --accent: #2459A6; --accent-soft: #E8EFF9; --blue: #4388E8; --green: #55C96A; --ok: #2E8A45; --warn: #9a5b12;
+  --display: "Manrope", "Segoe UI", system-ui, sans-serif;
   --body: "Inter", "Segoe UI", system-ui, sans-serif;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #0f1719; --surface: #162226; --ink: #e4eeef; --muted: #9db0b4; --line: #2a3a3f;
-    --accent: #5cc3c5; --accent-soft: #1b3336; --ok: #6cc28a; --warn: #e0a85a; color-scheme: dark; }
-}
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: .01em; margin-bottom: 8px; }
+.brand svg { width: 22px; height: 22px; flex: none; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
@@ -32,7 +30,7 @@ h1 { font-family: var(--display); font-weight: 650; font-size: clamp(28px, 4vw, 
 .howto li::before { content: "·"; color: var(--accent); font-weight: 700; margin-right: 8px; }
 .status { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 8px; font-size: 14px; }
 .bar { flex: 1 1 180px; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; min-width: 120px; }
-.bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width .3s; }
 nav.toc { position: sticky; top: 16px; align-self: start; display: grid; gap: 2px; }
 nav.toc a { display: flex; justify-content: space-between; gap: 8px; padding: 7px 10px; border-radius: 8px; color: var(--muted); text-decoration: none; font-size: 14px; }
 nav.toc a:hover, nav.toc a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
@@ -81,7 +79,11 @@ button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">Keshion IA · piloto</div>
+    <div class="brand" aria-label="Keshion AI">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="#55C96A" stroke-width="3.4" stroke-linecap="round"/><path d="M12 21a9 9 0 0 1 0-18" fill="none" stroke="#4388E8" stroke-width="3.4" stroke-linecap="round"/></svg>
+      <span>keshion AI</span>
+    </div>
+    <div class="eyebrow">Piloto · questionário da clínica</div>
     <h1>Questionário da clínica, Dra. Vivian</h1>
     <p class="lead">O que a assistente precisa saber para atender seus pacientes do jeito que você atende hoje. Quanto mais detalhe, mais ela vai soar como você.</p>
     <ul class="howto">
