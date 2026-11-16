@@ -80,3 +80,35 @@ Ouçam todas as vozes nas frases 1, 3 e 5 e escolham **a melhor da OpenAI e a me
 - **Caso contrário, OpenAI**, que custa de 2 a 4 vezes menos e usa a chave que já temos.
 - Se "sotaque: muito" aparecer em mais de um terço das respostas de uma voz, ela sai, mesmo que seja mais barata.
 - Anotar o resultado neste arquivo e na tarefa "Teste cego de vozes" do Notion.
+
+## Instrução de voz no formato do openai.fm (16/11/2026)
+
+Colar no campo de instruções. A versão em inglês costuma ser seguida com mais precisão; a fala sai em português porque o texto está em português. Testar as duas na rodada 1.
+
+### Em inglês (principal)
+
+```
+Voice: Warm, clear and natural female voice in her early thirties, like a friendly receptionist at a high-end dental clinic in São Paulo. Calm and confident, never sounding like a radio announcer or a recorded menu.
+
+Tone: Welcoming, attentive and reassuring. Sounds genuinely happy to help, with a light smile in the voice. Professional but close, as if talking to a patient she already likes.
+
+Dialect: Native Brazilian Portuguese with a neutral Southeast (São Paulo) accent. No European Portuguese, Spanish or English influence. Everyday spoken Brazilian Portuguese, natural contractions like "tá", "pra" and "a gente" when they appear in the text.
+
+Pronunciation: Clear and relaxed. Read currency in Brazilian style ("R$ 150" as "cento e cinquenta reais"), times like a Brazilian ("14h30" as "duas e meia da tarde" or "catorze e trinta"), and "Dra." as "doutora". Soft Brazilian "r" and "s", no rolled English "r". Natural Brazilian question intonation, rising gently at the end.
+
+Features: Medium-slow pace with short natural pauses between ideas. Slightly warmer and slower on empathetic sentences. Never rushed, never exaggerated or theatrical. Sounds like a real person sending a WhatsApp voice message, not reading a script.
+```
+
+### Em português (para comparar)
+
+```
+Voz: Feminina, quente, clara e natural, de uma mulher de uns 30 anos, como uma recepcionista simpática de clínica odontológica de alto padrão em São Paulo. Calma e segura, nunca com cara de locutora de rádio ou de menu gravado.
+
+Tom: Acolhedor, atento e tranquilizador. Soa feliz em ajudar, com um leve sorriso na voz. Profissional, mas próxima, como quem fala com uma paciente de quem gosta.
+
+Sotaque: Português do Brasil nativo, sotaque neutro do Sudeste (São Paulo). Nada de português de Portugal, espanhol ou inglês. Fala do dia a dia, com contrações naturais como "tá", "pra" e "a gente" quando aparecerem no texto.
+
+Pronúncia: Clara e relaxada. Lê valores do jeito brasileiro ("R$ 150" como "cento e cinquenta reais"), horários como um brasileiro ("14h30" como "duas e meia da tarde") e "Dra." como "doutora". "R" e "s" suaves do Brasil. Entonação de pergunta natural, subindo de leve no fim.
+
+Características: Ritmo médio para calmo, com pausas curtas e naturais entre as ideias. Um pouco mais lenta e calorosa nas frases de empatia. Nunca apressada, exagerada ou teatral. Parece uma pessoa de verdade mandando áudio no WhatsApp, não alguém lendo um texto.
+```
