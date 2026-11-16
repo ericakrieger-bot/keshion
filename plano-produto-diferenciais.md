@@ -88,3 +88,13 @@ Provas de cada linha: data e hora do orçamento, da mensagem da assistente e da 
 - **Desenvolvimento (dezembro):** Netlify grátis e Supabase grátis. Passar para o Supabase Pro antes de entrar dado real da Dra. Vivian (o grátis pausa sem uso e não tem backup diário).
 - **Alternativas:** tudo no servidor Contabo com Coolify (sem custo novo, mas backup e segurança ficam com a Keshion); Firebase (custo variável, banco não SQL); Render ou Railway (app e banco juntos, US$ 5 a 7 mais uso); Cloudflare (US$ 5, mais trabalho para montar login).
 - **A decidir junto:** se o banco `clara` sai do Contabo e vai para o Supabase (um banco só para n8n e app) ou se o app lê do Contabo.
+
+## Calculadora de perdas e ROI (proposta de 16/11/2026, aguardando aprovação)
+
+- **Referência:** calculadora da Secretária IA. Pergunta leads por dia, quantos demoram mais de 10 min e ticket por consulta; supõe que metade dos leads lentos vira perda total (2 por dia × 30 × R$ 300 × 50% = R$ 9.000), que a ferramenta recupera 80% e que o ROI anual é (recuperado − mensalidade de cerca de R$ 297) × 12. Números inflados: todo lead viraria venda.
+- **Nossa versão:** um motor de cálculo com duas caras. Site (simples, sem preço, número principal liberado e relatório em PDF com diagnóstico grátis em troca do WhatsApp) e Sérgio (completa, com preço, ROI do 1º ano e quantos tratamentos pagam o ano). Depois, a mesma conta compara estimado x real no relatório mensal.
+- **Fórmula conservadora e aberta ("como calculamos"):**
+  - Leads sem resposta rápida: contatos/mês × % respondidos tarde ou fora do horário × taxa de fechamento (padrão 20%) × 50% de perda × valor médio do tratamento; Keshion recupera 60% disso.
+  - Orçamentos parados: orçamentos/mês sem resposta × valor médio × 10% recuperável.
+  - Faltas: faltas/mês × valor da consulta × 30% recuperável.
+  - ROI do 1º ano: recuperado × 12 − (implantação + 12 mensalidades).
