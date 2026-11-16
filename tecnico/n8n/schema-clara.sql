@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS pacientes (
   avaliacao_texto  text,
   avaliacao_evento text,
   avaliacao_inicio text,
+  nome_completo    text,                 -- nome e sobrenome, pedidos ao marcar
+  telefone_contato text,                 -- telefone de contato informado ao marcar
   pausado_ate      timestamptz           -- doutora respondeu pelo celular: Clara em silêncio
 );
 

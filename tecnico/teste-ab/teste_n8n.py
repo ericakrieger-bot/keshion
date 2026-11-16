@@ -4,6 +4,7 @@
 # Usa números fictícios 554199900101 a 554199900107. Lê a senha do banco do /opt/keshion/.env.
 # Saída: /root/teste-n8n-resultado.json
 import json, subprocess, threading, time, urllib.request
+RODADA = time.strftime('%Y%m%d%H%M%S')
 
 # O caminho do webhook é secreto: passe como argumento (python3 teste_n8n.py <caminho>).
 import sys
@@ -75,7 +76,7 @@ def rodar(k, nome, msgs, saida):
         antes = (ficha(tel).get("conversa") or "").count("Paciente: ")
         t0 = time.time()
         for j, p in enumerate(partes):
-            mid = f"t8-{k}-{i}-{j}"
+            mid = f"t8-{RODADA}-{k}-{i}-{j}"   # ids únicos por rodada: ids repetidos são descartados como reenvio
             enviar(tel, mid, p)
             time.sleep(1)
         resposta, f = None, {}
@@ -103,7 +104,8 @@ def main():
         (prefixo and "554199900101".startswith(prefixo)), "sem modo teste nem prefixo de teste: abortando"
     tels = ",".join(f"'5541999001{k:02d}'" for k in range(1, 8))
     sql(f"DELETE FROM pacientes WHERE telefone IN ({tels}); "
-        "DELETE FROM saidas_teste WHERE telefone LIKE '554199900%' OR texto LIKE '%(5541999001%';")
+        "DELETE FROM saidas_teste WHERE telefone LIKE '554199900%' OR texto LIKE '%(5541999001%'; "
+        f"DELETE FROM mensagens_recebidas WHERE telefone IN ({tels});")
     resultados = {}
     threads = []
     for k, (nome, msgs) in enumerate(CONVERSAS.items(), 1):

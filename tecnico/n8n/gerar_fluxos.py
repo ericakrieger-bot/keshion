@@ -387,13 +387,16 @@ const conteudo =
   'FICHA DO PACIENTE\n' +
   'Nome dito pelo paciente: ' + (f.nome_paciente || 'ainda não disse') + '\n' +
   'Tratamento de interesse: ' + (f.tratamento || 'ainda não disse') + '\n' +
-  'Avaliação marcada: ' + (f.avaliacao_texto || 'nenhuma') + '\n\n' +
+  'Avaliação marcada: ' + (f.avaliacao_texto || 'nenhuma') + '\n' +
+  'Nome completo: ' + (f.nome_completo || 'ainda não disse') + '\n' +
+  'Telefone de contato: ' + (f.telefone_contato || 'ainda não disse') + '\n' +
+  'Telefone desta conversa: ' + f.telefone + '\n\n' +
   'Nome no perfil do WhatsApp (não usar na conversa): ' + (f.nome || '') + '\n' +
   'Tipo da última mensagem: ' + (fila.tipo || 'texto') + '\n\n' +
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
   'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim();
 return [{ json: { agenda_ok: agendaOk, pedido: {
-  model: f.modelo, max_tokens: 2000,
+  model: f.modelo, max_tokens: 6000,   // o pensamento interno do Haiku gasta parte disso; 2000 cortava o JSON
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
   messages: [{ role: 'user', content: conteudo }]
 } } }];
@@ -413,13 +416,28 @@ try {
   if (a >= 0 && b > a) t = t.slice(a, b + 1);
   d = JSON.parse(t);
 } catch (e) { d = null; }
+if (!d) {
+  // Às vezes o Haiku responde em linhas "mensagem1: ..." em vez de JSON: lê esse formato também.
+  const bloco = (r.content || []).find(b => b.type === 'text');
+  const txt = (bloco && bloco.text) || '';
+  const campos = ['mensagem1', 'mensagem2', 'mensagem3', 'acao', 'motivo', 'inicio', 'titulo', 'fechamento',
+                  'nome_completo', 'telefone_contato', 'nome_paciente', 'tratamento'];
+  const achados = {};
+  for (const linha of txt.split('\n')) {
+    const m = linha.match(/^\s*"?([a-z_0-9]+)"?\s*:\s*(.*?)\s*,?\s*$/i);
+    if (m && campos.includes(m[1])) achados[m[1]] = m[2].replace(/^"(.*)"$/, '$1');
+  }
+  // Só para resposta que não é JSON: um JSON cortado no meio continua sendo falha técnica.
+  if (achados.mensagem1 && !txt.includes('{') && 'acao' in achados) d = achados;
+}
 const s = v => (v == null ? '' : String(v)).trim();
 if (!d || !s(d.mensagem1)) {
   return [{ json: { ok: false, erro: r.error ? JSON.stringify(r.error).slice(0, 300) : 'resposta ilegível' } }];
 }
 return [{ json: { ok: true, mensagem1: s(d.mensagem1), mensagem2: s(d.mensagem2), mensagem3: s(d.mensagem3),
   acao: (s(d.acao) || 'responder').toLowerCase(), motivo: s(d.motivo), inicio: s(d.inicio), titulo: s(d.titulo),
-  fechamento: s(d.fechamento), nome_paciente: s(d.nome_paciente), tratamento: s(d.tratamento) } }];
+  fechamento: s(d.fechamento), nome_paciente: s(d.nome_paciente), tratamento: s(d.tratamento),
+  nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, '') } }];
 """, (3500, 100))
 se(A, "Resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (3740, 100))
 
@@ -433,6 +451,16 @@ return [   // aviso para a equipe primeiro, sem esperar o "digitando" do pacient
 ];
 """, (3980, 400))
 chamar_envio(A, "Enviar aviso de falha", (4220, 400))
+# Na falha, também registra o turno e esvazia a fila; senão a próxima mensagem se mistura com esta (revisão Codex, item 4).
+pg(A, "Registrar a falha na conversa", r"""
+UPDATE pacientes SET
+  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\nClara: Só um instante, vou verificar aqui e já te retorno.', 11000), E'\n'),
+  pendente = CASE WHEN ultimo_id = $3::text THEN '' ELSE replace(pendente, $4::text, '') END,
+  atualizado = now()
+WHERE telefone = $1::text;
+""", "[ $('Ler ficha e instruções (só a última responde)').first().json.telefone, ($('Ler ficha e instruções (só a última responde)').first().json.pendente || '').trim(), "
+     "$('Ler ficha e instruções (só a última responde)').first().json.ultimo_id, $('Ler ficha e instruções (só a última responde)').first().json.pendente || '' ]",
+   (4220, 600), executeOnce=True)
 
 code(A, "Decidir a ação", r"""
 const ia = $input.first().json;
@@ -472,7 +500,7 @@ escolha(A, "Próximo passo na agenda", "passo", ["criar", "mudar", "ocupado", "e
 http(A, "Criar a avaliação na agenda", "POST", GCAL + "/calendars/primary/events", (5180, 200), cred="google",
      onError="continueRegularOutput",
      body_expr="{ summary: $json.titulo, location: $('Ler ficha e instruções (só a última responde)').first().json.local_avaliacao, "
-               "description: 'Marcado pela Clara pelo WhatsApp. Paciente: ' + ($('Decidir a ação').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome || '') + ' (' + $('Ler ficha e instruções (só a última responde)').first().json.telefone + ')', "
+               "description: 'Marcado pela Clara pelo WhatsApp. Paciente: ' + ($('Decidir a ação').first().json.nome_completo || $('Ler ficha e instruções (só a última responde)').first().json.nome_completo || $('Decidir a ação').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome_paciente || '') + '. Telefone de contato: ' + ($('Decidir a ação').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone) + '. WhatsApp: ' + $('Ler ficha e instruções (só a última responde)').first().json.telefone, "
                "start: { dateTime: $json.inicio, timeZone: '" + TZ + "' }, end: { dateTime: $json.fim, timeZone: '" + TZ + "' } }")
 http(A, "Mudar a avaliação na agenda", "PATCH",
      "=" + GCAL + "/calendars/primary/events/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
@@ -533,7 +561,8 @@ switch (tipo) {
   case 'marcado':
     aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); aval_evento = j.id || '';
     fechamento = ia.fechamento;
-    avisos.push('*Nova avaliação marcada*\n' + ia.titulo + '\nQuando: ' + aval_texto + '\n' + quem);
+    avisos.push('*Nova avaliação marcada*\n' + ia.titulo + '\nQuando: ' + aval_texto + '\n' + quem +
+      '\nNome completo: ' + (ia.nome_completo || f.nome_completo || '-') + '\nTelefone de contato: ' + (ia.telefone_contato || f.telefone_contato || tel));
     break;
   case 'remarcado':
     aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio);
@@ -550,7 +579,8 @@ const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }
   .concat([{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]);
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
-  nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, aval, aval_inicio, aval_texto, aval_evento,
+  nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
+  aval, aval_inicio, aval_texto, aval_evento,
   fechamento, envios: JSON.stringify(envios)
 } }];
 """
@@ -566,6 +596,8 @@ UPDATE pacientes SET
   pendente = CASE WHEN ultimo_id = $4::text THEN '' ELSE replace(pendente, $5::text, '') END,
   nome_paciente = coalesce(nullif($6::text, ''), nome_paciente),
   tratamento = coalesce(nullif($7::text, ''), tratamento),
+  nome_completo = coalesce(nullif($14::text, ''), nome_completo),
+  telefone_contato = coalesce(nullif($15::text, ''), telefone_contato),
   avaliacao_inicio = CASE $8::text WHEN 'definir' THEN $9::text WHEN 'limpar' THEN NULL ELSE avaliacao_inicio END,
   avaliacao_texto = CASE $8::text WHEN 'definir' THEN $10::text WHEN 'limpar' THEN NULL ELSE avaliacao_texto END,
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
@@ -573,7 +605,7 @@ UPDATE pacientes SET
 WHERE telefone = $1::text
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
-     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios ]", (5700, 0))
+     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 
@@ -626,6 +658,7 @@ L("Ler as mensagens e a ação", "Resposta válida?")
 L("Resposta válida?", "Decidir a ação", out=0)
 L("Resposta válida?", "Falha técnica: avisar", out=1)
 L("Falha técnica: avisar", "Enviar aviso de falha")
+L("Falha técnica: avisar", "Registrar a falha na conversa")
 L("Decidir a ação", "Qual ação?")
 for i, t in enumerate(["responder", "humano", "ja_marcada", "sem_avaliacao"]):
     L("Qual ação?", RES[t], out=i)

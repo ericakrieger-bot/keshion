@@ -65,3 +65,13 @@ Passo 8 (12/11/2026, manhã): as 56 mensagens do teste A/B passaram pelo fluxo i
 Depois da virada: áudio real do Whapi corrigido e testado; Codex testou horário ocupado, remarcar, documento, figurinha, histórico longo (ver o relatório dele). Testes das correções (12/11, tarde, todos ok): canal errado recusado, caminho antigo com 404, pacote com 2 mensagens, reenvio atrasado sem nova resposta, foto de fora bloqueada, áudio do Whapi, aviso de urgência antes do paciente, marcar com despedida e cancelar.
 
 Ainda não testados: falha da IA e da agenda (precisam de simulação isolada).
+
+
+## 16/11/2026: instruções novas, nome completo e telefone
+
+- Instruções com as 8 mudanças de tom (`clientes/clinica-demo/proposta-humanizer-instrucoes.md`) e a regra nova: antes de marcar, a Clara pede nome e sobrenome e um telefone de contato ("pode ser este mesmo número"). Os dois vão para a ficha (`pacientes.nome_completo`, `pacientes.telefone_contato`), para a descrição do evento na agenda e para o aviso de nova avaliação. Versão anterior das instruções guardada em `config._instrucoes_anterior_20261112`.
+- `max_tokens` da IA de 2000 para 6000: o pensamento interno do Haiku cortava o JSON em respostas longas (2 de 56 no primeiro teste).
+- O leitor da resposta também entende o formato "mensagem1: ..." (1 de 56). JSON cortado continua indo para falha técnica.
+- Falha técnica agora registra o turno na conversa e esvazia a fila (antes a mensagem seguinte se misturava com a anterior).
+- Resultado (`tecnico/teste-ab/relatorio-instrucoes-novas.md`): 53 respostas, nenhuma falha técnica; "Entendo", elogios e frases de enchimento sumiram; "aqui na clínica" caiu de 7 para 4; a ressalva de preço só aparece na primeira pergunta de preço de cada conversa. A conversa C7 parou na 4ª mensagem por erro de rede do script de teste, não da Clara. Marcação com nome completo e telefone testada à parte: ok, com evento criado e cancelado.
+- Para observar: na pergunta sobre remédio a Clara não chamou mais a Dra. Suzana (antes chamava) e sugeriu falar com dentista ou farmacêutico.
