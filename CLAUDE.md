@@ -7,7 +7,7 @@
 
 **Make no plano Core desde 01/11/2026. Conta Google da clínica demo: keshion.ai.2026@gmail.com (grafia com "e", corrigido em 01/11/2026).**
 
-**Empresa: Keshion IA** (nome definido em 29/10/2026, nome completo em 01/11/2026; domínio keshion.com.br; sócio: Sérgio).
+**Empresa: Keshion IA** (nome definido em 29/10/2026, nome completo em 01/11/2026; domínio **keshion.com** (desde 16/11/2026, na Hostinger com o e-mail; antes se falava em keshion.com.br); sócio: Sérgio).
 
 Serviço B2B de implantação e operação de atendente de IA no WhatsApp para clínicas, vendido como resultado ("recuperar o faturamento que a clínica perde com lead sem resposta, falta e paciente que não volta"), não como ferramenta.
 
