@@ -62,3 +62,10 @@ Bloco "Seu investimento no primeiro ano": implantação, 12 mensalidades, estima
 - **Etapa 1, áudio no WhatsApp:** texto da Clara convertido em voz (ElevenLabs, OpenAI ou similar) e enviado como mensagem de voz, só quando o paciente mandou áudio ou a clínica quiser. Custo estimado: R$ 0,07 a 0,15 por áudio de 300 caracteres.
 - **Etapa 2, ligação:** plataforma de voz (Retell, Vapi ou ElevenLabs Agents) mais número brasileiro por SIP, ligada ao n8n para agenda. Desvio do fixo da clínica quando ocupado ou fora do horário. Alternativa: chamadas do WhatsApp pela API oficial. Custo estimado: US$ 0,07 a 0,30 por minuto mais telefonia (cerca de R$ 0,40 a 1,70 por minuto).
 - **Riscos:** demora na resposta e sotaque, paciente que desliga ao perceber robô, aviso de gravação (LGPD), erro de agenda, custo por minuto variável, regras de numeração e dependência do fornecedor. Voz clonada da doutora só com autorização escrita.
+
+## Decisões de 16/11/2026 (tarde)
+
+- **App:** um único app web (Next.js) que abre no navegador do computador e instala no celular como aplicativo (PWA). Hospedagem recomendada: Vercel Pro (US$ 20 por mês; o plano Hobby proíbe uso comercial) ou Netlify (o plano grátis permite uso comercial). Os dados dos pacientes ficam no banco da Keshion, não na hospedagem.
+- **Orçamento da Dra. Vivian:** formato e tabela de preços definidos na reunião de levantamento.
+- **Voz do áudio:** voz genérica, natural e sem sotaque. Escolha por teste cego entre ElevenLabs, OpenAI, Azure, Google, Cartesia e um modelo aberto. Custo por áudio de 300 caracteres fica entre R$ 0,03 e 0,15 em todos (estimativa de terceiros, confirmar no site oficial).
+- **Cliente oculto:** chip próprio, comprado pelo Sérgio.
