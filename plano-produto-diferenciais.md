@@ -69,3 +69,22 @@ Bloco "Seu investimento no primeiro ano": implantação, 12 mensalidades, estima
 - **Orçamento da Dra. Vivian:** formato e tabela de preços definidos na reunião de levantamento.
 - **Voz do áudio:** voz genérica, natural e sem sotaque. Escolha por teste cego entre ElevenLabs, OpenAI, Azure, Google, Cartesia e um modelo aberto. Custo por áudio de 300 caracteres fica entre R$ 0,03 e 0,15 em todos (estimativa de terceiros, confirmar no site oficial).
 - **Cliente oculto:** chip próprio, comprado pelo Sérgio.
+
+## Como provar que o valor recuperado veio da assistente (16/11/2026)
+
+Lógica de "link de afiliado": a venda conta para a assistente quando o paciente volta pela mensagem dela, dentro de uma janela de tempo.
+
+| Etiqueta | Regra | Entra no total? |
+|---|---|---|
+| Recuperado pela assistente | Orçamento ou conversa parada há 7 dias ou mais, sem contato da equipe nesse período; o paciente respondeu a uma mensagem da assistente; aceite ou comparecimento em até 30 dias depois dessa resposta | Sim (total principal) |
+| Influenciado | A assistente fez contato, mas a equipe também conversou com o paciente antes do aceite, ou o aceite veio por outro canal | Linha separada, fora do total |
+| Orgânico | Aceite sem nenhum toque da assistente | Não |
+
+Provas de cada linha: data e hora do orçamento, da mensagem da assistente e da resposta do paciente, link da conversa, valor confirmado pela clínica. A clínica pode contestar antes do fechamento do mês. Comparação de apoio: taxa de fechamento de orçamentos antes (levantamento dos últimos 20 orçamentos na implantação) e depois.
+
+## Hospedagem do app (opções levantadas em 16/11/2026, decisão pendente)
+
+- **Recomendação:** tela do app na Vercel Pro (US$ 20) ou Netlify (grátis no começo) e banco, login e arquivos no Supabase Pro (US$ 25, região São Paulo). Total perto de US$ 45 por mês para todas as clínicas.
+- **Desenvolvimento (dezembro):** Netlify grátis e Supabase grátis. Passar para o Supabase Pro antes de entrar dado real da Dra. Vivian (o grátis pausa sem uso e não tem backup diário).
+- **Alternativas:** tudo no servidor Contabo com Coolify (sem custo novo, mas backup e segurança ficam com a Keshion); Firebase (custo variável, banco não SQL); Render ou Railway (app e banco juntos, US$ 5 a 7 mais uso); Cloudflare (US$ 5, mais trabalho para montar login).
+- **A decidir junto:** se o banco `clara` sai do Contabo e vai para o Supabase (um banco só para n8n e app) ou se o app lê do Contabo.
