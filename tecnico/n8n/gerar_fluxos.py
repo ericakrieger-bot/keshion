@@ -404,7 +404,7 @@ return [{ json: { agenda_ok: agendaOk, pedido: {
 http(A, "Pedir a resposta (Claude)", "POST", "https://api.anthropic.com/v1/messages", (3260, 100),
      cred="anthropic", headers={"anthropic-version": "2023-06-01"}, body_expr="$json.pedido",
      onError="continueRegularOutput", retryOnFail=True, maxTries=2, waitBetweenTries=3000)
-code(A, "Ler as mensagens e a ação", r"""
+LEITOR_JS = r"""
 // O Haiku pode mandar antes um bloco de pensamento: pega o bloco de texto e tira as cercas ```json.
 const r = $input.first().json || {};
 let d = null;
@@ -438,8 +438,15 @@ return [{ json: { ok: true, mensagem1: s(d.mensagem1), mensagem2: s(d.mensagem2)
   acao: (s(d.acao) || 'responder').toLowerCase(), motivo: s(d.motivo), inicio: s(d.inicio), titulo: s(d.titulo),
   fechamento: s(d.fechamento), nome_paciente: s(d.nome_paciente), tratamento: s(d.tratamento),
   nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, '') } }];
-""", (3500, 100))
+"""
+code(A, "Ler as mensagens e a ação", LEITOR_JS, (3500, 100))
 se(A, "Resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (3740, 100))
+# Às vezes o Haiku devolve só o pensamento, sem texto, ou um JSON cortado: pede de novo uma vez antes da falha técnica.
+http(A, "Pedir de novo (Claude)", "POST", "https://api.anthropic.com/v1/messages", (3740, 300),
+     cred="anthropic", headers={"anthropic-version": "2023-06-01"},
+     body_expr="$('Montar o pedido para a IA').first().json.pedido", onError="continueRegularOutput")
+code(A, "Ler a segunda tentativa", LEITOR_JS, (3980, 300))
+se(A, "Segunda resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (4220, 300))
 
 code(A, "Falha técnica: avisar", r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
@@ -513,7 +520,7 @@ http(A, "Cancelar a avaliação na agenda", "DELETE",
 # Resultado: cada caminho monta o mesmo formato (mensagens, ficha, avisos para a equipe).
 RESULTADO_JS = r"""
 const TIPO = '__TIPO__';
-const ia = $('Ler as mensagens e a ação').first().json;
+const ia = $('Decidir a ação').first().json;
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const j = $input.first().json || {};
 const tel = f.telefone;
@@ -656,7 +663,11 @@ L("Montar o pedido para a IA", "Pedir a resposta (Claude)")
 L("Pedir a resposta (Claude)", "Ler as mensagens e a ação")
 L("Ler as mensagens e a ação", "Resposta válida?")
 L("Resposta válida?", "Decidir a ação", out=0)
-L("Resposta válida?", "Falha técnica: avisar", out=1)
+L("Resposta válida?", "Pedir de novo (Claude)", out=1)
+L("Pedir de novo (Claude)", "Ler a segunda tentativa")
+L("Ler a segunda tentativa", "Segunda resposta válida?")
+L("Segunda resposta válida?", "Decidir a ação", out=0)
+L("Segunda resposta válida?", "Falha técnica: avisar", out=1)
 L("Falha técnica: avisar", "Enviar aviso de falha")
 L("Falha técnica: avisar", "Registrar a falha na conversa")
 L("Decidir a ação", "Qual ação?")
