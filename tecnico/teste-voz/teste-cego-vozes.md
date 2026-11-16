@@ -112,3 +112,15 @@ Pronúncia: Clara e relaxada. Lê valores do jeito brasileiro ("R$ 150" como "ce
 
 Características: Ritmo médio para calmo, com pausas curtas e naturais entre as ideias. Um pouco mais lenta e calorosa nas frases de empatia. Nunca apressada, exagerada ou teatral. Parece uma pessoa de verdade mandando áudio no WhatsApp, não alguém lendo um texto.
 ```
+
+### Versões curtas (16/11/2026, a longa cortava no campo do openai.fm e soava robótica)
+
+```
+Voice: Friendly Brazilian woman, about 30, chatting casually.
+Tone: Warm, relaxed, smiling. Not formal, not a narrator.
+Dialect: Native Brazilian Portuguese, neutral São Paulo accent.
+Pronunciation: Loose and conversational, like a WhatsApp voice note.
+Features: Natural rhythm, small pauses, slight variation in pitch.
+```
+
+Ainda mais curta: `Casual Brazilian woman sending a friendly WhatsApp voice note to a patient. Warm, relaxed, native São Paulo accent, never formal.`
