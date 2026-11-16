@@ -20,7 +20,8 @@
 | Ideias e brainstorms | Estados das ideias, rascunho livre | Banco de ideias (`4199b089-c509-813b-99e5-000b38966caa`) |
 | Contatos e relacionamentos | Regra de follow-up | Contatos (`4199b089-c509-8152-a7e1-000bbed3f603`) |
 | Reunião semanal | Pauta fixa de 30 min | Reuniões semanais (`4199b089-c509-8156-ab80-000bdbdf6021`) |
-| Pesquisa e estratégia | Destino, nicho, concorrentes, links dos artifacts, espaço para a pesquisa do Codex | |
+| Pesquisa e estratégia | Destino, nicho, concorrentes, links dos artifacts, resumo da pesquisa do Codex | |
+| Pesquisa e estratégia › Comparativo: Keshion x concorrentes (16/11) | Diferenciais, lacunas, quando cada coisa chega, pacotes, preço de entrada e fichas | Funcionalidades x concorrentes (`41a9b089-c509-81cb-bdca-000b7e5d79c1`), 52 linhas; Concorrentes (`41a9b089-c509-8115-85e5-000b6763b6aa`), 24 empresas mais a Keshion |
 | Jurídico e sociedade | Documentos, 6 pontos do acordo de sócios, LGPD | |
 | Acessos e ferramentas | Onde guardar senhas (Bitwarden), sem nenhum segredo | |
 
@@ -30,7 +31,6 @@ Lançamentos e Ferramentas têm Moeda, Valor na moeda e Cotação (R$); o valor 
 
 ## Pendências
 
-- Colar a pesquisa do Codex em Pesquisa e estratégia.
 - Trocar o ícone da página principal pelo símbolo da Keshion (a API não aceita arquivo como ícone).
 - Convidar o Sérgio como convidado da página KESHION AI.
 - Confirmar valor do Contabo e quem paga cada ferramenta.
