@@ -1,0 +1,44 @@
+@font-face {
+  font-family: Manrope;
+  src: url("../fontes/Manrope-variable.ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  src: url("../fontes/Inter-variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  --keshion-font-heading: Manrope, system-ui, sans-serif;
+  --keshion-font-body: Inter, system-ui, sans-serif;
+  --keshion-weight-heading: 700;
+  --keshion-weight-body: 400;
+  --keshion-weight-control: 600;
+  --keshion-night: #0B1126;
+  --keshion-blue: #4388E8;
+  --keshion-green: #55C96A;
+  --keshion-ice: #F7F8F4;
+  --keshion-navy: #17233E;
+  --keshion-fog: #E8EFF9;
+  --keshion-blue-strong: #2459A6;
+  --keshion-slate: #50596A;
+  --keshion-silver: #CCD5E6;
+  --keshion-bg: #F7F8F4;
+  --keshion-surface: #E8EFF9;
+  --keshion-text: #0B1126;
+  --keshion-text-muted: #50596A;
+  --keshion-action: #2459A6;
+  --keshion-on-action: #F7F8F4;
+  --keshion-focus: #2459A6;
+}
+[data-keshion-theme="dark"] {
+  --keshion-bg: #0B1126;
+  --keshion-surface: #17233E;
+  --keshion-text: #F7F8F4;
+  --keshion-text-muted: #CCD5E6;
+  --keshion-action: #4388E8;
+  --keshion-on-action: #0B1126;
+  --keshion-focus: #55C96A;
+}

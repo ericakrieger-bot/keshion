@@ -1,0 +1,47 @@
+{
+  "colors": {
+    "night": "#0B1126",
+    "blue": "#4388E8",
+    "green": "#55C96A",
+    "ice": "#F7F8F4",
+    "navy": "#17233E",
+    "fog": "#E8EFF9",
+    "blue-strong": "#2459A6",
+    "slate": "#50596A",
+    "silver": "#CCD5E6"
+  },
+  "themes": {
+    "light": {
+      "bg": "#F7F8F4",
+      "surface": "#E8EFF9",
+      "text": "#0B1126",
+      "text-muted": "#50596A",
+      "action": "#2459A6",
+      "on-action": "#F7F8F4",
+      "focus": "#2459A6"
+    },
+    "dark": {
+      "bg": "#0B1126",
+      "surface": "#17233E",
+      "text": "#F7F8F4",
+      "text-muted": "#CCD5E6",
+      "action": "#4388E8",
+      "on-action": "#0B1126",
+      "focus": "#55C96A"
+    }
+  },
+  "typography": {
+    "heading": {
+      "family": "Manrope",
+      "weight": 700
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400
+    },
+    "controls": {
+      "family": "Inter",
+      "weight": 600
+    }
+  }
+}

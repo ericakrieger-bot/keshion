@@ -21,7 +21,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, app em app.keshion.com). Serv
 - Pedir OK antes de mudar produção, criar contas, gastar dinheiro ou mexer em número de WhatsApp de cliente.
 - Testes com a Clara no ar: só números com prefixo `554199900` (nada sai pelo WhatsApp).
 - Dados de pacientes reais nunca nesta pasta.
-- Material visual da Keshion segue `branding/guia-de-marca.md`.
+- Material visual da Keshion (site, app, redes, propostas, contratos, apresentações, SOPs) segue `branding/guia-de-marca.md`; arquivos oficiais (logos, ícones, fontes, CSS) em `branding/kit/`. PDF e contrato: sempre fundo claro. Nunca digitar "KESHION AI" no lugar do logo.
 - Commit e push dentro desta pasta; memória `keshion-migracao-n8n` com cópia no segundo cérebro (`Documents\segundo-cerebro`).
 
 ## Padrões de trabalho (pedidos da Erica em 17/11/2026)
