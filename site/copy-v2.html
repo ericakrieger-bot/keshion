@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site Keshion: copy v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--night:#0B1126;--blue:#4388E8;--green:#55C96A;--ice:#F7F8F4;--navy:#17233E;--fog:#E8EFF9;--strong:#2459A6;--slate:#50596A;--silver:#CCD5E6;--line:#dce3ee}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ice);color:var(--night);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:32px 16px 96px}
+h1,h2,h3{font-family:Manrope,system-ui,sans-serif;font-weight:700;margin:0}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:16px 0 8px}
+h2{font-size:clamp(22px,3.4vw,30px);margin:56px 0 8px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:0 0 6px}
+p{margin:0 0 10px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.lead{color:var(--slate);max-width:66ch}
+header svg.logo{height:32px;width:auto;display:block}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.card p,.card li{color:var(--slate);font-size:15px}
+.card ul,.card ol{margin:6px 0 0;padding-left:18px}
+.tag{display:inline-block;font-weight:600;font-size:12px;padding:3px 10px;border-radius:999px;margin:0 6px 6px 0}
+.t-ok{background:#e3f5e8;color:#1f6b35}
+.t-wip{background:#fff1d6;color:#8a5a00}
+.t-no{background:#fde4e4;color:#9a2a2a}
+.t-rec{background:var(--strong);color:var(--ice)}
+.opt{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+.opt.rec{border:2px solid var(--blue)}
+.opt .h{font-family:Manrope,sans-serif;font-weight:700;font-size:22px;line-height:1.2;margin:6px 0 8px}
+.opt .s{color:var(--slate);font-size:15px;margin:0 0 8px}
+.opt .why{font-size:13px;color:var(--slate);border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--fog);font-family:Manrope,sans-serif;font-size:13px}
+.scroll{overflow-x:auto}
+.blk{border:1px solid var(--line);border-radius:14px;margin:18px 0;overflow:hidden;background:#fff}
+.blk>.hd{display:flex;gap:10px;align-items:center;padding:10px 16px;background:var(--fog);font-size:13px;color:var(--slate)}
+.blk>.hd b{font-family:Manrope,sans-serif;color:var(--night);font-size:14px}
+.num{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--strong);color:var(--ice);font-weight:700;font-size:13px;align-items:center;justify-content:center;flex:none}
+.bd{padding:20px 20px 10px}
+.bd.dark{background:var(--night);color:var(--ice)}
+.bd.dark p,.bd.dark li{color:var(--silver)}
+.copy-h{font-family:Manrope,sans-serif;font-weight:700;font-size:23px;line-height:1.2;margin:0 0 8px}
+.copy-sub{font-size:16px;margin:0 0 12px}
+.btn{display:inline-block;background:var(--strong);color:var(--ice);font-weight:600;font-size:14px;padding:9px 16px;border-radius:8px;margin:2px 8px 8px 0}
+.dark .btn{background:var(--blue);color:var(--night)}
+.btn.sec{background:transparent;color:var(--strong);border:1px solid var(--strong)}
+.dark .btn.sec{color:var(--ice);border-color:var(--silver)}
+.micro{font-size:13px;color:var(--slate)}
+.dark .micro{color:var(--silver)}
+.note{background:var(--fog);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--navy);margin:12px 0}
+.warn{border-left:4px solid #c98a1a;background:#fff8ea;padding:12px 16px;border-radius:0 10px 10px 0;font-size:15px;margin:14px 0}
+.chat{max-width:430px;display:flex;flex-direction:column;gap:8px;margin:6px 0 12px}
+.m{max-width:86%;padding:9px 12px;border-radius:12px;font-size:14px;line-height:1.4}
+.in{background:var(--fog);color:var(--night);align-self:flex-start}
+.out{background:var(--strong);color:var(--ice);align-self:flex-end}
+.q{background:#fff;border:2px solid var(--blue);border-radius:12px;padding:16px 18px;margin:12px 0}
+.q ol{margin:6px 0 0;padding-left:20px}
+.q li{margin:7px 0}
+.step{display:flex;gap:12px;margin:10px 0}
+.step .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy);color:var(--ice);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+footer{margin-top:48px;color:var(--slate);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg class="logo" aria-label="Keshion AI" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 158" role="img"><title>Keshion AI</title><path d="M149.763 146.012C124.280 141.482 107.000 121.677 107.000 97.000C107.000 64.708 138.442 41.192 170.465 49.533C189.104 54.388 203.469 70.982 204.777 89.170C205.408 97.934 204.611 100.656 200.723 103.027C197.690 104.877 195.540 104.993 164.219 104.996C126.686 105.000 127.888 104.721 132.391 112.404C138.404 122.665 148.209 127.651 160.540 126.718C168.339 126.129 171.536 124.831 179.913 118.859C186.562 114.119 191.731 113.640 195.505 117.414C202.532 124.441 198.881 132.150 185.113 139.358C173.761 145.302 160.165 147.861 149.763 146.012ZM182.479 86.034C183.524 84.343 179.217 77.342 174.811 73.571C161.653 62.308 139.859 66.595 132.004 81.992C130.949 84.060 130.366 86.033 130.710 86.376C131.759 87.425 181.823 87.095 182.479 86.034ZM234.394 143.528C223.776 139.909 215.594 134.772 213.533 130.429C209.975 122.930 214.453 115.500 222.532 115.500C226.222 115.500 227.496 116.077 230.702 119.201C236.237 124.594 243.148 127.405 251.000 127.457C259.199 127.511 262.016 126.711 265.343 123.384C270.818 117.909 267.333 110.447 258.205 108.100C231.631 101.268 228.460 100.099 222.640 94.989C212.741 86.297 211.459 71.954 219.591 60.876C222.334 57.139 224.877 55.182 230.772 52.270C238.394 48.505 238.418 48.500 250.951 48.543C261.671 48.581 264.302 48.919 269.000 50.865C282.811 56.585 288.282 62.584 285.999 69.504C283.801 76.164 276.118 78.041 269.944 73.425C264.618 69.442 261.237 67.917 255.845 67.065C245.376 65.410 236.667 69.416 236.667 75.886C236.667 81.513 240.791 83.973 255.192 86.937C266.795 89.324 274.570 92.181 279.828 95.990C292.156 104.921 293.304 123.813 282.191 134.888C274.159 142.894 265.397 145.952 250.500 145.950C243.603 145.949 239.839 145.383 234.394 143.528ZM698.313 144.873C694.246 143.728 691.000 139.614 691.000 135.604C691.000 133.733 695.943 121.648 703.319 105.489C710.094 90.645 721.427 65.754 728.503 50.176C740.762 23.187 741.546 21.762 745.144 19.926C752.105 16.375 760.716 17.733 765.622 23.155C766.789 24.445 771.797 34.725 776.751 46.000C781.705 57.275 792.338 81.408 800.379 99.629C808.421 117.850 815.000 133.756 815.000 134.975C815.000 138.098 812.103 142.632 809.288 143.915C805.696 145.551 799.865 145.211 796.502 143.169C794.164 141.749 792.176 138.395 787.466 127.924L781.428 114.500 L753.204 114.234L724.980 113.969 L718.240 127.717C714.046 136.273 710.556 142.095 709.000 143.134C705.629 145.385 702.145 145.952 698.313 144.873ZM771.315 91.250C771.968 90.118 754.652 51.002 753.500 51.008C752.608 51.012 734.946 89.400 734.985 91.250C734.993 91.662 743.073 92.000 752.941 92.000C762.809 92.000 771.077 91.662 771.315 91.250ZM22.217 143.439C16.939 139.743 17.000 140.485 17.000 79.500C17.000 16.424 16.811 18.231 23.728 15.340C31.417 12.128 38.280 16.672 39.389 25.708C39.712 28.344 39.829 40.813 39.649 53.417C39.468 66.021 39.596 77.678 39.932 79.321C41.244 85.736 42.435 85.235 62.778 69.721C73.283 61.710 83.585 53.995 85.671 52.578C93.977 46.933 104.000 50.905 104.000 59.841C104.000 62.039 103.703 64.610 103.341 65.554C102.978 66.499 94.849 73.087 85.277 80.194C75.704 87.301 68.013 93.476 68.186 93.917C68.359 94.358 75.925 101.606 85.000 110.024C94.075 118.442 102.285 126.493 103.243 127.915C104.230 129.378 104.990 132.378 104.993 134.827C105.003 141.048 100.956 145.000 94.576 145.000C90.000 145.000 89.989 144.991 70.026 126.000C59.041 115.550 49.778 107.000 49.440 107.000C48.559 107.000 40.012 113.226 39.941 113.920C39.908 114.239 39.793 119.675 39.686 126.000C39.531 135.093 39.122 138.043 37.731 140.096C34.484 144.887 26.684 146.568 22.217 143.439ZM306.241 143.675C304.999 142.985 303.199 141.313 302.241 139.960C300.634 137.689 300.500 132.991 300.500 78.901C300.500 15.049 300.383 16.405 306.165 13.415C311.051 10.888 315.788 11.588 319.600 15.400L323.000 18.800 L323.000 37.733C323.000 48.147 323.281 56.947 323.623 57.290C323.966 57.633 325.654 56.859 327.373 55.571C338.628 47.139 353.244 45.294 367.881 50.458C376.764 53.592 385.858 61.840 390.473 70.947C395.366 80.602 396.000 85.408 396.000 112.810L396.000 138.200 L392.600 141.600C389.975 144.225 388.368 145.000 385.550 145.000C380.678 145.000 376.528 142.719 375.177 139.297C374.511 137.611 373.959 126.942 373.786 112.425L373.500 88.351 L370.490 82.468C360.806 63.545 335.969 63.563 326.500 82.500L323.500 88.500 L323.000 113.835L322.500 139.169 L319.234 142.085C315.636 145.297 310.332 145.946 306.241 143.675ZM412.400 141.600L409.000 138.200 L409.000 97.500L409.000 56.800 L412.400 53.400C416.232 49.568 420.952 48.889 425.915 51.456C431.796 54.497 432.000 56.039 432.000 97.433C432.000 138.831 431.786 140.508 426.128 143.434C420.959 146.107 416.282 145.482 412.400 141.600ZM569.400 141.600L566.000 138.200 L566.000 112.782C566.000 85.449 566.492 81.893 571.695 71.619C576.540 62.050 588.922 52.437 600.306 49.407C607.196 47.572 618.179 47.635 625.540 49.552C640.372 53.414 653.426 66.057 658.105 81.091C659.756 86.395 660.000 90.460 660.000 112.689L660.000 138.200 L656.600 141.600C653.813 144.387 652.443 145.000 649.000 145.000C645.557 145.000 644.187 144.387 641.400 141.600L638.000 138.200 L638.000 115.138C638.000 94.053 637.817 91.587 635.869 86.381C627.848 64.940 600.190 63.486 590.603 84.000C588.695 88.082 588.452 90.822 587.981 113.500C587.696 127.250 587.079 139.304 586.610 140.287C585.398 142.828 580.716 145.000 576.450 145.000C573.632 145.000 572.025 144.225 569.400 141.600ZM829.942 143.528C828.535 142.763 826.859 140.986 826.218 139.579C825.378 137.735 825.027 120.964 824.959 79.439C824.854 15.186 824.514 18.362 831.828 15.291C836.805 13.201 842.484 15.084 845.717 19.898L848.000 23.296 L848.000 79.180C848.000 140.473 848.007 140.394 842.128 143.434C838.423 145.350 833.363 145.389 829.942 143.528ZM415.418 37.031C412.535 35.865 408.031 30.297 407.849 27.673C407.335 20.258 408.734 16.742 413.314 13.950C424.735 6.986 437.957 20.357 430.974 31.810C427.914 36.830 420.813 39.214 415.418 37.031Z" fill="#0B1126" fill-rule="evenodd"/><g transform="translate(444 43) scale(1.09 1.07)"><path d="M80.8367 11.9198 A49 49 0 0 0 11.9198 80.8367 L28.2399 67.6210 A28 28 0 0 1 67.6210 28.2399 Z" fill="#4388E8" fill-rule="evenodd"/><path d="M19.1633 88.0802 A49 49 0 0 0 88.0802 19.1633 L71.7601 32.3790 A28 28 0 0 1 32.3790 71.7601 Z" fill="#55C96A" fill-rule="evenodd"/></g></svg>
+  <div class="eyebrow" style="margin-top:14px">Site Keshion · copy v2 · 17/11/2026</div>
+  <h1>Opções de abertura, foco e texto revisado</h1>
+  <p class="lead">Segue o que você respondeu. O texto agora passa pelo Manual da Copy: abertura sem o nome do produto, título curioso em cada seção, causa explicada, nenhum número sem fonte. E uma descoberta que muda a promessa do site: <b>dois dos recursos que prometi na v1 ainda não existem</b>.</p>
+</header>
+
+<h2>1. O que ainda não existe (muda a promessa)</h2>
+<p class="lead">Conferi o estado técnico da Clara em <code>tecnico/RETOMAR-AQUI.md</code>. O texto do site só pode afirmar como pronto o que está na primeira coluna.</p>
+<div class="scroll"><table>
+<tr><th><span class="tag t-ok">Funciona hoje</span></th><th><span class="tag t-wip">Em construção ou depois do piloto</span></th></tr>
+<tr><td>
+<ul style="margin:0;padding-left:18px">
+<li>Responde dúvidas com a base da clínica</li>
+<li>Mostra horários livres, marca, remarca e cancela na agenda</li>
+<li>Entende áudio e foto</li>
+<li>Passa para a equipe quando precisa (avisa a responsável)</li>
+<li>Pausa quando a dentista assume a conversa</li>
+<li>Envia mensagem de despedida depois de marcar</li>
+</ul></td><td>
+<ul style="margin:0;padding-left:18px">
+<li><b>Retomar orçamento parado</b> (dias 2, 7 e 14): não existe</li>
+<li><b>Confirmações e lembretes</b> (48 h, véspera, 2 h antes): depois do piloto</li>
+<li><b>Modo copiloto</b> (a equipe aprova antes de enviar): ainda não existe</li>
+<li><b>Relatório de reais recuperados</b>: depende do app e do CRM, em desenho</li>
+</ul></td></tr>
+</table></div>
+<div class="warn"><b>Consequência.</b> A frase da v1, "Seu WhatsApp responde na hora e acompanha cada orçamento", promete algo que ainda não existe. Nas aberturas abaixo, cada opção diz se é verdade hoje. As promessas em construção aparecem no site com a etiqueta "em construção", como a Dentovox faz, ou ficam de fora até estarem prontas.</div>
+
+<h2>2. Seis opções para o título da abertura</h2>
+<p class="lead">Regras do Manual aplicadas: sem nome do produto, sem pergunta, sem exclamação, sem travessão, com situação concreta. Cada opção tem o texto de apoio que entra logo abaixo.</p>
+
+<div class="opt rec">
+  <span class="tag t-rec">Recomendada</span><span class="tag t-ok">Verdade hoje</span>
+  <div class="h">O seu paciente decide às 21h. A sua recepção abre às 8h.</div>
+  <p class="s">Uma assistente de IA atende o WhatsApp da clínica nesse intervalo, mostra os horários livres, marca a avaliação na agenda e chama a equipe quando a conversa pede uma pessoa.</p>
+  <div class="why"><b>Por que:</b> é curta, é um fato que todo dono de clínica reconhece, cria o inimigo concreto (o horário comercial) e só afirma o que a assistente já faz. Quando o acompanhamento de orçamento existir, a segunda frase ganha um complemento.</div>
+</div>
+
+<div class="opt">
+  <span class="tag t-ok">Verdade hoje</span>
+  <div class="h">Quem pergunta sobre lentes de contato dental às 21h tende a continuar a conversa com a clínica que respondeu primeiro.</div>
+  <p class="s">A assistente responde no WhatsApp da clínica, marca a avaliação na agenda e passa para a equipe o que precisa de uma pessoa.</p>
+  <div class="why"><b>Por que:</b> estilo "avisar" do Manual, com tratamento específico. Mais longa. A afirmação "tende a" é um raciocínio, não um dado: vale confirmar com as conversas das clínicas piloto antes de publicar.</div>
+</div>
+
+<div class="opt">
+  <span class="tag t-wip">Só quando existir retomada de orçamento</span>
+  <div class="h">Todo orçamento de tratamento caro passa por um "vou pensar". O que acontece depois depende de quem volta a falar com o paciente.</div>
+  <p class="s">Uma assistente de IA acompanha essas conversas no WhatsApp da clínica, no tempo certo e sem insistir, e avisa a equipe quando o paciente responde.</p>
+  <div class="why"><b>Por que:</b> é a tese mais forte para sorriso estético e orçamento alto. Só pode ir ao ar depois de a retomada existir.</div>
+</div>
+
+<div class="opt">
+  <span class="tag t-wip">Só quando existir retomada de orçamento</span>
+  <div class="h">O intervalo entre o "vou pensar" e a resposta é onde a clínica perde o tratamento.</div>
+  <p class="s">Uma assistente de IA ocupa esse intervalo no WhatsApp da clínica, com o jeito de falar da equipe.</p>
+  <div class="why"><b>Por que:</b> dá um nome ao problema (o intervalo), como pede o Manual. Mesma dependência da opção anterior.</div>
+</div>
+
+<div class="opt">
+  <span class="tag t-wip">Só quando existir retomada de orçamento</span>
+  <div class="h">Seu WhatsApp responde na hora e acompanha cada orçamento.</div>
+  <p class="s">Uma assistente de IA responde pacientes, agenda, confirma consultas e retoma quem pediu orçamento e não voltou. Sua equipe assume quando quiser.</p>
+  <div class="why"><b>Por que:</b> é a frase da v1, corrigida para não começar pelo nome da empresa. Promete retomada e confirmação, que ainda não existem.</div>
+</div>
+
+<div class="opt">
+  <span class="tag t-ok">Verdade hoje</span><span class="tag t-no">Mais fraca na copy</span>
+  <div class="h">Atendimento por IA no WhatsApp para clínicas odontológicas.</div>
+  <p class="s">Responde dúvidas, organiza agendamentos e encaminha conversas para a sua equipe.</p>
+  <div class="why"><b>Por que:</b> é o texto do manual de marca, seguro e coerente com a identidade. Funciona como rótulo, não como gancho, e fica parecida com a de qualquer concorrente.</div>
+</div>
+
+<h2>3. Foco: odontologia agora ou aberto?</h2>
+<p class="lead">Minha recomendação: <b>odontologia agora, com a frase "automações inteligentes" apenas no rodapé</b>. Como os concorrentes fazem:</p>
+<div class="grid g3">
+  <div class="card"><h3>Só odontologia</h3><p>Odonto Results, Secretária Odonto, ClarIA Odonto, Captador (diz que nasceu na odontologia, lista outros segmentos mais abaixo). A home inteira fala de dentista.</p></div>
+  <div class="card"><h3>Home geral e uma página por área</h3><p>Clinia (<code>/especialidades/odontologia</code>), Avie (<code>/especialidades/odontologia</code>), We Ramp (páginas médica, odontológica e estética), Cloudia (página própria para clínicas odontológicas), Certu (links para outras especialidades).</p></div>
+  <div class="card"><h3>Home geral e só um parágrafo para dentista</h3><p>ClinistIA fala de médicos, dentistas e psicólogos na mesma home. A mensagem para o dentista fica diluída.</p></div>
+</div>
+<div class="card" style="margin-top:14px">
+  <h3>Por que odontologia primeiro</h3>
+  <ul>
+    <li>Os concorrentes que se destacam para dentista têm página específica ou são 100% odontologia. Uma home geral perde para eles na busca e na confiança.</li>
+    <li>Nosso piloto, nosso preço e o argumento de orçamento alto são de odontologia estética. Texto específico vende mais que texto aberto.</li>
+    <li>Não fecha a porta: quando houver um segundo nicho, a home atual vira <code>keshion.com/odontologia</code> e a home passa a ser geral, como Clinia, Avie e We Ramp fazem.</li>
+    <li>"Automações inteligentes" continua como frase da marca no rodapé e nas redes, onde cabe o plano de crescer para outros negócios.</li>
+  </ul>
+</div>
+
+<h2>4. Conversa com a Clara no site: como será feito</h2>
+<p class="lead">Na prática, o botão "Conversar com a assistente" abre o WhatsApp do visitante já com uma mensagem pronta, para um número que só serve para demonstração. Do outro lado, a Clara responde em "modo demonstração". Passo a passo, em linguagem simples:</p>
+<div class="card">
+  <div class="step"><div class="n">1</div><div><b>Um número só para a demonstração.</b> Não o da Dra. Suzana, para os testes não se misturarem. Dois caminhos: (A) novo canal no Whapi, rápido e barato, mas é a conexão não oficial de hoje, então um número público pode ser bloqueado; (B) API oficial da Meta com número novo, mais sólida, mas exige a verificação da empresa, que depende dos dados da empresa que você ainda vai trazer. Sugestão: começar com A e migrar para B, de acordo com a decisão 4.</div></div>
+  <div class="step"><div class="n">2</div><div><b>Uma clínica fictícia só do site.</b> A estrutura por clínica de 17/11 já permite: pasta <code>clientes/demo-site</code>, banco e fluxos próprios, agenda de teste. Nada disso toca na clínica da Dra. Suzana nem na da Dra. Vivian.</div></div>
+  <div class="step"><div class="n">3</div><div><b>Modo demonstração.</b> A Clara começa dizendo que é uma demonstração, conversa até um limite de mensagens, não cria compromisso real e, no fim, pergunta se o visitante quer ver isso na clínica dele.</div></div>
+  <div class="step"><div class="n">4</div><div><b>Você recebe o interesse.</b> Quando o visitante topar, o número dele e um resumo da conversa chegam para você. O canal de alerta fora do WhatsApp, que já está no roteiro, serve para isso.</div></div>
+  <div class="step"><div class="n">5</div><div><b>Privacidade.</b> O telefone do visitante é dado pessoal. Entram um aviso curto perto do botão e a página de política de privacidade. Essa página também é exigida para publicar o app do Google, o que resolve a renovação semanal da agenda.</div></div>
+  <div class="step"><div class="n">6</div><div><b>Limites de uso.</b> Teto de conversas por dia e por número, para um excesso de curiosos ou de spam não gerar custo. Preciso medir o custo por conversa antes de abrir ao público, já que cada contato novo conta como conversa no plano do Whapi.</div></div>
+  <div class="step"><div class="n">7</div><div><b>Testes.</b> Primeiro só com números do prefixo de teste, depois duas ou três pessoas de confiança. Só então o botão vai ao ar.</div></div>
+  <p class="micro" style="margin-top:12px">Enquanto isso não estiver pronto, o site mostra só a conversa de exemplo (mockup) e o botão de diagnóstico. A demonstração ao vivo entra depois, sem atrasar o protótipo.</p>
+</div>
+<div class="note"><b>Precisa do seu OK antes:</b> criar um canal novo no Whapi (custo mensal) e escolher entre A e B. Não faço nada disso sem a sua resposta.</div>
+
+<h2>5. Copy v2, seção por seção</h2>
+<p class="lead">Com a abertura recomendada. Cada seção tem título curioso, não rótulo. Nada de depoimento nem autoridade inventada: o Manual diz que é melhor não ter a seção do que ter uma fraca.</p>
+
+<div class="blk"><div class="hd"><span class="num">1</span><b>Abertura</b></div>
+<div class="bd dark">
+<p class="copy-h" style="font-size:30px">O seu paciente decide às 21h. A sua recepção abre às 8h.</p>
+<p class="copy-sub">Uma assistente de IA atende o WhatsApp da clínica nesse intervalo, mostra os horários livres, marca a avaliação na agenda e chama a equipe quando a conversa pede uma pessoa.</p>
+<span class="btn">Agendar diagnóstico grátis</span><span class="btn sec">Ver uma conversa de exemplo</span>
+<p class="micro">30 minutos. Você sai com um retrato de como o WhatsApp da clínica atende hoje.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">2</span><b>Problema</b> Explica a causa e dá nome ao fenômeno.</div>
+<div class="bd">
+<p class="copy-h">Por que o "vou pensar" vira silêncio</p>
+<p class="copy-sub">Quem pede orçamento de lentes de contato dental, facetas ou implante raramente decide na primeira conversa. A recepção atende quem chega, e quem sumiu não chega. Sem uma tarefa de voltar a falar com ele, o orçamento esfria sozinho. Chamamos isso de <b>orçamento esfriado</b>: o tratamento foi apresentado e nunca teve resposta.</p>
+<div class="grid g3" style="margin-bottom:12px">
+<div class="card"><h3>21h de uma quinta</h3><p>O paciente pergunta sobre lentes de contato dental. A clínica fechou às 18h. De manhã, ele já conversou com outra.</p></div>
+<div class="card"><h3>O "vou pensar"</h3><p>O orçamento foi apresentado e o paciente saiu pensando. Ninguém tem a tarefa de procurá-lo depois.</p></div>
+<div class="card"><h3>A cadeira vazia</h3><p>O paciente faltou, a vaga ficou parada e ninguém o chamou para remarcar.</p></div>
+</div></div></div>
+
+<div class="blk"><div class="hd"><span class="num">3</span><b>Como funciona</b></div>
+<div class="bd">
+<p class="copy-h">A configuração é nossa. A aprovação é sua.</p>
+<div class="grid g3" style="margin-bottom:12px">
+<div class="card"><h3>1. Diagnóstico</h3><p>Em 30 minutos, olhamos como as mensagens chegam hoje e em que ponto a conversa para.</p></div>
+<div class="card"><h3>2. Implantação</h3><p>Montamos a assistente com os tratamentos, os horários, as regras e o jeito de falar da sua clínica. Você revisa tudo antes de ir ao ar.</p></div>
+<div class="card"><h3>3. Acompanhamento</h3><p>Lemos as conversas toda semana e ajustamos o que precisar. O que a assistente não souber, ela passa para a sua equipe.</p></div>
+</div></div></div>
+
+<div class="blk"><div class="hd"><span class="num">4</span><b>O que ela faz</b> Separado entre o que já funciona e o que está em construção.</div>
+<div class="bd">
+<p class="copy-h">O que sai da mão da recepção, e o que ainda vai sair</p>
+<p><span class="tag t-ok">Já funciona</span></p>
+<div class="grid g3" style="margin-bottom:10px">
+<div class="card"><h3>Responde com a base da clínica</h3><p>Tratamentos, horários, endereço e formas de pagamento, do jeito que a clínica definiu.</p></div>
+<div class="card"><h3>Marca, remarca e cancela</h3><p>Mostra os horários livres da agenda real e grava a marcação. Só diz que marcou depois de gravar.</p></div>
+<div class="card"><h3>Entende áudio e foto</h3><p>Transcreve o áudio e lê a imagem que o paciente enviou.</p></div>
+<div class="card"><h3>Chama a equipe</h3><p>Passa a conversa com contexto, para o paciente não repetir a história. Quando a dentista responde, a assistente pausa.</p></div>
+</div>
+<p><span class="tag t-wip">Em construção</span></p>
+<div class="grid g2" style="margin-bottom:12px">
+<div class="card"><h3>Retoma orçamentos parados</h3><p>Volta a falar com quem pediu orçamento e não respondeu, no tempo certo e sem insistir.</p></div>
+<div class="card"><h3>Confirma e lembra</h3><p>Confirma a consulta antes do dia e reduz a vaga vazia.</p></div>
+</div>
+<p class="micro">O resultado para a clínica: a recepção volta a cuidar de quem está na cadeira, e o tratamento de valor alto deixa de depender da memória de alguém.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">5</span><b>Controle</b> <span class="tag t-wip">Entra só quando o modo copiloto existir</span></div>
+<div class="bd">
+<p class="copy-h">Quem escreve a primeira frase é a assistente. Quem decide é você.</p>
+<p class="copy-sub">Na primeira semana, a assistente escreve a resposta e a sua equipe aprova com um toque. Quando todos estiverem à vontade, ela passa a responder sozinha o que for rotina. O que for delicado continua indo para uma pessoa.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">6</span><b>Limites</b></div>
+<div class="bd">
+<p class="copy-h">O que a assistente nunca faz, nem se o paciente insistir</p>
+<div class="grid g2" style="margin-bottom:12px">
+<div class="card"><ul><li>Dar diagnóstico ou indicar remédio.</li><li>Tratar dor forte, inchaço ou urgência: vão direto para a dentista.</li><li>Inventar preço, horário ou promoção.</li></ul></div>
+<div class="card"><ul><li>Dizer que marcou antes de gravar na agenda.</li><li>Marcar dois pacientes no mesmo horário.</li><li>Negar que é uma assistente virtual, se o paciente perguntar.</li></ul></div>
+</div></div></div>
+
+<div class="blk"><div class="hd"><span class="num">7</span><b>Demonstração</b></div>
+<div class="bd dark">
+<p class="copy-h">Uma quinta-feira, 21h07</p>
+<div class="chat">
+<div class="m in">Boa noite, vocês fazem lente de contato dental? Quanto custa?</div>
+<div class="m out">Boa noite. Fazemos, sim. O valor depende do caso de cada paciente, por isso a primeira etapa é uma avaliação com a Dra. Suzana. Posso ver um horário para você?</div>
+<div class="m in">Pode ser quinta à tarde?</div>
+<div class="m out">Quinta às 15h está livre. Posso marcar a avaliação?</div>
+<div class="m in">Pode.</div>
+<div class="m out">Marcado para quinta, às 15h, com a Dra. Suzana. Qualquer mudança, é só me avisar por aqui.</div>
+</div>
+<p class="micro">Exemplo com dados de teste. Nenhum paciente real.</p>
+<span class="btn">Agendar diagnóstico grátis</span><span class="btn sec">Conversar com a assistente</span>
+<p class="micro">O segundo botão só aparece quando a demonstração ao vivo estiver pronta (seção 4). A conversa de exemplo mostra só o que a assistente já faz hoje.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">8</span><b>Para quem é</b></div>
+<div class="bd">
+<p class="copy-h">Quando um orçamento perdido pesa no mês</p>
+<p class="copy-sub">Para clínicas que vendem lentes de contato dental, facetas, alinhadores invisíveis, clareamento ou implantes, com orçamentos acima de R$ 5 mil, e que recebem pacientes por anúncio ou Instagram. Nesse perfil, cada conversa sem resposta custa um tratamento inteiro.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">9</span><b>Custos</b> Sem valores publicados (decisão 2).</div>
+<div class="bd">
+<p class="copy-h">Três valores, nenhuma letra miúda</p>
+<div class="grid g3" style="margin-bottom:12px">
+<div class="card"><h3>Implantação</h3><p>Pagamento único: configuração, testes e treinamento da equipe.</p></div>
+<div class="card"><h3>Mensalidade</h3><p>Acompanhamento semanal das conversas e ajustes.</p></div>
+<div class="card"><h3>Mensagens do WhatsApp</h3><p>Cobradas pela Meta, direto no cartão da clínica. Não somamos nada em cima.</p></div>
+</div>
+<p class="copy-sub">Os valores saem no diagnóstico, de acordo com o tamanho da clínica.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">10</span><b>Perguntas</b> Revisadas: "mesmo que" saiu.</div>
+<div class="bd">
+<p class="copy-h">O que os donos de clínica perguntam antes de contratar</p>
+<p><b>Preciso trocar de sistema?</b> Não. A assistente trabalha com a agenda que a clínica já usa. O número de WhatsApp depende do caminho de conexão escolhido, e explicamos isso no diagnóstico.</p>
+<p><b>Ela substitui a recepção?</b> Não. Assume o que se repete e passa para a equipe o que precisa de uma pessoa.</p>
+<p><b>O paciente vai perceber que é uma IA?</b> Se perguntar, a assistente diz que é virtual. As respostas são escritas no jeito da sua clínica.</p>
+<p><b>E se o paciente perguntar o preço?</b> Ela só informa o que a clínica definiu. Orçamento de tratamento continua com o dentista.</p>
+<p><b>Quanto tempo leva para entrar no ar?</b> Depende da agenda e da conexão do WhatsApp. No diagnóstico damos o prazo da sua clínica.</p>
+<p><b>Quem paga as mensagens da Meta?</b> A clínica, direto à Meta, no cartão cadastrado.</p>
+<p><b>E os dados dos pacientes?</b> A clínica é a responsável pelos dados e a Keshion os trata conforme a LGPD. Os detalhes ficam no contrato.</p>
+<p><b>Posso parar quando quiser?</b> As condições de cancelamento ficam claras antes de você contratar.</p>
+</div></div>
+
+<div class="blk"><div class="hd"><span class="num">11</span><b>Fechamento</b></div>
+<div class="bd dark">
+<p class="copy-h">Em 30 minutos, mostramos onde o WhatsApp da sua clínica para de responder</p>
+<p class="copy-sub">Você leva o retrato do atendimento atual, contrate ou não. Preencha o nome da clínica e o WhatsApp, ou fale direto com a gente.</p>
+<span class="btn">Agendar diagnóstico</span>
+<p class="micro">Rodapé: logo · "Keshion · automações inteligentes" · contato@keshion.com · keshion.com · política de privacidade · CNPJ (a preencher).</p>
+</div></div>
+
+<h2>6. Fora desta versão, de propósito</h2>
+<div class="grid g2">
+<div class="card"><ul><li><b>Depoimentos e seção de autoridade:</b> não temos casos nem número verificável. Pelo Manual, é melhor não ter a seção. Quando houver, entra com antes, resultado e prazo.</li><li><b>Clínicas parceiras de lançamento:</b> fica para quando você decidir a abordagem (decisão 5).</li></ul></div>
+<div class="card"><ul><li><b>Preço:</b> não publicado (decisão 2).</li><li><b>"API oficial" e "sem bloqueio":</b> fora até o caminho oficial existir (decisão 4, para mais adiante).</li></ul></div>
+</div>
+
+<h2>7. O que preciso de você agora</h2>
+<div class="q"><ol>
+<li><b>Abertura:</b> qual das seis? Minha indicação é a primeira (21h e 8h).</li>
+<li><b>Foco:</b> concorda com odontologia agora, com a página já pensada para virar <code>/odontologia</code> depois?</li>
+<li><b>Em construção:</b> aceita mostrar "retoma orçamentos" e "confirma e lembra" com a etiqueta "em construção", ou prefere deixar de fora até estarem prontos?</li>
+<li><b>Demonstração ao vivo:</b> posso preparar o plano técnico (número, clínica fictícia, limites)? Criar o canal novo e gastar com ele só depois do seu OK.</li>
+</ol></div>
+
+<footer>Keshion · copy v2 · base: Manual da Copy do workshop, relatório de mercado de 13/11/2026, leitura de concorrentes em 17/11/2026 e estado técnico em <code>tecnico/RETOMAR-AQUI.md</code>. Decisões já tomadas estão em <code>site/DECISOES.md</code>.</footer>
+</div>
+</body>
+</html>
