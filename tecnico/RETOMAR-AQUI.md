@@ -14,7 +14,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 | Caminho do webhook | secreto, em `tecnico/n8n/segredos.local.json` (fora do Git) |
 | Dados | Postgres, banco `clara`: `pacientes`, `config` (`_instrucoes`, `_base`, `modelo`, `aprovador`, `prefixo_teste`...), `mensagens_recebidas`, `saidas_teste` |
 | Instruções e base | `clientes/clinica-demo/instrucoes-sarah.md` e `base-clinica.md` (copiar para `config` depois de mudar) |
-| Testes | números com prefixo `554199900` nunca saem pelo WhatsApp. `tecnico/teste-ab/teste_n8n.py` (56 mensagens, roda no servidor) e `tecnico/teste-ab/paciente_simulado.py` (8 pacientes simulados por IA + IA avaliadora, roda no PC) |
+| Testes | lista em `tecnico/testes-checklist.md`; números com prefixo `554199900` nunca saem pelo WhatsApp. `tecnico/teste-ab/teste_n8n.py` (56 mensagens, roda no servidor) e `tecnico/teste-ab/paciente_simulado.py` (8 pacientes simulados por IA + IA avaliadora, roda no PC) |
 
 ## O que já foi feito
 
@@ -27,7 +27,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 ## Roadmap
 
 **Urgente (esta semana)**
-- **Google Agenda:** o app do Google está em modo Teste, e a autorização expira 7 dias depois de dada (dada em 12/11, então perto de 19/11). Até publicar o app, reconectar a credencial no n8n quando expirar. Para publicar: domínio keshion.com.br, página inicial e política de privacidade.
+- **Google Agenda:** o app do Google está em modo Teste, e a autorização expira 7 dias depois de dada (dada em 12/11, então perto de 19/11). Até publicar o app, reconectar a credencial no n8n quando expirar. Para publicar: domínio keshion.com (já registrado), página inicial e política de privacidade.
 
 **Antes do piloto da Dra. Vivian (01/12/2026)**
 1. **Estrutura por clínica (próxima feature):** o gerador recebe um arquivo por clínica (nome da assistente, agenda, aprovador, voz, credenciais, banco ou chave de clínica) e gera os fluxos dela, sem misturar dados com a demo.
