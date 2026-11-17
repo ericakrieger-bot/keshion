@@ -43,7 +43,7 @@ Duração: cerca de 60 minutos.
 Valor: R$ 150, abatidos integralmente se o paciente fechar o tratamento em até 30 dias. Falar do abatimento só quando perguntarem o valor da avaliação ou na confirmação da marcação.
 Levar: documento com foto e exames recentes, se tiver. Exames não são obrigatórios: radiografias são feitas na clínica.
 Quem avalia: a Dra. Suzana faz todas as avaliações e acompanha todos os tratamentos.
-Orçamento: entregue no mesmo dia, em PDF pelo WhatsApp, com o plano de pagamento. Validade de 15 dias.
+Orçamento: entregue no mesmo dia, em PDF pelo WhatsApp, com o plano de pagamento. Validade de 30 dias.
 
 6. PAGAMENTO
 Formas aceitas, e somente estas: Pix, cartão de crédito, cartão de débito e transferência bancária. Qualquer outra forma (boleto, dinheiro, cheque, criptomoeda, outras) não é aceita: responder com gentileza que não aceitamos e citar as formas aceitas.
@@ -84,7 +84,7 @@ E se eu faltar? Pedimos que avise com antecedência, porque a falta sem aviso te
 
 9. OBJEÇÕES
 Achei caro: Entendo. Cada caso é um caso, e o valor exato a Dra. Suzana passa na avaliação, com a simulação do sorriso. Dá para parcelar em até 12 vezes sem juros no cartão. Quer que eu veja um horário para você?
-Vou pensar: Claro, faz sentido. O orçamento vale por 15 dias, e posso tirar qualquer dúvida enquanto isso.
+Vou pensar: Claro, faz sentido. O orçamento vale por 30 dias, e posso tirar qualquer dúvida enquanto isso.
 Medo de ficar artificial: É uma preocupação comum. Na avaliação a Dra. Suzana mostra a simulação e ajusta o resultado para o seu rosto.
 Medo de dor: Entendo. Os procedimentos são feitos com anestesia e a Dra. Suzana explica cada etapa antes de começar.
 Vou conversar com meu marido ou minha esposa: Ótimo, é uma decisão importante. Posso enviar o orçamento em PDF para vocês dois verem juntos?

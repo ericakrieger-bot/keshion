@@ -84,7 +84,7 @@ Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Reativ
 - Em aberto, aceitos e recusados; lembretes da IA nos dias 3, 10, 17 e 30; Aceitou ou Recusou (pede o motivo).
 - **Textos padrão do orçamento** por tratamento (como é o tratamento, etapas, prazo, o que está incluído), tirados da base da clínica e editáveis pela doutora.
 - **PDF com a marca da clínica** (não a da Keshion, que aparece só no rodapé como "Gerado pelo app Keshion AI"): número, emissão e validade, dados do paciente (CPF a preencher), plano de tratamento, abatimento da avaliação, formas de pagamento (5% no Pix, 12 vezes sem juros), como é o tratamento, o que está incluído, observações e assinaturas.
-- Validade no protótipo: 30 dias. **A base da clínica demo diz 15 dias**, o que não combina com lembretes até o dia 30. Decidir com a clínica.
+- Validade do orçamento: 30 dias (decidido pela Erica em 17/11/2026, para combinar com os lembretes até o dia 30). A base da clínica demo foi atualizada no arquivo; falta levar para a Clara no servidor.
 
 **Reativar** (antiga Retornos; o nome mudou porque "retorno" parecia consulta já marcada)
 - Lista "Contatar Sônia: limpeza vencida há 7 meses", seleção, prévia da mensagem e aprovação do envio.
