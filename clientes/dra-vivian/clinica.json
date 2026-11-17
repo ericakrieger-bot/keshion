@@ -37,7 +37,8 @@
   },
 
   "servidor": "https://n8n.169-58-41-107.sslip.io",
-  "aviso_falha_envio": "972584285541",
+  "_leia_aviso_falha": "aviso_falha_envio: quem recebe o alerta quando o WhatsApp da clínica falha (sai pelo próprio canal da clínica e leva o texto que não saiu). Precisa ser aprovado pela clínica.",
+  "aviso_falha_envio": "PREENCHER (só números, com 55)",
 
   "config_no_banco": {
     "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: quem pode usar #reiniciar.",
@@ -46,7 +47,7 @@
     "modelo": "claude-haiku-5-5",
     "modo_teste": "1",
     "prefixo_teste": "554199900",
-    "numeros_keshion": "972584285541,972552994413"
+    "numeros_keshion": "PREENCHER (números que podem usar #reiniciar; apaga a ficha sem cancelar a agenda. Na clínica real, combinar com ela ou deixar só o número de teste 554199900000)"
   },
 
   "arquivos": {

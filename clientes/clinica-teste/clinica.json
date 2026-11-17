@@ -1,6 +1,10 @@
 {
-  "_leia": "Clínica fictícia só para o teste de isolamento (mesmo telefone em duas clínicas). Usa as instruções e a base da demo, banco próprio, Whapi e Google da demo (só números de teste: nada sai pelo WhatsApp). Canal falso: só recebe mensagens postadas direto no webhook.",
+  "_leia": "Clínica fictícia só para o teste de isolamento (mesmo telefone em duas clínicas). Usa as instruções e a base da demo, banco próprio, Whapi e Google da demo (só números de teste: nada sai pelo WhatsApp). Canal falso: só recebe mensagens postadas direto no webhook. compartilha_para_teste: usa de propósito o Whapi e o Google da demo (as duas veem a mesma agenda; nunca usar para clínica real).",
   "slug": "clinica-teste",
+  "compartilha_para_teste": [
+    "whapi",
+    "google"
+  ],
   "nome_clinica": "Clínica de teste de isolamento",
   "nome_assistente": "Teste",
   "cidade": "Curitiba",

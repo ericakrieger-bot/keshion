@@ -14,14 +14,23 @@ assert CLI.get("slug") == SLUG, "slug do clinica.json diferente do nome da pasta
 
 
 def lit(texto):
-    """Texto entre $tag$ ... $tag$, com uma tag que não aparece no texto."""
-    tag = "k"
-    while ("$" + tag + "$") in texto:
-        tag += "k"
-    return "$" + tag + "$" + texto + "$" + tag + "$"
+    """Texto entre $tag$ ... $tag$. A tag não pode aparecer no texto nem se formar na emenda com o fechamento
+    (texto terminado em '$k', por exemplo): o primeiro fechamento tem que ser o do fim (revisão Codex 17/11)."""
+    n = 0
+    while True:
+        fecha = "$k" + str(n) + "$"
+        if fecha not in texto and (texto + fecha).find(fecha) == len(texto):
+            return fecha + texto + fecha
+        n += 1
 
 
+import re
+if not re.fullmatch(r"[a-z][a-z0-9_]{2,62}", CLI["banco"]):
+    sys.exit("banco precisa ter só letras minúsculas, números e _")
+PERMITIDAS = {"aprovador", "local_avaliacao", "modelo", "modo_teste", "prefixo_teste", "numeros_keshion"}
 valores = {k: str(v) for k, v in CLI["config_no_banco"].items() if not k.startswith("_")}
+if set(valores) - PERMITIDAS:
+    sys.exit("config_no_banco tem chaves desconhecidas: " + ", ".join(sorted(set(valores) - PERMITIDAS)))
 for chave, campo in (("_instrucoes", "instrucoes"), ("_base", "base")):
     arq = DIR / CLI["arquivos"][campo]
     if not arq.exists():
@@ -33,7 +42,12 @@ for k, v in valores.items():
 
 hoje = datetime.date.today().strftime("%Y%m%d")
 sql = ["-- Banco da clínica " + SLUG + " (" + CLI["banco"] + "). Gerado por preparar_banco.py em " + hoje + ".",
+       "-- Rodar com: psql -v ON_ERROR_STOP=1 ... -d " + CLI["banco"] + " < banco.sql",
+       "\\set ON_ERROR_STOP on",
        "BEGIN;",
+       # Trava: aplicado no banco errado, para antes de escrever qualquer coisa (revisão Codex 17/11).
+       "DO $trava$ BEGIN IF current_database() <> '" + CLI["banco"] + "' THEN RAISE EXCEPTION "
+       "'Este SQL é da clínica " + SLUG + " (banco " + CLI["banco"] + "), não de %%', current_database(); END IF; END $trava$;".replace("%%", "%"),
        (PASTA / "schema-clara.sql").read_text(encoding="utf-8").strip(), ""]
 for k, v in valores.items():
     if k in ("_instrucoes", "_base"):   # guarda a versão anterior, se for diferente

@@ -43,6 +43,55 @@ CIDADE = CLI["cidade"]
 ASSISTENTE = CLI["nome_assistente"]
 CALENDARIO = CLI["agenda"].get("calendario") or "primary"
 DURACAO_MS = int(CLI["duracao_avaliacao_min"]) * 60000
+
+# ---------- validações (revisão Codex 17/11: uma cópia mal feita não pode sobrescrever outra clínica) ----------
+import re
+_erros = []
+for _campo, _valor in (("nome_assistente", ASSISTENTE), ("cidade", CIDADE), ("whapi.canal", CANAL_WHAPI),
+                       ("fuso", TZ), ("agenda.calendario", CALENDARIO)):
+    if re.search(r"['\"\\`$\n\r{}]", _valor):   # vão para dentro de código JavaScript e SQL
+        _erros.append(_campo + " não pode ter aspas, crase, barra invertida, cifrão, chaves ou quebra de linha")
+if not re.fullmatch(r"[A-Za-z]+(/[A-Za-z_+-]+)+", TZ):
+    _erros.append("fuso precisa ser um fuso IANA, ex.: America/Sao_Paulo")
+if not (15 <= DURACAO_MS // 60000 <= 240):
+    _erros.append("duracao_avaliacao_min precisa estar entre 15 e 240")
+for _campo in ("id_atendimento", "id_envio"):
+    if not re.fullmatch(r"[A-Za-z0-9]{16}", CLI["fluxos"][_campo]):
+        _erros.append("fluxos." + _campo + " precisa ter exatamente 16 letras ou números")
+if ID_ATEND == ID_ENVIO:
+    _erros.append("id_atendimento e id_envio precisam ser diferentes")
+if not re.fullmatch(r"\d{10,15}", AVISO_FALHA_ENVIO):
+    _erros.append("aviso_falha_envio precisa ser só números, com o código do país")
+if not re.fullmatch(r"[A-Za-z0-9_-]{16,}", WEBHOOK_PATH):
+    _erros.append("o caminho do webhook em segredos.local.json precisa ter 16 ou mais letras, números, - ou _")
+# Nada pode coincidir com outra clínica, salvo credenciais declaradas em "compartilha_para_teste" (clínica de teste).
+_meu = CLI.get("compartilha_para_teste") or []
+for _outra in sorted((RAIZ / "clientes").glob("*/clinica.json")):
+    o = json.loads(_outra.read_text(encoding="utf-8"))
+    os_ = o.get("slug")
+    if os_ == SLUG or os_ is None or "PREENCHER" in str(os_):
+        continue
+    def _igual(rotulo, a, b):
+        if a and b and a == b and "PREENCHER" not in str(a):
+            _erros.append(rotulo + " igual ao de " + os_ + " (" + str(_outra.relative_to(RAIZ)) + ")")
+    _ids_outra = {o["fluxos"].get("id_atendimento"), o["fluxos"].get("id_envio")}
+    for _id in (ID_ATEND, ID_ENVIO):
+        if _id in _ids_outra:
+            _erros.append("id de fluxo " + _id + " já é usado por " + os_)
+    _igual("semente_webhook", SEMENTE_WEBHOOK, o["fluxos"].get("semente_webhook") or (os_ + "-webhook"))
+    _igual("caminho do webhook", WEBHOOK_PATH, (_seg.get(os_) or {}).get("webhook_path"))
+    _igual("whapi.canal", CANAL_WHAPI, o["whapi"].get("canal"))
+    _igual("banco", CLI["banco"], o.get("banco"))
+    _compartilha = set(_meu) | set(o.get("compartilha_para_teste") or [])
+    for _k in ("whapi", "google", "pg"):
+        if _k in _compartilha:
+            continue
+        _igual("credencial " + _k, CLI["credenciais_n8n"][_k]["id"], o["credenciais_n8n"].get(_k, {}).get("id"))
+if "pg" in _meu:
+    _erros.append("o banco (credencial pg) nunca pode ser compartilhado, nem em teste")
+if _erros:
+    sys.exit("clinica.json de " + SLUG + " recusado:\n- " + "\n- ".join(_erros))
+
 GCAL = "https://www.googleapis.com/calendar/v3"
 GCAL_EVENTOS = GCAL + "/calendars/" + urllib.parse.quote(CALENDARIO, safe="@") + "/events"
 # Trocas feitas em todo código JavaScript e texto dos nós (nada de nome de clínica escrito à mão).
