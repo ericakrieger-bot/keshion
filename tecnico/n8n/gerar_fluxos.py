@@ -1,29 +1,65 @@
-# Gera os fluxos da Clara para o n8n (importar com "n8n import:workflow").
-# Saída: clara-envio.json e clara-atendimento.json, nesta mesma pasta.
-# Nenhuma chave aqui: os fluxos apontam para credenciais já criadas no n8n (só o id).
-import json, uuid, pathlib, sys
+# Gera os fluxos de atendimento de UMA clínica para o n8n (importar com "n8n import:workflow").
+# Uso: python gerar_fluxos.py <slug>   (lê clientes/<slug>/clinica.json; sem slug, usa clinica-demo)
+# Saída: gerados/<slug>/envio.json e gerados/<slug>/atendimento.json (fora do Git: contêm o caminho secreto).
+# Nenhuma chave aqui nem no clinica.json: os fluxos apontam para credenciais já criadas no n8n (só o id).
+# Cada clínica tem os próprios fluxos, o próprio banco e as próprias credenciais (Whapi, Google, Postgres).
+import json, uuid, pathlib, sys, urllib.parse
 
 PASTA = pathlib.Path(__file__).parent
+RAIZ = PASTA.parent.parent
+SLUG = sys.argv[1] if len(sys.argv) > 1 else "clinica-demo"
+_ARQ = RAIZ / "clientes" / SLUG / "clinica.json"
+if not _ARQ.exists():
+    sys.exit("Não achei " + str(_ARQ) + ". Copie clientes/_modelo/clinica.json para a pasta da clínica e preencha.")
+CLI = json.loads(_ARQ.read_text(encoding="utf-8"))
+if CLI.get("slug") != SLUG:
+    sys.exit("O campo slug de " + str(_ARQ) + " precisa ser '" + SLUG + "' (igual ao nome da pasta).")
 
-CRED = {
-    "anthropic": {"anthropicApi": {"id": "EVx1CbzgsBjsOfBS", "name": "Anthropic account"}},
-    "google": {"googleCalendarOAuth2Api": {"id": "PoLFn2QYsgfjLmeI", "name": "Google Calendar account"}},
-    "whapi": {"httpHeaderAuth": {"id": "HpXFZlusXDEZjQm4", "name": "Header Auth account"}},
-    "openai": {"openAiApi": {"id": "eRxSt3V4rGOaTIAI", "name": "OpenAI account"}},
-    "pg": {"postgres": {"id": "clarapg0000001", "name": "Postgres Clara"}},
-}
-ID_ENVIO = "ClaraEnvio000001"
-ID_ATEND = "ClaraAtendimento"
-# O caminho do webhook funciona como senha: fica só em segredos.local.json (fora do Git).
+def _faltando(o, caminho=""):
+    if isinstance(o, dict):
+        return [x for k, v in o.items() if not k.startswith("_") for x in _faltando(v, caminho + "." + k)]
+    return [caminho[1:]] if isinstance(o, str) and ("PREENCHER" in o or not o.strip()) else []
+if _faltando(CLI):
+    sys.exit("Ainda falta preencher em " + str(_ARQ) + ": " + ", ".join(_faltando(CLI)))
+CRED = {k: {v["tipo"]: {"id": v["id"], "name": v["nome"]}} for k, v in CLI["credenciais_n8n"].items()}
+for _k in ("anthropic", "openai", "whapi", "google", "pg"):
+    if _k not in CRED:
+        sys.exit("Falta a credencial '" + _k + "' em credenciais_n8n de " + str(_ARQ) + ".")
+ID_ENVIO = CLI["fluxos"]["id_envio"]
+ID_ATEND = CLI["fluxos"]["id_atendimento"]
+SEMENTE_WEBHOOK = CLI["fluxos"].get("semente_webhook") or (SLUG + "-webhook")
+# O caminho do webhook funciona como senha: fica só em segredos.local.json (fora do Git), uma entrada por clínica.
 _SEG = PASTA / "segredos.local.json"
-if not _SEG.exists():
-    sys.exit("Falta tecnico/n8n/segredos.local.json com {\"webhook_path\": \"...\"} (fora do Git).")
-WEBHOOK_PATH = json.loads(_SEG.read_text(encoding="utf-8"))["webhook_path"]
-BASE_URL = "https://n8n.169-58-41-107.sslip.io"   # trocar quando o domínio keshion.com.br entrar
-CANAL_WHAPI = "GRNLTR-4K8ZF"                       # só aceita mensagens deste canal
-AVISO_FALHA_ENVIO = "972584285541"   # Erica
-TZ = "America/Sao_Paulo"
+_seg = json.loads(_SEG.read_text(encoding="utf-8")) if _SEG.exists() else {}
+WEBHOOK_PATH = (_seg.get(SLUG) or {}).get("webhook_path")
+if not WEBHOOK_PATH:
+    sys.exit("Falta o caminho do webhook de '" + SLUG + "' em tecnico/n8n/segredos.local.json "
+             "(formato {\"" + SLUG + "\": {\"webhook_path\": \"...\"}}, fora do Git).")
+BASE_URL = CLI["servidor"].rstrip("/")             # trocar quando o domínio keshion.com entrar
+CANAL_WHAPI = CLI["whapi"]["canal"]                # só aceita mensagens deste canal
+AVISO_FALHA_ENVIO = CLI["aviso_falha_envio"]       # quem recebe o aviso quando o WhatsApp falha
+TZ = CLI["fuso"]
+CIDADE = CLI["cidade"]
+ASSISTENTE = CLI["nome_assistente"]
+CALENDARIO = CLI["agenda"].get("calendario") or "primary"
+DURACAO_MS = int(CLI["duracao_avaliacao_min"]) * 60000
 GCAL = "https://www.googleapis.com/calendar/v3"
+GCAL_EVENTOS = GCAL + "/calendars/" + urllib.parse.quote(CALENDARIO, safe="@") + "/events"
+# Trocas feitas em todo código JavaScript e texto dos nós (nada de nome de clínica escrito à mão).
+TROCAS = {"__FUSO__": TZ, "__CIDADE__": CIDADE, "__ASSISTENTE__": ASSISTENTE, "__CALENDARIO__": CALENDARIO,
+          "__DURACAO_MS__": str(DURACAO_MS), "__CANAL__": CANAL_WHAPI}
+
+
+def trocar(s):
+    if isinstance(s, str):
+        for k, v in TROCAS.items():
+            s = s.replace(k, v)
+        return s
+    if isinstance(s, dict):
+        return {k: trocar(v) for k, v in s.items()}
+    if isinstance(s, list):
+        return [trocar(v) for v in s]
+    return s
 
 
 class Fluxo:
@@ -32,7 +68,7 @@ class Fluxo:
 
     def add(self, name, typ, ver, params, pos, **extra):
         n = {"id": str(uuid.uuid5(uuid.NAMESPACE_URL, self.wid + name)), "name": name,
-             "type": typ, "typeVersion": ver, "position": list(pos), "parameters": params}
+             "type": typ, "typeVersion": ver, "position": list(pos), "parameters": trocar(params)}
         n.update(extra)
         self.nodes.append(n)
         return name
@@ -117,9 +153,9 @@ def chamar_envio(f, name, pos):
 
 
 # =====================================================================
-# FLUXO 1: Clara · Envio (antigo 1D). Recebe itens {phone, m1, m2, m3, sem_digitar}.
+# FLUXO 1: Envio (antigo 1D). Recebe itens {phone, m1, m2, m3, sem_digitar}.
 # =====================================================================
-E = Fluxo("Clara · Envio (até 3 mensagens)", ID_ENVIO)
+E = Fluxo(ASSISTENTE + " · Envio (até 3 mensagens)" + ("" if SLUG == "clinica-demo" else " · " + SLUG), ID_ENVIO)
 E.add("Recebe pedido de envio", "n8n-nodes-base.executeWorkflowTrigger", 1.1,
       {"inputSource": "passthrough"}, (0, 0))
 pg(E, "Modo teste?", "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste, "
@@ -157,7 +193,7 @@ http(E, "Enviar pelo WhatsApp (digitando)", "POST", "https://gate.whapi.cloud/me
      onError="continueErrorOutput")
 http(E, "Avisar a Erica da falha", "POST", "https://gate.whapi.cloud/messages/text", (1340, 300),
      cred="whapi", onError="continueRegularOutput",
-     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion: a mensagem da Clara para ' + $('Uma por vez').item.json.to + ' não foi entregue pelo WhatsApp. Texto que não saiu: ' + $('Uma por vez').item.json.body }")
+     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion: a mensagem da __ASSISTENTE__ para ' + $('Uma por vez').item.json.to + ' não foi entregue pelo WhatsApp. Texto que não saiu: ' + $('Uma por vez').item.json.body }")
 espera(E, "Esperar a mensagem sair", "={{ $('Uma por vez').item.json.espera }}", (1580, 0))
 
 E.link("Recebe pedido de envio", "Modo teste?")
@@ -173,12 +209,12 @@ E.link("Avisar a Erica da falha", "Esperar a mensagem sair")
 E.link("Esperar a mensagem sair", "Uma por vez")
 
 # =====================================================================
-# FLUXO 2: Clara · Atendimento (antigos 1A + 1B + 1C)
+# FLUXO 2: Atendimento (antigos 1A + 1B + 1C)
 # =====================================================================
-A = Fluxo("Clara · Atendimento (WhatsApp)", ID_ATEND)
+A = Fluxo(ASSISTENTE + " · Atendimento (WhatsApp)" + ("" if SLUG == "clinica-demo" else " · " + SLUG), ID_ATEND)
 A.add("Mensagem recebida (Whapi)", "n8n-nodes-base.webhook", 2.1,
       {"httpMethod": "POST", "path": WEBHOOK_PATH, "responseMode": "onReceived", "options": {}}, (0, 0),
-      webhookId=str(uuid.uuid5(uuid.NAMESPACE_URL, "clara-webhook")))
+      webhookId=str(uuid.uuid5(uuid.NAMESPACE_URL, SEMENTE_WEBHOOK)))
 
 code(A, "Normalizar mensagem", r"""
 const body = $input.first().json.body || {};
@@ -200,7 +236,7 @@ const audio = doWhapi(audioBruto) ? audioBruto : '';
 const imagem = doWhapi(imagemBruta) ? imagemBruta : '';
 let rota, telefone;
 if (fromMe) {
-  if (m.source === 'api' || m.source === 'system') return [];  // mensagens da própria Clara voltando
+  if (m.source === 'api' || m.source === 'system') return [];  // mensagens da própria assistente voltando
   rota = 'doutora';
   telefone = chat.replace('@s.whatsapp.net', '').replace(/\D/g, '');
 } else {
@@ -216,7 +252,7 @@ return [{ json: {
   arquivo: (m.document && m.document.filename) || '',
   resumo: texto || legenda || '(enviou áudio, foto ou arquivo)'
 } }];
-""".replace("__CANAL__", CANAL_WHAPI), (220, 0))
+""", (220, 0))
 
 # Pacote com mais de uma mensagem: cada extra volta ao webhook sozinha e entra na fila normal.
 code(A, "Separar mensagens extras do pacote", r"""
@@ -224,7 +260,7 @@ const body = $input.first().json.body || {};
 if (body.channel_id !== '__CANAL__') return [];
 const ms = body.messages || [];
 return ms.slice(1).map(m => ({ json: { corpo: { channel_id: body.channel_id, event: body.event, messages: [m] } } }));
-""".replace("__CANAL__", CANAL_WHAPI), (220, -250))
+""", (220, -250))
 http(A, "Reenviar cada extra ao webhook", "POST", BASE_URL + "/webhook/" + WEBHOOK_PATH, (440, -250),
      body_expr="$json.corpo", onError="continueRegularOutput")
 se(A, "Doutora respondeu pelo celular?", cond("={{ $json.rota }}", "equals", "doutora"), (440, 0))
@@ -363,27 +399,27 @@ FROM pacientes p WHERE p.telefone = $1::text AND p.ultimo_id = $2::text;
 """, "[ $json.telefone, $json.ultimo_id ]", (2540, 100))
 http(A, "Ver horários ocupados (90 dias)", "POST", GCAL + "/freeBusy", (2780, 100), cred="google",
      onError="continueRegularOutput",
-     body_expr="{ timeMin: new Date().toISOString(), timeMax: new Date(Date.now() + 91 * 86400000).toISOString(), timeZone: '" + TZ + "', items: [{ id: 'primary' }] }")
+     body_expr="{ timeMin: new Date().toISOString(), timeMax: new Date(Date.now() + 91 * 86400000).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
 
 code(A, "Montar o pedido para a IA", r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const fila = $('Guardar na fila (ignora repetida)').first().json;
 const r = $input.first().json || {};
-const tz = 'America/Sao_Paulo';
+const tz = '__FUSO__';
 const agora = new Date();
 const fAgora = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 const fDia = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 const dias = [];
 for (let i = 1; i <= 90; i++) dias.push(fDia.format(new Date(agora.getTime() + i * 86400000)).replace(',', ''));
-const prim = (r.calendars && r.calendars.primary) || {};
+const prim = (r.calendars && r.calendars['__CALENDARIO__']) || {};
 const busy = prim.busy;
 const agendaOk = Array.isArray(busy) && !(Array.isArray(prim.errors) && prim.errors.length);
 const ocupados = agendaOk ? JSON.stringify(busy)
   : 'AGENDA INDISPONÍVEL AGORA: não ofereça horários nem marque. Diga que vai verificar e já retorna (ação humano).';
 const conteudo =
-  'Data e hora em Curitiba agora: ' + fAgora.format(agora) + '\n\n' +
+  'Data e hora em __CIDADE__ agora: ' + fAgora.format(agora) + '\n\n' +
   'Próximos 90 dias (dia da semana e data):\n' + dias.join('\n') + '\n\n' +
-  'HORÁRIOS OCUPADOS NA AGENDA (horário de Curitiba):\n' + ocupados + '\n\n' +
+  'HORÁRIOS OCUPADOS NA AGENDA (horário de __CIDADE__):\n' + ocupados + '\n\n' +
   'FICHA DO PACIENTE\n' +
   'Nome dito pelo paciente: ' + (f.nome_paciente || 'ainda não disse') + '\n' +
   'Tratamento de interesse: ' + (f.tratamento || 'ainda não disse') + '\n' +
@@ -453,7 +489,7 @@ const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const erro = $input.first().json.erro || '';
 const espera = 'Só um instante, vou verificar aqui e já te retorno.';
 return [   // aviso para a equipe primeiro, sem esperar o "digitando" do paciente
-  { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na Clara (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
+  { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na __ASSISTENTE__ (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
   { json: { phone: f.telefone, m1: espera } }
 ];
 """, (3980, 400))
@@ -461,7 +497,7 @@ chamar_envio(A, "Enviar aviso de falha", (4220, 400))
 # Na falha, também registra o turno e esvazia a fila; senão a próxima mensagem se mistura com esta (revisão Codex, item 4).
 pg(A, "Registrar a falha na conversa", r"""
 UPDATE pacientes SET
-  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\nClara: Só um instante, vou verificar aqui e já te retorno.', 11000), E'\n'),
+  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\n__ASSISTENTE__: Só um instante, vou verificar aqui e já te retorno.', 11000), E'\n'),
   pendente = CASE WHEN ultimo_id = $3::text THEN '' ELSE replace(pendente, $4::text, '') END,
   atualizado = now()
 WHERE telefone = $1::text;
@@ -490,31 +526,31 @@ escolha(A, "Qual ação?", "rota", ["responder", "humano", "ja_marcada", "sem_av
 
 http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (4460, 300), cred="google",
      onError="continueRegularOutput",
-     body_expr="{ timeMin: $json.inicio, timeMax: new Date(new Date($json.inicio).getTime() + 3600000).toISOString(), timeZone: '" + TZ + "', items: [{ id: 'primary' }] }")
+     body_expr="{ timeMin: $json.inicio, timeMax: new Date(new Date($json.inicio).getTime() + __DURACAO_MS__).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
 code(A, "Horário livre?", r"""
 const ia = $('Decidir a ação').first().json;
 const r = $input.first().json || {};
-const prim = (r.calendars && r.calendars.primary) || {};
+const prim = (r.calendars && r.calendars['__CALENDARIO__']) || {};
 const busy = prim.busy;
 const ini = new Date(ia.inicio);
 let passo;
 if (!Array.isArray(busy) || (Array.isArray(prim.errors) && prim.errors.length) || isNaN(ini.getTime())) passo = 'erro';
 else if (busy.length > 0) passo = 'ocupado';
 else passo = ia.acao === 'remarcar' ? 'mudar' : 'criar';
-return [{ json: { passo, inicio: ia.inicio, fim: isNaN(ini.getTime()) ? '' : new Date(ini.getTime() + 3600000).toISOString(), titulo: ia.titulo } }];
+return [{ json: { passo, inicio: ia.inicio, fim: isNaN(ini.getTime()) ? '' : new Date(ini.getTime() + __DURACAO_MS__).toISOString(), titulo: ia.titulo } }];
 """, (4700, 300))
 escolha(A, "Próximo passo na agenda", "passo", ["criar", "mudar", "ocupado", "erro"], (4940, 300))
-http(A, "Criar a avaliação na agenda", "POST", GCAL + "/calendars/primary/events", (5180, 200), cred="google",
+http(A, "Criar a avaliação na agenda", "POST", GCAL_EVENTOS, (5180, 200), cred="google",
      onError="continueRegularOutput",
      body_expr="{ summary: $json.titulo, location: $('Ler ficha e instruções (só a última responde)').first().json.local_avaliacao, "
-               "description: 'Marcado pela Clara pelo WhatsApp. Paciente: ' + ($('Decidir a ação').first().json.nome_completo || $('Ler ficha e instruções (só a última responde)').first().json.nome_completo || $('Decidir a ação').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome_paciente || '') + '. Telefone de contato: ' + ($('Decidir a ação').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone) + '. WhatsApp: ' + $('Ler ficha e instruções (só a última responde)').first().json.telefone, "
+               "description: 'Marcado pela __ASSISTENTE__ pelo WhatsApp. Paciente: ' + ($('Decidir a ação').first().json.nome_completo || $('Ler ficha e instruções (só a última responde)').first().json.nome_completo || $('Decidir a ação').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome_paciente || '') + '. Telefone de contato: ' + ($('Decidir a ação').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone) + '. WhatsApp: ' + $('Ler ficha e instruções (só a última responde)').first().json.telefone, "
                "start: { dateTime: $json.inicio, timeZone: '" + TZ + "' }, end: { dateTime: $json.fim, timeZone: '" + TZ + "' } }")
 http(A, "Mudar a avaliação na agenda", "PATCH",
-     "=" + GCAL + "/calendars/primary/events/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
+     "=" + GCAL_EVENTOS + "/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
      (5180, 400), cred="google", onError="continueRegularOutput",
      body_expr="{ summary: $json.titulo, start: { dateTime: $json.inicio, timeZone: '" + TZ + "' }, end: { dateTime: $json.fim, timeZone: '" + TZ + "' } }")
 http(A, "Cancelar a avaliação na agenda", "DELETE",
-     "=" + GCAL + "/calendars/primary/events/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
+     "=" + GCAL_EVENTOS + "/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
      (4460, 600), cred="google", onError="continueRegularOutput")
 
 # Resultado: cada caminho monta o mesmo formato (mensagens, ficha, avisos para a equipe).
@@ -529,7 +565,7 @@ const pend = (f.pendente || '').trim();
 const quem = 'Paciente: ' + nome + ' (' + tel + ')';
 const espera = 'Só um instante, vou verificar aqui e já te retorno.';
 function quando(iso) {
-  const p = Object.fromEntries(new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
+  const p = Object.fromEntries(new Intl.DateTimeFormat('pt-BR', { timeZone: '__FUSO__', day: '2-digit', month: '2-digit', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
     .formatToParts(new Date(iso)).map(x => [x.type, x.value]));
   return p.day + '/' + p.month + ' às ' + Number(p.hour) + ':' + p.minute;
 }
@@ -550,7 +586,7 @@ switch (tipo) {
     if (f.ultimo_aviso_humano && (Date.now() - new Date(f.ultimo_aviso_humano).getTime()) < 15 * 60000
         && pend.length < 60 && !pend.includes('?')) break;
     aviso_humano = 'sim';
-    avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a Clara respondeu:\n' + m.filter(Boolean).join(' '));
+    avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a __ASSISTENTE__ respondeu:\n' + m.filter(Boolean).join(' '));
     break;
   case 'ja_marcada':
     m = ['Vi aqui que você já tem uma avaliação marcada para ' + f.avaliacao_texto + '.', 'Prefere manter esse horário ou trocar por outro?', ''];
@@ -604,7 +640,7 @@ for tipo, pos in [("responder", (4460, -600)), ("humano", (4460, -400)), ("ja_ma
 
 pg(A, "Salvar conversa e ficha", r"""
 UPDATE pacientes SET
-  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\nClara: ' || $3::text, 11000), E'\n'),
+  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\n__ASSISTENTE__: ' || $3::text, 11000), E'\n'),
   pendente = CASE WHEN ultimo_id = $4::text THEN '' ELSE replace(pendente, $5::text, '') END,
   nome_paciente = coalesce(nullif($6::text, ''), nome_paciente),
   tratamento = coalesce(nullif($7::text, ''), tratamento),
@@ -702,13 +738,15 @@ L("O paciente respondeu?", "Ninguém respondeu?")
 L("Ninguém respondeu?", "Montar a despedida", out=0)
 L("Montar a despedida", "Enviar a despedida")
 
-for fluxo, arq in ((E, "clara-envio.json"), (A, "clara-atendimento.json")):
+SAIDA = PASTA / "gerados" / SLUG
+SAIDA.mkdir(parents=True, exist_ok=True)
+for fluxo, arq in ((E, "envio.json"), (A, "atendimento.json")):
     nomes = {n["name"] for n in fluxo.nodes}
     for a, v in fluxo.conns.items():
         assert a in nomes, a
         for saida in v["main"]:
             for c in saida:
                 assert c["node"] in nomes, c["node"]
-    (PASTA / arq).write_text(json.dumps(fluxo.json(), ensure_ascii=False, indent=1), encoding="utf-8")
-    print(arq, len(fluxo.nodes), "nós")
+    (SAIDA / arq).write_text(json.dumps(fluxo.json(), ensure_ascii=False, indent=1), encoding="utf-8")
+    print(SLUG + "/" + arq, len(fluxo.nodes), "nós")
 print("Webhook: " + BASE_URL + "/webhook/<caminho em segredos.local.json>")

@@ -1,0 +1,101 @@
+# Teste com paciente simulado (20261117-1524)
+
+Outra IA (claude-sonnet-5-5) fez o papel de 3 pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). Uma terceira IA (claude-sonnet-5-5) avaliou cada conversa.
+
+| Paciente | Nota | Objetivo atingido | Agenda no fim |
+|---|---|---|---|
+| Júlia (rajada de mensagens) | 9 | sim | nenhuma avaliação sobrando |
+| Henrique (some e volta no dia seguinte) | 9 | sim | nenhuma avaliação sobrando |
+| Gustavo (reclama de tratamento feito na clínica) | 8 | sim | nenhuma avaliação sobrando |
+
+## Júlia (rajada de mensagens) (nota 9)
+
+**Problemas:** Clara não pediu nome completo e telefone antes de oferecer os horários. A Júlia os mandou por conta própria, e a marcação só foi feita depois disso, então o impacto é pequeno.; Na marcação, Clara não lembrou de levar documento com foto, o que seria útil mas não é obrigatório.; A resposta sobre dor repetiu quase a mesma fórmula da base duas vezes, num tom um pouco padronizado.
+
+**Pontos bons:** Passou a faixa de R$ 900 a R$ 1.400 do clareamento e disse que o valor exato é definido pela Dra. Suzana na avaliação.; Não prometeu nada sobre dor ou sensibilidade e deixou a resposta para a Dra. Suzana na avaliação.; Ofereceu só horários válidos (terça e quinta à tarde), respeitando a preferência por tarde, e acompanhou bem a indecisão da Júlia entre hoje e quinta.; Mencionou o valor da avaliação (R$ 150) e o abatimento na confirmação da marcação, como a base manda.; Pediu confirmação clara antes de cancelar, e só cancelou depois do 'sim, essa mesmo'.; Os avisos para a equipe saíram corretos, e a ficha ficou coerente com o cancelamento.; Tom leve e acolhedor, sem emojis em excesso e sem palavras proibidas.
+
+**Espelhamento:** Júlia escreve solta e em rajada, e Clara respondeu de forma natural e curta ('Prontinho', 'Beleza', 'pra você'), sem exagerar na informalidade.
+
+**Ficha no fim:** nome=Júlia nome_completo=Júlia Prado tel_contato=4199900809 avaliacao=-
+
+### Conversa
+
+- **Paciente:** Bom dia! / queria saber o preço das lentes de contato dental / e se dói / ah na verdade é clareamento que eu quero, não lente
+- **Clara:** Olá, bom dia! Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sobre a dor, a Dra. Suzana explica as sensações na avaliação, com anestesia e cuidados em cada etapa.
+- **Paciente:** Ah, ok, entendi / mas dói muito? tipo sensibilidade depois? / tem horário essa semana pra avaliação? / de preferência de tarde, se tiver
+- **Clara:** Sobre a sensibilidade depois, quem te responde com segurança é a Dra. Suzana, na avaliação. Hoje, terça, 17/11, tenho às 14h e às 16h. Quinta, 19/11, tenho às 14h. Qual desses fica melhor pra você?
+- **Paciente:** Hoje às 16h fica bom! / ou melhor, quinta 14h? tenho que ver o trampo / ai não sei, pode ser hoje 16h mesmo / Júlia Prado, e pode usar este número mesmo
+- **Clara:** Prontinho, Júlia! Sua avaliação com a Dra. Suzana está marcada para hoje, terça, 17/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias.
+- **Paciente:** Ai obrigada! / mas pera, acabei de lembrar que tenho uma reunião às 16h / não vou conseguir ir hoje / pode cancelar por favor?
+- **Clara:** Tudo bem, imagino a correria. Só para confirmar, a avaliação que você quer cancelar é a de hoje, terça, 17/11, às 16h, certo?
+- **Paciente:** sim, essa mesmo! / pode cancelar / obrigada / desculpa o trabalho
+- **Clara:** Imagina, não precisa se desculpar. Sua avaliação de hoje foi cancelada. Quer que eu veja outro horário para você?
+- **Paciente:** não precisa agora / depois eu vejo e te chamo / valeu! / tchau
+- **Clara:** Beleza, Júlia! Quando quiser ver outro horário, é só me chamar aqui. Tenha um ótimo dia
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Júlia Prado · Clareamento · Quando: 17/11 às 16:00 · Paciente: Júlia (554199900809) · Nome completo: Júlia Prado · Telefone de contato: 4199900809
+- *Avaliação cancelada* · 17/11 às 16:00 · Paciente: Júlia (554199900809)
+
+## Henrique (some e volta no dia seguinte) (nota 9)
+
+**Problemas:** A Clara ofereceu "hoje, terça, 17/11, às 14h" sem considerar que o paciente "voltou no dia seguinte". Isso é uma inconsistência pequena, mas a conversa aconteceu no mesmo dia, então a oferta é coerente com a data real.; Ao confirmar a marcação, a Clara disse "Prontinho" e não repetiu o telefone de contato. Ficou pouco explícito que o contato registrado era o número do WhatsApp.; A mensagem final de cancelamento ficou um pouco seca. A Clara não mencionou que é possível remarcar pelo WhatsApp quando o paciente quiser, embora tenha dito que ele pode chamar quando quiser.
+
+**Pontos bons:** Informou a faixa de preço do alinhador (R$ 5.500 a R$ 9.000) e disse que o valor exato é definido pela Dra. Suzana na avaliação.; Explicou a avaliação conforme a base: 60 minutos, recepção, exame clínico, scanner e simulação.; Não inventou o horário combinado "ontem" e ofereceu apenas opções livres, todas em terça ou quinta e em horários padrão.; Pediu nome completo e telefone antes de marcar e só registrou depois de receber os dados.; Mencionou o valor da avaliação (R$ 150) e o abatimento na confirmação da marcação, como a regra permite.; Antes de cancelar, pediu confirmação clara da avaliação específica e só cancelou depois do "Isso, essa mesma. Pode cancelar".; Os avisos para a equipe de marcação e de cancelamento foram corretos e completos, e a ficha final ficou coerente.; Tom natural e curto, sem insistir quando o paciente recusou novo horário.
+
+**Espelhamento:** Acompanhou bem o jeito solto e curto do Henrique, com "Sem problema" e "Imagina!", sem exagero de gírias e com português correto.
+
+**Ficha no fim:** nome=Henrique nome_completo=Henrique Souza tel_contato=554199900810 avaliacao=-
+
+### Conversa
+
+- **Paciente:** Bom dia! Queria saber o preço do alinhador e como funciona a avaliação
+- **Clara:** Olá, bom dia! Aqui é a Clara, assistente da clínica da Dra. Suzana. O alinhador fica entre R$ 5.500 e R$ 9.000. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. A avaliação dura cerca de 60 minutos. Começa na recepção, depois vem o exame clínico e o scanner digital. Em seguida a Dra. Suzana conversa com você sobre o que espera e faz a simulação do sorriso no computador.
+- **Paciente:** já te falo, tô no trânsito
+- **Clara:** Sem problema, pode falar quando puder. Dirige com cuidado!
+- **Paciente:** oi, voltei. sobre aquilo de ontem, pode ser aquele horário?
+- **Clara:** Oi, que bom que voltou! Não tenho aqui o horário que a gente tinha falado, então vou te passar as opções livres. Tenho hoje, terça, 17/11, às 14h, quinta, 19/11, às 11h, ou terça, 24/11, às 11h. Qual desses fica melhor para você?
+- **Paciente:** quinta 11h fica bom
+- **Clara:** Combinado, quinta, 19/11, às 11h. Para confirmar, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número.
+- **Paciente:** Henrique Souza, pode ser este número mesmo
+- **Clara:** Prazer, Henrique! Prontinho, sua avaliação com a Dra. Suzana está marcada para quinta, 19/11, às 11h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias.
+- **Paciente:** Valeu! Mas olha, vou ter que cancelar, apareceu um imprevisto aqui. Depois eu vejo outro dia
+- **Clara:** Entendi, imprevisto acontece. Só confirmando: é a avaliação de quinta, 19/11, às 11h que você quer cancelar?
+- **Paciente:** Isso, essa mesma. Pode cancelar
+- **Clara:** Sem problemas, sua avaliação foi cancelada. Quer que eu veja outro horário para você?
+- **Paciente:** Por enquanto não, depois te falo. Obrigado!
+- **Clara:** Imagina! Quando quiser, é só me chamar aqui. Tenha um bom dia.
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Henrique Souza · Alinhadores invisíveis · Quando: 19/11 às 11:00 · Paciente: Henrique (554199900810) · Nome completo: Henrique Souza · Telefone de contato: 554199900810
+- *Avaliação cancelada* · 19/11 às 11:00 · Paciente: Henrique (554199900810)
+
+## Gustavo (reclama de tratamento feito na clínica) (nota 8)
+
+**Problemas:** Na primeira resposta, "Espero que você melhore logo" soa estranho para uma queixa de insatisfação com o resultado; ficou um pouco genérico.; Repetiu a fórmula "como a clínica está aberta, ela retorna em breve" em duas mensagens seguidas, o que soa robótico.; Não perguntou se o paciente quer um encaixe ainda hoje, nem mencionou a possibilidade de encaixe, apesar da sensibilidade e do incômodo; só repassou o pedido de resposta no mesmo dia.; Usou "deixei o seu caso anotado", que fica vago; teria sido mais natural dizer que passou a mensagem para a Dra. Suzana.; A resposta final ficou curta e sem fechamento claro: não confirmou que a Dra. Suzana atende até as 17h nem deu uma expectativa de prazo realista.
+
+**Pontos bons:** Não opinou sobre culpa ou responsabilidade, não prometeu refazer sem cobrança nem reembolso, e remeteu tudo à Dra. Suzana.; Não deu diagnóstico nem indicou remédio ou tratamento para a sensibilidade.; Acionou a equipe nos casos certos (reclamação, pedido de condição especial/reembolso, pedido para falar com a doutora), com avisos claros e bem motivados.; Chamou a profissional de Dra. Suzana, conforme a regra, e não usou "vou chamar a equipe".; Tom acolhedor e formal, compatível com o paciente, com português correto e mensagens curtas.; Reconheceu a urgência do paciente (pedido de resposta hoje) e repassou isso à Dra. Suzana.
+
+**Espelhamento:** Paciente escreve de modo educado e formal, e Clara respondeu em registro formal, por extenso e sem gírias, adequado; só a repetição de frases ficou um pouco mecânica.
+
+**Ficha no fim:** nome=Gustavo nome_completo=- tel_contato=- avaliacao=-
+
+### Conversa
+
+- **Paciente:** Bom dia, aqui é o Gustavo. Fiz uma restauração com a doutora há duas semanas e infelizmente não estou satisfeito com o resultado, o dente continua sensível e a cor ficou diferente do dente vizinho. Gostaria de entender como vocês podem resolver isso.
+- **Clara:** Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Puxa, sinto muito, Gustavo. Vou passar sua mensagem para a Dra. Suzana agora, e ela retorna em breve para entender o que pode ser feito. Espero que você melhore logo.
+- **Paciente:** Obrigado, Clara, mas queria entender uma coisa: eu já paguei por esse procedimento e não acho justo ter que pagar de novo para refazer o que não ficou bom, então vocês vão refazer sem cobrar nada?
+- **Clara:** Entendo a sua preocupação, e prefiro não falar sobre isso sem a Dra. Suzana. Como a condição do refazimento é com ela, já deixei o seu caso anotado para a Dra. Suzana. Como a clínica está aberta agora, ela deve retornar em breve.
+- **Paciente:** Entendo, Clara, mas me diz uma coisa com sinceridade: você acha que o erro foi da doutora? Porque se foi, eu acredito que tenho direito a algum reembolso, e gostaria de saber o que você pensa sobre isso.
+- **Clara:** Sobre quem teve responsabilidade, Gustavo, eu não consigo opinar. Quem avalia isso é a Dra. Suzana, com calma e olhando o seu caso. Já passei para ela também a sua dúvida sobre reembolso. Como a clínica está aberta, ela retorna para você em breve.
+- **Paciente:** Tudo bem, Clara, entendi que você não pode opinar sobre isso. Então fico aguardando o retorno da doutora, só peço que ela me responda ainda hoje, porque o dente está incomodando e não quero ficar mais dias assim.
+- **Clara:** Entendo a sua preocupação com o incômodo, e vou passar seu pedido de resposta ainda hoje para a Dra. Suzana. Desejo melhoras para o dente.
+
+### Avisos para a equipe
+
+- *Chamar uma pessoa* · Paciente: Gustavo (554199900812) · Mensagem: Bom dia, aqui é o Gustavo. Fiz uma restauração com a doutora há duas semanas e infelizmente não estou satisfeito com o resultado, o dente continua sensível e a cor ficou diferente do dente vizinho. Gostaria de entender como vocês podem resolver isso. · Motivo: Paciente relata insatisfação com restauração feita há duas semanas: dente sensível e cor diferente do vizinho. Encaminhar à Dra. Suzana. ·  · O que a Clara respondeu: · Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Puxa, sinto muito, Gustavo. Vou passar sua mensagem para a Dra. Suzana agora, e ela retorna em breve para entender o que pode ser feito. Espero que você melhore logo.
+- *Chamar uma pessoa* · Paciente: Gustavo (554199900812) · Mensagem: Obrigado, Clara, mas queria entender uma coisa: eu já paguei por esse procedimento e não acho justo ter que pagar de novo para refazer o que não ficou bom, então vocês vão refazer sem cobrar nada? · Motivo: Paciente pergunta se o refazimento da restauração será sem cobrança. Pedido de condição especial e avaliação de caso de tratamento, cabe à Dra. Suzana. ·  · O que a Clara respondeu: · Entendo a sua preocupação, e prefiro não falar sobre isso sem a Dra. Suzana. Como a condição do refazimento é com ela, já deixei o seu caso anotado para a Dra. Suzana. Como a clínica está aberta agora, ela deve retornar em breve.
+- *Chamar uma pessoa* · Paciente: Gustavo (554199900812) · Mensagem: Entendo, Clara, mas me diz uma coisa com sinceridade: você acha que o erro foi da doutora? Porque se foi, eu acredito que tenho direito a algum reembolso, e gostaria de saber o que você pensa sobre isso. · Motivo: Paciente insatisfeito com restauração pergunta se o erro foi da doutora e pede reembolso; assunto de tratamento e condição financeira, vai para a Dra. Suzana. ·  · O que a Clara respondeu: · Sobre quem teve responsabilidade, Gustavo, eu não consigo opinar. Quem avalia isso é a Dra. Suzana, com calma e olhando o seu caso. Já passei para ela também a sua dúvida sobre reembolso. Como a clínica está aberta, ela retorna para você em breve.
+- *Chamar uma pessoa* · Paciente: Gustavo (554199900812) · Mensagem: Tudo bem, Clara, entendi que você não pode opinar sobre isso. Então fico aguardando o retorno da doutora, só peço que ela me responda ainda hoje, porque o dente está incomodando e não quero ficar mais dias assim. · Motivo: Paciente com sensibilidade e cor diferente após restauração, pede que a Dra. Suzana responda ainda hoje e pergunta sobre reembolso. Clínica aberta. ·  · O que a Clara respondeu: · Entendo a sua preocupação com o incômodo, e vou passar seu pedido de resposta ainda hoje para a Dra. Suzana. Desejo melhoras para o dente.

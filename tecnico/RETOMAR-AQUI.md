@@ -30,7 +30,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 - **Google Agenda:** o app do Google está em modo Teste, e a autorização expira 7 dias depois de dada (dada em 12/11, então perto de 19/11). Até publicar o app, reconectar a credencial no n8n quando expirar. Para publicar: domínio keshion.com (já registrado), página inicial e política de privacidade.
 
 **Antes do piloto da Dra. Vivian (01/12/2026)**
-1. **Estrutura por clínica (próxima feature):** o gerador recebe um arquivo por clínica (nome da assistente, agenda, aprovador, voz, credenciais, banco ou chave de clínica) e gera os fluxos dela, sem misturar dados com a demo.
+1. ✅ **Estrutura por clínica** (17/11; falta só a revisão no Codex).
 2. Base, instruções e voz da Dra. Vivian; nome da assistente escolhido por ela; conexão no número dela.
 3. Decidir com ela o modo copiloto (aprovar antes de enviar na 1ª semana): ainda não existe.
 4. Backup fora do servidor, com um teste de restauração; cópia do `.env` do servidor em local seguro.
@@ -50,7 +50,12 @@ O que decidir no começo: um banco por clínica ou um banco com a coluna "clíni
 
 Pronto quando: a demo roda pelo arquivo de configuração e passa nos testes do portão 1 (`tecnico/testes-checklist.md`), existe um arquivo modelo para a Dra. Vivian, e o teste de isolamento (mesmo telefone em duas clínicas) passa. Depois, revisão no Codex.
 
-Antes de começar: conferir se a credencial do Google Agenda no n8n ainda está válida.
+**Feito em 17/11/2026:** um banco e um par de fluxos por clínica. `gerar_fluxos.py <slug>` lê `clientes/<slug>/clinica.json`; `preparar_banco.py <slug>` gera o SQL do banco; modelo em `clientes/_modelo/`, ficha da Dra. Vivian em `clientes/dra-vivian/clinica.json` (faltam os dados dela). Passo a passo de clínica nova em `tecnico/n8n/LEIA-ME.md`.
+No servidor: banco `clinica_teste` (usuário próprio, senha `CLINICA_TESTE_DB_PASSWORD` no `.env`), credencial "Postgres clinica-teste" e fluxos `TesteAtendimento`/`TesteEnvio000001` no ar (clínica fictícia, canal falso, só recebe chamadas diretas); demo reimportada pelo gerador novo (cópia dos fluxos anteriores em `/opt/keshion/backups/fluxos-20261117/`); bancos `clara` e `n8n` fechados para outros usuários.
+Testes: isolamento passou (`tecnico/teste-ab/teste_isolamento.py`, mesmo telefone e mesmo id nas duas clínicas); 56 de 56 respondidas, sem falha técnica; pacientes simulados (15 perfis) com notas 7 a 9 e agenda limpa. Atenção: duas rodadas de teste ao mesmo tempo (duas conversas ou Codex) usando os mesmos números se atrapalham, porque a limpeza de uma apaga as fichas da outra (aconteceu em 17/11 às 10:13 e derrubou 3 perfis para nota 3; o reteste deu 9, 9 e 8). Rodar um teste por vez.
+Falta: revisão no Codex desta feature; preencher a ficha da Vivian quando ela mandar os dados.
+
+Credencial do Google Agenda: conferida em 17/11 (atualizada às 05:16 e consultas à agenda funcionando).
 
 ## Regras de sempre
 

@@ -1,0 +1,63 @@
+{
+  "_leia": "Clínica fictícia só para o teste de isolamento (mesmo telefone em duas clínicas). Usa as instruções e a base da demo, banco próprio, Whapi e Google da demo (só números de teste: nada sai pelo WhatsApp). Canal falso: só recebe mensagens postadas direto no webhook.",
+  "slug": "clinica-teste",
+  "nome_clinica": "Clínica de teste de isolamento",
+  "nome_assistente": "Teste",
+  "cidade": "Curitiba",
+  "fuso": "America/Sao_Paulo",
+  "duracao_avaliacao_min": 60,
+  "fluxos": {
+    "id_atendimento": "TesteAtendimento",
+    "id_envio": "TesteEnvio000001"
+  },
+  "whapi": {
+    "canal": "TESTE-ISOLAMENTO"
+  },
+  "agenda": {
+    "conta_google": "keshion.ai.2026@gmail.com",
+    "calendario": "primary"
+  },
+  "banco": "clinica_teste",
+  "credenciais_n8n": {
+    "anthropic": {
+      "tipo": "anthropicApi",
+      "id": "EVx1CbzgsBjsOfBS",
+      "nome": "Anthropic account"
+    },
+    "openai": {
+      "tipo": "openAiApi",
+      "id": "eRxSt3V4rGOaTIAI",
+      "nome": "OpenAI account"
+    },
+    "whapi": {
+      "tipo": "httpHeaderAuth",
+      "id": "HpXFZlusXDEZjQm4",
+      "nome": "Header Auth account"
+    },
+    "google": {
+      "tipo": "googleCalendarOAuth2Api",
+      "id": "PoLFn2QYsgfjLmeI",
+      "nome": "Google Calendar account"
+    },
+    "pg": {
+      "tipo": "postgres",
+      "id": "clinicateste0001",
+      "nome": "Postgres clinica-teste"
+    }
+  },
+  "servidor": "https://n8n.169-58-41-107.sslip.io",
+  "aviso_falha_envio": "972584285541",
+  "config_no_banco": {
+    "_leia": "Valores da tabela config do banco desta clínica. Instruções e base vêm dos arquivos indicados em 'arquivos'.",
+    "aprovador": "972584285541",
+    "local_avaliacao": "Endereço de teste (clínica fictícia)",
+    "modelo": "claude-haiku-5-5",
+    "modo_teste": "1",
+    "prefixo_teste": "554199900",
+    "numeros_keshion": "972584285541,972552994413"
+  },
+  "arquivos": {
+    "instrucoes": "../clinica-demo/instrucoes-sarah.md",
+    "base": "../clinica-demo/base-clinica.md"
+  }
+}

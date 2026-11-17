@@ -1,4 +1,5 @@
--- Banco da Clara (n8n). Rodar dentro do banco "clara", como dono.
+-- Tabelas do banco de cada clínica (um banco por clínica; o da demo se chama "clara").
+-- Não rodar sozinho: preparar_banco.py <slug> junta este arquivo com a config da clínica.
 -- Substitui o data store 240983 do Make.
 
 CREATE TABLE IF NOT EXISTS pacientes (
@@ -39,12 +40,5 @@ CREATE TABLE IF NOT EXISTS saidas_teste (
   texto     text
 );
 
-INSERT INTO config (chave, valor) VALUES
-  ('modelo', 'claude-haiku-5-5'),
-  ('aprovador', '972584285541'),
-  ('modo_teste', '0'),
-  ('local_avaliacao', 'Rua Desembargador Motta, 2000, sala 1404, Batel, Curitiba/PR'),
-  ('numeros_keshion', '972584285541,972552994413'),
-  -- Números que começam com este prefixo nunca recebem WhatsApp de verdade: o lote vai para saidas_teste.
-  ('prefixo_teste', '554199900')
-ON CONFLICT (chave) DO NOTHING;
+-- Os valores da tabela config (aprovador, prefixo_teste, instruções, base...) vêm do clinica.json
+-- de cada clínica: rodar preparar_banco.py <slug>, que inclui este arquivo e preenche a config.

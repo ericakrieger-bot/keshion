@@ -15,16 +15,36 @@ Endereço do webhook: `https://n8n.169-58-41-107.sslip.io/webhook/<caminho secre
 
 ## Arquivos desta pasta
 
-- `gerar_fluxos.py`: gera os dois fluxos. **Para mudar um fluxo, mude aqui e rode de novo**, para o repositório continuar sendo a fonte da verdade. Exige `segredos.local.json` (`{"webhook_path": "..."}`).
-- `clara-atendimento.json` e `clara-envio.json`: o que o script gera (para importar). Fora do Git, porque contêm o caminho secreto.
-- `schema-clara.sql`: as tabelas do banco `clara`.
+- `gerar_fluxos.py <slug>`: gera o par de fluxos de uma clínica a partir de `clientes/<slug>/clinica.json`. **Para mudar um fluxo, mude aqui e rode de novo para cada clínica**, para o repositório continuar sendo a fonte da verdade. Sem slug, gera a demo.
+- `preparar_banco.py <slug>`: gera o SQL do banco da clínica (tabelas + tabela `config` com instruções, base, aprovador etc.). Pode rodar de novo depois de mudar instruções ou base: guarda a versão anterior com data.
+- `segredos.local.json` (fora do Git): caminho secreto do webhook de cada clínica, `{"<slug>": {"webhook_path": "..."}}`.
+- `gerados/<slug>/`: `atendimento.json`, `envio.json` e `banco.sql`. Fora do Git, porque contêm o caminho secreto.
+- `schema-clara.sql`: as tabelas (iguais em todas as clínicas).
 - `revisao-codex-2026-11-12.md` e `plano-pos-revisao-codex.md`: revisão independente e o que foi feito com ela.
 
 Para atualizar no servidor (mesmo id substitui o fluxo antigo):
 ```bash
-python gerar_fluxos.py
+python gerar_fluxos.py clinica-demo
 ```
-Depois copiar o JSON para o servidor, `n8n import:workflow --input=...` e `n8n publish:workflow --id=ClaraAtendimento` dentro do contêiner do n8n.
+Depois copiar os JSON de `gerados/clinica-demo/` para o servidor, `n8n import:workflow --input=...` e `n8n publish:workflow --id=ClaraAtendimento` dentro do contêiner do n8n.
+
+## Estrutura por clínica (17/11/2026)
+
+Cada clínica tem: uma pasta em `clientes/<slug>/` com `clinica.json` (sem chaves), instruções e base; um banco próprio no Postgres; um par de fluxos próprio no n8n (ids diferentes); credenciais próprias de Whapi, Google e Postgres (Anthropic e OpenAI podem ser as da Keshion); um caminho de webhook próprio. Nada é compartilhado entre clínicas além do servidor.
+
+| Clínica | Pasta | Banco | Fluxos |
+|---|---|---|---|
+| Demo (Dra. Suzana, Clara) | `clientes/clinica-demo` | `clara` | `ClaraAtendimento`, `ClaraEnvio000001` |
+| Teste de isolamento (no ar desde 17/11, canal falso) | `clientes/clinica-teste` | `clinica_teste` | `TesteAtendimento`, `TesteEnvio000001` |
+| Dra. Vivian (piloto) | `clientes/dra-vivian` (a preencher) | `clinica_vivian` | `VivianAtendiment`, `VivianEnvio00001` |
+
+**Clínica nova, passo a passo:**
+1. Copiar `clientes/_modelo/clinica.json` para `clientes/<slug>/` e preencher (o gerador recusa enquanto houver `PREENCHER` e diz o que falta). Instruções e base na mesma pasta.
+2. Servidor: senha nova no `/opt/keshion/.env` (ex.: `CLINICA_VIVIAN_DB_PASSWORD=$(openssl rand -hex 24)`), `CREATE ROLE <banco> LOGIN PASSWORD ...`, `CREATE DATABASE <banco> OWNER <banco>` (comando separado: não roda dentro de transação), `REVOKE CONNECT ON DATABASE <banco> FROM PUBLIC`, e rodar `gerados/<slug>/banco.sql` como o usuário novo. Foi assim com `clinica_teste` em 17/11.
+3. n8n: criar as credenciais da clínica e anotar os ids no `clinica.json`. Postgres: pelo servidor, com `n8n import:credentials` a partir de um arquivo temporário montado com a senha do `.env` (apagar depois; foi assim com `clinicateste0001`). Whapi e Google: a Erica cria na tela do n8n.
+4. Acrescentar o caminho do webhook da clínica em `segredos.local.json`, gerar, importar e publicar os dois fluxos.
+5. Whapi da clínica: webhook apontando para `<servidor>/webhook/<caminho>`. Começar com `modo_teste = 1`.
+6. Testar com números `554199900...` e, só depois, `modo_teste = 0`.
 
 ## Banco `clara` (Postgres do servidor)
 

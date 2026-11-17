@@ -1,0 +1,57 @@
+{
+  "_leia": "Modelo do arquivo de cada clínica. Copiar esta pasta para clientes/<slug>/, trocar todo PREENCHER e rodar: python tecnico/n8n/gerar_fluxos.py <slug> e python tecnico/n8n/preparar_banco.py <slug>. Passo a passo em tecnico/n8n/LEIA-ME.md (seção 'Clínica nova'). Sem chaves aqui: só ids de credenciais do n8n.",
+
+  "slug": "PREENCHER (igual ao nome da pasta, ex.: dra-vivian)",
+  "nome_clinica": "PREENCHER",
+  "nome_assistente": "PREENCHER (nome escolhido pela clínica)",
+  "cidade": "PREENCHER (aparece para a IA como 'Data e hora em <cidade> agora')",
+  "fuso": "America/Sao_Paulo",
+  "duracao_avaliacao_min": 60,
+
+  "fluxos": {
+    "_leia": "Ids únicos no n8n, com exatamente 16 letras e números, sem espaço. Mudar o id cria outro fluxo.",
+    "id_atendimento": "PREENCHER (ex.: VivianAtendiment)",
+    "id_envio": "PREENCHER (ex.: VivianEnvio00001)"
+  },
+
+  "whapi": {
+    "_leia": "Canal do Whapi conectado ao número da clínica. O fluxo recusa mensagens de outro canal.",
+    "canal": "PREENCHER"
+  },
+
+  "agenda": {
+    "_leia": "Conta Google onde ficam as avaliações e o calendário dentro dela ('primary' é o calendário principal da conta).",
+    "conta_google": "PREENCHER",
+    "calendario": "primary"
+  },
+
+  "banco": "PREENCHER (ex.: clinica_vivian; um banco por clínica)",
+
+  "credenciais_n8n": {
+    "_leia": "Ids das credenciais criadas no n8n. Anthropic e OpenAI podem ser as mesmas da Keshion; Whapi, Google e Postgres são só desta clínica.",
+    "anthropic": { "tipo": "anthropicApi", "id": "EVx1CbzgsBjsOfBS", "nome": "Anthropic account" },
+    "openai": { "tipo": "openAiApi", "id": "eRxSt3V4rGOaTIAI", "nome": "OpenAI account" },
+    "whapi": { "tipo": "httpHeaderAuth", "id": "PREENCHER", "nome": "PREENCHER (ex.: Whapi Vivian)" },
+    "google": { "tipo": "googleCalendarOAuth2Api", "id": "PREENCHER", "nome": "PREENCHER (ex.: Google Agenda Vivian)" },
+    "pg": { "tipo": "postgres", "id": "PREENCHER", "nome": "PREENCHER (ex.: Postgres Vivian)" }
+  },
+
+  "servidor": "https://n8n.169-58-41-107.sslip.io",
+  "aviso_falha_envio": "972584285541",
+
+  "config_no_banco": {
+    "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: quem pode usar #reiniciar.",
+    "aprovador": "PREENCHER",
+    "local_avaliacao": "PREENCHER (endereço completo, vai no evento da agenda)",
+    "modelo": "claude-haiku-5-5",
+    "modo_teste": "1",
+    "prefixo_teste": "554199900",
+    "numeros_keshion": "972584285541,972552994413"
+  },
+
+  "arquivos": {
+    "_leia": "Arquivos desta pasta com as instruções e a base da clínica (a voz da clínica fica na parte 'Registro' da base).",
+    "instrucoes": "instrucoes.md",
+    "base": "base-clinica.md"
+  }
+}

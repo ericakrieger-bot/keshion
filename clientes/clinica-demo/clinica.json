@@ -1,0 +1,51 @@
+{
+  "_leia": "Configuração da clínica para o gerador de fluxos (tecnico/n8n/gerar_fluxos.py). Sem chaves: só ids de credenciais do n8n. O caminho secreto do webhook fica em tecnico/n8n/segredos.local.json, fora do Git.",
+
+  "slug": "clinica-demo",
+  "nome_clinica": "Clínica demo da Dra. Suzana",
+  "nome_assistente": "Clara",
+  "cidade": "Curitiba",
+  "fuso": "America/Sao_Paulo",
+  "duracao_avaliacao_min": 60,
+
+  "fluxos": {
+    "id_atendimento": "ClaraAtendimento",
+    "id_envio": "ClaraEnvio000001",
+    "semente_webhook": "clara-webhook"
+  },
+
+  "whapi": { "canal": "GRNLTR-4K8ZF" },
+
+  "agenda": {
+    "conta_google": "keshion.ai.2026@gmail.com",
+    "calendario": "primary"
+  },
+
+  "banco": "clara",
+
+  "credenciais_n8n": {
+    "anthropic": { "tipo": "anthropicApi", "id": "EVx1CbzgsBjsOfBS", "nome": "Anthropic account" },
+    "openai": { "tipo": "openAiApi", "id": "eRxSt3V4rGOaTIAI", "nome": "OpenAI account" },
+    "whapi": { "tipo": "httpHeaderAuth", "id": "HpXFZlusXDEZjQm4", "nome": "Header Auth account" },
+    "google": { "tipo": "googleCalendarOAuth2Api", "id": "PoLFn2QYsgfjLmeI", "nome": "Google Calendar account" },
+    "pg": { "tipo": "postgres", "id": "clarapg0000001", "nome": "Postgres Clara" }
+  },
+
+  "servidor": "https://n8n.169-58-41-107.sslip.io",
+  "aviso_falha_envio": "972584285541",
+
+  "config_no_banco": {
+    "_leia": "Valores da tabela config do banco desta clínica. Instruções e base vêm dos arquivos indicados em 'arquivos'.",
+    "aprovador": "972584285541",
+    "local_avaliacao": "Rua Desembargador Motta, 2000, sala 1404, Batel, Curitiba/PR",
+    "modelo": "claude-haiku-5-5",
+    "modo_teste": "0",
+    "prefixo_teste": "554199900",
+    "numeros_keshion": "972584285541,972552994413"
+  },
+
+  "arquivos": {
+    "instrucoes": "instrucoes-sarah.md",
+    "base": "base-clinica.md"
+  }
+}

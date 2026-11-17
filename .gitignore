@@ -16,3 +16,6 @@ dados-reais/
 # Caminho secreto do webhook da Clara e fluxos gerados que o contêm
 tecnico/n8n/segredos.local.json
 tecnico/n8n/clara-*.json
+
+# Saída dos geradores (contém o caminho secreto do webhook e a config de cada clínica)
+tecnico/n8n/gerados/
