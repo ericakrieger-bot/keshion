@@ -78,3 +78,11 @@ Ainda não testados: falha da IA e da agenda (precisam de simulação isolada).
 
 - Voz da clínica (16/11, pedido da Erica): a base (parte 10, "Registro") diz se a Clara pode espelhar o paciente e quais abreviações usar; a regra Q e um exemplo de paciente informal nas instruções ensinam o jeito solto e correto, sem erro de grafia. Preço, data, horário, endereço e saúde sempre por extenso. Teste lado a lado (informal x formal): com o exemplo, a Clara passou a usar "Oi", "pq", "pensa com calma" com quem escreve solto e ficou formal com quem escreve formal. Sem o exemplo, quase não espelhava.
 - Segunda tentativa da IA: se a resposta vier sem texto (o Haiku às vezes devolve só o pensamento) ou ilegível, o fluxo pede de novo uma vez antes da falha técnica. Rodada das 56 com tudo isso: 56 de 56 respondidas, 1 segunda tentativa usada e nenhuma falha técnica (`tecnico/teste-ab/relatorio-voz.md`). Instruções anteriores em `config._instrucoes_anterior_20261116`.
+
+## 17/11/2026: teste com paciente simulado
+
+`tecnico/teste-ab/paciente_simulado.py`: outra IA faz 8 pacientes (informal, formal, dor, desconfiado, troca de horário, mãe marcando para a filha, perguntas fora da base, idosa) e conversa livremente com a Clara; uma terceira IA dá nota. Usa números de teste e cancela o que sobrar na agenda. Roda no computador da Erica (chave da Anthropic do `.env`), cerca de 15 minutos. Horário do teste em UTC-3 fixo (o computador da Erica está no fuso de Israel, o que distorceu duas rodadas).
+
+Ajustes feitos a partir dele (instruções): desconto à vista de 5% no Pix citado antes de passar pedido maior para a Dra.; nunca prometer "eu te aviso"; não repetir frases já ditas; espelhamento decidido pelas mensagens da pessoa, com cuidado com pessoa idosa; pronto-socorro só para dor forte, inchaço, sangramento ou falta de ar, e reforçado se a dor piorar; saudação de horário só repetindo a do paciente. No fluxo: aviso "chamar uma pessoa" não se repete em 15 minutos quando a mensagem nova é só um "ok". Instruções anteriores em `config._instrucoes_anterior_20261117`.
+
+Notas finais (rodada 20261117-1043): Bia 9, Paula 9, Fernanda 9, Ricardo 8, Camila 8, Sandra 8, Dona Lourdes 8, Marcos 7. Todos atingiram o objetivo.

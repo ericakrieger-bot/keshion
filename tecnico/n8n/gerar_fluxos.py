@@ -536,6 +536,7 @@ function quando(iso) {
 let m = [ia.mensagem1, ia.mensagem2, ia.mensagem3];
 let aval = 'manter', aval_inicio = '', aval_texto = '', aval_evento = '', fechamento = '';
 const avisos = [];
+let aviso_humano = '';
 let tipo = TIPO;
 if (tipo === 'agenda') {
   if (j.error) tipo = 'falha';
@@ -545,6 +546,10 @@ if (tipo === 'agenda') {
 const verbo = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[ia.acao] || ia.acao;
 switch (tipo) {
   case 'humano':
+    // Não repete o aviso se já houve um nos últimos 15 minutos e a mensagem nova é só um "ok" / "fico no aguardo".
+    if (f.ultimo_aviso_humano && (Date.now() - new Date(f.ultimo_aviso_humano).getTime()) < 15 * 60000
+        && pend.length < 60 && !pend.includes('?')) break;
+    aviso_humano = 'sim';
     avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a Clara respondeu:\n' + m.filter(Boolean).join(' '));
     break;
   case 'ja_marcada':
@@ -587,7 +592,7 @@ const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
-  aval, aval_inicio, aval_texto, aval_evento,
+  aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
   fechamento, envios: JSON.stringify(envios)
 } }];
 """
@@ -605,6 +610,7 @@ UPDATE pacientes SET
   tratamento = coalesce(nullif($7::text, ''), tratamento),
   nome_completo = coalesce(nullif($14::text, ''), nome_completo),
   telefone_contato = coalesce(nullif($15::text, ''), telefone_contato),
+  ultimo_aviso_humano = CASE WHEN $16::text = 'sim' THEN now() ELSE ultimo_aviso_humano END,
   avaliacao_inicio = CASE $8::text WHEN 'definir' THEN $9::text WHEN 'limpar' THEN NULL ELSE avaliacao_inicio END,
   avaliacao_texto = CASE $8::text WHEN 'definir' THEN $10::text WHEN 'limpar' THEN NULL ELSE avaliacao_texto END,
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
@@ -612,7 +618,7 @@ UPDATE pacientes SET
 WHERE telefone = $1::text
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
-     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato ]", (5700, 0))
+     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 

@@ -3,6 +3,12 @@
 # então nada sai pelo WhatsApp. A chave da Anthropic vem do .env da raiz (nunca aparece aqui).
 # No fim, uma terceira IA avalia cada conversa. Saída: paciente-simulado-AAAAMMDD-HHMM.json e .md
 import json, subprocess, sys, threading, time, urllib.request
+from datetime import datetime, timedelta, timezone
+
+
+def agora_curitiba(fmt):
+    # Hora de Curitiba, não a do computador (o da Erica fica no fuso de Israel).
+    return datetime.now(timezone(timedelta(hours=-3)))   # Curitiba: UTC-3 o ano todo (sem horário de verão desde 2019).strftime(fmt)
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import anthropic
@@ -14,7 +20,7 @@ SSH_CHAVE = str(Path.home() / ".ssh" / "keshion_vps")
 WEBHOOK = "https://n8n.169-58-41-107.sslip.io/webhook/" + json.loads((NEG / "tecnico/n8n/segredos.local.json").read_text(encoding="utf-8"))["webhook_path"]
 MODELO_PACIENTE = "claude-sonnet-5-5"
 MODELO_JUIZ = "claude-sonnet-5-5"
-MAX_TURNOS = 10
+MAX_TURNOS = 14
 RODADA = time.strftime("%Y%m%d-%H%M")
 
 
@@ -98,7 +104,8 @@ def resposta_da_clara(tel, mid):
 
 def fala_do_paciente(p, historico):
     sistema = ("Você faz o papel de um paciente real conversando pelo WhatsApp com a assistente de uma clínica odontológica, "
-               "para testar a assistente. Seja natural e coerente com o perfil. Não diga que é um teste.\n\n"
+               "para testar a assistente. Seja natural e coerente com o perfil. Não diga que é um teste.\n"
+               f"Agora são {agora_curitiba('%H:%M')} de {agora_curitiba('%d/%m/%Y')} em Curitiba: use uma saudação coerente com esse horário.\n\n"
                f"PERFIL: {p['perfil']}\nOBJETIVO: {p['objetivo']}\nARMADILHA (use em algum momento natural): {p['armadilha']}\n\n"
                "Mande uma mensagem por vez, curta, escrita como essa pessoa escreveria no WhatsApp. Responda só com o texto da mensagem. "
                "Quando o objetivo estiver cumprido e a conversa tiver chegado ao fim natural, responda exatamente [FIM].")
@@ -123,6 +130,8 @@ Critérios:
 4. Chamou a Dra. Suzana (aviso para a equipe) nos casos certos: dor, remédio, reclamação, desconto, pedido para falar com ela, assunto fora da base.
 5. Tom: natural, curto, sem frases repetidas de robô; espelhou o jeito de escrever do paciente (mais solto com quem escreve solto, formal com quem escreve formal), sempre com português correto.
 6. O paciente atingiu o objetivo dele, ou recebeu um encaminhamento adequado.
+
+Observações: a conversa aconteceu às {agora_curitiba('%H:%M')} de {agora_curitiba('%d/%m/%Y')} (horário de Curitiba). Outros pacientes de teste conversaram ao mesmo tempo e podem ter ocupado horários: se a Clara disser que um horário acabou de ser preenchido, isso pode ser verdade. A regra da clínica manda dizer "hoje, assim que a clínica abrir" quando ela está fechada.
 
 Responda só em JSON: {{"nota": 0 a 10, "objetivo_atingido": true/false, "problemas": ["..."], "pontos_bons": ["..."], "espelhamento": "frase curta"}}
 
