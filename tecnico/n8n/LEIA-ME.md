@@ -38,13 +38,9 @@ Cada clínica tem: uma pasta em `clientes/<slug>/` com `clinica.json` (sem chave
 | Teste de isolamento (no ar desde 17/11, canal falso) | `clientes/clinica-teste` | `clinica_teste` | `TesteAtendimento`, `TesteEnvio000001` |
 | Dra. Vivian (piloto) | `clientes/dra-vivian` (a preencher) | `clinica_vivian` | `VivianAtendiment`, `VivianEnvio00001` |
 
-**Clínica nova, passo a passo:**
-1. Copiar `clientes/_modelo/clinica.json` para `clientes/<slug>/` e preencher (o gerador recusa enquanto houver `PREENCHER` e diz o que falta). Instruções e base na mesma pasta.
-2. Servidor: senha nova no `/opt/keshion/.env` (ex.: `CLINICA_VIVIAN_DB_PASSWORD=$(openssl rand -hex 24)`), `CREATE ROLE <banco> LOGIN PASSWORD ...`, `CREATE DATABASE <banco> OWNER <banco>` (comando separado: não roda dentro de transação), `REVOKE CONNECT ON DATABASE <banco> FROM PUBLIC`, e rodar `gerados/<slug>/banco.sql` como o usuário novo. Foi assim com `clinica_teste` em 17/11.
-3. n8n: criar as credenciais da clínica e anotar os ids no `clinica.json`. Postgres: pelo servidor, com `n8n import:credentials` a partir de um arquivo temporário montado com a senha do `.env` (apagar depois; foi assim com `clinicateste0001`). Whapi e Google: a Erica cria na tela do n8n.
-4. Acrescentar o caminho do webhook da clínica em `segredos.local.json`, gerar, importar e publicar os dois fluxos.
-5. Whapi da clínica: webhook apontando para `<servidor>/webhook/<caminho>`. Começar com `modo_teste = 1`.
-6. Testar com números `554199900...` e, só depois, `modo_teste = 0`.
+**Clínica nova:** roteiro completo em [`CLINICA-NOVA.md`](CLINICA-NOVA.md) (banco com dois usuários, credenciais, fluxos, WhatsApp, testes e virada para valer).
+
+**#reiniciar** só existe na demo e na clínica de teste: nas outras, `numeros_keshion` fica vazio (o `preparar_banco.py` recusa se tiver número).
 
 ## Banco `clara` (Postgres do servidor)
 
@@ -106,3 +102,17 @@ Ainda não testados: falha da IA e da agenda (precisam de simulação isolada).
 Ajustes feitos a partir dele (instruções): desconto à vista de 5% no Pix citado antes de passar pedido maior para a Dra.; nunca prometer "eu te aviso"; não repetir frases já ditas; espelhamento decidido pelas mensagens da pessoa, com cuidado com pessoa idosa; pronto-socorro só para dor forte, inchaço, sangramento ou falta de ar, e reforçado se a dor piorar; saudação de horário só repetindo a do paciente. No fluxo: aviso "chamar uma pessoa" não se repete em 15 minutos quando a mensagem nova é só um "ok". Instruções anteriores em `config._instrucoes_anterior_20261117`.
 
 Notas finais (rodada 20261117-1043): Bia 9, Paula 9, Fernanda 9, Ricardo 8, Camila 8, Sandra 8, Dona Lourdes 8, Marcos 7. Todos atingiram o objetivo.
+
+
+## 17/11/2026 (noite): correções da revisão do Codex
+
+Feitas no gerador (`gerar_fluxos.py`), no banco (`schema-clara.sql`), nas instruções e na base da demo. Importadas e publicadas na demo e na clínica de teste.
+
+- **A agenda não depende só da IA.** Antes de criar ou mudar um evento, o fluxo confere sozinho: dia da semana, horário de avaliação, prazo de 90 dias, antecedência mínima, feriados e recesso (regras em `agenda.regras` do `clinica.json` de cada clínica; conferir com a clínica nova), nome e sobrenome e telefone (ao marcar) e se aquele dia e hora apareceram na conversa. Fora disso, a resposta é "Esse horário não está disponível para avaliação" ou o pedido de nome e telefone.
+- **Trava de vaga (2 min):** tabela `reservas_horario`. Duas conversas pedindo a mesma vaga: só a primeira segue, a outra recebe "esse horário acabou de ser preenchido". Depois de 2 minutos a trava expira (o evento criado já aparece na agenda).
+- **Cancelar só depois de confirmar:** se a IA tentar cancelar sem a assistente ter perguntado "certo?", o fluxo troca por "Só para confirmar: é a sua avaliação de ..., certo?".
+- **Aviso sempre que a Clara promete encaminhar:** se a resposta diz "vou passar", "vou verificar", "já te retorno" e a ação veio como `responder`, o fluxo muda para `humano` (aviso para a equipe). O aviso não se repete: 15 min quando a mensagem nova é só "ok", e 90 min quando o motivo é parecido com o do último aviso (colunas novas `ultimo_motivo_humano` e `envio_ate`).
+- **Ordem das mensagens:** cada turno grava até quando suas mensagens ainda estão saindo (`envio_ate`); o turno seguinte espera (no máximo 60 s) antes de responder. Evita a pergunta da oferta chegar depois da confirmação.
+- **Outro dia:** quando o paciente volta em outro dia, a conversa ganha a linha `--- dd/mm/aaaa (outro dia) ---`.
+- **Instruções novas (demo):** regra R (idioma do paciente desde a primeira mensagem), S (quem já é paciente: sem prontuário inventado, faixa da limpeza, sem avaliação de R$ 150, restante vai para a equipe), T (não prometer o que a base não diz), confirmação sem pergunta de horário, cancelamento com menos de 24 h. Base: anestesia "quando é preciso", sem promessa de lembretes e de acompanhamento do orçamento, que ainda não existem.
+- **Ainda não existem (próxima feature):** lembretes de confirmação (48 h, véspera 18h, 2 h), acompanhamento do orçamento (dias 2, 7, 14), reengajamento por silêncio e estado "cancelou".

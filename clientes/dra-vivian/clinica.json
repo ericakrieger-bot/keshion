@@ -1,55 +1,108 @@
 {
   "_leia": "Clínica da Dra. Vivian (piloto 01/12/2026). Feito a partir de clientes/_modelo. Copiar esta pasta para clientes/<slug>/, trocar todo PREENCHER e rodar: python tecnico/n8n/gerar_fluxos.py <slug> e python tecnico/n8n/preparar_banco.py <slug>. Passo a passo em tecnico/n8n/LEIA-ME.md (seção 'Clínica nova'). Sem chaves aqui: só ids de credenciais do n8n.",
-
   "slug": "dra-vivian",
   "nome_clinica": "PREENCHER",
   "nome_assistente": "PREENCHER (nome escolhido pela clínica)",
   "cidade": "PREENCHER (aparece para a IA como 'Data e hora em <cidade> agora')",
   "fuso": "America/Sao_Paulo",
   "duracao_avaliacao_min": 60,
-
   "fluxos": {
     "_leia": "Ids únicos no n8n, com exatamente 16 letras e números, sem espaço. Mudar o id cria outro fluxo.",
     "id_atendimento": "VivianAtendiment",
     "id_envio": "VivianEnvio00001"
   },
-
   "whapi": {
     "_leia": "Canal do Whapi conectado ao número da clínica. O fluxo recusa mensagens de outro canal.",
     "canal": "PREENCHER"
   },
-
   "agenda": {
     "_leia": "Conta Google onde ficam as avaliações e o calendário dentro dela ('primary' é o calendário principal da conta).",
     "conta_google": "PREENCHER",
-    "calendario": "primary"
+    "calendario": "primary",
+    "regras": {
+      "dias_semana": [
+        2,
+        4
+      ],
+      "horarios": [
+        "09:00",
+        "11:00",
+        "14:00",
+        "16:00"
+      ],
+      "antecedencia_max_dias": 90,
+      "antecedencia_min_minutos": 60,
+      "bloqueios": [
+        {
+          "de": "12-22",
+          "ate": "01-06"
+        }
+      ],
+      "feriados": [
+        "01-01",
+        "04-21",
+        "05-01",
+        "09-07",
+        "09-08",
+        "10-12",
+        "11-02",
+        "11-15",
+        "11-20",
+        "12-25",
+        "03-29",
+        "2027-02-15",
+        "2027-02-16",
+        "2027-03-26",
+        "2027-05-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-04-14",
+        "2028-06-15"
+      ]
+    },
+    "_leia_regras": "CONFERIR COM A CLÍNICA (valores de exemplo da demo). Regras que o fluxo confere por conta própria antes de criar ou mudar um evento (a IA não decide sozinha). dias_semana: 0=domingo ... 6=sábado. horarios: início permitido de cada avaliação. bloqueios e feriados: MM-DD ou AAAA-MM-DD."
   },
-
   "banco": "clinica_vivian",
-
   "credenciais_n8n": {
     "_leia": "Ids das credenciais criadas no n8n. Anthropic e OpenAI podem ser as mesmas da Keshion; Whapi, Google e Postgres são só desta clínica.",
-    "anthropic": { "tipo": "anthropicApi", "id": "EVx1CbzgsBjsOfBS", "nome": "Anthropic account" },
-    "openai": { "tipo": "openAiApi", "id": "eRxSt3V4rGOaTIAI", "nome": "OpenAI account" },
-    "whapi": { "tipo": "httpHeaderAuth", "id": "PREENCHER", "nome": "Whapi Vivian" },
-    "google": { "tipo": "googleCalendarOAuth2Api", "id": "PREENCHER", "nome": "Google Agenda Vivian" },
-    "pg": { "tipo": "postgres", "id": "PREENCHER", "nome": "Postgres Vivian" }
+    "anthropic": {
+      "tipo": "anthropicApi",
+      "id": "EVx1CbzgsBjsOfBS",
+      "nome": "Anthropic account"
+    },
+    "openai": {
+      "tipo": "openAiApi",
+      "id": "eRxSt3V4rGOaTIAI",
+      "nome": "OpenAI account"
+    },
+    "whapi": {
+      "tipo": "httpHeaderAuth",
+      "id": "PREENCHER",
+      "nome": "Whapi Vivian"
+    },
+    "google": {
+      "tipo": "googleCalendarOAuth2Api",
+      "id": "PREENCHER",
+      "nome": "Google Agenda Vivian"
+    },
+    "pg": {
+      "tipo": "postgres",
+      "id": "PREENCHER",
+      "nome": "Postgres Vivian"
+    }
   },
-
   "servidor": "https://n8n.169-58-41-107.sslip.io",
   "_leia_aviso_falha": "aviso_falha_envio: quem recebe o alerta quando o WhatsApp da clínica falha (sai pelo próprio canal da clínica e leva o texto que não saiu). Precisa ser aprovado pela clínica.",
   "aviso_falha_envio": "PREENCHER (só números, com 55)",
-
   "config_no_banco": {
-    "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: quem pode usar #reiniciar.",
+    "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: fica vazio (#reiniciar só existe na demo; preparar_banco.py recusa se tiver número).",
     "aprovador": "PREENCHER",
     "local_avaliacao": "PREENCHER (endereço completo, vai no evento da agenda)",
     "modelo": "claude-haiku-5-5",
     "modo_teste": "1",
     "prefixo_teste": "554199900",
-    "numeros_keshion": "PREENCHER (números que podem usar #reiniciar; apaga a ficha sem cancelar a agenda. Na clínica real, combinar com ela ou deixar só o número de teste 554199900000)"
+    "numeros_keshion": ""
   },
-
   "arquivos": {
     "_leia": "Arquivos desta pasta com as instruções e a base da clínica (a voz da clínica fica na parte 'Registro' da base).",
     "instrucoes": "instrucoes.md",
