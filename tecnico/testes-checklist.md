@@ -1,34 +1,48 @@
-# Testes da Clara (checklist)
+# Testes da Clara (checklist completo)
 
-Números de teste: prefixo `554199900` (nada sai pelo WhatsApp). Agenda do Google é real: cancelar o que marcar.
+Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A agenda do Google é real: todo teste que marca precisa cancelar no fim e conferir que não sobrou evento. Quem executa: **C** = Claude (conversa de testes), **X** = Codex (revisão independente), **E** = Erica (celular real), **V** = Dra. Vivian.
 
-## Já automatizados
+## Portão 1: a cada mudança publicada (fluxo, instruções ou base)
 
-| Teste | Quando rodar | Como |
-|---|---|---|
-| 56 mensagens fixas (tom e regras, 7 conversas) | depois de mudar o fluxo | `tecnico/teste-ab/teste_n8n.py <caminho do webhook>` no servidor; comparar com `comparar_antes_depois.py` |
-| Pacientes simulados (8 perfis, conversa livre, nota de outra IA) | depois de mudar instruções, base ou fluxo | `python tecnico/teste-ab/paciente_simulado.py` no PC (~15 min) |
-| Revisão independente | ao fechar cada feature | Codex com `tecnico/n8n/PROMPT-CODEX-REVISAO.md` |
+| # | Teste | Quem | Como | Situação |
+|---|---|---|---|---|
+| 1.1 | Teste rápido (5 conversas: oi, preço, marcar e cancelar, dor, foto) em 2 minutos | C | script `teste_rapido.py` | **criar** |
+| 1.2 | 56 mensagens fixas (tom e regras) | C | `teste_n8n.py` no servidor + `comparar_antes_depois.py` | pronto |
+| 1.3 | Pacientes simulados (8 perfis, nota de outra IA) | C | `paciente_simulado.py` no PC | pronto |
+| 1.4 | Agenda limpa e banco de teste limpo depois dos testes | C | consulta no banco `clara` | pronto (os scripts limpam) |
+| 1.5 | Revisão independente da feature | X | `PROMPT-CODEX-REVISAO.md` com a feature indicada | pronto |
 
-## Ainda manuais ou por fazer
+## Portão 2: antes de ligar uma clínica real (piloto Dra. Vivian, 01/12)
 
-| # | Teste | Por que | Situação |
+| # | Teste | Quem | Situação |
 |---|---|---|---|
-| 1 | Teste rápido depois de cada publicação (5 mensagens: oi, preço, marcar e cancelar, dor, foto) | pegar quebra em 2 minutos | **criar script** |
-| 2 | Falhas simuladas: Anthropic fora ou lenta, Google fora ou sem permissão, Whapi falhando no envio | conferir "só um instante" + aviso + ficha certa | **por fazer** (precisa de cópia do fluxo apontando para endereços falsos) |
-| 3 | Mídia real pelo celular: áudio, foto, documento, figurinha, vídeo, localização | só o Whapi real manda os links verdadeiros | Erica testa pelo celular |
-| 4 | Doutora respondendo pelo celular (pausa de 12 h) | só o número real gera esse evento | Erica testa |
-| 5 | Agenda: fora do expediente, sábado, feriado, recesso de fim de ano, além de 90 dias | regras de data são o ponto mais frágil | parcial (nas 56 e simulados) |
-| 6 | Concorrência: duas pessoas pegando o mesmo horário; 3 mensagens seguidas; reenvio do Whapi | evitar marcação dupla e resposta repetida | parcial |
-| 7 | Segurança: canal errado, caminho antigo, mídia de site de fora, grupo | ninguém de fora aciona a Clara | feito em 12/11; repetir depois de mudar a entrada |
-| 8 | Isolamento por clínica: mesmo telefone em duas clínicas | dados e avisos não podem se misturar | quando a estrutura por clínica existir |
-| 9 | Carga: 20 conversas ao mesmo tempo | tempo de resposta e custo | por fazer |
-| 10 | Custo por conversa (tokens da IA) | preço da mensalidade | por fazer |
-| 11 | Recuperação: reiniciar servidor, restaurar backup numa cópia | saber se dá para voltar em caso de pane | por fazer |
-| 12 | Aceite da clínica: roteiro com os casos da própria Dra. Vivian, ela aprova o tom | piloto | antes de 01/12 |
-| 13 | Renovação da autorização do Google | expira em 7 dias até publicar o app | conferir toda semana |
+| 2.1 | Mídia real pelo celular: áudio, foto, documento, figurinha, vídeo, localização | E | áudio corrigido em 12/11; refazer todos no número da clínica |
+| 2.2 | Doutora respondendo pelo celular: Clara fica 12 h em silêncio naquela conversa | E | testado com simulação; falta no celular real |
+| 2.3 | Falhas simuladas: IA fora, lenta ou com resposta quebrada; Google fora ou sem permissão; Whapi recusando envio. Conferir "só um instante", aviso para a equipe, ficha certa e nada de resposta errada | C, X | **por fazer** (cópia do fluxo apontando para endereços falsos) |
+| 2.4 | Agenda: fora do expediente, sábado, domingo, feriado, recesso, mais de 90 dias, mesmo dia, horário que acabou de passar | C | parcial; **criar roteiro próprio** |
+| 2.5 | Concorrência: duas pessoas pegando o mesmo horário; 3 mensagens seguidas; reenvio do Whapi; resposta rápida antes da Clara terminar | C, X | parcial (ordem entre respostas ainda pode trocar) |
+| 2.6 | Segurança: canal errado, caminho antigo do webhook, mídia de site de fora, grupo, mensagem da própria Clara voltando | C, X | feito em 12/11; repetir a cada mudança na entrada |
+| 2.7 | Isolamento por clínica: mesmo telefone na demo e na Vivian; fichas, agendas e avisos separados | C, X | quando a estrutura por clínica existir |
+| 2.8 | Autorização do Google renovando sozinha (app publicado) | E, C | depende da página e da política de privacidade |
+| 2.9 | Carga: 20 conversas ao mesmo tempo (tempo de resposta e erros) | C | **por fazer** |
+| 2.10 | Custo por conversa (tokens da IA e mensagens) para fechar o preço | C | **por fazer** |
+| 2.11 | Recuperação: reiniciar o servidor; restaurar o backup numa cópia; backup fora do servidor | C | **por fazer** |
+| 2.12 | Aceite da clínica: roteiro com os casos reais da Vivian; ela aprova tom, regras e avisos | V, E | antes de 01/12 |
+| 2.13 | Avisos chegando no número certo da clínica (não no da Erica) | E | quando a estrutura por clínica existir |
 
-## Melhorias sugeridas nos scripts
+## Portão 3: durante o piloto (toda semana)
 
-- Pacientes simulados: perfis novos (manda 3 mensagens seguidas, some e volta no dia seguinte, pergunta sobre outro paciente, reclama de tratamento feito na clínica), critérios lidos da base de cada clínica, e um arquivo com o histórico das notas para ver a evolução.
-- Criar o teste rápido do item 1.
+| # | Teste | Quem |
+|---|---|---|
+| 3.1 | Ler 10 conversas reais da semana e anotar erros de tom ou de regra | E, C |
+| 3.2 | Conferir avisos para a doutora: chegaram, eram necessários, nenhum faltou | V, E |
+| 3.3 | Conferir agenda x ficha: marcações da Clara batem com a agenda | C |
+| 3.4 | Rodar os pacientes simulados depois de cada ajuste pedido pela clínica | C |
+| 3.5 | Conferir a autorização do Google e o vencimento do plano do Whapi | E |
+
+## Melhorias nos scripts
+
+1. Criar `teste_rapido.py` (1.1).
+2. Pacientes simulados: perfis novos (3 mensagens seguidas, some e volta no dia seguinte, pergunta de outro paciente, reclamação de tratamento feito na clínica, pessoa que só manda áudio na vida real), critérios lidos da base de cada clínica, e um histórico de notas para ver a evolução.
+3. Roteiro de datas difíceis (2.4).
+4. Cópia do fluxo com endereços falsos para as falhas (2.3).
