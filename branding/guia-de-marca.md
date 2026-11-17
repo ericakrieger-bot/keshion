@@ -122,7 +122,7 @@ Os logos e ícones em `kit/logos` e `kit/icones` são vetoriais (SVG): abrem e e
 
 ## Direção visual (fotos, ícones, ilustração)
 
-Em proposta, aguardando aprovação: `branding/direcao-visual.md`.
+Em proposta, aguardando aprovação: `branding/direcao-visual.html` (visual, abrir no navegador) e `branding/direcao-visual.md` (texto).
 
 ## O que ainda não existe
 
