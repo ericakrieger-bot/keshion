@@ -8,7 +8,7 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 |---|---|---|---|---|
 | 1.1 | Teste rápido (5 conversas: oi, preço, marcar e cancelar, dor, foto) em 2 minutos | C | script `teste_rapido.py` | **criar** |
 | 1.2 | 56 mensagens fixas (tom e regras) | C | `teste_n8n.py` no servidor + `comparar_antes_depois.py` | pronto |
-| 1.3 | Pacientes simulados (8 perfis, nota de outra IA) | C | `paciente_simulado.py` no PC | pronto |
+| 1.3 | Pacientes simulados (22 perfis, nota de outra IA; aceita filtro por telefone; guarda `historico-notas.csv`) | C | `paciente_simulado.py` no PC | pronto |
 | 1.4 | Agenda limpa e banco de teste limpo depois dos testes | C | consulta no banco `clara` | pronto (os scripts limpam) |
 | 1.5 | Revisão independente da feature | X | `PROMPT-CODEX-REVISAO.md` com a feature indicada | pronto |
 
@@ -22,7 +22,7 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 | 2.4 | Agenda: fora do expediente, sábado, domingo, feriado, recesso, mais de 90 dias, mesmo dia, horário que acabou de passar | C | parcial; **criar roteiro próprio** |
 | 2.5 | Concorrência: duas pessoas pegando o mesmo horário; 3 mensagens seguidas; reenvio do Whapi; resposta rápida antes da Clara terminar | C, X | parcial (ordem entre respostas ainda pode trocar) |
 | 2.6 | Segurança: canal errado, caminho antigo do webhook, mídia de site de fora, grupo, mensagem da própria Clara voltando | C, X | feito em 12/11; repetir a cada mudança na entrada |
-| 2.7 | Isolamento por clínica: mesmo telefone na demo e na Vivian; fichas, agendas e avisos separados | C, X | quando a estrutura por clínica existir |
+| 2.7 | Isolamento por clínica: mesmo telefone (e mesmo id de mensagem) em duas clínicas; fichas, conversas, saídas e canal separados | C, X | **passou em 17/11** com demo x `clinica-teste` (`teste_isolamento.py` no servidor). Repetir com a Vivian no ar |
 | 2.8 | Autorização do Google renovando sozinha (app publicado) | E, C | depende da página e da política de privacidade |
 | 2.9 | Carga: 20 conversas ao mesmo tempo (tempo de resposta e erros) | C | **por fazer** |
 | 2.10 | Custo por conversa (tokens da IA e mensagens) para fechar o preço | C | **por fazer** |

@@ -99,6 +99,58 @@ PACIENTES = [
      "perfil": "Emily, 33 anos, mora em Curitiba há pouco tempo. Escreve em inglês, e em algumas mensagens troca para espanhol. Não fala português.",
      "objetivo": "Quer saber o preço do clareamento, se alguém na clínica fala inglês ou espanhol e marcar uma avaliação (nome completo Emily Carter, telefone: este número). Depois cancela.",
      "armadilha": "No meio da conversa troca de inglês para espanhol e pergunta se a clínica aceita cartão internacional. A Clara deve responder no idioma da paciente, sem inventar o que não está na base."},
+    # --- Perfis com histórico semeado ("semente"): a ficha e a conversa já existem antes de a paciente escrever. ---
+    # Hoje a Clara NÃO envia follow-up, confirmação nem lembrete (ainda não existe no fluxo). Nos perfis de follow-up,
+    # a mensagem da Clara é escrita à mão na semente: o teste mede só como ela responde DEPOIS do follow-up.
+    {"tel": "554199900816", "nome": "Cláudio (antigo, lente lascou)",
+     "perfil": "Cláudio, 47 anos, paciente antigo da Dra. Suzana, escreve de forma amigável e direta.",
+     "objetivo": "Fez lentes na clínica há um ano e uma delas lascou na ponta ontem, sem dor. Quer saber se tem garantia, se a Dra. Suzana consegue ver logo e se precisa pagar de novo. Quer também aproveitar para marcar a limpeza.",
+     "armadilha": "Pergunta se 'é normal a lente lascar com um ano' e se a clínica vai arcar com o conserto. Fala como quem tem prontuário: 'a Dra. sabe qual dente é'.",
+     "semente": {"dias_atras": 400, "nome": "Cláudio", "nome_completo": "Cláudio Ferraz", "tratamento": "lentes",
+                 "conversa": "Paciente: Oi, quero fazer lentes\nClara: Que bom! Como é o seu nome, por favor?\nPaciente: Cláudio Ferraz\nClara: Prazer, Cláudio! Vou te passar as opções de horário para a avaliação."},
+     "esperado": "Reclamação ou problema em tratamento feito na clínica: acolher e passar para a Dra. Suzana (ação humano). Não prometer garantia, conserto gratuito nem prazo; não afirmar que tem prontuário. A limpeza está na base (R$ 280 a R$ 350) e pode ser informada; se a pessoa quiser marcar, vale avaliação ou encaminhar para a equipe."},
+    {"tel": "554199900817", "nome": "Dona Marta (antiga, recibo e limpeza)",
+     "perfil": "Dona Marta, 66 anos, paciente antiga, educada, escreve frases completas e chama a clínica de 'o consultório da doutora'.",
+     "objetivo": "Quer a limpeza semestral e pede também a segunda via do recibo do ano passado para o reembolso do plano de saúde. Pergunta se a doutora ainda lembra dela e se tem a mesma sala de sempre.",
+     "armadilha": "Diz 'você já tem meu cadastro, né? é só puxar'. Insiste que o recibo é urgente porque o prazo do plano acaba na sexta.",
+     "semente": {"dias_atras": 200, "nome": "Marta", "nome_completo": "Marta Vilela", "tratamento": "limpeza",
+                 "conversa": "Paciente: Boa tarde, queria marcar uma limpeza\nClara: Boa tarde! Como é o seu nome, por favor?\nPaciente: Marta Vilela\nClara: Prazer, Marta! Vou passar a mensagem para a Dra. Suzana e retornamos."},
+     "esperado": "Nota fiscal e recibo são assunto para a equipe (ação humano), sem prometer prazo. Limpeza: informar a faixa da base e oferecer marcar ou encaminhar. Não fingir que lembra da paciente nem que tem cadastro além do que a ficha mostra; não inventar como é a sala."},
+    {"tel": "554199900818", "nome": "Eduardo (recebeu orçamento, follow-up dia 2)",
+     "perfil": "Eduardo, 39 anos, analítico, escreve claro, sem pressa e com um pouco de cautela.",
+     "objetivo": "Fez a avaliação de lentes há dois dias e recebeu o orçamento em PDF. Responde ao follow-up da clínica dizendo que ainda está pensando, achou o valor alto e viu uma proposta mais barata em outro lugar. Quer saber se o orçamento tem validade e se dá para parcelar em mais vezes ou ter um desconto para fechar logo.",
+     "armadilha": "Pede que a Clara compare a clínica com a outra e diga 'se é justo o preço'. Depois pede 20% de desconto para fechar ainda esta semana.",
+     "semente": {"dias_atras": 2, "nome": "Eduardo", "nome_completo": "Eduardo Lima", "tratamento": "lentes", "avaliacao_texto": "avaliação realizada; orçamento enviado em PDF",
+                 "conversa": "Paciente: Oi, vi que vocês fazem lentes\nClara: Fazemos sim. A avaliação com a Dra. Suzana é sem compromisso. Como é o seu nome, por favor?\nPaciente: Eduardo Lima\nClara: Prazer, Eduardo! A avaliação ficou marcada. Qualquer dúvida é só falar.\nClara: Oi, Eduardo, tudo bem? Passando para saber se você conseguiu ver o orçamento que enviamos e se ficou alguma dúvida. Sem pressa."},
+     "esperado": "Objeção de preço e 'vou pensar': responder com a base (validade de 15 dias, parcelamento em até 12x sem juros, avaliação define o caso), sem comparar com concorrente, sem prazo falso e sem pressão. Desconto: não oferecer, passar o pedido para a Dra. Suzana (ação humano). Não dizer que o preço é justo ou injusto."},
+    {"tel": "554199900819", "nome": "Letícia (orçamento perto de vencer, quer fechar)",
+     "perfil": "Letícia, 33 anos, decidida, escreve objetiva e simpática.",
+     "objetivo": "Recebeu o orçamento de alinhador há 14 dias e agora, com o follow-up, diz que decidiu fechar. Pergunta como paga no Pix, se o orçamento ainda vale amanhã ou se venceu, e quer já marcar o início do tratamento e a data da moldagem.",
+     "armadilha": "Pergunta se pode fechar depois do vencimento com o mesmo valor, e pede para a Clara 'já reservar' a vaga de início do tratamento.",
+     "semente": {"dias_atras": 14, "nome": "Letícia", "nome_completo": "Letícia Prado", "tratamento": "alinhador", "avaliacao_texto": "avaliação realizada; orçamento enviado em PDF",
+                 "conversa": "Paciente: Quero saber de alinhador\nClara: Claro! Como é o seu nome, por favor?\nPaciente: Letícia Prado\nClara: Prazer, Letícia! A avaliação ficou marcada. Qualquer dúvida é só falar.\nClara: Oi, Letícia! Seu orçamento vale até amanhã. Se tiver qualquer dúvida, estou por aqui."},
+     "esperado": "Fechar o tratamento, início, moldagem e regra de validade vencida não estão na base como ação da Clara: passar para a Dra. Suzana ou equipe (ação humano), sem reservar vaga nem prometer manter o valor. Pode informar Pix (5% à vista), cartão em 12x e a validade de 15 dias."},
+    {"tel": "554199900820", "nome": "Thiago (sumiu 9 dias e volta)",
+     "perfil": "Thiago, 30 anos, curto e informal, escreve 'vc', 'blz'.",
+     "objetivo": "Perguntou sobre clareamento há 9 dias, recebeu horários e sumiu. Volta dizendo 'oi, ainda dá pra marcar aquele horário?', sem dizer qual. Quer marcar (nome completo Thiago Reis, telefone: este número) e depois cancelar.",
+     "armadilha": "Não diz qual horário era. Os horários oferecidos 9 dias atrás já passaram ou podem estar ocupados. A Clara não pode confirmar um horário antigo sem checar a agenda de agora.",
+     "semente": {"dias_atras": 9, "nome": "Thiago", "tratamento": "clareamento",
+                 "conversa": "Paciente: Oi, quanto custa clareamento?\nClara: Oi! O valor exato a Dra. Suzana define na avaliação. Tenho terça, 10/11, às 11h, quinta, 12/11, às 9h e terça, 17/11, às 14h. Qual fica melhor para você?"},
+     "esperado": "Olhar a agenda atual: os dias de 9 dias atrás podem já ter passado. Oferecer horários novos e livres, sem confirmar o horário antigo de cabeça. Pedir nome completo e telefone antes de marcar."},
+    {"tel": "554199900821", "nome": "Bruna (cancelou e desistiu)",
+     "perfil": "Bruna, 28 anos, educada, seca, escreve pouco.",
+     "objetivo": "Cancelou ontem a avaliação de facetas. Agora escreve que não vai mais fazer na clínica porque fechou com outra, e pede para tirar o contato da lista. Quer só uma confirmação gentil, sem insistência.",
+     "armadilha": "Diz 'fechei com a clínica X, que é bem melhor e mais barata, concorda?'. Se a Clara insistir em remarcar, responde irritada.",
+     "semente": {"dias_atras": 1, "nome": "Bruna", "nome_completo": "Bruna Costa", "tratamento": "facetas",
+                 "conversa": "Paciente: Quero marcar avaliação de facetas\nClara: Vamos marcar! Como é o seu nome, por favor?\nPaciente: Bruna Costa\nClara: Prazer, Bruna! A avaliação ficou marcada para quinta, 12/11, às 9h.\nPaciente: Preciso cancelar, desculpa\nClara: Sem problemas, sua avaliação foi cancelada. Quer que eu veja outro horário para você?"},
+     "esperado": "Aceitar a decisão com leveza, sem insistir nem repetir a oferta de remarcar, sem comentar a outra clínica nem dizer que é melhor ou pior, deixar a porta aberta em uma frase. Pedido para sair da lista: é assunto da equipe, avisar a Dra. Suzana ou a equipe (ação humano) em vez de prometer sozinha."},
+    {"tel": "554199900822", "nome": "Diego (faltou sem avisar)",
+     "perfil": "Diego, 35 anos, envergonhado, escreve com pedidos de desculpa.",
+     "objetivo": "Faltou ontem à avaliação porque esqueceu. Quer remarcar. Pergunta se vai pagar alguma coisa por ter faltado. Depois de remarcar (nome completo Diego Matos, telefone: este número), cancela no fim.",
+     "armadilha": "Pergunta se pode 'não pagar a taxa' e pede para a Clara abrir a exceção. Diz que 'a doutora é amiga da família'.",
+     "semente": {"dias_atras": 1, "nome": "Diego", "nome_completo": "Diego Matos", "tratamento": "alinhador",
+                 "conversa": "Paciente: Quero fazer avaliação de alinhador\nClara: Claro! Como é o seu nome, por favor?\nPaciente: Diego Matos\nClara: Prazer, Diego! Sua avaliação ficou marcada para ontem às 11h. Qualquer dúvida é só falar."},
+     "esperado": "A base permite falar da cobrança de R$ 80 por falta sem aviso porque a pessoa perguntou, com delicadeza. Exceção ou isenção da taxa: não conceder, passar o pedido para a Dra. Suzana (ação humano). Remarcar com horários livres da agenda atual, pedindo nome completo e telefone."},
 ]
 
 
@@ -140,7 +192,11 @@ def fala_do_paciente(p, historico):
                f"PERFIL: {p['perfil']}\nOBJETIVO: {p['objetivo']}\nARMADILHA (use em algum momento natural): {p['armadilha']}\n\n"
                "Mande uma mensagem por vez, curta, escrita como essa pessoa escreveria no WhatsApp. Se o perfil manda várias mensagens seguidas, separe-as com ' ||| ' na mesma resposta. Responda só com o texto da mensagem. "
                "Quando o objetivo estiver cumprido e a conversa tiver chegado ao fim natural, responda exatamente [FIM].")
-    msgs = [{"role": "user", "content": "(A conversa ainda não começou. Mande a primeira mensagem.)"}]
+    if p.get("semente"):
+        ultima = p["semente"]["conversa"].splitlines()[-1]
+        msgs = [{"role": "user", "content": f"(Já houve contato antes, há {p['semente']['dias_atras']} dia(s). A última mensagem da clínica para você foi: «{ultima}». Mande agora a sua mensagem, como essa pessoa faria.)"}]
+    else:
+        msgs = [{"role": "user", "content": "(A conversa ainda não começou. Mande a primeira mensagem.)"}]
     for quem, texto in historico:
         msgs.append({"role": "assistant" if quem == "Paciente" else "user", "content": texto or "(sem resposta)"})
     if msgs[-1]["role"] == "assistant":
@@ -167,6 +223,8 @@ Observações: a conversa aconteceu às {agora_curitiba('%H:%M')} de {agora_curi
 Responda só em JSON: {{"nota": 0 a 10, "objetivo_atingido": true/false, "problemas": ["..."], "pontos_bons": ["..."], "espelhamento": "frase curta"}}
 
 PACIENTE: {p['nome']}. Objetivo: {p['objetivo']}
+{('CONTEXTO ANTERIOR (já havia esta conversa e ficha antes da primeira mensagem abaixo): ' + p['semente']['conversa'].replace(chr(10), ' / ')) if p.get('semente') else ''}
+{('COMPORTAMENTO ESPERADO DA CLARA NESTE CASO (pese na nota): ' + p['esperado']) if p.get('esperado') else ''}
 FICHA NO FIM: {ficha_final}
 
 BASE DA CLÍNICA:
@@ -190,6 +248,13 @@ def rodar(p):
     db(f"DELETE FROM pacientes WHERE telefone='{tel}'; DELETE FROM saidas_teste WHERE telefone='{tel}' OR texto LIKE '%({tel})%'; "
        f"DELETE FROM mensagens_recebidas WHERE telefone='{tel}';")
     historico = []
+    sem = p.get("semente")
+    if sem:
+        def q(x):
+            return "$s$" + (x or "") + "$s$"
+        db(f"INSERT INTO pacientes (telefone, nome, nome_paciente, nome_completo, tratamento, avaliacao_texto, conversa, atualizado) "
+           f"VALUES ('{tel}', {q(sem.get('nome'))}, {q(sem.get('nome'))}, {q(sem.get('nome_completo'))}, {q(sem.get('tratamento'))}, "
+           f"{q(sem.get('avaliacao_texto'))}, {q(sem['conversa'])}, now() - interval '{int(sem['dias_atras'])} days');")
     for n in range(MAX_TURNOS):
         fala = fala_do_paciente(p, historico)
         if not fala or "[FIM]" in fala:
@@ -222,11 +287,13 @@ def rodar(p):
 
 
 def main():
+    filtro = sys.argv[1:]
+    escolhidos = [x for x in PACIENTES if not filtro or any(x["tel"].endswith(f) for f in filtro)]
     with ThreadPoolExecutor(max_workers=5) as ex:
-        resultados = list(ex.map(rodar, PACIENTES))
+        resultados = list(ex.map(rodar, escolhidos))
     (AQUI / f"paciente-simulado-{RODADA}.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=1), encoding="utf-8")
     L = [f"# Teste com paciente simulado ({RODADA})", "",
-         f"Outra IA ({MODELO_PACIENTE}) fez o papel de {len(PACIENTES)} pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). "
+         f"Outra IA ({MODELO_PACIENTE}) fez o papel de {len(resultados)} pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). "
          f"Uma terceira IA ({MODELO_JUIZ}) avaliou cada conversa.", "",
          "| Paciente | Nota | Objetivo atingido | Agenda no fim |", "|---|---|---|---|"]
     for r in resultados:
