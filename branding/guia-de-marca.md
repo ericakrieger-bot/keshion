@@ -110,6 +110,20 @@
 
 Usar direto `branding/kit/digital/keshion.css` (variáveis `--keshion-*`) e `keshion-tokens.json`. Não recriar paleta à mão.
 
+## Dados de contato e frase de marca (17/11/2026)
+
+- **Domínio:** keshion.com (não usar .com.br). **E-mail:** contato@keshion.com. App: app.keshion.com.
+- **Frase de marca (candidata, ainda não definitiva):** "Keshion · automações inteligentes" (ideia da Erica). O descritor do manual, "Agentes de IA para atendimento no WhatsApp", fica como subtítulo do produto atual.
+- **Assinatura de e-mail:** modelo em `branding/modelos/assinatura-email.html` (sem nome por enquanto: logo, frase, e-mail e site).
+
+## Os SVGs do kit são os arquivos editáveis
+
+Os logos e ícones em `kit/logos` e `kit/icones` são vetoriais (SVG): abrem e editam no Figma, Canva, Illustrator ou Inkscape. As letras do logo já são curvas, então não precisam de fonte. Não existe arquivo-fonte original nem logo vertical: para os dois, usar o símbolo isolado ou pedir ao designer.
+
+## Direção visual (fotos, ícones, ilustração)
+
+Em proposta, aguardando aprovação: `branding/direcao-visual.md`.
+
 ## O que ainda não existe
 
-Modelos de redes sociais, de apresentação, de proposta, contrato e SOP; fotografia e ilustração; logo vertical; assinatura de e-mail; frase de marca; dados oficiais da empresa (CNPJ, endereço, domínio definitivo). Detalhes na conversa de 17/11/2026.
+Dados oficiais da empresa (CNPJ, razão social, endereço), nome e telefone para a assinatura, modelos de redes sociais, apresentação, proposta, contrato e SOP, logo vertical.

@@ -5,7 +5,7 @@
 
 ## O que é
 
-Keshion IA (sócio: Sérgio; domínio keshion.com, app em app.keshion.com). Serviço B2B: implantação e operação de atendente de IA no WhatsApp para clínicas odontológicas de alto valor, vendido como resultado (lead sem resposta, falta e paciente que não volta). Modelo: diagnóstico grátis, implantação e mensalidade. Piloto com a Dra. Vivian em 01/12/2026 (`clientes/dra-vivian/BRIEFING-NOVO-CHAT.md`).
+Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, app em app.keshion.com). Serviço B2B: implantação e operação de atendente de IA no WhatsApp para clínicas odontológicas de alto valor, vendido como resultado (lead sem resposta, falta e paciente que não volta). Modelo: diagnóstico grátis, implantação e mensalidade. Piloto com a Dra. Vivian em 01/12/2026 (`clientes/dra-vivian/BRIEFING-NOVO-CHAT.md`).
 
 ## Estado técnico (17/11/2026)
 
@@ -21,6 +21,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, app em app.keshion.com). Serv
 - Pedir OK antes de mudar produção, criar contas, gastar dinheiro ou mexer em número de WhatsApp de cliente.
 - Testes com a Clara no ar: só números com prefixo `554199900` (nada sai pelo WhatsApp).
 - Dados de pacientes reais nunca nesta pasta.
+- Marca disponível em qualquer sessão pela skill global `keshion-marca` (em `~/.claude/skills`), que aponta para esta pasta: se mover a pasta, atualizar o caminho na skill.
 - Material visual da Keshion (site, app, redes, propostas, contratos, apresentações, SOPs) segue `branding/guia-de-marca.md`; arquivos oficiais (logos, ícones, fontes, CSS) em `branding/kit/`. PDF e contrato: sempre fundo claro. Nunca digitar "KESHION AI" no lugar do logo.
 - Commit e push dentro desta pasta; memória `keshion-migracao-n8n` com cópia no segundo cérebro (`Documents\segundo-cerebro`).
 
