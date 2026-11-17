@@ -59,7 +59,7 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 - **CRM e painel usam os mesmos dados**, no banco do Supabase, dentro do próprio app (seção 0). Planilha, AppSheet, Glide e Looker Studio saíram em 16/11/2026.
 - **Anotação clínica fica no prontuário** do sistema da clínica, não no CRM (LGPD).
 
-## 3. As abas (versão 6 do protótipo, 17/11/2026)
+## 3. As abas (versão 7 do protótipo, 17/11/2026)
 
 Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Reativar e Painel em janeiro. O logo da Keshion aparece na barra lateral, ao lado do nome da clínica e no rodapé de todas as abas (rodapé com 128 px; o guia de marca pede mínimo de 160 px, e a Erica pediu menor), para deixar claro que é um app da Keshion. Os dados de exemplo seguem a base da clínica demo da Dra. Suzana Vidal (lentes, facetas, alinhadores, clareamento e limpeza; sem implante).
 
@@ -118,10 +118,10 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 
 1. **Calculadora de perdas e ROI** para o site (em segundo plano desde 17/11/2026; as perguntas estão no outro chat).
 2. Decidir se o banco "clara" vai para o Supabase ou se o app lê os dados do Contabo.
-3. Ouvir da Erica as outras alterações no protótipo (a versão 4, de 17/11/2026, já tem as 6 abas).
+3. Protótipo versão 7 pronto e testado em 17/11/2026 (6 abas, marca Keshion). Aguardando a Erica ver o link e dizer se falta algum ajuste antes de virar o app de verdade.
 4. Criar o Supabase (região São Paulo) e o Netlify, com o backup diário para o Contabo e a regra de acesso por clínica.
 5. Montar as telas de dezembro a tempo do piloto da Dra. Vivian em 01/12/2026.
-6. Montar as telas de janeiro: Orçamentos, Retornos e Painel.
+6. Montar as telas de janeiro: Orçamentos, Reativar e Painel.
 7. Ajustar o tom da mensagem de retorno quando chegarem as respostas da clínica fictícia da Dra. Suzana.
 
 Saíram da lista em 16/11/2026: comparar AppSheet e Glide, criar a planilha e o painel no Looker Studio, atualizar a planilha modelo.
