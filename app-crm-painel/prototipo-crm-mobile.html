@@ -190,6 +190,47 @@ textarea{min-height:110px;resize:vertical}
   .toast{bottom:24px}
 }
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s cubic-bezier(.2,.8,.2,1)}@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}}
+.sym{width:30px;height:30px;stroke:none;flex:none}
+.foot{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 0 8px;margin-top:12px;border-top:1px solid var(--line);color:var(--ink2);font-size:12px;text-align:center}
+.foot svg.logo{width:160px}
+.dl{display:grid;grid-template-columns:1fr;gap:0;margin:0}
+.dl div{display:grid;grid-template-columns:118px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.dl div:last-child{border-bottom:0}
+.dl dt{color:var(--ink2);font-weight:500}.dl dd{margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere}
+.cardh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cardh b{font-family:var(--font-h);font-size:16px}
+.vbars{display:flex;align-items:flex-end;gap:10px;height:180px;padding-top:28px}
+.vcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0;position:relative}
+.vcol i{display:block;width:100%;max-width:44px;background:var(--action);border-radius:4px 4px 0 0;min-height:4px;cursor:default}
+.vcol i:hover,.vcol i:focus-visible{filter:brightness(1.15)}
+.vcol span{font-size:12px;color:var(--ink2)}
+.vcol em{position:absolute;font-style:normal;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap}
+.hbars{display:flex;flex-direction:column;gap:10px}
+.hb{display:grid;grid-template-columns:minmax(92px,32%) 1fr auto;gap:10px;align-items:center;font-size:14px}
+.hb span{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb .trk{height:12px;display:block}
+.hb .trk i{display:block;height:100%;background:var(--action);border-radius:0 4px 4px 0;min-width:3px}
+.hb b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.hb small{color:var(--ink2);font-weight:500;margin-left:4px}
+.hours{display:flex;align-items:flex-end;gap:3px;height:120px}
+.hours div{flex:1;height:100%;display:flex;align-items:flex-end;border-radius:3px}
+.hours div.off{background:var(--soft)}
+.hours i{display:block;width:100%;background:var(--action);border-radius:3px 3px 0 0;min-height:3px}
+.tip{position:fixed;z-index:50;background:var(--ink);color:var(--bg);font-size:13px;font-weight:500;padding:6px 10px;border-radius:8px;pointer-events:none;white-space:nowrap;transform:translate(-50%,-110%)}
+.doc{gap:14px;padding:22px;font-size:13px;line-height:1.5}
+.doc h3{font-family:var(--font-h);font-size:13px;margin:4px 0 0;color:#2459A6;text-transform:uppercase;letter-spacing:.06em}
+.doc p{margin:0}
+.doc ol,.doc ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.doc .dhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid #DEE4EE}
+.doc .mono{width:40px;height:40px;border-radius:50%;background:#0B1126;color:#F7F8F4;display:grid;place-items:center;font-family:var(--font-h);font-weight:700;font-size:14px;flex:none}
+.doc .ddata{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+.doc .tot td{font-weight:700;border-bottom:0;font-size:14px}
+.doc .sign{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.doc .sign div{border-top:1px solid #50596A;padding-top:6px;font-size:12px;color:#50596A}
+.doc .dfoot{border-top:1px solid #DEE4EE;padding-top:10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11px;color:#50596A}
+.doc .dfoot span{display:inline-flex;align-items:center;gap:5px}
+.doc .dfoot svg{width:14px;height:14px;stroke:none}
+.bday{font-size:12px;font-weight:600;color:var(--action);display:inline-flex;align-items:center;gap:4px}
 </style>
 
 <div class="shell">
@@ -217,87 +258,108 @@ const IC={
  next:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',
  plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
  ok:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',
- x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+ x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ edit:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+ gift:'<svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/></svg>',
+ text:'<svg viewBox="0 0 24 24"><path d="M5 6h14M5 11h14M5 16h9"/></svg>'
 };
-const TABS=[["conversas","Conversas",IC.conv],["agenda","Agenda",IC.cal],["pacientes","Pacientes",IC.pac],["orcamentos","Orçamentos",IC.doc],["retornos","Retornos",IC.ret],["painel","Painel",IC.res]];
+const SIMB='<svg class="sym" viewBox="0 0 100 100" aria-hidden="true"><path d="M80.8367 11.9198 A49 49 0 0 0 11.9198 80.8367 L28.2399 67.6210 A28 28 0 0 1 67.6210 28.2399 Z" fill="#4388E8" fill-rule="evenodd"/><path d="M19.1633 88.0802 A49 49 0 0 0 88.0802 19.1633 L71.7601 32.3790 A28 28 0 0 1 32.3790 71.7601 Z" fill="#55C96A" fill-rule="evenodd"/></svg>';
+const LOGO=document.querySelector(".brand svg").outerHTML;
+const CLINICA="Clínica Dra. Suzana Vidal";
+const TABS=[["conversas","Conversas",IC.conv],["agenda","Agenda",IC.cal],["pacientes","Pacientes",IC.pac],["orcamentos","Orçamentos",IC.doc],["reativar","Reativar",IC.ret],["painel","Painel",IC.res]];
 const SIT=["Novo contato","Em conversa","Avaliação marcada","Avaliou, aguardando orçamento","Orçamento em aberto","Em tratamento","Tratamento concluído","Não fechou"];
 const SITTAG={"Novo contato":"t-info","Em conversa":"t-info","Avaliação marcada":"t-acc","Avaliou, aguardando orçamento":"t-warn","Orçamento em aberto":"t-warn","Em tratamento":"t-good","Tratamento concluído":"t-neutral","Não fechou":"t-late"};
 const CONFTAG={"Confirmou":"t-good","Sem resposta":"t-warn","Remarcou pela IA":"t-info","Aguardando confirmação":"t-neutral"};
+const ORIGENS=["Instagram","Anúncio","Google","Indicação","Recepção","Paciente antiga","Outro"];
 const LEMB=[3,10,17,30];
-const MENSAL=3000;
+const HOJE=new Date(2026,10,17);
+const AVAL=150;
+
+/* Textos padrão do orçamento: vêm da base da clínica e a doutora revisa. */
+let TPL={
+ lentes:{nome:"Lentes de contato dental",unid:"dente",como:"Lâminas finas de cerâmica coladas na frente dos dentes para mudar a cor, o formato e o alinhamento do sorriso, com pouco ou nenhum desgaste.",etapas:["Avaliação e simulação do sorriso.","Preparo e escaneamento digital. As lentes são feitas no laboratório próprio da clínica.","Prova e fixação das lentes."],prazo:"2 a 3 semanas, em 3 sessões.",inclui:["Simulação do sorriso","Escaneamento digital","Lentes em cerâmica feitas no laboratório próprio","Prova e fixação"]},
+ facetas:{nome:"Facetas",unid:"dente",como:"Um pouco mais espessas que as lentes, indicadas para mudanças maiores de cor e formato.",etapas:["Avaliação e simulação do sorriso.","Preparo e escaneamento digital.","Prova e fixação das facetas."],prazo:"Cerca de 3 semanas, em 3 sessões.",inclui:["Simulação do sorriso","Escaneamento digital","Facetas feitas no laboratório próprio","Prova e fixação"]},
+ alinhador:{nome:"Alinhadores invisíveis",unid:"tratamento",como:"Placas transparentes que alinham os dentes aos poucos. A troca é feita em casa, em torno de uma vez por mês.",etapas:["Exame e escaneamento para definir o plano.","Entrega dos alinhadores, prontos em 10 a 15 dias.","Consultas de acompanhamento a cada 2 meses."],prazo:"8 a 14 meses, conforme o caso.",inclui:["Planejamento digital","Todos os alinhadores do plano","Consultas de acompanhamento"]},
+ clareamento:{nome:"Clareamento",unid:"tratamento",como:"Clareamento em consultório com reforço em casa, com orientação da doutora.",etapas:["Avaliação.","Sessão de clareamento em consultório.","Reforço em casa, com orientação da doutora."],prazo:"1 a 2 sessões.",inclui:["Sessões em consultório","Orientação para o reforço em casa"]},
+ limpeza:{nome:"Limpeza e revisão",unid:"sessão",como:"Profilaxia e revisão geral.",etapas:["Limpeza e revisão em uma sessão."],prazo:"1 sessão, recomendada a cada 6 meses.",inclui:["Profilaxia","Revisão"]}
+};
+const CONDICOES=["Pix ou transferência: 5% de desconto à vista.","Cartão de crédito: até 12 vezes sem juros.","Cartão de débito."];
 
 let S={
  pend:[
-  {id:1,pid:11,tipo:"Urgência",tag:"t-late",msg:"Estou com muita dor e o rosto inchou desde ontem à noite. Coloquei o implante na semana passada.",espera:8,quando:"Responder agora"},
-  {id:2,pid:12,tipo:"Pediu a doutora",tag:"t-late",msg:"Queria falar com a Dra. Suzana antes de decidir. Tenho dúvida sobre o prazo do alinhador.",espera:35,quando:"Responder agora"},
-  {id:3,pid:13,tipo:"A IA não sabe",tag:"t-warn",msg:"Vocês aceitam o convênio OdontoPrev?",espera:12,quando:"Responder agora",ensinar:true},
-  {id:4,pid:14,tipo:"Pedido de desconto",tag:"t-info",msg:"Se eu fechar as 10 lentes à vista, consigo algum desconto?",espera:20,quando:"Decidir",opcoes:["Oferecer 5% à vista","Oferecer 10% à vista","Manter o valor","Ligar para ela"]}
+  {id:1,pid:11,tipo:"Urgência",tag:"t-late",msg:"Estou com muita sensibilidade e uma das lentes parece solta desde ontem à noite.",espera:8},
+  {id:2,pid:12,tipo:"Pediu a doutora",tag:"t-late",msg:"Queria falar com a Dra. Suzana antes de decidir. Tenho dúvida sobre o prazo do alinhador.",espera:35},
+  {id:3,pid:13,tipo:"A IA não sabe",tag:"t-warn",msg:"Vocês aceitam o convênio OdontoPrev?",espera:12,ensinar:true},
+  {id:4,pid:14,tipo:"Pedido de desconto",tag:"t-info",msg:"Se eu fechar as 10 lentes à vista, consigo um desconto maior que os 5% do Pix?",espera:20,opcoes:["Manter os 5% do Pix","Oferecer 8% à vista","Ligar para ela"]},
+  {id:5,pid:18,tipo:"Reclamação",tag:"t-warn",msg:"Hoje esperei 40 minutos para ser atendido e ninguém me avisou do atraso.",espera:5}
  ],
  agenda:[
-  {id:1,dia:"Hoje",h:"09:00",pid:18,tipo:"Implante · sessão 2 de 3",conf:"Confirmou",pres:"Compareceu"},
-  {id:2,dia:"Hoje",h:"11:00",pid:22,tipo:"Alinhador · troca de placas",conf:"Confirmou",pres:null},
+  {id:1,dia:"Hoje",h:"09:00",pid:18,tipo:"Facetas · sessão 2 de 3",conf:"Confirmou",pres:"Compareceu"},
+  {id:2,dia:"Hoje",h:"11:00",pid:22,tipo:"Alinhador · consulta de acompanhamento",conf:"Confirmou",pres:null},
   {id:3,dia:"Hoje",h:"14:00",pid:15,tipo:"Avaliação",conf:"Confirmou",pres:null},
   {id:4,dia:"Hoje",h:"16:30",pid:16,tipo:"Avaliação",conf:"Sem resposta",pres:null},
   {id:5,dia:"Amanhã",h:"10:00",pid:17,tipo:"Avaliação",conf:"Remarcou pela IA"},
-  {id:6,dia:"Amanhã",h:"11:30",pid:11,tipo:"Implante · retorno pós-cirurgia",conf:"Confirmou"},
+  {id:6,dia:"Amanhã",h:"11:30",pid:11,tipo:"Lentes · prova e fixação",conf:"Confirmou"},
   {id:7,dia:"Amanhã",h:"15:00",pid:19,tipo:"Avaliação",conf:"Aguardando confirmação"}
  ],
  pac:[
-  {id:11,nome:"Paula Antunes",tel:"(41) 99610-2231",sit:"Em tratamento",ja:true,origem:"Indicação",inicio:"08/2026",trat:{nome:"Implante unitário",feitas:2,total:4,prox:"amanhã às 11h30",valor:9800,pag:"6× no cartão"},notas:"Prefere ser chamada de Paula. Tem receio de dor, explicar cada etapa.",hist:[["Hoje 07:40","Relatou dor e inchaço. Pendência aberta para a equipe."],["25/10","Cirurgia do implante"],["10/08","Fechou o tratamento"]]},
-  {id:12,nome:"Carlos Mendes",tel:"(41) 98877-3301",sit:"Orçamento em aberto",ja:false,origem:"Google",inicio:"10/2026",trat:{nome:"Alinhador invisível",feitas:0,total:0,prox:"",valor:14000,pag:"A definir"},notas:"",hist:[["Hoje 10:05","Pediu para falar com a doutora sobre o prazo"],["06/11","Lembrete do orçamento (dia 10) enviado pela IA"],["30/10","Lembrete do orçamento (dia 3) enviado pela IA"],["27/10","Orçamento entregue: R$ 14.000"]]},
-  {id:13,nome:"Henrique Sá",tel:"(41) 99470-1182",sit:"Em conversa",ja:false,origem:"Instagram",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 09:12","Perguntou sobre convênio. A IA não encontrou na base."]]},
-  {id:14,nome:"Mariana Costa",tel:"(41) 99812-4410",sit:"Orçamento em aberto",ja:false,origem:"Anúncio",inicio:"10/2026",trat:{nome:"Lentes de contato dental (10)",feitas:0,total:0,prox:"",valor:28000,pag:"A definir"},notas:"Casamento em março. Quer o sorriso pronto até lá.",hist:[["Hoje 09:30","Pediu desconto para pagamento à vista"],["29/10","Orçamento entregue: R$ 28.000"],["24/10","Avaliação com a Dra. Suzana"]]},
-  {id:15,nome:"Juliana Prado",tel:"(41) 99120-7781",sit:"Avaliação marcada",ja:false,origem:"Indicação",inicio:"10/2026",trat:null,notas:"Indicada pela Mariana Costa.",hist:[["Ontem 17:02","Confirmou a avaliação"],["31/10","IA marcou a avaliação"]]},
-  {id:16,nome:"Larissa Duarte",tel:"(41) 99011-8823",sit:"Avaliação marcada",ja:false,origem:"Instagram",inicio:"10/2026",trat:null,notas:"",hist:[["Ontem 17:00","Confirmação enviada, sem resposta"]]},
-  {id:17,nome:"Beatriz Lima",tel:"(41) 99731-5520",sit:"Avaliação marcada",ja:false,origem:"Anúncio",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 08:01","IA remarcou a avaliação de sexta para amanhã às 10h"],["Hoje 07:58","Chegou pelo anúncio"]]},
-  {id:18,nome:"Thiago Alves",tel:"(41) 99345-1187",sit:"Em tratamento",ja:true,origem:"Anúncio",inicio:"10/2026",trat:{nome:"Implante",feitas:2,total:3,prox:"02/12 às 15h",valor:9500,pag:"Pix à vista"},notas:"",hist:[["Hoje 09:00","Compareceu à sessão 2 de 3"],["30/10","Aceitou o orçamento depois de responder ao lembrete do dia 10"]]},
-  {id:19,nome:"Rafael Nogueira",tel:"(41) 99654-0192",sit:"Avaliação marcada",ja:false,origem:"Instagram",inicio:"11/2026",trat:null,notas:"",hist:[["Hoje 08:43","IA explicou como é o implante e marcou a avaliação para amanhã às 15h"]]},
-  {id:20,nome:"Pedro Henrique",tel:"(41) 98712-0040",sit:"Não fechou",ja:false,origem:"Google",inicio:"09/2026",motivo:"Outra clínica",trat:{nome:"Facetas",feitas:0,total:0,prox:"",valor:18000,pag:""},notas:"",hist:[["20/10","Disse que vai fazer em outra cidade"]]},
-  {id:21,nome:"Sônia Batista",tel:"(41) 99550-2201",sit:"Tratamento concluído",ja:true,origem:"Paciente antiga",inicio:"2023",trat:{nome:"Limpeza e revisão",feitas:1,total:1,prox:"",valor:0,pag:""},notas:"",hist:[["03/2026","Última limpeza"]]},
-  {id:22,nome:"Fernanda Rocha",tel:"(41) 99208-6614",sit:"Em tratamento",ja:true,origem:"Instagram",inicio:"09/2026",trat:{nome:"Alinhador invisível",feitas:3,total:8,prox:"hoje às 11h",valor:14000,pag:"12× no cartão"},notas:"",hist:[["21/10","Aceitou o orçamento depois de responder ao lembrete do dia 17"],["04/10","Orçamento entregue: R$ 14.000"]]},
-  {id:23,nome:"Gustavo Pires",tel:"(41) 99877-2045",sit:"Orçamento em aberto",ja:false,origem:"Google",inicio:"11/2026",trat:{nome:"Facetas em resina (6)",feitas:0,total:0,prox:"",valor:12000,pag:"A definir"},notas:"",hist:[["16/11","Lembrete do orçamento (dia 3) enviado pela IA"],["13/11","Orçamento entregue: R$ 12.000"]]},
-  {id:24,nome:"Renata Alves",tel:"(41) 99301-7720",sit:"Orçamento em aberto",ja:false,origem:"Indicação",inicio:"11/2026",trat:{nome:"Clareamento e 4 lentes",feitas:0,total:0,prox:"",valor:9600,pag:"A definir"},notas:"",hist:[["Ontem","Orçamento entregue: R$ 9.600"]]},
-  {id:25,nome:"Eduardo Lima",tel:"(41) 98455-3390",sit:"Orçamento em aberto",ja:false,origem:"Anúncio",inicio:"10/2026",trat:{nome:"Protocolo superior",feitas:0,total:0,prox:"",valor:38000,pag:"A definir"},notas:"Quer pensar com a esposa.",hist:[["15/11","Lembrete do orçamento (dia 10) enviado pela IA"],["05/11","Orçamento entregue: R$ 38.000"]]}
+  {id:11,nome:"Paula Antunes",tel:"(41) 99610-2231",email:"paula.antunes@email.com",nasc:"14/03/1988",end:"Rua Padre Anchieta, 1220, ap. 81, Bigorrilho, Curitiba/PR",sit:"Em tratamento",ja:true,origem:"Indicação",indic:"Fernanda Rocha",inicio:"08/2026",ult:"10/11/2026",prox:"Amanhã às 11h30",trat:{nome:"Lentes de contato dental (8)",feitas:2,total:3,valor:17600,pag:"12× no cartão"},notas:"Prefere ser chamada de Paula. Tem receio de sensibilidade, explicar cada etapa.",hist:[["Hoje 07:40","Relatou sensibilidade e uma lente solta. Encaminhado para a equipe."],["10/11","Sessão 2: preparo e escaneamento"],["22/08","Aceitou o orçamento"]]},
+  {id:12,nome:"Carlos Mendes",tel:"(41) 98877-3301",email:"carlos.mendes@email.com",nasc:"02/07/1979",end:"Av. Sete de Setembro, 4500, Água Verde, Curitiba/PR",sit:"Orçamento em aberto",ja:false,origem:"Google",inicio:"10/2026",ult:"27/10/2026",prox:"",trat:{nome:"Alinhadores invisíveis",feitas:0,total:0,valor:7800,pag:"A definir"},notas:"",hist:[["Hoje 10:05","Pediu para falar com a doutora sobre o prazo"],["13/11","Lembrete do orçamento (dia 17) enviado pela IA"],["27/10","Orçamento entregue: R$ 7.800"]]},
+  {id:13,nome:"Henrique Sá",tel:"(41) 99470-1182",email:"",nasc:"",end:"",sit:"Em conversa",ja:false,origem:"Instagram",inicio:"11/2026",ult:"",prox:"",trat:null,notas:"",hist:[["Hoje 09:12","Perguntou sobre convênio. A IA não encontrou na base."]]},
+  {id:14,nome:"Mariana Costa",tel:"(41) 99812-4410",email:"mari.costa@email.com",nasc:"25/11/1994",end:"Rua Bispo Dom José, 2100, Batel, Curitiba/PR",sit:"Orçamento em aberto",ja:false,origem:"Anúncio",inicio:"10/2026",ult:"29/10/2026",prox:"",trat:{nome:"Lentes de contato dental (10)",feitas:0,total:0,valor:22000,pag:"A definir"},notas:"Casamento em março. Quer o sorriso pronto até lá.",hist:[["Hoje 09:30","Pediu desconto maior para pagamento à vista"],["29/10","Orçamento entregue: R$ 22.000"],["29/10","Avaliação com a Dra. Suzana"]]},
+  {id:15,nome:"Juliana Prado",tel:"(41) 99120-7781",email:"juliana.prado@email.com",nasc:"20/11/1991",end:"Rua Francisco Rocha, 900, Batel, Curitiba/PR",sit:"Avaliação marcada",ja:false,origem:"Indicação",indic:"Mariana Costa",inicio:"10/2026",ult:"",prox:"Hoje às 14h",trat:null,notas:"",hist:[["Ontem 17:02","Confirmou a avaliação"],["31/10","IA marcou a avaliação"]]},
+  {id:16,nome:"Larissa Duarte",tel:"(41) 99011-8823",email:"",nasc:"",end:"",sit:"Avaliação marcada",ja:false,origem:"Instagram",inicio:"10/2026",ult:"",prox:"Hoje às 16h30",trat:null,notas:"",hist:[["Ontem 17:00","Confirmação enviada, sem resposta"]]},
+  {id:17,nome:"Beatriz Lima",tel:"(41) 99731-5520",email:"bia.lima@email.com",nasc:"08/01/1999",end:"",sit:"Avaliação marcada",ja:false,origem:"Anúncio",inicio:"11/2026",ult:"",prox:"Amanhã às 10h",trat:null,notas:"",hist:[["Hoje 08:01","IA remarcou a avaliação de sexta para amanhã às 10h"],["Hoje 07:58","Chegou pelo anúncio"]]},
+  {id:18,nome:"Thiago Alves",tel:"(41) 99345-1187",email:"thiago.alves@email.com",nasc:"30/09/1985",end:"Rua Comendador Araújo, 300, Centro, Curitiba/PR",sit:"Em tratamento",ja:true,origem:"Anúncio",inicio:"10/2026",ult:"Hoje",prox:"02/12 às 15h",trat:{nome:"Facetas (4)",feitas:2,total:3,valor:9600,pag:"Pix à vista"},notas:"",hist:[["Hoje 09:40","Reclamou de 40 minutos de espera"],["Hoje 09:00","Compareceu à sessão 2 de 3"],["30/10","Aceitou o orçamento depois de responder ao lembrete do dia 10"]]},
+  {id:19,nome:"Rafael Nogueira",tel:"(41) 99654-0192",email:"",nasc:"",end:"",sit:"Avaliação marcada",ja:false,origem:"Instagram",inicio:"11/2026",ult:"",prox:"Amanhã às 15h",trat:null,notas:"",hist:[["Hoje 08:43","IA explicou como funcionam as lentes e marcou a avaliação para amanhã às 15h"]]},
+  {id:20,nome:"Pedro Henrique",tel:"(41) 98712-0040",email:"pedro.h@email.com",nasc:"11/05/1990",end:"",sit:"Não fechou",ja:false,origem:"Google",inicio:"09/2026",ult:"20/10/2026",prox:"",motivo:"Outra clínica",trat:{nome:"Facetas (6)",feitas:0,total:0,valor:15000,pag:""},notas:"",hist:[["20/10","Disse que vai fazer em outra cidade"]]},
+  {id:21,nome:"Sônia Batista",tel:"(41) 99550-2201",email:"sonia.batista@email.com",nasc:"19/06/1962",end:"Rua Gonçalves Dias, 450, Batel, Curitiba/PR",sit:"Tratamento concluído",ja:true,origem:"Paciente antiga",inicio:"2023",ult:"03/2026",prox:"",trat:{nome:"Limpeza e revisão",feitas:1,total:1,valor:300,pag:"Pix"},notas:"",hist:[["03/2026","Última limpeza"]]},
+  {id:22,nome:"Fernanda Rocha",tel:"(41) 99208-6614",email:"fe.rocha@email.com",nasc:"03/12/1993",end:"Rua Saldanha Marinho, 1800, Bigorrilho, Curitiba/PR",sit:"Em tratamento",ja:true,origem:"Instagram",inicio:"09/2026",ult:"15/09/2026",prox:"Hoje às 11h",trat:{nome:"Alinhadores invisíveis",feitas:2,total:7,valor:8400,pag:"12× no cartão"},notas:"",hist:[["21/10","Aceitou o orçamento depois de responder ao lembrete do dia 17"],["04/10","Orçamento entregue: R$ 8.400"]]},
+  {id:23,nome:"Gustavo Pires",tel:"(41) 99877-2045",email:"gustavo.pires@email.com",nasc:"27/02/1987",end:"",sit:"Orçamento em aberto",ja:false,origem:"Google",inicio:"11/2026",ult:"13/11/2026",prox:"",trat:{nome:"Facetas (6)",feitas:0,total:0,valor:13200,pag:"A definir"},notas:"",hist:[["16/11","Lembrete do orçamento (dia 3) enviado pela IA"],["13/11","Orçamento entregue: R$ 13.200"]]},
+  {id:24,nome:"Renata Alves",tel:"(41) 99301-7720",email:"renata.alves@email.com",nasc:"15/08/1996",end:"",sit:"Orçamento em aberto",ja:false,origem:"Indicação",indic:"Paula Antunes",inicio:"11/2026",ult:"16/11/2026",prox:"",trat:{nome:"Clareamento e 4 lentes",feitas:0,total:0,valor:9800,pag:"A definir"},notas:"",hist:[["Ontem","Orçamento entregue: R$ 9.800"]]},
+  {id:25,nome:"Eduardo Lima",tel:"(41) 98455-3390",email:"eduardo.lima@email.com",nasc:"21/04/1976",end:"Rua Martim Afonso, 2600, Mercês, Curitiba/PR",sit:"Orçamento em aberto",ja:false,origem:"Anúncio",inicio:"10/2026",ult:"05/11/2026",prox:"",trat:{nome:"Lentes de contato dental (16)",feitas:0,total:0,valor:36800,pag:"A definir"},notas:"Quer pensar com a esposa.",hist:[["15/11","Lembrete do orçamento (dia 10) enviado pela IA"],["05/11","Orçamento entregue: R$ 36.800"]]}
  ],
  conv:[
   {pid:19,ult:"Ótimo, então fica amanhã às 15h?",st:"Agendou",tag:"t-good",h:"08:43",fora:false},
   {pid:17,ult:"Pode ser amanhã às 10h, obrigada",st:"Agendou",tag:"t-good",h:"08:01",fora:true},
   {pid:13,ult:"Vocês aceitam o convênio OdontoPrev?",st:"Aguardando a equipe",tag:"t-warn",h:"09:12",fora:false},
-  {pid:11,ult:"Estou com muita dor e o rosto inchou",st:"Aguardando a equipe",tag:"t-late",h:"07:40",fora:true},
+  {pid:11,ult:"Uma das lentes parece solta desde ontem",st:"Aguardando a equipe",tag:"t-late",h:"07:40",fora:true},
   {pid:12,ult:"Queria falar com a Dra. Suzana antes",st:"Aguardando a equipe",tag:"t-late",h:"10:05",fora:false},
+  {pid:18,ult:"Esperei 40 minutos e ninguém me avisou",st:"Aguardando a equipe",tag:"t-warn",h:"09:40",fora:false},
   {pid:15,ult:"Confirmado, até amanhã",st:"IA respondeu",tag:"t-acc",h:"Ontem",fora:true},
-  {pid:14,ult:"Consigo desconto à vista?",st:"Aguardando a equipe",tag:"t-info",h:"09:30",fora:false},
+  {pid:14,ult:"Consigo um desconto maior à vista?",st:"Aguardando a equipe",tag:"t-info",h:"09:30",fora:false},
   {pid:23,ult:"Obrigado, vou ver e te falo",st:"IA respondeu",tag:"t-acc",h:"Ontem",fora:true}
  ],
  orc:[
-  {id:1,pid:25,trat:"Protocolo superior",valor:38000,pag:"A definir",dias:12,st:"aberto"},
-  {id:2,pid:14,trat:"Lentes de contato dental (10)",valor:28000,pag:"A definir",dias:19,st:"aberto",obs:"Pediu desconto à vista. Está em Conversas, esperando a equipe decidir."},
-  {id:3,pid:12,trat:"Alinhador invisível",valor:14000,pag:"A definir",dias:21,st:"aberto",obs:"Pediu para falar com a doutora antes de decidir."},
-  {id:4,pid:23,trat:"Facetas em resina (6)",valor:12000,pag:"A definir",dias:4,st:"aberto"},
-  {id:5,pid:24,trat:"Clareamento e 4 lentes",valor:9600,pag:"A definir",dias:1,st:"aberto"},
-  {id:6,pid:22,trat:"Alinhador invisível",valor:14000,pag:"12× no cartão",dias:17,st:"aceito",rec:true},
-  {id:7,pid:18,trat:"Implante",valor:9500,pag:"Pix à vista",dias:10,st:"aceito",rec:true},
-  {id:8,pid:20,trat:"Facetas",valor:18000,pag:"",dias:40,st:"recusado",motivo:"Outra clínica"}
+  {id:1,num:131,pid:25,tpl:"lentes",qtd:16,valor:36800,pag:"A definir",dias:12,st:"aberto",val:30},
+  {id:2,num:134,pid:14,tpl:"lentes",qtd:10,valor:22000,pag:"A definir",dias:19,st:"aberto",val:30,obs:"Pediu desconto maior à vista. Está em Conversas, esperando a decisão da equipe."},
+  {id:3,num:129,pid:12,tpl:"alinhador",qtd:1,valor:7800,pag:"A definir",dias:21,st:"aberto",val:30,obs:"Pediu para falar com a doutora antes de decidir."},
+  {id:4,num:139,pid:23,tpl:"facetas",qtd:6,valor:13200,pag:"A definir",dias:4,st:"aberto",val:30},
+  {id:5,num:141,pid:24,tpl:"lentes",qtd:4,valor:9800,pag:"A definir",dias:1,st:"aberto",val:30,nomeLivre:"Clareamento e 4 lentes"},
+  {id:6,num:118,pid:22,tpl:"alinhador",qtd:1,valor:8400,pag:"12× no cartão",dias:17,st:"aceito",rec:true,val:30},
+  {id:7,num:122,pid:18,tpl:"facetas",qtd:4,valor:9600,pag:"Pix à vista",dias:10,st:"aceito",rec:true,val:30},
+  {id:8,num:104,pid:20,tpl:"facetas",qtd:6,valor:15000,pag:"",dias:40,st:"recusado",motivo:"Outra clínica",val:30}
  ],
  recs:[
-  {id:1,nome:"Fernanda Rocha",trat:"Alinhador invisível",valor:14000,como:"Parada há 17 dias sem contato da equipe. Respondeu ao lembrete do dia 17 e aceitou.",st:"Confirmado"},
-  {id:2,nome:"Thiago Alves",trat:"Implante",valor:9500,como:"Parado há 10 dias. Respondeu ao lembrete do dia 10 e aceitou no mesmo dia.",st:"A confirmar"},
-  {id:3,nome:"Luciana Torres",trat:"Facetas em resina",valor:8500,como:"Sem contato havia 8 meses. Respondeu à mensagem de retorno, fez a avaliação e aceitou.",st:"A confirmar"}
+  {id:1,nome:"Fernanda Rocha",trat:"Alinhadores invisíveis",valor:8400,como:"Parada há 17 dias sem contato da equipe. Respondeu ao lembrete do dia 17 e aceitou.",st:"Confirmado"},
+  {id:2,nome:"Thiago Alves",trat:"Facetas (4)",valor:9600,como:"Parado há 10 dias. Respondeu ao lembrete do dia 10 e aceitou no mesmo dia.",st:"A confirmar"},
+  {id:3,nome:"Luciana Torres",trat:"Facetas (4)",valor:8800,como:"Sem contato havia 8 meses. Respondeu à mensagem de reativação, fez a avaliação e aceitou.",st:"A confirmar"}
  ],
  ret:[
   {id:21,motivo:"Limpeza vencida há 7 meses",ult:"03/2026",sel:true},
   {id:31,nome:"André Furtado",motivo:"Manutenção do clareamento (14 meses)",ult:"09/2025",sel:true},
-  {id:32,nome:"Cláudia Ramos",motivo:"Retorno do alinhador atrasado",ult:"07/2026",sel:true},
+  {id:32,nome:"Cláudia Ramos",motivo:"Consulta do alinhador atrasada",ult:"07/2026",sel:true},
   {id:33,nome:"Marcos Vieira",motivo:"Limpeza vencida há 6 meses",ult:"04/2026",sel:false}
  ],
  assumidas:{}
 };
-const OLD={pendencias:"conversas",resultados:"painel"};
+const OLD={pendencias:"conversas",resultados:"painel",retornos:"reativar"};
 let view=(()=>{const h=location.hash.slice(1);const v=OLD[h]||h;return TABS.some(t=>t[0]===v)?v:"conversas"})();
-let fPend="tudo",fConv="todas",fPac="todos",fSit="",fOrc="aberto",busca="",periodo="Mês",dia="Hoje";
+let fConv="todas",fPac="todos",fSit="",fOrc="aberto",busca="",periodo="Mês",dia="Hoje";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const brl=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const brl2=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2,maximumFractionDigits:2});
 const mil=v=>"R$ "+(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mil";
 const P=id=>S.pac.find(p=>p.id===id);
 const ini=n=>n.split(" ").map(w=>w[0]).slice(0,2).join("");
@@ -306,41 +368,45 @@ const snap=()=>JSON.stringify(S);
 const restore=s=>{S=JSON.parse(s);render()};
 const av=(p,cls="")=>`<span class="avatar ${cls}" aria-hidden="true">${ini(p.nome)}</span>`;
 const kpi=(l,v,s)=>`<div class="kpi"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+const dataBR=d=>d.toLocaleDateString("pt-BR");
+function aniver(n){if(!n)return null;const [d,m,a]=n.split("/").map(Number);let prox=new Date(HOJE.getFullYear(),m-1,d);if(prox<HOJE)prox=new Date(HOJE.getFullYear()+1,m-1,d);const dias=Math.round((prox-HOJE)/864e5);let idade=HOJE.getFullYear()-a;if(new Date(HOJE.getFullYear(),m-1,d)>HOJE)idade--;return {dias,idade}}
+const nomeOrc=o=>o.nomeLivre||(TPL[o.tpl].unid==="dente"?`${TPL[o.tpl].nome} (${o.qtd})`:TPL[o.tpl].nome);
+const foot=()=>`<footer class="foot">${LOGO}<span>App da ${CLINICA} · app.keshion.com</span></footer>`;
 
 let tt;function toast(m,undo){document.querySelectorAll(".toast").forEach(t=>t.remove());clearTimeout(tt);const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.innerHTML=`<span>${esc(m)}</span>${undo?'<button type="button">Desfazer</button>':""}`;if(undo)d.querySelector("button").onclick=()=>{restore(undo);d.remove()};document.body.appendChild(d);tt=setTimeout(()=>d.remove(),undo?5000:2800)}
 
 function header(t,sub){const h=new Date().getHours();const sau=h<12?"Bom dia":h<18?"Boa tarde":"Boa noite";
- return `<div class="top"><span class="avatar" aria-hidden="true">E</span><div class="hello"><small>${sau}, Erica</small><b>Clínica Dra. Suzana</b></div><button class="iconbtn" data-act="avisos" aria-label="Avisos">${IC.pend}${S.pend.length?'<span class="dot"></span>':""}</button></div><div><h1>${t}</h1>${sub?`<p class="sub">${sub}</p>`:""}</div>`}
+ return `<div class="top">${SIMB}<div class="hello"><small>${sau}, Erica</small><b>${CLINICA}</b></div><button class="iconbtn" data-act="avisos" aria-label="Avisos">${IC.pend}${S.pend.length?'<span class="dot"></span>':""}</button></div><div><h1>${t}</h1>${sub?`<p class="sub">${sub}</p>`:""}</div>`}
 
-/* CONVERSAS: "Precisa de você" no topo + caixa de entrada */
+/* CONVERSAS: o que foi encaminhado para a equipe, depois a caixa de entrada */
 function conversas(){
- const all=S.pend,lst=fPend==="tudo"?all:all.filter(x=>x.quando===fPend);
+ const all=S.pend;
  const maisAntiga=all.reduce((m,x)=>Math.max(m,x.espera),0);
  const fl={todas:()=>true,fora:c=>c.fora,assumidas:c=>S.assumidas[c.pid]};
  const cv=S.conv.filter(fl[fConv]);
- return header("Conversas","A IA responde sozinha. Em cima fica só o que precisa de você.")+
+ const ord=all.slice().sort((a,b)=>(a.tag==="t-late"?0:1)-(b.tag==="t-late"?0:1)||b.espera-a.espera);
+ return header("Conversas","A IA responde sozinha. Em cima fica só o que foi encaminhado para a equipe.")+
  `<div class="grid2"><div class="stack">
- <section class="hero" aria-label="Precisa de você">
+ <section class="hero" aria-label="Encaminhadas para a equipe">
   <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><p>Precisa de você</p><div class="big">${all.length}</div></div>${all.length?`<span class="chipline">${IC.clock} a mais antiga há ${maisAntiga} min</span>`:""}</div>
  </section>
- ${all.length?`<div class="pills" role="group" aria-label="Filtrar o que precisa de você">${[["tudo","Tudo",all.length],["Responder agora","Responder agora",all.filter(x=>x.quando==="Responder agora").length],["Decidir","Decidir",all.filter(x=>x.quando==="Decidir").length]].map(f=>`<button class="pill" data-fp="${f[0]}" aria-pressed="${fPend===f[0]}">${f[1]} <i>${f[2]}</i></button>`).join("")}</div>`:""}
- <div class="stack">${lst.slice().sort((a,b)=>(a.tag==="t-late"?0:1)-(b.tag==="t-late"?0:1)||b.espera-a.espera).map(cardPend).join("")||`<div class="card empty"><b>Tudo em dia</b><p>Quando algo precisar da equipe, aparece aqui e no grupo de WhatsApp da clínica.</p></div>`}</div>
+ <div class="stack">${ord.map(cardPend).join("")||`<div class="card empty"><b>Tudo em dia</b><p>Quando algo for encaminhado para a equipe, aparece aqui e no grupo de WhatsApp da clínica.</p></div>`}</div>
  </div><div class="stack">
  <div class="sec"><h2>Todas as conversas</h2><span>hoje</span></div>
  <div class="pills" role="group" aria-label="Filtrar conversas">${[["todas","Todas"],["fora","Fora do horário"],["assumidas","A equipe assumiu"]].map(f=>`<button class="pill" data-fc="${f[0]}" aria-pressed="${fConv===f[0]}">${f[1]} <i>${S.conv.filter(fl[f[0]]).length}</i></button>`).join("")}</div>
  <div class="card list">${cv.map(c=>{const p=P(c.pid);const st=S.assumidas[c.pid]?["A equipe assumiu","t-neutral"]:[c.st,c.tag];return `<button class="conv" data-chat="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px"><b>${esc(p.nome)}</b><time>${c.h}</time></span><p>${esc(c.ult)}</p><span class="tag ${st[1]}" style="margin-top:6px">${st[0]}</span>${c.fora?' <span class="tag t-neutral" style="margin-top:6px">Fora do horário</span>':""}</span></button>`}).join("")||`<div class="empty"><b>Nenhuma conversa aqui</b><p>Troque o filtro para ver as outras.</p></div>`}</div>
- </div></div>`;
+ </div></div>`+foot();
 }
 function cardPend(x){const p=P(x.pid);const late=x.espera>15;
  return `<article class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><span class="tag ${x.tag}">${x.tipo}</span><span class="tag ${late?"t-late":"t-neutral"}">${IC.clock} ${x.espera} min</span></div>
  <button class="person" data-open="${p.id}">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${p.ja?"Já é paciente":"Novo contato"} · ${esc(p.sit)}</small></span></button>
  <p class="quote"><em>Mensagem do paciente</em>${esc(x.msg)}</p>
- ${x.opcoes?`<div><p class="lbl">Qual resposta a IA deve dar?</p><div class="wrap">${x.opcoes.map(o=>`<button class="choice" data-dec="${x.id}" data-op="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`:
+ ${x.opcoes?`<div><p class="lbl">Qual resposta a IA deve dar?</p><div class="wrap">${x.opcoes.map(o=>`<button class="choice" data-dec="${x.id}" data-op="${esc(o)}">${esc(o)}</button>`).join("")}<button class="choice" data-act="outra" data-id="${x.id}">${IC.edit} Outra resposta</button></div></div>`:
  x.ensinar?`<div class="acts"><button class="btn acc" data-act="ensinar" data-id="${x.id}">Responder e ensinar a IA</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button></div>`:
  `<div class="acts"><button class="btn dark" data-act="assumir" data-pid="${p.id}" data-id="${x.id}">${IC.wa}Abrir conversa</button><button class="btn round" data-act="ligar" aria-label="Ligar para ${esc(p.nome)}">${IC.tel}</button><button class="btn round" data-act="resolvido" data-id="${x.id}" aria-label="Marcar como resolvido">${IC.ok}</button></div>`}
  </article>`}
 function chat(pid){const p=P(pid);const ass=!!S.assumidas[pid];const c=S.conv.find(x=>x.pid===pid);
- const linhas=[["p","Paciente",c?c.ult:"Olá"],...(c&&c.st==="Aguardando a equipe"?[["a","IA","Obrigada por avisar. Já chamei a equipe e alguém fala com você em instantes."]]:[["a","IA","Perfeito. Ficou registrado e você recebe a confirmação na véspera."]])];
+ const linhas=[["p","Paciente",c?c.ult:"Olá"],...(c&&c.st==="Aguardando a equipe"?[["a","IA","Obrigada por avisar. Vou passar a sua mensagem para a Dra. Suzana e ela te retorna em breve."]]:[["a","IA","Ficou registrado. Você recebe a confirmação na véspera."]])];
  sheet(`<div style="display:flex;gap:12px;align-items:center">${av(p)}<div style="flex:1;min-width:0"><h2 style="font-size:20px">${esc(p.nome)}</h2><small class="note">${esc(p.tel)}</small></div><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button></div>
  <div class="chat">${linhas.map(l=>`<div class="msg ${l[0]}"><small>${l[1]}</small>${esc(l[2])}</div>`).join("")}${ass?`<div class="msg e"><small>Equipe</small>Oi, ${esc(first(p.nome))}, aqui é a Erica. Já vou te ajudar.</div>`:""}</div>
  ${ass?`<textarea id="resp" aria-label="Sua mensagem" placeholder="Escreva para ${esc(first(p.nome))}"></textarea><div class="acts"><button class="btn dark" data-act="enviarEq" data-pid="${pid}">Enviar</button><button class="btn soft" data-act="devolver" data-pid="${pid}">Devolver para a IA</button></div>`:
@@ -352,16 +418,19 @@ function agenda(){
  const ag=S.agenda.filter(a=>a.dia===dia);const hoje=dia==="Hoje";
  const conf=ag.filter(a=>a.conf==="Confirmou"||a.conf==="Remarcou pela IA").length,sem=ag.filter(a=>a.conf==="Sem resposta"||a.conf==="Aguardando confirmação").length;
  const marc=S.agenda.filter(a=>a.dia==="Hoje"&&a.pres).length,tot=S.agenda.filter(a=>a.dia==="Hoje").length;
- return header("Agenda do dia",hoje?"Marque quem veio e quem faltou. Isso alimenta a taxa de faltas do Painel.":"A IA pede a confirmação de quem falta hoje, às 17h.")+
+ const mes={marcadas:41,vieram:37,faltas:4};
+ return header("Agenda do dia",hoje?"Marque quem veio e quem faltou.":"A IA pede a confirmação de quem falta hoje, às 17h.")+
  `<div class="seg" style="grid-template-columns:1fr 1fr" role="group" aria-label="Dia">${["Hoje","Amanhã"].map(d=>`<button data-dia="${d}" aria-pressed="${dia===d}">${d}</button>`).join("")}</div>
  <div class="grid2"><div class="stack">
  <div class="tri"><div class="tile"><span>Consultas</span><b>${ag.length}</b></div><div class="tile"><span>Confirmadas</span><b>${conf}</b></div><div class="tile"><span>Sem resposta</span><b>${sem}</b></div></div>
  <div class="card"><div class="agenda">${ag.map(slotAg).join("")}</div></div>
  </div><div class="stack">
- ${hoje?`<div class="card"><b>Presença de hoje</b><div class="bar"><i style="width:${Math.round(marc/tot*100)}%"></i></div><small class="note">${marc} de ${tot} consultas marcadas. As que ficarem sem marcação não entram na taxa de faltas.</small></div>`:""}
- <div class="card"><b>Faltas em novembro</b><div class="cmp"><div><small class="note">Antes (informado pela clínica)</small><div style="font-size:28px;font-weight:800">18%</div></div><div><small class="note">Agora (marcado pela equipe)</small><div style="font-size:28px;font-weight:800;color:var(--good)">9%</div></div></div><button class="how" data-go="painel">Ver no Painel</button></div>
- <div class="card"><b>O que a IA fez na agenda</b><p class="note">Hoje: 2 avaliações marcadas, 1 remarcação e 5 confirmações recebidas. Lembrete 2 horas antes de cada consulta.</p></div>
- </div></div>`;
+ ${hoje?`<div class="card"><b>Presença de hoje</b><div class="bar"><i style="width:${Math.round(marc/tot*100)}%"></i></div><small class="note">${marc} de ${tot} consultas marcadas como compareceu ou faltou.</small></div>`:""}
+ <div class="card"><div class="cardh"><b>Comparecimento em novembro</b></div>
+  <div class="tri"><div class="tile"><span>Marcadas</span><b>${mes.marcadas}</b></div><div class="tile"><span>Vieram</span><b>${Math.round(mes.vieram/mes.marcadas*100)}%</b></div><div class="tile"><span>Faltaram</span><b>${Math.round(mes.faltas/mes.marcadas*100)}%</b></div></div>
+  <small class="note">${mes.vieram} pacientes vieram e ${mes.faltas} faltaram. Conta só as consultas marcadas como compareceu ou faltou.</small></div>
+ <div class="card"><b>O que a IA fez na agenda hoje</b><p class="note">2 avaliações marcadas, 1 remarcação e 5 confirmações recebidas. Lembrete 2 horas antes de cada consulta.</p></div>
+ </div></div>`+foot();
 }
 function slotAg(a){const p=P(a.pid);const hoje=a.dia==="Hoje";
  let acts="";
@@ -372,36 +441,51 @@ function slotAg(a){const p=P(a.pid);const hoje=a.dia==="Hoje";
  }
  return `<div class="agi"><div class="slot"><span class="time">${a.h}</span><button class="person" data-open="${p.id}" style="flex:1"><span class="nm"><b>${esc(p.nome)}</b><small>${esc(a.tipo)}</small></span></button><span class="tag ${CONFTAG[a.conf]}">${a.conf}</span></div>${acts}</div>`}
 
-/* PACIENTES */
+/* PACIENTES: CRM */
 function pacientes(){
- const f=p=>(fPac==="todos"||(fPac==="novos"?!p.ja:p.ja))&&(!fSit||p.sit===fSit)&&(p.nome+p.tel).toLowerCase().includes(busca.toLowerCase());
+ const f=p=>(fPac==="todos"||(fPac==="novos"?!p.ja:p.ja))&&(!fSit||p.sit===fSit)&&(p.nome+p.tel+(p.email||"")).toLowerCase().includes(busca.toLowerCase());
  const lst=S.pac.filter(f);
+ const bdays=S.pac.filter(p=>{const a=aniver(p.nasc);return a&&a.dias<=7});
  return header("Pacientes",`${S.pac.length} pessoas · ${S.pac.filter(p=>p.ja).length} já são pacientes`)+
- `<div class="acts"><label class="search" style="flex:1">${IC.search}<input id="busca" type="search" placeholder="Nome ou telefone" value="${esc(busca)}" aria-label="Buscar paciente"></label><button class="btn round" style="background:var(--ink);color:var(--surface)" data-act="novo" aria-label="Cadastrar paciente">${IC.plus}</button></div>
+ `<div class="acts"><label class="search" style="flex:1">${IC.search}<input id="busca" type="search" placeholder="Nome, telefone ou e-mail" value="${esc(busca)}" aria-label="Buscar paciente"></label><button class="btn round" style="background:var(--action);color:var(--on-action);border-color:var(--action)" data-act="novo" aria-label="Cadastrar paciente">${IC.plus}</button></div>
  <div class="seg" role="group" aria-label="Tipo">${[["todos","Todos"],["novos","Novos contatos"],["ja","Já pacientes"]].map(s=>`<button data-fpac="${s[0]}" aria-pressed="${fPac===s[0]}">${s[1]}</button>`).join("")}</div>
  <div class="pills" role="group" aria-label="Situação"><button class="pill" data-fsit="" aria-pressed="${!fSit}">Todas</button>${SIT.map(s=>{const n=S.pac.filter(p=>p.sit===s).length;return n?`<button class="pill" data-fsit="${s}" aria-pressed="${fSit===s}">${s} <i>${n}</i></button>`:""}).join("")}</div>
- <div class="card list">${lst.map(p=>`<button class="conv" data-open="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>${esc(p.nome)}</b>${IC.next}</span><span class="tag ${SITTAG[p.sit]}" style="margin-top:4px">${p.sit}</span>${p.trat&&p.trat.total>1?`<span style="display:flex;align-items:center;gap:8px;margin-top:8px"><span class="bar" style="flex:1"><i style="width:${Math.round(p.trat.feitas/p.trat.total*100)}%"></i></span><small class="note" style="font-size:12px">${p.trat.feitas} de ${p.trat.total} sessões</small></span>`:p.trat&&p.trat.valor?`<p>${esc(p.trat.nome)} · ${brl(p.trat.valor)}</p>`:""}</span></button>`).join("")||`<div class="empty"><b>Ninguém encontrado</b><p>Confira a grafia ou cadastre pelo botão +.</p></div>`}</div>`;
+ ${bdays.length&&!busca&&!fSit&&fPac==="todos"?`<div class="card" style="flex-direction:row;align-items:center;gap:10px;padding:12px 16px">${IC.gift.replace('style="width:14px;height:14px"','')}<span style="flex:1;font-size:14px">Aniversários nos próximos 7 dias: ${bdays.map(p=>`<button class="how" style="font-size:14px" data-open="${p.id}">${esc(first(p.nome))}</button>`).join(", ")}</span></div>`:""}
+ <div class="card list">${lst.map(p=>{const a=aniver(p.nasc);return `<button class="conv" data-open="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>${esc(p.nome)}</b>${IC.next}</span><p>${esc(p.tel)} · ${esc(p.origem)}</p><span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><span class="tag ${SITTAG[p.sit]}">${p.sit}</span>${a&&a.dias<=7?`<span class="bday">${IC.gift} ${a.dias===0?"Aniversário hoje":`Aniversário em ${a.dias} dias`}</span>`:""}</span>${p.trat&&p.trat.total>1?`<span style="display:flex;align-items:center;gap:8px;margin-top:8px"><span class="bar" style="flex:1"><i style="width:${Math.round(p.trat.feitas/p.trat.total*100)}%"></i></span><small class="note" style="font-size:12px">${p.trat.feitas} de ${p.trat.total} sessões</small></span>`:""}</span></button>`}).join("")||`<div class="empty"><b>Ninguém encontrado</b><p>Confira a grafia ou cadastre pelo botão +.</p></div>`}</div>`+foot();
 }
-function ficha(id){const p=P(id);if(!p)return;const t=p.trat;
- sheet(`<div style="display:flex;gap:14px;align-items:center">${av(p,"lg")}<div style="flex:1;min-width:0"><h2>${esc(p.nome)}</h2><div class="wrap" style="margin-top:6px"><span class="tag ${p.ja?"t-good":"t-info"}">${p.ja?"Já é paciente":"Novo contato"}</span><span class="tag t-neutral">Veio por ${esc(p.origem)}</span></div></div></div>
+function ficha(id){const p=P(id);if(!p)return;const t=p.trat;const a=aniver(p.nasc);const o=S.orc.find(x=>x.pid===p.id);
+ const linha=(k,v)=>`<div><dt>${k}</dt><dd>${v||'<span class="note" style="font-size:14px">Não informado</span>'}</dd></div>`;
+ sheet(`<div style="display:flex;gap:14px;align-items:center">${av(p,"lg")}<div style="flex:1;min-width:0"><h2>${esc(p.nome)}</h2><div class="wrap" style="margin-top:6px"><span class="tag ${p.ja?"t-good":"t-info"}">${p.ja?"Já é paciente":"Novo contato"}</span><span class="tag ${SITTAG[p.sit]}">${p.sit}</span></div></div></div>
  <div class="acts"><button class="btn dark" data-act="wa">${IC.wa}WhatsApp</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button><button class="btn round" data-chat="${p.id}" aria-label="Ver conversa">${IC.conv}</button></div>
- <div class="row2"><button class="tile" data-act="sit" data-pid="${p.id}" style="border:0;text-align:left;cursor:pointer;color:inherit"><span>Situação · tocar para mudar</span><b>${p.sit}</b></button><div class="tile"><span>Primeiro contato</span><b>${p.inicio}</b></div></div>
- ${t?`<div class="card" style="box-shadow:none"><div style="display:flex;justify-content:space-between;align-items:center"><p class="lbl" style="margin:0">Tratamento</p><button class="how" data-act="edtrat" data-pid="${p.id}">Editar</button></div><b style="font-size:17px">${esc(t.nome)}</b>${t.total>1?`<div class="bar"><i style="width:${Math.round(t.feitas/t.total*100)}%"></i></div><small class="note">${t.feitas} de ${t.total} sessões feitas${t.prox?" · próxima "+t.prox:""}</small>`:""}<div class="row2"><div class="tile"><span>Valor</span><b>${t.valor?brl(t.valor):"Não informado"}</b></div><div class="tile"><span>Pagamento</span><b>${esc(t.pag||"Não informado")}</b></div></div></div>`:`<button class="btn soft" data-act="edtrat" data-pid="${p.id}">${IC.plus}Registrar tratamento</button>`}
+ <div class="card" style="gap:4px"><div class="cardh"><b>Dados do paciente</b><button class="how" data-act="eddados" data-pid="${p.id}">Editar</button></div>
+ <dl class="dl">${linha("WhatsApp",esc(p.tel))+linha("E-mail",esc(p.email))+linha("Aniversário",p.nasc?`${p.nasc.slice(0,5)} · ${a.idade} anos${a.dias<=7?` <span class="bday">${IC.gift} em ${a.dias} dias</span>`:""}`:"")+linha("Endereço",esc(p.end))+linha("Como conheceu",esc(p.origem)+(p.indic?` (indicação de ${esc(p.indic)})`:""))+linha("Primeiro contato",p.inicio)+linha("Última consulta",p.ult)+linha("Próxima consulta",p.prox)}</dl></div>
+ <button class="tile" data-act="sit" data-pid="${p.id}" style="border:0;text-align:left;cursor:pointer;color:inherit;font:inherit"><span>Situação · tocar para mudar</span><b>${p.sit}</b></button>
+ ${t?`<div class="card"><div class="cardh"><b>Tratamento</b><button class="how" data-act="edtrat" data-pid="${p.id}">Editar</button></div><span style="font-weight:600">${esc(t.nome)}</span>${t.total>1?`<div class="bar"><i style="width:${Math.round(t.feitas/t.total*100)}%"></i></div><small class="note">${t.feitas} de ${t.total} sessões feitas</small>`:""}<div class="row2"><div class="tile"><span>Valor</span><b>${t.valor?brl(t.valor):"Não informado"}</b></div><div class="tile"><span>Pagamento</span><b>${esc(t.pag||"Não informado")}</b></div></div></div>`:`<button class="btn soft" data-act="edtrat" data-pid="${p.id}">${IC.plus}Registrar tratamento</button>`}
+ ${o?`<button class="card" style="flex-direction:row;align-items:center;cursor:pointer;text-align:left;color:inherit;font:inherit" data-act="pdf" data-id="${o.id}">${IC.doc}<span style="flex:1"><b style="display:block;font-size:15px">Orçamento nº ${o.num}: ${brl(o.valor)}</b><small class="note">${o.st==="aberto"?`Em aberto, entregue há ${o.dias} dias`:o.st==="aceito"?"Aceito":"Recusado"}</small></span>${IC.next}</button>`:""}
  ${p.motivo?`<div class="tile"><span>Motivo de não ter fechado</span><b>${esc(p.motivo)}</b></div>`:""}
  <div><p class="lbl">Anotações da equipe</p><textarea id="nota" placeholder="Preferências, como gosta de ser chamado, o que falta para decidir">${esc(p.notas)}</textarea><p class="note" style="font-size:12px;margin-top:6px">Anotação clínica fica no prontuário do sistema da clínica, não aqui.</p><button class="btn soft" style="margin-top:8px;width:100%" data-act="salvanota" data-pid="${p.id}">Salvar anotação</button></div>
  <div><p class="lbl">Histórico</p><div class="tl">${p.hist.map(h=>`<div><em>${h[0]}</em>${esc(h[1])}</div>`).join("")}</div></div>
  <button class="btn soft" data-close>Fechar</button>`);
 }
+function formDados(p){p=p||{nome:"",tel:"",email:"",nasc:"",end:"",origem:"Recepção",indic:"",ja:false};const novo=!p.id;
+ sheet(`<h2>${novo?"Novo paciente":"Editar dados"}</h2>${novo?'<p class="note">Para quem ligou ou chegou pela recepção.</p>':""}
+ <div><label class="lbl" for="fn">Nome completo</label><input class="inp" id="fn" value="${esc(p.nome)}" autocomplete="off"></div>
+ <div class="row2"><div><label class="lbl" for="ft">WhatsApp com DDD</label><input class="inp" id="ft" inputmode="tel" value="${esc(p.tel)}" placeholder="(41) 99999-0000"></div><div><label class="lbl" for="fb">Aniversário</label><input class="inp" id="fb" inputmode="numeric" value="${esc(p.nasc)}" placeholder="dd/mm/aaaa"></div></div>
+ <div><label class="lbl" for="fe">E-mail</label><input class="inp" id="fe" type="email" value="${esc(p.email)}" placeholder="nome@email.com"></div>
+ <div><label class="lbl" for="fa">Endereço</label><input class="inp" id="fa" value="${esc(p.end)}" placeholder="Rua, número, bairro, cidade"></div>
+ <div class="row2"><div><label class="lbl" for="fo">Como conheceu</label><select class="inp" id="fo">${ORIGENS.map(o=>`<option ${p.origem===o?"selected":""}>${o}</option>`).join("")}</select></div><div><label class="lbl" for="fi">Indicado por</label><input class="inp" id="fi" value="${esc(p.indic||"")}" placeholder="Se veio por indicação"></div></div>
+ ${novo?`<div><span class="lbl">Já é paciente da clínica?</span><div class="seg" style="grid-template-columns:1fr 1fr"><button data-act="ja" data-v2="0" aria-pressed="true">Não</button><button data-act="ja" data-v2="1" aria-pressed="false">Sim</button></div></div>`:""}
+ <span class="err" id="ferr" aria-live="polite"></span>
+ <div class="acts"><button class="btn dark" data-act="salvadados" data-pid="${p.id||""}">${novo?"Cadastrar":"Salvar"}</button><button class="btn soft" data-close>Cancelar</button></div>`)}
 function mudarSit(pid){const p=P(pid);
  sheet(`<h2>Mudar situação</h2><p class="note">${esc(p.nome)}</p><div class="stack">${SIT.map(s=>`<button class="choice" style="min-height:52px;text-align:left;padding:0 18px" data-setsit="${s}" data-pid="${pid}" aria-pressed="${p.sit===s}">${s}</button>`).join("")}</div><button class="btn soft" data-close>Cancelar</button>`)}
 function motivoNao(pid,oid){const p=P(pid);
  sheet(`<h2>Por que não fechou?</h2><p class="note">${esc(p.nome)}. O motivo aparece no Painel.</p><div class="wrap">${["Preço","Medo","Tempo","Outra clínica","Sem resposta","Outro"].map(m=>`<button class="choice" data-motivo="${m}" data-pid="${pid}" ${oid?`data-oid="${oid}"`:""}>${m}</button>`).join("")}</div><button class="btn soft" data-close>Cancelar</button>`)}
-function edTrat(pid){const p=P(pid);const t=p.trat||{nome:"",feitas:0,total:0,prox:"",valor:0,pag:""};
+function edTrat(pid){const p=P(pid);const t=p.trat||{nome:"",feitas:0,total:0,valor:0,pag:""};
  sheet(`<h2>Tratamento</h2><p class="note">${esc(p.nome)}</p>
- <label class="lbl" for="tn">Tratamento</label><input class="inp" id="tn" value="${esc(t.nome)}" placeholder="Lentes de contato dental (10)">
- <div class="row2"><div><label class="lbl" for="tv">Valor em reais</label><input class="inp" id="tv" inputmode="numeric" value="${t.valor||""}" placeholder="28000"></div><div><label class="lbl" for="tp">Pagamento</label><input class="inp" id="tp" value="${esc(t.pag)}" placeholder="10× no cartão"></div></div>
+ <div><label class="lbl" for="tn">Tratamento</label><input class="inp" id="tn" value="${esc(t.nome)}" placeholder="Lentes de contato dental (10)"></div>
+ <div class="row2"><div><label class="lbl" for="tv">Valor em reais</label><input class="inp" id="tv" inputmode="numeric" value="${t.valor||""}" placeholder="22000"></div><div><label class="lbl" for="tp">Pagamento</label><input class="inp" id="tp" value="${esc(t.pag)}" placeholder="12× no cartão"></div></div>
  <div class="row2"><div><label class="lbl" for="tf">Sessões feitas</label><input class="inp" id="tf" inputmode="numeric" value="${t.feitas||0}"></div><div><label class="lbl" for="tt">Total de sessões</label><input class="inp" id="tt" inputmode="numeric" value="${t.total||0}"></div></div>
- <label class="lbl" for="tx">Próxima sessão</label><input class="inp" id="tx" value="${esc(t.prox)}" placeholder="12/11 às 9h">
  <p class="note" style="font-size:13px">Para orçamento novo, use a aba Orçamentos: ela gera o PDF e liga os lembretes.</p>
  <span class="err" id="terr" aria-live="polite"></span>
  <div class="acts"><button class="btn dark" data-act="salvatrat" data-pid="${pid}">Salvar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
@@ -415,89 +499,116 @@ function orcamentos(){
  const by=st=>S.orc.filter(o=>o.st===st);
  const ab=by("aberto"),somaAb=ab.reduce((s,o)=>s+o.valor,0),somaAc=by("aceito").reduce((s,o)=>s+o.valor,0);
  const lst=by(fOrc).sort((a,b)=>b.valor-a.valor);
- return header("Orçamentos","A IA lembra o paciente nos dias 3, 10, 17 e 30 depois da entrega.")+
- `<section class="hero" aria-label="Resumo dos orçamentos"><div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><p>Em aberto</p><div class="big">${mil(somaAb)}</div></div><button class="btn acc" style="flex:none;background:var(--hero-ink);color:var(--hero)" data-act="novoOrc">${IC.plus}Novo orçamento</button></div><div class="row"><span class="chipline">${ab.length} orçamentos</span><span class="chipline">Aceitos no mês: ${mil(somaAc)}</span></div></section>
- <div class="pills" role="group" aria-label="Situação do orçamento">${[["aberto","Em aberto"],["aceito","Aceitos"],["recusado","Recusados"]].map(f=>`<button class="pill" data-fo="${f[0]}" aria-pressed="${fOrc===f[0]}">${f[1]} <i>${by(f[0]).length}</i></button>`).join("")}</div>
- <div class="cards">${lst.map(cardOrc).join("")||`<div class="card empty"><b>Nenhum orçamento aqui</b><p>Troque o filtro ou crie um orçamento novo.</p></div>`}</div>`;
+ return header("Orçamentos","Gerados em PDF com o texto padrão da clínica. A IA lembra o paciente nos dias 3, 10, 17 e 30.")+
+ `<section class="hero" aria-label="Resumo dos orçamentos"><div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><p>Em aberto</p><div class="big">${mil(somaAb)}</div></div><button class="btn" style="flex:none;background:var(--hero-ink);color:var(--hero)" data-act="novoOrc">${IC.plus}Novo orçamento</button></div><div class="row"><span class="chipline">${ab.length} orçamentos</span><span class="chipline">Aceitos no mês: ${mil(somaAc)}</span></div></section>
+ <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div class="pills" role="group" aria-label="Situação do orçamento" style="margin:0;padding:2px 0">${[["aberto","Em aberto"],["aceito","Aceitos"],["recusado","Recusados"]].map(f=>`<button class="pill" data-fo="${f[0]}" aria-pressed="${fOrc===f[0]}">${f[1]} <i>${by(f[0]).length}</i></button>`).join("")}</div><button class="btn soft sm" style="flex:none" data-act="textos">${IC.text}Textos padrão</button></div>
+ <div class="cards">${lst.map(cardOrc).join("")||`<div class="card empty"><b>Nenhum orçamento aqui</b><p>Troque o filtro ou crie um orçamento novo.</p></div>`}</div>`+foot();
 }
 function cardOrc(o){const p=P(o.pid);
  const quando=o.dias===0?"entregue hoje":o.dias===1?"entregue ontem":`entregue há ${o.dias} dias`;
- return `<article class="card"><div style="display:flex;gap:12px;align-items:center"><button class="person" data-open="${p.id}" style="flex:1">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${quando}</small></span></button><span class="money">${brl(o.valor)}</span></div>
- <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><b>${esc(o.trat)}</b>${o.st==="aceito"?`<span class="wrap"><span class="tag t-good">Aceito</span>${o.rec?'<span class="tag t-acc">Recuperado pela assistente</span>':""}</span>`:o.st==="recusado"?`<span class="tag t-late">Recusou: ${esc(o.motivo)}</span>`:""}</div>
+ return `<article class="card"><div style="display:flex;gap:12px;align-items:center"><button class="person" data-open="${p.id}" style="flex:1">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>Nº ${o.num} · ${quando}</small></span></button><span class="money">${brl(o.valor)}</span></div>
+ <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-weight:600">${esc(nomeOrc(o))}</b>${o.st==="aceito"?`<span class="wrap"><span class="tag t-good">Aceito</span>${o.rec?'<span class="tag t-acc">Recuperado pela assistente</span>':""}</span>`:o.st==="recusado"?`<span class="tag t-late">Recusou: ${esc(o.motivo)}</span>`:""}</div>
  ${lembretes(o)}
  ${o.obs?`<p class="quote"><em>Atenção</em>${esc(o.obs)}</p>`:""}
  ${o.st==="aberto"?`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}PDF</button><button class="btn dark" data-act="aceitou" data-id="${o.id}">${IC.ok}Aceitou</button><button class="btn round" data-act="recusou" data-id="${o.id}" aria-label="Recusou">${IC.x}</button></div>`:`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}Ver PDF</button></div>`}
  </article>`}
-function pdf(o,novo){const p=P(o.pid);
- sheet(`<h2>${novo?"Conferir antes de enviar":"Orçamento"}</h2>
- <div class="doc"><div style="display:flex;justify-content:space-between;gap:10px"><b style="font-size:16px">Clínica Dra. Suzana</b><small>Válido por ${o.val||30} dias</small></div><small>Orçamento para ${esc(p.nome)}</small>
- <table><tr><td>${esc(o.trat)}</td><td>${brl(o.valor)}</td></tr><tr><td>Forma de pagamento</td><td>${esc(o.pag||"A combinar")}</td></tr><tr><td><b>Total</b></td><td><b>${brl(o.valor)}</b></td></tr></table>
- <small>Dra. Suzana Martins · CRO-PR 00000 · (41) 3000-0000</small></div>
- ${novo?`<p class="note">Sai pelo WhatsApp da clínica com uma mensagem curta. Depois a IA lembra nos dias 3, 10, 17 e 30.</p><div class="acts"><button class="btn dark" data-act="enviarOrc">${IC.wa}Enviar pelo WhatsApp</button><button class="btn soft" data-act="novoOrc">Voltar</button></div>`:
+function pdf(o,novo){const p=P(o.pid);const T=TPL[o.tpl];const emi=new Date(HOJE-o.dias*864e5);const venc=new Date(+emi+o.val*864e5);
+ const unit=T.unid==="dente"&&o.qtd>1?o.valor/o.qtd:o.valor;
+ sheet(`<h2>${novo?"Conferir antes de enviar":"Orçamento nº "+o.num}</h2>
+ <div class="doc">
+  <div class="dhead"><div style="display:flex;gap:10px;align-items:center"><span class="mono" aria-hidden="true">SV</span><div><b style="font-size:15px;display:block">${CLINICA}</b><small>Odontologia estética</small></div></div><div style="text-align:right"><b style="display:block">ORÇAMENTO Nº ${o.num}</b><small>Emitido em ${dataBR(emi)}<br>Válido até ${dataBR(venc)}</small></div></div>
+  <div><h3>Paciente</h3><div class="ddata"><span>${esc(p.nome)}</span><span>${esc(p.tel)}</span><span>${esc(p.email||"E-mail não informado")}</span><span>CPF: ______________</span></div></div>
+  <div><h3>Plano de tratamento</h3><table><tr><td>${esc(o.nomeLivre||T.nome)}${T.unid==="dente"?` · ${o.qtd} ${o.qtd>1?"dentes":"dente"} × ${brl(unit)}`:""}</td><td>${brl(o.valor)}</td></tr><tr><td>Avaliação (R$ ${AVAL}, abatida ao fechar em até 30 dias)</td><td>− ${brl(AVAL)}</td></tr><tr class="tot"><td>Total</td><td>${brl(o.valor-AVAL)}</td></tr></table></div>
+  <div><h3>Formas de pagamento</h3><ul><li>À vista no Pix ou transferência, com 5% de desconto: ${brl2((o.valor-AVAL)*.95)}</li><li>Cartão de crédito em até 12 vezes sem juros: 12 × ${brl2((o.valor-AVAL)/12)}</li><li>Cartão de débito.</li></ul></div>
+  <div><h3>Como é o tratamento</h3><p>${esc(T.como)}</p><ol style="margin-top:6px">${T.etapas.map(e=>`<li>${esc(e)}</li>`).join("")}</ol><p style="margin-top:6px"><b>Prazo:</b> ${esc(T.prazo)}</p></div>
+  <div><h3>O que está incluído</h3><ul>${T.inclui.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
+  <div><h3>Observações</h3><p>Este orçamento foi feito a partir da avaliação clínica e pode ser ajustado pela Dra. Suzana Vidal durante o tratamento. Validade de ${o.val} dias. Remarcações e cancelamentos pelo WhatsApp, de preferência com 24 horas de antecedência.</p></div>
+  <div class="sign"><div>Dra. Suzana Vidal<br>CRO-PR (número)</div><div>${esc(p.nome)}<br>Aceite do paciente</div></div>
+  <div class="dfoot"><span>Rua Desembargador Motta, 2000, sala 1404, Batel, Curitiba/PR · (41) 3000-0000</span><span>${SIMB}Gerado pelo app Keshion AI</span></div>
+ </div>
+ <p class="note" style="font-size:13px">O texto de "Como é o tratamento" e "O que está incluído" vem dos textos padrão da clínica, revisados pela doutora.</p>
+ ${novo?`<div class="acts"><button class="btn dark" data-act="enviarOrc">${IC.wa}Enviar pelo WhatsApp</button><button class="btn soft" data-act="novoOrc">Voltar</button></div>`:
  `<div class="acts"><button class="btn dark" data-act="reenviar" data-pid="${p.id}">${IC.wa}Reenviar pelo WhatsApp</button><button class="btn soft" data-close>Fechar</button></div>`}`)}
 let rasc=null;
-function novoOrc(){const r=rasc||{pid:"",trat:"",valor:"",pag:"",val:30};
+function novoOrc(){const r=rasc||{pid:"",tpl:"lentes",qtd:"",valor:"",pag:"",val:30};
  const ops=S.pac.filter(p=>!["Em tratamento","Não fechou"].includes(p.sit));
  sheet(`<h2>Novo orçamento</h2>
- <label class="lbl" for="op">Paciente</label><select class="inp" id="op"><option value="">Escolha o paciente</option>${ops.map(p=>`<option value="${p.id}" ${+r.pid===p.id?"selected":""}>${esc(p.nome)}</option>`).join("")}</select>
- <label class="lbl" for="ot">Tratamento</label><input class="inp" id="ot" value="${esc(r.trat)}" placeholder="Lentes de contato dental (10)">
- <div class="row2"><div><label class="lbl" for="ov">Valor em reais</label><input class="inp" id="ov" inputmode="numeric" value="${r.valor}" placeholder="28000"></div><div><label class="lbl" for="og">Pagamento</label><input class="inp" id="og" value="${esc(r.pag)}" placeholder="10× no cartão"></div></div>
- <label class="lbl">Validade</label><div class="seg" style="grid-template-columns:1fr 1fr 1fr">${[15,30,60].map(v=>`<button data-act="val" data-v2="${v}" aria-pressed="${r.val===v}">${v} dias</button>`).join("")}</div>
+ <div><label class="lbl" for="op">Paciente</label><select class="inp" id="op"><option value="">Escolha o paciente</option>${ops.map(p=>`<option value="${p.id}" ${+r.pid===p.id?"selected":""}>${esc(p.nome)}</option>`).join("")}</select></div>
+ <div class="row2"><div><label class="lbl" for="ot">Tratamento</label><select class="inp" id="ot">${Object.entries(TPL).map(([k,t])=>`<option value="${k}" ${r.tpl===k?"selected":""}>${t.nome}</option>`).join("")}</select></div><div><label class="lbl" for="oq">Quantidade de dentes</label><input class="inp" id="oq" inputmode="numeric" value="${r.qtd}" placeholder="Se for por dente"></div></div>
+ <div class="row2"><div><label class="lbl" for="ov">Valor total em reais</label><input class="inp" id="ov" inputmode="numeric" value="${r.valor}" placeholder="22000"></div><div><label class="lbl" for="og">Pagamento combinado</label><input class="inp" id="og" value="${esc(r.pag)}" placeholder="A definir"></div></div>
+ <div><span class="lbl">Validade</span><div class="seg" style="grid-template-columns:1fr 1fr 1fr">${[15,30,60].map(v=>`<button data-act="val" data-v2="${v}" aria-pressed="${r.val===v}">${v} dias</button>`).join("")}</div></div>
+ <p class="note" style="font-size:13px">A explicação do tratamento, as etapas e o que está incluído entram sozinhos, a partir dos textos padrão da clínica.</p>
  <span class="err" id="oerr" aria-live="polite"></span>
  <div class="acts"><button class="btn dark" data-act="verOrc">Gerar PDF</button><button class="btn soft" data-close>Cancelar</button></div>`)}
+function textos(k){
+ if(!k)return sheet(`<h2>Textos padrão do orçamento</h2><p class="note">Entram em todo PDF. Vieram da base da clínica e a Dra. Suzana revisa antes de usar.</p><div class="card list">${Object.entries(TPL).map(([k,t])=>`<button class="conv" data-act="tpl" data-v2="${k}"><span class="nm"><b>${t.nome}</b><p>${esc(t.prazo)}</p></span>${IC.next}</button>`).join("")}</div><button class="btn soft" data-close>Fechar</button>`);
+ const t=TPL[k];
+ sheet(`<h2>${t.nome}</h2>
+ <div><label class="lbl" for="xc">Como é o tratamento</label><textarea id="xc">${esc(t.como)}</textarea></div>
+ <div><label class="lbl" for="xe">Etapas (uma por linha)</label><textarea id="xe">${esc(t.etapas.join("\n"))}</textarea></div>
+ <div><label class="lbl" for="xp">Prazo</label><input class="inp" id="xp" value="${esc(t.prazo)}"></div>
+ <div><label class="lbl" for="xi">O que está incluído (um por linha)</label><textarea id="xi">${esc(t.inclui.join("\n"))}</textarea></div>
+ <div class="acts"><button class="btn dark" data-act="salvatpl" data-v2="${k}">Salvar texto padrão</button><button class="btn soft" data-act="textos">Voltar</button></div>`)}
 
-/* RETORNOS */
-function retornos(){const nomeR=r=>r.nome||P(r.id).nome;const sel=S.ret.filter(r=>r.sel);const n=sel.length;
- return header("Retornos","Pacientes antigos no tempo da revisão, da manutenção ou do retorno.")+
+/* REATIVAR */
+function reativar(){const nomeR=r=>r.nome||P(r.id).nome;const sel=S.ret.filter(r=>r.sel);const n=sel.length;
+ return header("Reativar pacientes","Pacientes antigos com limpeza, manutenção ou consulta vencida. A IA convida para voltar.")+
  `<div class="grid2"><div class="stack"><div class="sec"><h2>${n} de ${S.ret.length} selecionados</h2><button class="how" data-act="todos">${n===S.ret.length?"Limpar":"Selecionar todos"}</button></div>
- <div class="card list">${S.ret.map(r=>`<label class="conv check"><input type="checkbox" data-sel="${r.id}" ${r.sel?"checked":""}>${av({id:r.id,nome:nomeR(r)},"sm")}<span class="nm"><b>${esc(nomeR(r))}</b><p>${esc(r.motivo)} · última visita ${r.ult}</p></span></label>`).join("")}</div></div>
+ <div class="card list">${S.ret.map(r=>`<label class="conv check"><input type="checkbox" data-sel="${r.id}" ${r.sel?"checked":""}>${av({id:r.id,nome:nomeR(r)},"sm")}<span class="nm"><b>Contatar ${esc(first(nomeR(r)))}</b><p>${esc(nomeR(r))} · ${esc(r.motivo.toLowerCase())} · última visita ${r.ult}</p></span></label>`).join("")}</div></div>
  <div class="stack"><div class="sec"><h2>Mensagem</h2><span>assinada pela equipe</span></div>
- <div class="card"><div class="chat"><div class="msg e"><small>Erica · Clínica Dra. Suzana</small>Olá, ${esc(first(sel[0]?nomeR(sel[0]):"Sônia"))}, tudo bem? Aqui é a Erica, da clínica da Dra. Suzana. Vi que já faz um tempo da sua última visita e queria saber se você quer marcar sua revisão. Quer que eu veja os horários livres da doutora?</div><div class="msg p"><small>Paciente</small>Quero sim</div><div class="msg a"><small>IA</small>Tenho quinta às 9h ou sexta às 14h. Qual fica melhor?</div></div>
+ <div class="card"><div class="chat"><div class="msg e"><small>Erica · ${CLINICA}</small>Olá, ${esc(first(sel[0]?nomeR(sel[0]):"Sônia"))}, tudo bem? Aqui é a Erica, da clínica da Dra. Suzana. Vi que já faz um tempo da sua última visita e queria saber se você quer marcar sua revisão. Quer que eu veja os horários livres da doutora?</div><div class="msg p"><small>Paciente</small>Quero sim</div><div class="msg a"><small>IA</small>Tenho terça, 24/11, às 9h ou quinta, 26/11, às 14h. Qual fica melhor?</div></div>
  <p class="note">Rascunho de tom. O texto final ajustamos com as respostas da clínica. Se a pessoa disser que sim, a IA oferece os horários e marca.</p>
- <button class="btn dark" data-act="lote" ${n?"":"disabled"}>${n?`Aprovar envio para ${n}`:"Selecione ao menos um paciente"}</button><p class="note" style="font-size:12px">Saem em lotes pequenos ao longo do dia. Quem responder SAIR não recebe mais.</p></div></div></div>`;
+ <button class="btn dark" data-act="lote" ${n?"":"disabled"}>${n?`Aprovar envio para ${n}`:"Selecione ao menos um paciente"}</button><p class="note" style="font-size:12px">Saem em lotes pequenos ao longo do dia. Quem responder SAIR não recebe mais.</p></div></div></div>`+foot();
 }
 
-/* PAINEL */
+/* PAINEL: primeiro os números da clínica, depois onde a assistente ajudou */
+function vbars(dados,fmt){const max=Math.max(...dados.map(d=>d[1]));
+ return `<div class="vbars" role="img" aria-label="${esc(dados.map(d=>d[0]+": "+fmt(d[1])).join("; "))}">${dados.map((d,i)=>{const h=Math.max(3,d[1]/max*100);return `<div class="vcol">${i===dados.length-1?`<em style="bottom:calc(${h}% + 26px)">${fmt(d[1])}</em>`:""}<i style="height:calc(${h}% - 22px)" tabindex="0" data-tip="${esc(d[0]+": "+fmt(d[1]))}"></i><span>${d[0]}</span></div>`}).join("")}</div>`}
+function hbars(dados,fmt,sub){const max=Math.max(...dados.map(d=>d[1]));
+ return `<div class="hbars">${dados.map(d=>`<div class="hb"><span>${esc(d[0])}</span><span class="trk"><i style="width:${d[1]/max*100}%" data-tip="${esc(d[0]+": "+fmt(d[1]))}"></i></span><b>${fmt(d[1])}${sub&&d[2]!=null?`<small>${d[2]}</small>`:""}</b></div>`).join("")}</div>`}
 function painel(){
  const ok=S.recs.filter(r=>r.st!=="Contestado"),tot=ok.reduce((s,r)=>s+r.valor,0),pend=S.recs.filter(r=>r.st==="A confirmar").length;
- const vezes=(tot/MENSAL).toLocaleString("pt-BR",{maximumFractionDigits:1});
- const ab=S.orc.filter(o=>o.st==="aberto");
+ const ab=S.orc.filter(o=>o.st==="aberto"),somaAb=ab.reduce((s,o)=>s+o.valor,0);
+ const emTrat=S.pac.filter(p=>p.sit==="Em tratamento");
+ const n=v=>v.toLocaleString("pt-BR");
  const hrs=[3,6,9,12,10,8,9,11,10,9,8,12,15,17,14,9,4],lab=["7h","","9h","","11h","","13h","","15h","","17h","","19h","","21h","","23h"];
- return header("Painel","Novembro até hoje. Cada número diz de onde vem.")+
+ return header("Painel","Novembro de 2026, até hoje. Os números da clínica primeiro.")+
  `<div class="pills" role="group" aria-label="Período">${["Semana","Mês","3 meses"].map(x=>`<button class="pill" data-per="${x}" aria-pressed="${periodo===x}">${x}</button>`).join("")}</div>
- <div class="grid2"><section class="hero"><p>Recuperado pela assistente</p><div class="big">${mil(tot)}</div><div class="row"><span class="chipline">${ok.length} tratamentos</span><span class="chipline">${vezes}× a mensalidade</span>${pend?`<span class="chipline">${pend} a confirmar</span>`:""}</div><div class="acts"><button class="btn" style="flex:1;background:var(--hero-ink);color:var(--hero)" data-act="conferir">Conferir valores</button><button class="how" style="color:var(--hero-ink);text-decoration:underline;padding:0 8px" data-act="how">Como calculamos</button></div></section>
- <div class="stack"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>Influenciado</b><span class="tag t-neutral">fora do total</span></div><span class="money">R$ 21 mil</span><small class="note">2 tratamentos em que a IA ajudou, mas o paciente não estava parado. Exemplo: confirmou a avaliação e fechou na consulta.</small></div>
- <div class="card"><b>Antes e agora</b><div class="vs"><span></span><small class="note">Antes</small><small class="note">Agora</small>
- <span>Contatos sem resposta</span><b class="old">30%</b><b>0%</b>
- <span>Resposta fora do horário</span><b class="old">Não tinha</b><b>24 horas</b>
- <span>Faltas</span><b class="old">18%</b><b style="color:var(--good)">9%</b>
- <span>Perda por mês</span><b class="old">${mil(40000)}</b><b>${mil(tot)} de volta</b></div>
- <small class="note">Antes: o que a clínica informou na calculadora do site, no diagnóstico. Faltas é comparação de taxa, não contagem de faltas evitadas.</small></div></div></div>
- <div class="sec"><h2>Números do mês</h2><span>comparado com outubro</span></div>
- <div class="kpis">${kpi("Contatos novos","184","+12% sobre outubro")+kpi("Avaliações feitas","38","31 marcadas pela IA")+kpi("Pacientes atendidos","64","+8% sobre outubro")+kpi("Tratamentos fechados","9","R$ 96 mil no total")+kpi("Taxa de faltas","9%","antes da Keshion: 18%")+kpi("Orçamentos em aberto",mil(ab.reduce((s,o)=>s+o.valor,0)),ab.length+" pacientes")+kpi("Ticket médio","R$ 10,7 mil","por tratamento fechado")+kpi("Não fecharam","5","2 por preço · 2 outra clínica")}</div>
- <p class="note" style="font-size:13px">Comparecimento e fechamento vêm do que a equipe marca na Agenda e em Orçamentos.</p>
- <div class="sec"><h2>Trabalho da IA</h2><span>medido pelo sistema</span></div>
- <div class="kpis">${kpi("Resolvidas sozinhas","389","94% das conversas")+kpi("Mensagens respondidas","412","38% fora do horário")+kpi("Primeira resposta","1 min","média do período")+kpi("Avaliações marcadas","31","de 184 contatos novos")+kpi("Confirmações respondidas","86%","das consultas")+kpi("Remarcações","9","horários reaproveitados")+kpi("Lembretes de orçamento","42","11 pacientes responderam")+kpi("Retornos que agendaram","6","de 24 mensagens")}</div>
- <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>Mensagens por hora</b><div class="legend"><span><b style="background:var(--bar-a)"></b>Horário comercial</span><span><b style="background:var(--bar-b)"></b>Fora</span></div></div><div class="bars" role="img" aria-label="Mensagens por hora do dia; o pico é entre 19h e 21h, fora do horário comercial">${hrs.map((v,i)=>`<i class="${i<2||i>=11?"off":""}" style="height:${v/17*100}%"></i>`).join("")}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2)">${lab.filter(Boolean).map(l=>`<span>${l}</span>`).join("")}</div></div>`;
+ <div class="kpis">${kpi("Valor fechado","R$ 96 mil","+14% sobre outubro")+kpi("Tratamentos fechados","12","ticket médio R$ 8 mil")+kpi("Orçamentos entregues","23","12 aceitos, 52%")+kpi("Em aberto",mil(somaAb),ab.length+" orçamentos")}</div>
+ <div class="card"><div class="cardh"><b>Valor fechado por mês</b></div>${vbars([["Jun",58000],["Jul",64000],["Ago",71000],["Set",77000],["Out",84000],["Nov",96000]],mil)}<small class="note">Novembro até hoje. Passe o dedo ou o mouse nas barras para ver o valor de cada mês.</small></div>
+ <div class="grid2">
+  <div class="card"><div class="cardh"><b>Do contato ao tratamento</b></div>${hbars([["Contatos novos",184,""],["Avaliações",38,"21%"],["Orçamentos",23,"61%"],["Fechados",12,"52%"]],n,true)}<small class="note">A porcentagem compara com a etapa anterior.</small></div>
+  <div class="card"><div class="cardh"><b>De onde vêm os pacientes novos</b></div>${hbars([["Instagram",68],["Anúncio",52],["Google",31],["Indicação",24],["Outros",9]],n)}</div>
+  <div class="card"><div class="cardh"><b>Onde está o dinheiro</b></div>${hbars([["Fechado",96000],["Em aberto",somaAb],["Não fechou",41000]],mil)}<small class="note">"Não fechou" soma os orçamentos recusados no mês: 2 por preço e 2 para outra clínica.</small></div>
+  <div class="card"><div class="cardh"><b>Fechados por tratamento</b></div>${hbars([["Lentes",46000,"3"],["Alinhadores",24600,"3"],["Facetas",18200,"2"],["Clareamento",7200,"4"]],mil,true)}<small class="note">O número pequeno é a quantidade de tratamentos.</small></div>
+ </div>
+ <div class="grid2">
+  <div class="card"><div class="cardh"><b>Em tratamento agora</b><button class="how" data-go="pacientes">Ver pacientes</button></div>${emTrat.map(p=>`<button class="person" data-open="${p.id}">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${esc(p.trat.nome)} · ${p.trat.feitas} de ${p.trat.total} sessões</small></span>${IC.next}</button>`).join("")}</div>
+  <div class="kpis" style="grid-template-columns:1fr 1fr">${kpi("Contatos novos","184","+12% sobre outubro")+kpi("Avaliações feitas","38","31 marcadas pela IA")+kpi("Pacientes atendidos","64","+8% sobre outubro")+kpi("Faltas","10%","4 de 41 consultas")}</div>
+ </div>
+ <div class="sec" style="margin-top:18px"><h2>Onde a assistente ajudou</h2><span>medido pelo sistema</span></div>
+ <div class="grid2"><div class="card"><div class="cardh"><b>Recuperado pela assistente</b>${pend?`<span class="tag t-warn">${pend} a confirmar</span>`:""}</div><span class="money" style="font-size:28px">${mil(tot)}</span><small class="note">${ok.length} tratamentos de pacientes que estavam parados e voltaram depois de conversar com a assistente. A clínica confere cada um.</small><div class="acts"><button class="btn soft" data-act="conferir">Conferir valores</button><button class="how" style="padding:0 8px" data-act="how">Como calculamos</button></div><small class="note">Influenciado, fora do total: R$ 21 mil em 2 tratamentos.</small></div>
+ <div class="kpis" style="grid-template-columns:1fr 1fr">${kpi("Resolvidas sozinhas","389","94% das conversas")+kpi("Mensagens respondidas","412","38% fora do horário")+kpi("Primeira resposta","1 min","média do período")+kpi("Lembretes de orçamento","42","11 pacientes responderam")}</div></div>
+ <div class="card"><div class="cardh"><b>Mensagens por hora</b><small class="note">faixa cinza: fora do horário da clínica</small></div><div class="hours" role="img" aria-label="Mensagens por hora do dia; o pico é entre 19h e 21h, fora do horário da clínica">${hrs.map((v,i)=>`<div class="${i<1||i>=12?"off":""}"><i style="height:${v/17*100}%" data-tip="${7+i}h: ${v} mensagens"></i></div>`).join("")}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2)">${lab.filter(Boolean).map(l=>`<span>${l}</span>`).join("")}</div></div>`+foot();
 }
 function conferir(){
  sheet(`<h2>Conferir valores</h2><p class="note">Cada tratamento que entrou no total, com o motivo. Se algum não foi mérito da assistente, conteste e ele sai da conta.</p>
  <div>${S.recs.map(r=>`<div class="rec"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b>${esc(r.nome)}</b><span class="money" style="font-size:16px${r.st==="Contestado"?";text-decoration:line-through;color:var(--ink2)":""}">${brl(r.valor)}</span></div><small class="note">${esc(r.trat)}. ${esc(r.como)}</small>${r.st==="A confirmar"?`<div class="acts"><button class="btn dark sm" data-rec="${r.id}" data-v3="Confirmado">Confirmar</button><button class="btn soft sm" data-rec="${r.id}" data-v3="Contestado">Contestar</button></div>`:`<span><span class="tag ${r.st==="Confirmado"?"t-good":"t-late"}">${r.st}</span> <button class="how" data-rec="${r.id}" data-v3="A confirmar">Desfazer</button></span>`}</div>`).join("")}</div>
  <button class="btn soft" data-close>Fechar</button>`)}
 
-/* AVISOS, ESTILO, NAV */
+/* AVISOS, NAV */
 function avisos(){
- sheet(`<h2>Avisos para a equipe</h2><p class="note">Cada item de "Precisa de você" gera um aviso no grupo de WhatsApp da clínica. Se ninguém resolver, o lembrete sobe de nível.</p>
- <div class="stack">${S.pend.map(x=>{const p=P(x.pid);const nivel=x.espera>=30?["Avisado à doutora","t-late"]:x.espera>=10?["Lembrete reenviado à recepção","t-warn"]:["Aviso enviado à recepção","t-info"];return `<div class="card" style="box-shadow:none"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(p.nome)}</b><span class="tag ${nivel[1]}">${nivel[0]}</span></div><small class="note">${x.tipo} · esperando há ${x.espera} min</small></div>`}).join("")||`<p class="note">Nenhum aviso aberto.</p>`}</div>
- <div class="chat"><div class="msg p"><small>Keshion AI · grupo Equipe Dra. Suzana</small>Precisa de você: Paula Antunes relatou dor e inchaço depois do implante. Esperando há 8 min. Abrir: app.keshion.com/p/11</div></div>
- <div class="card" style="box-shadow:none"><p class="lbl">Regras deste protótipo</p><p class="note">Aviso imediato no grupo. Sem resposta em 10 min no horário comercial: lembrete para a recepção. Em 30 min: aviso direto para a doutora. Fora do horário: o paciente recebe o horário de retorno e o aviso sai na abertura da clínica. Os tempos são ajustáveis por clínica.</p></div>
+ sheet(`<h2>Avisos para a equipe</h2><p class="note">Cada conversa encaminhada gera um aviso no grupo de WhatsApp da clínica. Se ninguém resolver, o lembrete sobe de nível.</p>
+ <div class="stack">${S.pend.map(x=>{const p=P(x.pid);const nivel=x.espera>=30?["Avisado à doutora","t-late"]:x.espera>=10?["Lembrete reenviado à recepção","t-warn"]:["Aviso enviado à recepção","t-info"];return `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(p.nome)}</b><span class="tag ${nivel[1]}">${nivel[0]}</span></div><small class="note">${x.tipo} · esperando há ${x.espera} min</small></div>`}).join("")||`<p class="note">Nenhum aviso aberto.</p>`}</div>
+ <div class="chat"><div class="msg p"><small>Keshion AI · grupo Equipe Dra. Suzana</small>Precisa de você: Paula Antunes relatou sensibilidade e uma lente solta. Esperando há 8 min. Abrir: app.keshion.com/p/11</div></div>
+ <div class="card"><p class="lbl">Regras deste protótipo</p><p class="note">Aviso imediato no grupo. Sem resposta em 10 min no horário comercial: lembrete para a recepção. Em 30 min: aviso direto para a doutora. Fora do horário: o paciente recebe o horário de retorno e o aviso sai na abertura da clínica. Os tempos são ajustáveis por clínica.</p></div>
  <button class="btn soft" data-close>Fechar</button>`)}
 function nav(){
  const cnt=S.pend.length;
- $("#dock").innerHTML=TABS.map(t=>`<button class="dk" data-v="${t[0]}" ${t[0]===view?'aria-current="page"':""} aria-label="${t[1]}">${t[2]}<span>${t[1]}</span>${t[0]==="conversas"&&cnt&&t[0]!==view?`<b class="cnt">${cnt}</b>`:""}</button>`).join("");
+ $("#dock").innerHTML=TABS.map(t=>`<button class="dk" data-v="${t[0]}" ${t[0]===view?'aria-current="page"':""} aria-label="${t[1]}">${t[2]}<span>${t[1]}</span>${t[0]==="conversas"&&cnt?`<b class="cnt">${cnt}</b>`:""}</button>`).join("");
  $("#sidenav").innerHTML=TABS.map(t=>`<button class="sd" data-v="${t[0]}" ${t[0]===view?'aria-current="page"':""}>${t[2]}${t[1]}${t[0]==="conversas"&&cnt?`<b class="cnt">${cnt}</b>`:""}</button>`).join("");
 }
-const V={conversas,agenda,pacientes,orcamentos,retornos,painel};
+const V={conversas,agenda,pacientes,orcamentos,reativar,painel};
 function render(){$("#main").innerHTML=V[view]();nav();
  const b=$("#busca");if(b)b.oninput=e=>{busca=e.target.value;const pos=e.target.selectionStart;render();const nb=$("#busca");nb.focus();nb.setSelectionRange(pos,pos)}}
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render();window.scrollTo(0,0)}
@@ -507,13 +618,21 @@ function closeSheets(){document.querySelectorAll(".scrim").forEach(s=>s.remove()
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheets()});
 function resolvePend(id,msg,linha){const u=snap();const x=S.pend.find(y=>y.id===id);S.pend=S.pend.filter(y=>y.id!==id);const c=S.conv.find(y=>y.pid===x.pid);if(c){c.st="IA respondeu";c.tag="t-acc"}if(linha)P(x.pid).hist.unshift(["Agora",linha]);closeSheets();render();toast(msg,u)}
 function lerOrc(){const v=parseInt(($("#ov").value||"").replace(/\D/g,""),10)||0;const val=+(document.querySelector('[data-act="val"][aria-pressed="true"]')?.dataset.v2||30);
- return {pid:$("#op").value,trat:$("#ot").value.trim(),valor:v||"",pag:$("#og").value.trim(),val}}
+ return {pid:$("#op").value,tpl:$("#ot").value,qtd:parseInt($("#oq").value,10)||1,valor:v||"",pag:$("#og").value.trim(),val}}
+
+/* Dica ao passar o mouse ou focar nas barras dos gráficos */
+let tipEl=null;
+function showTip(t){if(!t.dataset.tip)return;hideTip();tipEl=document.createElement("div");tipEl.className="tip";tipEl.textContent=t.dataset.tip;document.body.appendChild(tipEl);const r=t.getBoundingClientRect();tipEl.style.left=Math.min(Math.max(r.left+r.width/2,70),innerWidth-70)+"px";tipEl.style.top=r.top+"px"}
+function hideTip(){tipEl?.remove();tipEl=null}
+document.addEventListener("pointerover",e=>{const t=e.target.closest("[data-tip]");t?showTip(t):hideTip()});
+document.addEventListener("focusin",e=>{const t=e.target.closest("[data-tip]");t?showTip(t):hideTip()});
+addEventListener("scroll",hideTip,{passive:true});
 
 document.addEventListener("click",e=>{
- const t=e.target.closest("[data-v],[data-go],[data-open],[data-chat],[data-fp],[data-fc],[data-fo],[data-fpac],[data-fsit],[data-dia],[data-per],[data-dec],[data-sel],[data-setsit],[data-motivo],[data-pres],[data-rec],[data-act]");if(!t)return;const d=t.dataset;
+ const t=e.target.closest("[data-v],[data-go],[data-open],[data-chat],[data-fc],[data-fo],[data-fpac],[data-fsit],[data-dia],[data-per],[data-dec],[data-sel],[data-setsit],[data-motivo],[data-pres],[data-rec],[data-act]");if(!t)return;const d=t.dataset;
  if(d.v)return go(d.v);if(d.go)return go(d.go);
  if(d.open)return ficha(+d.open);if(d.chat)return chat(+d.chat);
- if(d.fp){fPend=d.fp;return render()}if(d.fc){fConv=d.fc;return render()}if(d.fo){fOrc=d.fo;return render()}if(d.fpac){fPac=d.fpac;return render()}if(d.fsit!==undefined&&t.matches("[data-fsit]")){fSit=d.fsit;return render()}
+ if(d.fc){fConv=d.fc;return render()}if(d.fo){fOrc=d.fo;return render()}if(d.fpac){fPac=d.fpac;return render()}if(d.fsit!==undefined&&t.matches("[data-fsit]")){fSit=d.fsit;return render()}
  if(d.dia){dia=d.dia;return render()}if(d.per){periodo=d.per;render();return toast("No app real, os números mudam para o período escolhido")}
  if(d.dec){const x=S.pend.find(y=>y.id===+d.dec);return resolvePend(x.id,"A IA vai responder: "+d.op.toLowerCase(),"Equipe decidiu: "+d.op)}
  if(d.sel){S.ret.find(r=>r.id===+d.sel).sel=t.checked;return render()}
@@ -532,22 +651,32 @@ document.addEventListener("click",e=>{
   case "devolver":delete S.assumidas[pid];closeSheets();render();return toast("Conversa devolvida para a IA");
   case "enviarEq":{const v=$("#resp").value.trim();if(!v){$("#resp").focus();return toast("Escreva a mensagem antes de enviar")}P(pid).hist.unshift(["Agora","Equipe: "+v]);closeSheets();render();return toast("Mensagem enviada para "+first(P(pid).nome))}
   case "resolvido":return resolvePend(id,"Resolvido","Resolvido pela equipe");
-  case "ensinar":{const x=S.pend.find(y=>y.id===id);return sheet(`<h2>Responder e ensinar a IA</h2><p class="quote"><em>Pergunta</em>${esc(x.msg)}</p><label class="lbl" for="ens">Resposta</label><textarea id="ens" placeholder="Ex.: Não atendemos pelo OdontoPrev, mas oferecemos parcelamento em até 12 vezes."></textarea><span class="err" id="enserr" aria-live="polite"></span><label class="check"><input type="checkbox" id="base" checked> Guardar na base da clínica para as próximas vezes</label><div class="acts"><button class="btn dark" data-act="ensinarOk" data-id="${id}">Enviar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
+  case "outra":{const x=S.pend.find(y=>y.id===id);return sheet(`<h2>Outra resposta</h2><p class="quote"><em>Mensagem de ${esc(first(P(x.pid).nome))}</em>${esc(x.msg)}</p><label class="lbl" for="outr">O que a IA deve responder</label><textarea id="outr" placeholder="Ex.: Para as 10 lentes no Pix, a Dra. Suzana consegue 7% de desconto. Quer que eu reserve o primeiro horário?"></textarea><span class="err" id="outerr" aria-live="polite"></span><div class="acts"><button class="btn dark" data-act="outraOk" data-id="${id}">Enviar resposta</button><button class="btn soft" data-close>Cancelar</button></div>`)}
+  case "outraOk":{const v=$("#outr").value.trim();if(!v){$("#outerr").textContent="Escreva a resposta antes de enviar.";return}return resolvePend(id,"Resposta enviada","Equipe respondeu: "+v)}
+  case "ensinar":{const x=S.pend.find(y=>y.id===id);return sheet(`<h2>Responder e ensinar a IA</h2><p class="quote"><em>Pergunta</em>${esc(x.msg)}</p><label class="lbl" for="ens">Resposta</label><textarea id="ens" placeholder="Ex.: Não atendemos pelo OdontoPrev, mas dá para parcelar em até 12 vezes sem juros no cartão."></textarea><span class="err" id="enserr" aria-live="polite"></span><label class="check"><input type="checkbox" id="base" checked> Guardar na base da clínica para as próximas vezes</label><div class="acts"><button class="btn dark" data-act="ensinarOk" data-id="${id}">Enviar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
   case "ensinarOk":{const v=$("#ens").value.trim();if(!v){$("#enserr").textContent="Escreva a resposta antes de enviar.";return}const b=$("#base").checked;return resolvePend(id,b?"Enviado. A IA aprendeu essa resposta":"Resposta enviada","Equipe respondeu"+(b?" e a resposta entrou na base da clínica":""))}
   case "remarcar":{const a=S.agenda.find(y=>y.id===id),u=snap();a.remarcar=true;P(a.pid).hist.unshift(["Agora","IA ofereceu novos horários depois da falta"]);render();return toast("A IA vai oferecer novos horários para "+first(P(a.pid).nome),u)}
   case "sit":return mudarSit(pid);
   case "edtrat":return edTrat(pid);
-  case "salvatrat":{const v=parseInt(($("#tv").value||"").replace(/\D/g,""),10)||0,f=parseInt($("#tf").value,10)||0,tot=parseInt($("#tt").value,10)||0;if(!$("#tn").value.trim()){$("#terr").textContent="Escreva o tratamento.";return}if(f>tot&&tot){$("#terr").textContent="Sessões feitas não pode ser maior que o total.";return}const p=P(pid),u=snap();p.trat={nome:$("#tn").value.trim(),valor:v,pag:$("#tp").value.trim(),feitas:f,total:tot,prox:$("#tx").value.trim()};p.hist.unshift(["Agora","Tratamento atualizado"]);closeSheets();render();ficha(pid);return toast("Tratamento salvo",u)}
-  case "salvanota":{const p=P(pid);p.notas=$("#nota").value;return toast("Anotação salva")}
-  case "novo":return sheet(`<h2>Novo paciente</h2><p class="note">Para quem ligou ou chegou pela recepção.</p><label class="lbl" for="nn">Nome</label><input class="inp" id="nn" autocomplete="off"><label class="lbl" for="nt">WhatsApp com DDD</label><input class="inp" id="nt" inputmode="tel" placeholder="(41) 99999-0000"><label class="lbl">Já é paciente da clínica?</label><div class="seg" style="grid-template-columns:1fr 1fr"><button data-act="ja" data-v2="0" aria-pressed="true">Não</button><button data-act="ja" data-v2="1" aria-pressed="false">Sim</button></div><span class="err" id="nerr" aria-live="polite"></span><div class="acts"><button class="btn dark" data-act="cad">Cadastrar</button><button class="btn soft" data-close>Cancelar</button></div>`);
+  case "eddados":return formDados(P(pid));
+  case "novo":return formDados();
+  case "salvadados":{const n=$("#fn").value.trim(),tel=$("#ft").value.replace(/\D/g,""),nasc=$("#fb").value.trim(),em=$("#fe").value.trim();const er=$("#ferr");
+   if(n.length<2){er.textContent="Digite o nome do paciente.";return}if(tel.length<10){er.textContent="Digite o WhatsApp com DDD.";return}if(nasc&&!/^\d{2}\/\d{2}\/\d{4}$/.test(nasc)){er.textContent="Escreva o aniversário como dd/mm/aaaa.";return}if(em&&!/^\S+@\S+\.\S+$/.test(em)){er.textContent="Confira o e-mail.";return}
+   const dados={nome:n,tel:$("#ft").value.trim(),nasc,email:em,end:$("#fa").value.trim(),origem:$("#fo").value,indic:$("#fi").value.trim()};const u=snap();
+   if(pid){Object.assign(P(pid),dados);P(pid).hist.unshift(["Agora","Dados atualizados"]);closeSheets();render();ficha(pid);return toast("Dados salvos",u)}
+   const ja=document.querySelector('[data-act="ja"][aria-pressed="true"]').dataset.v2==="1";S.pac.unshift({id:Date.now()%100000,...dados,sit:ja?"Tratamento concluído":"Novo contato",ja,inicio:"11/2026",ult:"",prox:"",trat:null,notas:"",hist:[["Agora","Cadastrado pela recepção"]]});closeSheets();render();return toast("Cadastro feito: "+first(n),u)}
   case "ja":case "val":t.parentNode.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===t));return;
-  case "cad":{const n=$("#nn").value.trim(),tel=$("#nt").value.replace(/\D/g,"");if(n.length<2){$("#nerr").textContent="Digite o nome do paciente.";return}if(tel.length<10){$("#nerr").textContent="Digite o WhatsApp com DDD.";return}const ja=document.querySelector('[data-act="ja"][aria-pressed="true"]').dataset.v2==="1";const u=snap();S.pac.unshift({id:Date.now()%100000,nome:n,tel:$("#nt").value,sit:ja?"Tratamento concluído":"Novo contato",ja,origem:"Recepção",inicio:"11/2026",trat:null,notas:"",hist:[["Agora","Cadastrado pela recepção"]]});closeSheets();render();return toast(first(n)+" cadastrado",u)}
+  case "salvatrat":{const v=parseInt(($("#tv").value||"").replace(/\D/g,""),10)||0,f=parseInt($("#tf").value,10)||0,tot=parseInt($("#tt").value,10)||0;if(!$("#tn").value.trim()){$("#terr").textContent="Escreva o tratamento.";return}if(f>tot&&tot){$("#terr").textContent="Sessões feitas não pode ser maior que o total.";return}const p=P(pid),u=snap();p.trat={nome:$("#tn").value.trim(),valor:v,pag:$("#tp").value.trim(),feitas:f,total:tot};p.hist.unshift(["Agora","Tratamento atualizado"]);closeSheets();render();ficha(pid);return toast("Tratamento salvo",u)}
+  case "salvanota":{const p=P(pid);p.notas=$("#nota").value;return toast("Anotação salva")}
   case "novoOrc":return novoOrc();
-  case "verOrc":{const r=lerOrc();rasc=r;const er=$("#oerr");if(!r.pid){er.textContent="Escolha o paciente.";return}if(!r.trat){er.textContent="Escreva o tratamento.";return}if(!r.valor){er.textContent="Digite o valor em reais.";return}return pdf({pid:+r.pid,trat:r.trat,valor:r.valor,pag:r.pag,val:r.val},true)}
-  case "enviarOrc":{const r=rasc,p=P(+r.pid),u=snap();S.orc.unshift({id:Date.now()%100000,pid:p.id,trat:r.trat,valor:r.valor,pag:r.pag||"A definir",dias:0,st:"aberto",val:r.val});p.sit="Orçamento em aberto";p.trat={nome:r.trat,feitas:0,total:0,prox:"",valor:r.valor,pag:r.pag||"A definir"};p.hist.unshift(["Agora","Orçamento enviado pelo WhatsApp: "+brl(r.valor)]);rasc=null;fOrc="aberto";closeSheets();go("orcamentos");return toast("Orçamento enviado para "+first(p.nome)+". Lembretes nos dias 3, 10, 17 e 30",u)}
+  case "textos":return textos();
+  case "tpl":return textos(d.v2);
+  case "salvatpl":{const k=d.v2,lin=s=>s.split("\n").map(x=>x.trim()).filter(Boolean);TPL[k]={...TPL[k],como:$("#xc").value.trim(),etapas:lin($("#xe").value),prazo:$("#xp").value.trim(),inclui:lin($("#xi").value)};textos();return toast("Texto padrão salvo. Vale para os próximos orçamentos")}
+  case "verOrc":{const r=lerOrc();rasc=r;const er=$("#oerr");if(!r.pid){er.textContent="Escolha o paciente.";return}if(!r.valor){er.textContent="Digite o valor total em reais.";return}if(r.valor<=AVAL){er.textContent="O valor precisa ser maior que o da avaliação.";return}return pdf({num:142,pid:+r.pid,tpl:r.tpl,qtd:r.qtd,valor:r.valor,pag:r.pag,val:r.val,dias:0},true)}
+  case "enviarOrc":{const r=rasc,p=P(+r.pid),u=snap();const o={id:Date.now()%100000,num:142,pid:p.id,tpl:r.tpl,qtd:r.qtd,valor:r.valor,pag:r.pag||"A definir",dias:0,st:"aberto",val:r.val};S.orc.unshift(o);p.sit="Orçamento em aberto";p.trat={nome:nomeOrc(o),feitas:0,total:0,valor:r.valor,pag:o.pag};p.hist.unshift(["Agora","Orçamento nº 142 enviado pelo WhatsApp: "+brl(r.valor)]);rasc=null;fOrc="aberto";closeSheets();go("orcamentos");return toast("Orçamento enviado para "+first(p.nome)+". Lembretes nos dias 3, 10, 17 e 30",u)}
   case "pdf":return pdf(S.orc.find(o=>o.id===id));
   case "reenviar":closeSheets();return toast("Orçamento reenviado para "+first(P(pid).nome));
-  case "aceitou":{const o=S.orc.find(y=>y.id===id),p=P(o.pid),u=snap();o.st="aceito";o.rec=o.dias>=7;p.sit="Em tratamento";p.ja=true;p.hist.unshift(["Agora","Aceitou o orçamento: "+brl(o.valor)]);if(o.rec)S.recs.push({id:Date.now()%100000,nome:p.nome,trat:o.trat,valor:o.valor,como:`Parado há ${o.dias} dias sem contato da equipe. Respondeu à assistente e aceitou.`,st:"A confirmar"});render();return toast(o.rec?first(p.nome)+" aceitou. Entra como recuperado pela assistente no Painel":first(p.nome)+" aceitou o orçamento",u)}
+  case "aceitou":{const o=S.orc.find(y=>y.id===id),p=P(o.pid),u=snap();o.st="aceito";o.rec=o.dias>=7;p.sit="Em tratamento";p.ja=true;if(p.trat)p.trat.total=p.trat.total||3;p.hist.unshift(["Agora","Aceitou o orçamento: "+brl(o.valor)]);if(o.rec)S.recs.push({id:Date.now()%100000,nome:p.nome,trat:nomeOrc(o),valor:o.valor,como:`Parado há ${o.dias} dias sem contato da equipe. Respondeu à assistente e aceitou.`,st:"A confirmar"});render();return toast(o.rec?first(p.nome)+" aceitou. Entra como recuperado pela assistente no Painel":first(p.nome)+" aceitou o orçamento",u)}
   case "recusou":{const o=S.orc.find(y=>y.id===id);return motivoNao(o.pid,o.id)}
   case "conferir":return conferir();
   case "todos":{const all=S.ret.every(r=>r.sel);S.ret.forEach(r=>r.sel=!all);return render()}
@@ -556,7 +685,7 @@ document.addEventListener("click",e=>{
    <p><b>Recuperado pela assistente</b> (entra no total): paciente que estava parado há 7 dias ou mais, sem contato da equipe, respondeu à assistente e aceitou o tratamento em até 30 dias.</p>
    <p><b>Influenciado</b> (fora do total): a assistente ajudou, mas o paciente não estava parado. Exemplo: confirmou a avaliação e fechou na consulta.</p>
    <p><b>Orgânico</b> (não conta): fechou sem participação da assistente.</p>
-   <p class="note">O valor vem do orçamento marcado como aceito. A clínica confere cada tratamento e pode contestar. A mensalidade usada aqui é um exemplo de ${brl(MENSAL)}.</p>
+   <p class="note">O valor vem do orçamento marcado como aceito. A clínica confere cada tratamento e pode contestar.</p>
    <button class="btn soft" data-close>Entendi</button>`);
   case "wa":return toast("No app real, abre a conversa no WhatsApp");
   case "ligar":return toast("No app real, abre a ligação");

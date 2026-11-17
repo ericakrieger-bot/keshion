@@ -24,7 +24,7 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 |---|---|
 | `LEIA-PRIMEIRO.md` | Este guia: decisões, histórico e o que falta |
 | `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md` | Decisões de 16/11/2026: tecnologia, hospedagem, custos, o que entra em dezembro e janeiro, regra de reais recuperados |
-| `prototipo-crm-mobile.html` | **Protótipo atual, versão 5** (6 abas, marca Keshion). Publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr |
+| `prototipo-crm-mobile.html` | **Protótipo atual, versão 6** (6 abas, marca Keshion, correções da Erica de 17/11/2026). Publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr |
 | `previa-painel.html` | Primeira prévia do painel, com dados fictícios. Publicada em https://claude.ai/artifact/PTMcbDMS6ZhU4CibshYiGS. Ficou antes das decisões da versão 3: usar só como referência |
 | `crm-agenda-painel.md` | Desenho técnico: colunas da planilha, painel, cenários de Agenda e Confirmações, importação de pacientes antigos. **Feito para a planilha do Google, que saiu em 16/11/2026.** Serve só de referência de campos e regras |
 | `modelo-crm-keshion.xlsx` | Modelo da planilha do CRM. **Superado em 16/11/2026** pelo banco no Supabase. Serve só de referência de campos |
@@ -59,50 +59,44 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 - **CRM e painel usam os mesmos dados**, no banco do Supabase, dentro do próprio app (seção 0). Planilha, AppSheet, Glide e Looker Studio saíram em 16/11/2026.
 - **Anotação clínica fica no prontuário** do sistema da clínica, não no CRM (LGPD).
 
-## 3. As abas (estrutura aprovada em 17/11/2026)
+## 3. As abas (versão 6 do protótipo, 17/11/2026)
 
-Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Retornos e Painel em janeiro.
+Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Reativar e Painel em janeiro. O logo da Keshion aparece na barra lateral, ao lado do nome da clínica e no rodapé de todas as abas, para deixar claro que é um app da Keshion. Os dados de exemplo seguem a base da clínica demo da Dra. Suzana Vidal (lentes, facetas, alinhadores, clareamento e limpeza; sem implante).
 
-**Conversas:** junta as antigas Pendências e Conversas.
-- No topo, fixo, "Precisa de você": quantos esperam e há quanto tempo, com cronômetro em cada item e número vermelho na aba.
-  - Responder agora: urgência, pediu a doutora, a IA não sabe.
-  - Decidir: desconto ou condição especial, com botões de resposta.
-  - "Responder e ensinar a IA": a resposta entra na base da clínica.
-- Abaixo, todas as conversas, com os selos (IA respondeu, Agendou, A equipe assumiu) e os filtros "Fora do horário" e "A equipe assumiu".
-- "Assumir conversa" pausa a IA para aquele paciente; "Devolver para a IA" retoma.
+**Conversas**
+- Em cima, só as conversas encaminhadas para a equipe, numa lista única: urgência, pediu a doutora, a IA não sabe, pedido de desconto, reclamação. Os filtros "Tudo", "Responder agora" e "Decidir" saíram (pedido da Erica).
+- Pedido de desconto: botões com respostas prontas e "Outra resposta", em que a equipe escreve o que a IA deve responder.
+- "Responder e ensinar a IA": a resposta entra na base da clínica.
+- Embaixo, todas as conversas, com filtros "Fora do horário" e "A equipe assumiu". "Assumir conversa" pausa a IA; "Devolver para a IA" retoma.
 
-**Agenda do dia:** consultas e avaliações de hoje e amanhã.
-- Situação da confirmação: confirmou, sem resposta, remarcou pela IA.
-- Botões Compareceu e Faltou. É daqui que sai a taxa de faltas do Painel.
-- Quem faltou: a IA pode oferecer novos horários.
+**Agenda do dia**
+- Consultas de hoje e amanhã, confirmação, botões Compareceu e Faltou, "Pedir à IA para remarcar" para quem faltou.
+- Comparecimento do mês: marcadas, quantas vieram e quantas faltaram. O "antes e agora" das faltas saiu do app e vai para a reunião semanal ou mensal com a clínica (pedido da Erica).
 
-**Pacientes:** o CRM, juntando as antigas Funil e Pacientes.
-- Busca, Novos contatos ou Já pacientes, e filtro por situação.
-- Situações: Novo contato, Em conversa, Avaliação marcada, Avaliou aguardando orçamento, Orçamento em aberto, Em tratamento, Tratamento concluído, Não fechou (pede o motivo).
-- Ficha editável: dados, tratamento, sessões feitas (exemplo: 3 de 6), próxima sessão, valor, pagamento, anotações da equipe e histórico.
+**Pacientes (CRM)**
+- Lista com telefone, como conheceu, situação, progresso do tratamento e aviso de aniversário nos próximos 7 dias.
+- Ficha com dados do paciente: WhatsApp, e-mail, aniversário e idade, endereço, como conheceu e quem indicou, primeiro contato, última e próxima consulta. Botão para editar os dados.
+- Situação, tratamento (valor, pagamento, sessões), orçamento do paciente, anotações da equipe e histórico.
+- Cadastro novo com nome, WhatsApp, aniversário, e-mail, endereço, como conheceu e indicação.
+- Anotação clínica continua no prontuário do sistema da clínica, não no CRM (LGPD).
 
-**Orçamentos:** criar, gerar o PDF e enviar pelo WhatsApp.
-- Em aberto, aceitos e recusados, com o valor total em aberto.
-- Lembretes automáticos nos dias 3, 10, 17 e 30 depois da entrega, mostrando quais já saíram e qual é o próximo.
-- Aceitou ou Recusou (pede o motivo). O aceito entra no cálculo de reais recuperados.
+**Orçamentos**
+- Em aberto, aceitos e recusados; lembretes da IA nos dias 3, 10, 17 e 30; Aceitou ou Recusou (pede o motivo).
+- **Textos padrão do orçamento** por tratamento (como é o tratamento, etapas, prazo, o que está incluído), tirados da base da clínica e editáveis pela doutora.
+- **PDF com a marca da clínica** (não a da Keshion, que aparece só no rodapé como "Gerado pelo app Keshion AI"): número, emissão e validade, dados do paciente (CPF a preencher), plano de tratamento, abatimento da avaliação, formas de pagamento (5% no Pix, 12 vezes sem juros), como é o tratamento, o que está incluído, observações e assinaturas.
+- Validade no protótipo: 30 dias. **A base da clínica demo diz 15 dias**, o que não combina com lembretes até o dia 30. Decidir com a clínica.
 
-**Retornos:** pacientes antigos no tempo da revisão, da manutenção ou do retorno. A Erica achou a aba excelente.
-- Seleção, prévia da conversa e aprovação do envio.
-- Regras: autorização escrita da clínica, no máximo 1 mensagem a cada 90 dias, opção SAIR, lotes pequenos pela API oficial (Z-API em volume arrisca bloqueio).
-- Tom aprovado como exemplo: "Olá, Sônia, tudo bem? Aqui é a Erica, da clínica da Dra. Suzana. Vi que já faz um tempo da sua última visita e queria saber se você quer marcar sua revisão. Quer que eu veja os horários livres da doutora?"
-- Se a pessoa disser que sim, a IA consulta a agenda, oferece horários e marca.
+**Reativar** (antiga Retornos; o nome mudou porque "retorno" parecia consulta já marcada)
+- Lista "Contatar Sônia: limpeza vencida há 7 meses", seleção, prévia da mensagem e aprovação do envio.
+- Regras: autorização escrita da clínica, no máximo 1 mensagem a cada 90 dias, opção SAIR, lotes pequenos.
 
-**Painel** (antiga Resultados): o dashboard, dizendo de onde vem cada número.
-1. **Reais recuperados (regra de 16/11/2026):**
-   - *Recuperado pela assistente* (entra no total): paciente parado há 7 dias ou mais sem contato da equipe, que respondeu à assistente e aceitou em até 30 dias.
-   - *Influenciado*: linha separada, fora do total.
-   - *Orgânico*: não conta.
-   - A clínica confirma o valor e pode contestar.
-2. **Retorno sobre a mensalidade:** recuperado dividido pela mensalidade.
-3. **Números do mês:** contatos novos, avaliações, pacientes atendidos, tratamentos fechados, valor fechado, taxa de faltas, orçamentos em aberto, quem não fechou e por quê, com comparação com o mês anterior.
-4. **Trabalho da IA:** conversas resolvidas sozinhas, mensagens respondidas, respostas fora do horário, tempo de resposta, confirmações, remarcações, lembretes de orçamento, retornos que agendaram.
-5. **Antes e agora:** o "antes" informado na calculadora do site ao lado do "agora" medido. Faltas sempre como comparação, nunca "faltas evitadas".
-- Comparecimento e fechamento dependem de a equipe marcar na Agenda e em Orçamentos.
+**Painel**: primeiro os números da clínica, depois onde a assistente ajudou (pedido da Erica: controle da clínica, sem parecer exibição).
+1. Valor fechado, tratamentos fechados, orçamentos entregues, valor em aberto.
+2. Gráficos: valor fechado por mês, do contato ao tratamento, de onde vêm os pacientes novos, onde está o dinheiro (fechado, em aberto, não fechou), fechados por tratamento.
+3. Em tratamento agora, contatos novos, avaliações, pacientes atendidos e faltas.
+4. Mais abaixo, "Onde a assistente ajudou": recuperado pela assistente (com "Conferir valores" e "Como calculamos"), influenciado fora do total, trabalho da IA e mensagens por hora.
+- **Reais recuperados (regra de 16/11/2026):** recuperado pela assistente (entra no total) é o paciente parado há 7 dias ou mais sem contato da equipe, que respondeu à assistente e aceitou em até 30 dias. Influenciado fica fora do total. Orgânico não conta. A clínica confirma e pode contestar.
+- Saíram do app e vão para o relatório da reunião com a clínica: "quantas vezes a mensalidade" e o comparativo com a calculadora.
 
 ## 4. Avisos para a equipe
 
