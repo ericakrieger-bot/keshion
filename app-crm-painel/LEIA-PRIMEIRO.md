@@ -9,10 +9,12 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 - **O app deixa de ser planilha + AppSheet/Glide + Looker Studio.** Vira app web em Next.js, que abre no computador e se instala no celular (PWA), com Netlify (telas) e Supabase (login, banco e arquivos), na região São Paulo, com backup diário para o Contabo e cada clínica vendo só os próprios dados.
 - **Público:** dentista solo ou clínica com 2 ou 3 dentistas, sem software de gestão.
 - **Piloto real:** Dra. Vivian, a partir de 01/12/2026. A Dra. Suzana continua sendo a clínica fictícia de demonstração.
-- **Dezembro:** Pendências, Conversas, Agenda do dia (nova, com compareceu e faltou) e Pacientes.
-- **Janeiro:** Orçamentos (nova, com PDF e envio pelo WhatsApp), Resultados e Retornos.
+- **Dezembro:** Conversas (com "Precisa de você" no topo), Agenda do dia (nova, com compareceu e faltou) e Pacientes.
+- **Janeiro:** Orçamentos (nova, com PDF e envio pelo WhatsApp), Retornos e Painel.
+- **17/11/2026:** Pendências entrou dentro de Conversas, Resultados virou Painel e os lembretes do orçamento passaram a ser nos dias 3, 10, 17 e 30. Estrutura completa na seção 3.
+- **Calculadora de perdas e ROI:** vai para o site keshion.com, para o diagnóstico de venda. As respostas dela viram o "antes" no Painel. Ficou em segundo plano em 17/11/2026, depois do protótipo.
 - **Fora:** prontuário, nota fiscal, financeiro, integrações.
-- **Reais recuperados:** nova regra na seção 3, aba Resultados.
+- **Reais recuperados:** nova regra na seção 3, aba Painel.
 - **Domínio:** keshion.com, com o app em app.keshion.com.
 - **Em aberto:** o banco "clara" vai para o Supabase ou o app lê os dados do Contabo.
 
@@ -58,27 +60,32 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 - **CRM e painel usam os mesmos dados**, no banco do Supabase, dentro do próprio app (seção 0). Planilha, AppSheet, Glide e Looker Studio saíram em 16/11/2026.
 - **Anotação clínica fica no prontuário** do sistema da clínica, não no CRM (LGPD).
 
-## 3. As abas
+## 3. As abas (estrutura aprovada em 17/11/2026)
 
-Em dezembro: Pendências, Conversas, Agenda do dia e Pacientes. Em janeiro: Orçamentos, Resultados e Retornos. Agenda do dia e Orçamentos foram definidas em 16/11/2026 e ainda não estão desenhadas no protótipo.
+Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Retornos e Painel em janeiro.
 
-**Pendências:** só o que precisa de uma pessoa.
-- Resumo de quantos esperam e há quanto tempo.
-- Responder agora: urgência, pediu a doutora, a IA não sabe.
-- Decidir: desconto, com botões de resposta.
-- "Responder e ensinar a IA": a resposta entra na base da clínica.
-- Avaliações de hoje e amanhã, com status.
-- Quantas conversas a IA resolveu.
-
-**Conversas:** caixa de entrada para acompanhar a IA.
-- Selos: IA respondeu, Agendou, Aguardando a equipe, A equipe assumiu.
-- Filtro "Fora do horário".
+**Conversas:** junta as antigas Pendências e Conversas.
+- No topo, fixo, "Precisa de você": quantos esperam e há quanto tempo, com cronômetro em cada item e número vermelho na aba.
+  - Responder agora: urgência, pediu a doutora, a IA não sabe.
+  - Decidir: desconto ou condição especial, com botões de resposta.
+  - "Responder e ensinar a IA": a resposta entra na base da clínica.
+- Abaixo, todas as conversas, com os selos (IA respondeu, Agendou, A equipe assumiu) e os filtros "Fora do horário" e "A equipe assumiu".
 - "Assumir conversa" pausa a IA para aquele paciente; "Devolver para a IA" retoma.
+
+**Agenda do dia:** consultas e avaliações de hoje e amanhã.
+- Situação da confirmação: confirmou, sem resposta, remarcou pela IA.
+- Botões Compareceu e Faltou. É daqui que sai a taxa de faltas do Painel.
+- Quem faltou: a IA pode oferecer novos horários.
 
 **Pacientes:** o CRM, juntando as antigas Funil e Pacientes.
 - Busca, Novos contatos ou Já pacientes, e filtro por situação.
 - Situações: Novo contato, Em conversa, Avaliação marcada, Avaliou aguardando orçamento, Orçamento em aberto, Em tratamento, Tratamento concluído, Não fechou (pede o motivo).
 - Ficha editável: dados, tratamento, sessões feitas (exemplo: 3 de 6), próxima sessão, valor, pagamento, anotações da equipe e histórico.
+
+**Orçamentos:** criar, gerar o PDF e enviar pelo WhatsApp.
+- Em aberto, aceitos e recusados, com o valor total em aberto.
+- Lembretes automáticos nos dias 3, 10, 17 e 30 depois da entrega, mostrando quais já saíram e qual é o próximo.
+- Aceitou ou Recusou (pede o motivo). O aceito entra no cálculo de reais recuperados.
 
 **Retornos:** pacientes antigos no tempo da revisão, da manutenção ou do retorno. A Erica achou a aba excelente.
 - Seleção, prévia da conversa e aprovação do envio.
@@ -86,19 +93,17 @@ Em dezembro: Pendências, Conversas, Agenda do dia e Pacientes. Em janeiro: Orç
 - Tom aprovado como exemplo: "Olá, Sônia, tudo bem? Aqui é a Erica, da clínica da Dra. Suzana. Vi que já faz um tempo da sua última visita e queria saber se você quer marcar sua revisão. Quer que eu veja os horários livres da doutora?"
 - Se a pessoa disser que sim, a IA consulta a agenda, oferece horários e marca.
 
-**Resultados:** só o que dá para medir, dizendo de onde vem cada número.
-- Medido pelo sistema: mensagens respondidas, fora do horário, tempo de resposta, avaliações marcadas pela IA, remarcações, confirmações, lembretes de orçamento, retornos que agendaram.
-- Depende de a equipe marcar: valor fechado, comparecimento, orçamentos em aberto, motivos de não fechar.
-- **Reais recuperados (regra de 16/11/2026):**
-  - *Recuperado pela assistente* (entra no total): paciente parado há 7 dias ou mais sem contato da equipe, que respondeu à assistente e aceitou em até 30 dias.
-  - *Influenciado*: linha separada, fora do total.
-  - *Orgânico*: não conta.
-  - A clínica confirma o valor e pode contestar.
-  - A regra antiga (chegou fora do horário, fechou depois de lembrete ou voltou por retorno) foi substituída. O "R$ 48 mil" e o "Como calculamos" do protótipo ainda usam a antiga.
-- **Faltas:** mostrar a taxa de antes (informada pela clínica) ao lado da de agora, rotulada como comparação. Nunca chamar de "faltas evitadas".
-- A Erica pediu para definir esta aba com calma: ela disse "estamos no caminho".
-
-**Lembrete do orçamento** é o nome da antiga "enviar acompanhamento": mensagens automáticas nos dias 1, 3, 7, 15 e 30 depois da entrega do orçamento.
+**Painel** (antiga Resultados): o dashboard, dizendo de onde vem cada número.
+1. **Reais recuperados (regra de 16/11/2026):**
+   - *Recuperado pela assistente* (entra no total): paciente parado há 7 dias ou mais sem contato da equipe, que respondeu à assistente e aceitou em até 30 dias.
+   - *Influenciado*: linha separada, fora do total.
+   - *Orgânico*: não conta.
+   - A clínica confirma o valor e pode contestar.
+2. **Retorno sobre a mensalidade:** recuperado dividido pela mensalidade.
+3. **Números do mês:** contatos novos, avaliações, pacientes atendidos, tratamentos fechados, valor fechado, taxa de faltas, orçamentos em aberto, quem não fechou e por quê, com comparação com o mês anterior.
+4. **Trabalho da IA:** conversas resolvidas sozinhas, mensagens respondidas, respostas fora do horário, tempo de resposta, confirmações, remarcações, lembretes de orçamento, retornos que agendaram.
+5. **Antes e agora:** o "antes" informado na calculadora do site ao lado do "agora" medido. Faltas sempre como comparação, nunca "faltas evitadas".
+- Comparecimento e fechamento dependem de a equipe marcar na Agenda e em Orçamentos.
 
 ## 4. Avisos para a equipe
 
@@ -115,12 +120,12 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 
 ## 6. O que falta
 
-1. **Calculadora de perdas e ROI** (próximo passo combinado em 16/11/2026; as perguntas estão no outro chat).
+1. **Calculadora de perdas e ROI** para o site (em segundo plano desde 17/11/2026; as perguntas estão no outro chat).
 2. Decidir se o banco "clara" vai para o Supabase ou se o app lê os dados do Contabo.
-3. Ajustar o protótipo às decisões de 16/11: desenhar Agenda do dia e Orçamentos, aplicar a nova regra de reais recuperados e ouvir da Erica as outras alterações.
+3. Ouvir da Erica as outras alterações no protótipo (a versão 4, de 17/11/2026, já tem as 6 abas).
 4. Criar o Supabase (região São Paulo) e o Netlify, com o backup diário para o Contabo e a regra de acesso por clínica.
 5. Montar as telas de dezembro a tempo do piloto da Dra. Vivian em 01/12/2026.
-6. Montar as telas de janeiro: Orçamentos, Resultados e Retornos.
+6. Montar as telas de janeiro: Orçamentos, Retornos e Painel.
 7. Ajustar o tom da mensagem de retorno quando chegarem as respostas da clínica fictícia da Dra. Suzana.
 
 Saíram da lista em 16/11/2026: comparar AppSheet e Glide, criar a planilha e o painel no Looker Studio, atualizar a planilha modelo.
