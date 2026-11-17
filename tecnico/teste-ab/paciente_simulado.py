@@ -15,7 +15,7 @@ import anthropic
 
 AQUI = Path(__file__).resolve().parent
 NEG = AQUI.parents[1]
-RAIZ = NEG.parent
+RAIZ = NEG   # a pasta da Keshion tem o próprio .env (desde 17/11/2026)
 SSH_CHAVE = str(Path.home() / ".ssh" / "keshion_vps")
 WEBHOOK = "https://n8n.169-58-41-107.sslip.io/webhook/" + json.loads((NEG / "tecnico/n8n/segredos.local.json").read_text(encoding="utf-8"))["webhook_path"]
 MODELO_PACIENTE = "claude-sonnet-5-5"

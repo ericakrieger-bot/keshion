@@ -1,6 +1,6 @@
 # Keshion IA (Negócio de IA para Clínicas)
 
-> Projeto paralelo da Erica, separado dos infoprodutos. Pasta fora do Git do curso; Git próprio: `ericakrieger-bot/keshion`.
+> Projeto da Erica, separado dos infoprodutos. Pasta própria `Documents\keshion` desde 17/11/2026 (antes ficava dentro do fluxo-criativo), com `.env` próprio. Git: `ericakrieger-bot/keshion`.
 > Histórico completo de decisões, Make, nicho e concorrentes: `historico-e-estrategia.md` (abrir só quando precisar).
 
 ## O que é
@@ -17,7 +17,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, app em app.keshion.com). Serv
 ## Regras
 
 - Português do Brasil com acentos, sem travessão. A Erica não é programadora: linguagem simples.
-- Chaves só no `.env` da raiz (PC) ou em `/opt/keshion/.env` (servidor). Nunca no chat nem no Git.
+- Chaves só no `.env` desta pasta (PC) ou em `/opt/keshion/.env` (servidor). Nunca no chat nem no Git.
 - Pedir OK antes de mudar produção, criar contas, gastar dinheiro ou mexer em número de WhatsApp de cliente.
 - Testes com a Clara no ar: só números com prefixo `554199900` (nada sai pelo WhatsApp).
 - Dados de pacientes reais nunca nesta pasta.
@@ -27,7 +27,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, app em app.keshion.com). Serv
 ## Padrões de trabalho (pedidos da Erica em 17/11/2026)
 
 1. **Respostas curtas por padrão:** só o resultado e o que ela precisa decidir. Explicação longa só quando ela pedir.
-2. **Resumo ou nova conversa:** atualizar `tecnico/RETOMAR-AQUI.md` e terminar com a frase pronta para colar: "Projeto Keshion. Leia `negocio-ia-clinicas/tecnico/RETOMAR-AQUI.md` e vamos para [próxima feature]."
+2. **Resumo ou nova conversa:** atualizar `tecnico/RETOMAR-AQUI.md` e terminar com a frase pronta para colar: "Projeto Keshion. Leia `tecnico/RETOMAR-AQUI.md` e vamos para [próxima feature]." (conversa aberta na pasta `Documents\keshion`)
 3. **Uma feature por conversa.** Ao terminar, atualizar o RETOMAR-AQUI e sugerir abrir conversa nova.
 4. **Revisão pelo Codex:** ao fechar cada feature que mexa no fluxo, nas instruções ou no servidor, lembrar a Erica de rodar a revisão no Codex com `tecnico/n8n/PROMPT-CODEX-REVISAO.md` (dizer qual feature revisar).
 5. **Testes:** depois de mudar instruções, rodar `tecnico/teste-ab/paciente_simulado.py`; depois de mudar o fluxo, também `teste_n8n.py`. Lista completa em `tecnico/testes-checklist.md`.

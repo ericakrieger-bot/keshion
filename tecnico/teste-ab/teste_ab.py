@@ -12,8 +12,8 @@ import anthropic
 import openai
 
 AQUI = Path(__file__).resolve().parent
-RAIZ = AQUI.parents[2]
-DEMO = RAIZ / "negocio-ia-clinicas" / "clientes" / "clinica-demo"
+RAIZ = AQUI.parents[1]   # pasta da Keshion, com o próprio .env
+DEMO = RAIZ / "clientes" / "clinica-demo"
 
 
 def ler_env():

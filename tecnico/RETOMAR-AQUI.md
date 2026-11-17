@@ -40,10 +40,18 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 **Depois do piloto**
 Confirmações (48 h, véspera, 2 h antes), CRM em Google Planilhas, Sonnet nas mensagens clínicas, ordem de envio garantida entre respostas próximas, reservas de horário no banco, resumo do histórico longo, Postgres 17, Jev (classificador de intenção).
 
-## Próxima feature
+## Próxima feature: estrutura por clínica
 
-**Estrutura por clínica**, para a Clara da Dra. Vivian rodar separada da demo. Antes dela, conferir se a credencial do Google ainda está válida.
+Objetivo: o gerador monta os fluxos de cada clínica a partir de um arquivo de configuração, sem misturar dados entre clínicas. A demo (Dra. Suzana) vira a clínica 1, e a Dra. Vivian só preenche o arquivo dela quando mandar os dados.
+
+O que entra no arquivo de cada clínica: nome da clínica e da assistente, número e canal do Whapi, quem recebe os avisos, agenda (credencial do Google e calendário), fuso, horário de atendimento e duração da avaliação, voz (registro e abreviações), base e instruções, prefixo e modo de teste.
+
+O que decidir no começo: um banco por clínica ou um banco com a coluna "clínica" (recomendação: um banco por clínica no piloto, mais simples de isolar e de apagar), e um par de fluxos por clínica ou um fluxo que atende várias (recomendação: um par por clínica, gerado pelo mesmo script).
+
+Pronto quando: a demo roda pelo arquivo de configuração e passa nos testes do portão 1 (`tecnico/testes-checklist.md`), existe um arquivo modelo para a Dra. Vivian, e o teste de isolamento (mesmo telefone em duas clínicas) passa. Depois, revisão no Codex.
+
+Antes de começar: conferir se a credencial do Google Agenda no n8n ainda está válida.
 
 ## Regras de sempre
 
-Português com acentos e sem travessão. Chaves só no `.env` (PC) ou em `/opt/keshion/.env` (servidor), nunca no chat nem no Git. Pedir OK antes de mudar produção, gastar dinheiro ou mexer em número de WhatsApp. Testar só com o prefixo `554199900`. Commit e push dentro de `negocio-ia-clinicas/`; memória `keshion-migracao-n8n` com cópia no segundo cérebro.
+Português com acentos e sem travessão. Chaves só no `.env` (PC) ou em `/opt/keshion/.env` (servidor), nunca no chat nem no Git. Pedir OK antes de mudar produção, gastar dinheiro ou mexer em número de WhatsApp. Testar só com o prefixo `554199900`. Commit e push dentro de `Documents\keshion`; memória `keshion-migracao-n8n` com cópia no segundo cérebro.
