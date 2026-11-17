@@ -32,6 +32,17 @@ CREATE TABLE IF NOT EXISTS mensagens_recebidas (
   recebido timestamptz NOT NULL DEFAULT now()
 );
 
+-- Colunas acrescentadas em 17/11/2026 (correções da revisão do Codex). Seguro rodar de novo.
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS ultimo_motivo_humano text;   -- motivo do último "chamar uma pessoa" (evita aviso repetido)
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS envio_ate timestamptz;       -- até quando as mensagens do turno anterior ainda estão saindo
+
+-- Trava curta do horário (2 min): duas conversas não reservam a mesma vaga ao mesmo tempo.
+CREATE TABLE IF NOT EXISTS reservas_horario (
+  inicio   timestamptz PRIMARY KEY,
+  telefone text NOT NULL,
+  criado   timestamptz NOT NULL DEFAULT now()
+);
+
 -- Só usada quando config.modo_teste = '1': guarda o que seria enviado, sem mandar pelo WhatsApp.
 CREATE TABLE IF NOT EXISTS saidas_teste (
   id        bigserial PRIMARY KEY,

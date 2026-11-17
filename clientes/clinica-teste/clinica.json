@@ -19,7 +19,49 @@
   },
   "agenda": {
     "conta_google": "keshion.ai.2026@gmail.com",
-    "calendario": "primary"
+    "calendario": "primary",
+    "regras": {
+      "dias_semana": [
+        2,
+        4
+      ],
+      "horarios": [
+        "09:00",
+        "11:00",
+        "14:00",
+        "16:00"
+      ],
+      "antecedencia_max_dias": 90,
+      "antecedencia_min_minutos": 60,
+      "bloqueios": [
+        {
+          "de": "12-22",
+          "ate": "01-06"
+        }
+      ],
+      "feriados": [
+        "01-01",
+        "04-21",
+        "05-01",
+        "09-07",
+        "09-08",
+        "10-12",
+        "11-02",
+        "11-15",
+        "11-20",
+        "12-25",
+        "03-29",
+        "2027-02-15",
+        "2027-02-16",
+        "2027-03-26",
+        "2027-05-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-04-14",
+        "2028-06-15"
+      ]
+    },
+    "_leia_regras": "Regras que o fluxo confere por conta própria antes de criar ou mudar um evento (a IA não decide sozinha). dias_semana: 0=domingo ... 6=sábado. horarios: início permitido de cada avaliação. bloqueios e feriados: MM-DD ou AAAA-MM-DD."
   },
   "banco": "clinica_teste",
   "credenciais_n8n": {

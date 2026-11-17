@@ -40,6 +40,8 @@ for chave, campo in (("_instrucoes", "instrucoes"), ("_base", "base")):
 SO_DEMO = {"clinica-demo", "clinica-teste"}
 if SLUG not in SO_DEMO and valores.get("numeros_keshion", "").strip():
     sys.exit("numeros_keshion precisa ficar vazio em " + SLUG + ": #reiniciar só existe na demo")
+if valores.get("modo_teste") not in ("0", "1"):
+    sys.exit("config_no_banco.modo_teste precisa ser \"1\" (teste) ou \"0\" (valendo)")
 for k, v in valores.items():
     if "PREENCHER" in v:
         sys.exit("config_no_banco." + k + " ainda está para preencher em clientes/" + SLUG + "/clinica.json")

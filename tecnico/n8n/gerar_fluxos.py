@@ -37,12 +37,19 @@ if not WEBHOOK_PATH:
              "(formato {\"" + SLUG + "\": {\"webhook_path\": \"...\"}}, fora do Git).")
 BASE_URL = CLI["servidor"].rstrip("/")             # trocar quando o domínio keshion.com entrar
 CANAL_WHAPI = CLI["whapi"]["canal"]                # só aceita mensagens deste canal
-AVISO_FALHA_ENVIO = CLI["aviso_falha_envio"]       # quem recebe o aviso quando o WhatsApp falha
+# Alerta de falha do WhatsApp: só para a Keshion, sem texto do paciente, pelo canal da Keshion (decisão 17/11).
+_ALERTA = json.loads((PASTA / "alerta-keshion.json").read_text(encoding="utf-8"))
+AVISO_FALHA_ENVIO = _ALERTA["numero"]
+CRED["alerta"] = {_ALERTA["whapi"]["tipo"]: {"id": _ALERTA["whapi"]["id"], "name": _ALERTA["whapi"]["nome"]}}
 TZ = CLI["fuso"]
 CIDADE = CLI["cidade"]
 ASSISTENTE = CLI["nome_assistente"]
 CALENDARIO = CLI["agenda"].get("calendario") or "primary"
 DURACAO_MS = int(CLI["duracao_avaliacao_min"]) * 60000
+# Regras da agenda que o próprio fluxo confere antes de criar ou mudar um evento (revisão Codex 17/11).
+REGRAS_AGENDA = CLI["agenda"].get("regras")
+if not REGRAS_AGENDA:
+    sys.exit("Falta agenda.regras em " + str(_ARQ) + " (dias_semana, horarios, antecedencia_max_dias, bloqueios, feriados).")
 
 # ---------- validações (revisão Codex 17/11: uma cópia mal feita não pode sobrescrever outra clínica) ----------
 import re
@@ -58,10 +65,25 @@ if not (15 <= DURACAO_MS // 60000 <= 240):
 for _campo in ("id_atendimento", "id_envio"):
     if not re.fullmatch(r"[A-Za-z0-9]{16}", CLI["fluxos"][_campo]):
         _erros.append("fluxos." + _campo + " precisa ter exatamente 16 letras ou números")
+_r = REGRAS_AGENDA
+if not (isinstance(_r.get("dias_semana"), list) and _r["dias_semana"] and all(isinstance(x, int) and 0 <= x <= 6 for x in _r["dias_semana"])):
+    _erros.append("agenda.regras.dias_semana precisa ser uma lista de 0 a 6 (0 = domingo)")
+if not (isinstance(_r.get("horarios"), list) and _r["horarios"] and all(re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", str(x)) for x in _r["horarios"])):
+    _erros.append("agenda.regras.horarios precisa ser uma lista como [\"09:00\", \"14:00\"]")
+if not (isinstance(_r.get("antecedencia_max_dias"), int) and 1 <= _r["antecedencia_max_dias"] <= 365):
+    _erros.append("agenda.regras.antecedencia_max_dias precisa ser um número de 1 a 365")
+if not isinstance(_r.get("antecedencia_min_minutos"), int):
+    _erros.append("agenda.regras.antecedencia_min_minutos precisa ser um número")
+if not all(re.fullmatch(r"(\d{4}-)?\d\d-\d\d", str(x)) for x in _r.get("feriados", [])):
+    _erros.append("agenda.regras.feriados precisa ter itens MM-DD ou AAAA-MM-DD")
+if not all(re.fullmatch(r"\d\d-\d\d", str(b.get("de"))) and re.fullmatch(r"\d\d-\d\d", str(b.get("ate"))) for b in _r.get("bloqueios", [])):
+    _erros.append("agenda.regras.bloqueios precisa ter itens {\"de\": \"MM-DD\", \"ate\": \"MM-DD\"}")
 if ID_ATEND == ID_ENVIO:
     _erros.append("id_atendimento e id_envio precisam ser diferentes")
 if not re.fullmatch(r"\d{10,15}", AVISO_FALHA_ENVIO):
-    _erros.append("aviso_falha_envio precisa ser só números, com o código do país")
+    _erros.append("numero em alerta-keshion.json precisa ser só números, com o código do país")
+if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", SLUG):
+    _erros.append("o slug precisa ter só letras minúsculas, números e -")
 if not re.fullmatch(r"[A-Za-z0-9_-]{16,}", WEBHOOK_PATH):
     _erros.append("o caminho do webhook em segredos.local.json precisa ter 16 ou mais letras, números, - ou _")
 # Nada pode coincidir com outra clínica, salvo credenciais declaradas em "compartilha_para_teste" (clínica de teste).
@@ -96,7 +118,8 @@ GCAL = "https://www.googleapis.com/calendar/v3"
 GCAL_EVENTOS = GCAL + "/calendars/" + urllib.parse.quote(CALENDARIO, safe="@") + "/events"
 # Trocas feitas em todo código JavaScript e texto dos nós (nada de nome de clínica escrito à mão).
 TROCAS = {"__FUSO__": TZ, "__CIDADE__": CIDADE, "__ASSISTENTE__": ASSISTENTE, "__CALENDARIO__": CALENDARIO,
-          "__DURACAO_MS__": str(DURACAO_MS), "__CANAL__": CANAL_WHAPI}
+          "__DURACAO_MS__": str(DURACAO_MS), "__CANAL__": CANAL_WHAPI,
+          "__REGRAS__": json.dumps(REGRAS_AGENDA, ensure_ascii=False)}
 
 
 def trocar(s):
@@ -207,7 +230,7 @@ def chamar_envio(f, name, pos):
 E = Fluxo(ASSISTENTE + " · Envio (até 3 mensagens)" + ("" if SLUG == "clinica-demo" else " · " + SLUG), ID_ENVIO)
 E.add("Recebe pedido de envio", "n8n-nodes-base.executeWorkflowTrigger", 1.1,
       {"inputSource": "passthrough"}, (0, 0))
-pg(E, "Modo teste?", "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '0') = '1' AS teste, "
+pg(E, "Modo teste?", "SELECT coalesce((SELECT valor FROM config WHERE chave = 'modo_teste'), '1') <> '0' AS teste, "
    "coalesce((SELECT valor FROM config WHERE chave = 'prefixo_teste'), '') AS prefixo;",
    None, (220, 0), executeOnce=True)
 code(E, "Montar mensagens", r"""
@@ -240,9 +263,9 @@ pg(E, "Guardar saída de teste", "INSERT INTO saidas_teste (telefone, texto) VAL
 http(E, "Enviar pelo WhatsApp (digitando)", "POST", "https://gate.whapi.cloud/messages/text", (1100, 100),
      cred="whapi", body_expr="{ to: $json.to, body: $json.body, typing_time: $json.typing_time }",
      onError="continueErrorOutput")
-http(E, "Avisar a Erica da falha", "POST", "https://gate.whapi.cloud/messages/text", (1340, 300),
-     cred="whapi", onError="continueRegularOutput",
-     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion: a mensagem da __ASSISTENTE__ para ' + $('Uma por vez').item.json.to + ' não foi entregue pelo WhatsApp. Texto que não saiu: ' + $('Uma por vez').item.json.body }")
+http(E, "Avisar a Keshion da falha", "POST", "https://gate.whapi.cloud/messages/text", (1340, 300),
+     cred="alerta", onError="continueRegularOutput",
+     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion (" + SLUG + "): a mensagem da __ASSISTENTE__ para o paciente de final ' + String($('Uma por vez').item.json.to).slice(-4) + ' não saiu pelo WhatsApp da clínica. Erro: ' + String(($json.error && ($json.error.message || $json.error)) || 'sem detalhe').slice(0, 120) + '. Ver a execução no n8n.' }")
 espera(E, "Esperar a mensagem sair", "={{ $('Uma por vez').item.json.espera }}", (1580, 0))
 
 E.link("Recebe pedido de envio", "Modo teste?")
@@ -253,8 +276,8 @@ E.link("Modo teste ligado?", "Guardar saída de teste", out=0)
 E.link("Modo teste ligado?", "Enviar pelo WhatsApp (digitando)", out=1)
 E.link("Guardar saída de teste", "Esperar a mensagem sair")
 E.link("Enviar pelo WhatsApp (digitando)", "Esperar a mensagem sair", out=0)
-E.link("Enviar pelo WhatsApp (digitando)", "Avisar a Erica da falha", out=1)
-E.link("Avisar a Erica da falha", "Esperar a mensagem sair")
+E.link("Enviar pelo WhatsApp (digitando)", "Avisar a Keshion da falha", out=1)
+E.link("Avisar a Keshion da falha", "Esperar a mensagem sair")
 E.link("Esperar a mensagem sair", "Uma por vez")
 
 # =====================================================================
@@ -431,12 +454,20 @@ INSERT INTO pacientes (telefone, nome, pendente, ultimo_id, atualizado)
 SELECT $1::text, $2::text, $3::text, $4::text, now() FROM novo
 ON CONFLICT (telefone) DO UPDATE SET
   nome = EXCLUDED.nome,
+  conversa = CASE WHEN pacientes.conversa <> '' AND (pacientes.atualizado AT TIME ZONE '__FUSO__')::date < (now() AT TIME ZONE '__FUSO__')::date
+    THEN pacientes.conversa || E'\n--- ' || to_char(now() AT TIME ZONE '__FUSO__', 'DD/MM/YYYY') || ' (outro dia) ---' ELSE pacientes.conversa END,
   pendente = CASE WHEN pacientes.pendente = '' THEN EXCLUDED.pendente ELSE pacientes.pendente || E'\n' || EXCLUDED.pendente END,
   ultimo_id = EXCLUDED.ultimo_id, atualizado = now()
 WHERE pacientes.ultimo_id IS DISTINCT FROM EXCLUDED.ultimo_id
 RETURNING telefone, ultimo_id, nome, $5::text AS tipo;
 """, "[ $json.telefone, $json.nome, $json.texto, $json.id, $json.tipo ]", (2060, 100))
 espera(A, "Esperar 7 s (a pessoa pode mandar mais)", 7, (2300, 100))
+pg(A, "Ver se o envio anterior terminou", r"""
+-- As mensagens do turno anterior ainda estão saindo (digitando)? Espera, no máximo 60 s, para não misturar a ordem.
+SELECT coalesce((SELECT least(60, greatest(0, ceil(extract(epoch FROM (envio_ate - now())))))
+                 FROM pacientes WHERE telefone = $1::text), 0)::int AS falta;
+""", "[ $json.telefone ]", (2420, 300))
+espera(A, "Esperar o envio anterior terminar", "={{ $json.falta }}", (2480, 300))
 pg(A, "Ler ficha e instruções (só a última responde)", r"""
 SELECT p.*,
   (SELECT valor FROM config WHERE chave = '_instrucoes') AS instrucoes,
@@ -445,7 +476,7 @@ SELECT p.*,
   (SELECT valor FROM config WHERE chave = 'aprovador') AS aprovador,
   (SELECT valor FROM config WHERE chave = 'local_avaliacao') AS local_avaliacao
 FROM pacientes p WHERE p.telefone = $1::text AND p.ultimo_id = $2::text;
-""", "[ $json.telefone, $json.ultimo_id ]", (2540, 100))
+""", "[ $('Guardar na fila (ignora repetida)').first().json.telefone, $('Guardar na fila (ignora repetida)').first().json.ultimo_id ]", (2540, 100))
 http(A, "Ver horários ocupados (90 dias)", "POST", GCAL + "/freeBusy", (2780, 100), cred="google",
      onError="continueRegularOutput",
      body_expr="{ timeMin: new Date().toISOString(), timeMax: new Date(Date.now() + 91 * 86400000).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
@@ -555,12 +586,29 @@ WHERE telefone = $1::text;
    (4220, 600), executeOnce=True)
 
 code(A, "Decidir a ação", r"""
-const ia = $input.first().json;
+const ia = { ...$input.first().json };
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const futura = !!f.avaliacao_inicio && new Date(f.avaliacao_inicio) > new Date();
 const agendaOk = $('Montar o pedido para a IA').first().json.agenda_ok;
 const texto = [ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' ');
 const ofereceHorario = /\b\d{1,2}h\b|\b\d{1,2}:\d{2}\b/.test(texto);
+// Cancelar só depois que a assistente pediu a confirmação ("... certo?"): o fluxo não confia só na ação da IA.
+if (ia.acao === 'cancelar' && f.avaliacao_evento) {
+  const partes = String(f.conversa || '').split('\n__ASSISTENTE__: ');
+  const ultima = partes.length > 1 ? partes[partes.length - 1].split('\nPaciente:')[0] : '';
+  if (!/certo\s*\?|cancel/i.test(ultima)) {
+    ia.acao = 'responder';
+    ia.mensagem1 = 'Só para confirmar: é a sua avaliação de ' + (f.avaliacao_texto || 'que está marcada') + ', certo?';
+    ia.mensagem2 = ''; ia.mensagem3 = '';
+    ia.motivo = 'Confirmação antes de cancelar (pedida pelo fluxo)';
+  }
+}
+// Se a resposta diz que vai passar o assunto ou verificar, a equipe tem de receber o aviso, mesmo que a IA tenha marcado "responder".
+const promete = /(vou|vamos|irei)\s+(passar|encaminhar|verificar|conferir|consultar|checar|perguntar)(?![^.!?]*hor[aá]rio)|j[aá] te (retorno|respondo|dou um retorno)|te dou um retorno|passar (a |o |sua |seu |essa |esta )?(mensagem|pedido|solicita)/i.test(texto);
+if (ia.acao === 'responder' && promete) {
+  ia.acao = 'humano';
+  ia.motivo = ia.motivo || 'A assistente disse que ia passar ou verificar o assunto';
+}
 let rota = 'responder';
 // Decisões que não dependem do texto da IA (revisão Codex, item 4):
 if (!['responder', 'humano', 'agendar', 'remarcar', 'cancelar'].includes(ia.acao)) rota = 'humano';
@@ -573,9 +621,62 @@ return [{ json: { ...ia, rota } }];
 """, (3980, 0))
 escolha(A, "Qual ação?", "rota", ["responder", "humano", "ja_marcada", "sem_avaliacao", "agenda", "cancelar", "sem_agenda"], (4220, 0))
 
-http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (4460, 300), cred="google",
+code(A, "Validar o pedido de agenda", r"""
+// O fluxo confere sozinho as regras da agenda (a IA pode errar): dia, horário, prazo, feriado, recesso,
+// nome e telefone (ao marcar) e se o horário foi mesmo oferecido ou dito na conversa.
+const R = __REGRAS__;
+const tz = '__FUSO__';
+const ia = $('Decidir a ação').first().json;
+const f = $('Ler ficha e instruções (só a última responde)').first().json;
+const fim = (passo, motivo) => [{ json: { passo, motivo: motivo || '' } }];
+const d = new Date(ia.inicio);
+if (!ia.inicio || isNaN(d.getTime())) return fim('invalido', 'sem horário válido');
+const fmt = (dt, extra) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', ...extra })
+  .formatToParts(dt).map(x => [x.type, x.value]));
+const q = fmt(d, { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+const hoje = fmt(new Date(), {});
+const dow = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[q.weekday];
+const data = q.year + '-' + q.month + '-' + q.day, md = q.month + '-' + q.day, hora = q.hour + ':' + q.minute;
+const dias = Math.round((Date.UTC(+q.year, +q.month - 1, +q.day) - Date.UTC(+hoje.year, +hoje.month - 1, +hoje.day)) / 86400000);
+const fer = R.feriados || [], blo = R.bloqueios || [];
+let erro = '';
+if (d.getTime() < Date.now() + R.antecedencia_min_minutos * 60000) erro = 'horário já passou ou está perto demais';
+else if (dias > R.antecedencia_max_dias) erro = 'além do prazo de ' + R.antecedencia_max_dias + ' dias';
+else if (!R.dias_semana.includes(dow)) erro = 'dia da semana sem avaliação';
+else if (!R.horarios.includes(hora)) erro = 'horário fora dos horários de avaliação';
+else if (fer.includes(md) || fer.includes(data)) erro = 'feriado';
+else if (blo.some(b => b.de <= b.ate ? (md >= b.de && md <= b.ate) : (md >= b.de || md <= b.ate))) erro = 'recesso';
+if (erro) return fim('invalido', erro);
+if (ia.acao === 'agendar') {
+  const nome = String(ia.nome_completo || f.nome_completo || '').trim();
+  const tel = String(ia.telefone_contato || f.telefone_contato || '').replace(/\D/g, '');
+  if (nome.split(/\s+/).filter(Boolean).length < 2 || tel.length < 10) return fim('dados', 'falta nome completo ou telefone');
+}
+// O horário precisa ter aparecido na conversa (oferta da assistente ou fala do paciente): data e hora.
+const conversa = String(f.conversa || '') + '\n' + String(f.pendente || '');
+const dd = String(+q.day), mm = String(+q.month), hh = String(+q.hour);
+const temData = new RegExp('(^|\\D)0?' + dd + '\\s*/\\s*0?' + mm + '(\\D|$)').test(conversa)
+  || new RegExp('dia\\s+0?' + dd + '(\\D|$)', 'i').test(conversa);
+const temHora = new RegExp('(^|\\D)0?' + hh + '(\\s*h\\b|:\\d\\d|\\s*horas?\\b)|(às|as)\\s+0?' + hh + '(?!\\d)', 'i').test(conversa);
+if (!temData || !temHora) return fim('invalido', 'horário que não foi oferecido nem pedido na conversa');
+return fim('ok');
+""", (4460, 300))
+escolha(A, "Resultado da validação", "passo", ["ok", "dados", "invalido"], (4700, 300))
+pg(A, "Reservar o horário (trava de 2 min)", r"""
+-- Duas conversas não pegam a mesma vaga: quem chega primeiro segura o horário por 2 minutos (o evento criado depois passa a aparecer na agenda).
+WITH limpa AS (DELETE FROM reservas_horario WHERE criado < now() - interval '1 day'),
+t AS (
+  INSERT INTO reservas_horario (inicio, telefone, criado) VALUES ($1::timestamptz, $2::text, now())
+  ON CONFLICT (inicio) DO UPDATE SET telefone = EXCLUDED.telefone, criado = now()
+  WHERE reservas_horario.telefone = EXCLUDED.telefone OR reservas_horario.criado < now() - interval '2 minutes'
+  RETURNING 1
+)
+SELECT EXISTS (SELECT 1 FROM t) AS reservado;
+""", "[ $('Decidir a ação').first().json.inicio, $('Ler ficha e instruções (só a última responde)').first().json.telefone ]", (4940, 300))
+se(A, "Conseguiu reservar?", cond("={{ $json.reservado }}", "true", typ="boolean"), (5180, 300))
+http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (5420, 200), cred="google",
      onError="continueRegularOutput",
-     body_expr="{ timeMin: $json.inicio, timeMax: new Date(new Date($json.inicio).getTime() + __DURACAO_MS__).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
+     body_expr="{ timeMin: $('Decidir a ação').first().json.inicio, timeMax: new Date(new Date($('Decidir a ação').first().json.inicio).getTime() + __DURACAO_MS__).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
 code(A, "Horário livre?", r"""
 const ia = $('Decidir a ação').first().json;
 const r = $input.first().json || {};
@@ -621,7 +722,7 @@ function quando(iso) {
 let m = [ia.mensagem1, ia.mensagem2, ia.mensagem3];
 let aval = 'manter', aval_inicio = '', aval_texto = '', aval_evento = '', fechamento = '';
 const avisos = [];
-let aviso_humano = '';
+let aviso_humano = '', motivo_humano = '';
 let tipo = TIPO;
 if (tipo === 'agenda') {
   if (j.error) tipo = 'falha';
@@ -630,13 +731,19 @@ if (tipo === 'agenda') {
 }
 const verbo = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[ia.acao] || ia.acao;
 switch (tipo) {
-  case 'humano':
-    // Não repete o aviso se já houve um nos últimos 15 minutos e a mensagem nova é só um "ok" / "fico no aguardo".
-    if (f.ultimo_aviso_humano && (Date.now() - new Date(f.ultimo_aviso_humano).getTime()) < 15 * 60000
-        && pend.length < 60 && !pend.includes('?')) break;
+  case 'humano': {
+    // Não repete o aviso: (1) 15 minutos e a mensagem nova é só um "ok"; (2) 90 minutos e o motivo é parecido com o do último aviso.
+    const idade = f.ultimo_aviso_humano ? Date.now() - new Date(f.ultimo_aviso_humano).getTime() : Infinity;
+    if (idade < 15 * 60000 && pend.length < 60 && !pend.includes('?')) break;
+    const pal = x => new Set(String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/).filter(w => w.length > 4));
+    const pa = pal(ia.motivo), pb = pal(f.ultimo_motivo_humano);
+    const comum = [...pa].filter(w => pb.has(w)).length;
+    if (idade < 90 * 60000 && pa.size && pb.size && comum / Math.min(pa.size, pb.size) >= 0.6) break;
     aviso_humano = 'sim';
+    motivo_humano = ia.motivo || '';
     avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a __ASSISTENTE__ respondeu:\n' + m.filter(Boolean).join(' '));
     break;
+  }
   case 'ja_marcada':
     m = ['Vi aqui que você já tem uma avaliação marcada para ' + f.avaliacao_texto + '.', 'Prefere manter esse horário ou trocar por outro?', ''];
     break;
@@ -650,6 +757,12 @@ switch (tipo) {
     break;
   case 'ocupado':
     m = ['Sinto muito, esse horário acabou de ser preenchido.', 'Quer que eu veja outras opções para você?', ''];
+    break;
+  case 'invalido':
+    m = ['Esse horário não está disponível para avaliação.', 'Quer que eu veja outras opções para você?', ''];
+    break;
+  case 'dados':
+    m = ['Para confirmar, me passa seu nome completo e um telefone de contato?', 'Pode ser este mesmo número.', ''];
     break;
   case 'falha':
     m = [espera, '', ''];
@@ -674,8 +787,12 @@ m = m.map(x => (x || '').trim());
 // Avisos para a equipe primeiro: uma urgência não espera o "digitando" do paciente (revisão Codex).
 const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }))
   .concat([{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]);
+// Quanto tempo as mensagens deste turno levam para sair (o próximo turno espera, para a ordem não se misturar).
+const envio_seg = envios.reduce((t, e) => t + [e.m1, e.m2, e.m3].filter(Boolean)
+  .reduce((u, b) => u + (e.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(String(b).length / 5)))) + 1, 0), 0);
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
+  envio_seg: Math.min(120, envio_seg), motivo_humano,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
   aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
   fechamento, envios: JSON.stringify(envios)
@@ -683,7 +800,8 @@ return [{ json: {
 """
 RES = {}
 for tipo, pos in [("responder", (4460, -600)), ("humano", (4460, -400)), ("ja_marcada", (4460, -200)),
-                  ("sem_avaliacao", (4460, 0)), ("ocupado", (5180, 600)), ("falha", (5180, 800)),
+                  ("sem_avaliacao", (4460, 0)), ("ocupado", (5420, 600)), ("falha", (5180, 800)),
+                  ("invalido", (4940, 500)), ("dados", (4940, 700)),
                   ("agenda", (5420, 300)), ("sem_agenda", (4460, 900))]:
     RES[tipo] = code(A, "Resultado · " + tipo, RESULTADO_JS.replace("__TIPO__", tipo), pos)
 
@@ -696,6 +814,8 @@ UPDATE pacientes SET
   nome_completo = coalesce(nullif($14::text, ''), nome_completo),
   telefone_contato = coalesce(nullif($15::text, ''), telefone_contato),
   ultimo_aviso_humano = CASE WHEN $16::text = 'sim' THEN now() ELSE ultimo_aviso_humano END,
+  ultimo_motivo_humano = CASE WHEN $16::text = 'sim' THEN $18::text ELSE ultimo_motivo_humano END,
+  envio_ate = now() + make_interval(secs => $17::int),
   avaliacao_inicio = CASE $8::text WHEN 'definir' THEN $9::text WHEN 'limpar' THEN NULL ELSE avaliacao_inicio END,
   avaliacao_texto = CASE $8::text WHEN 'definir' THEN $10::text WHEN 'limpar' THEN NULL ELSE avaliacao_texto END,
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
@@ -703,7 +823,8 @@ UPDATE pacientes SET
 WHERE telefone = $1::text
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
-     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano ]", (5700, 0))
+     "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano, "
+     "$json.envio_seg, $json.motivo_humano ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 
@@ -747,7 +868,9 @@ L("Tipo de mensagem", "Texto final da mensagem", out=4)
 L("Tipo de mensagem", "Texto final da mensagem", out=5)
 L("Texto final da mensagem", "Guardar na fila (ignora repetida)")
 L("Guardar na fila (ignora repetida)", "Esperar 7 s (a pessoa pode mandar mais)")
-L("Esperar 7 s (a pessoa pode mandar mais)", "Ler ficha e instruções (só a última responde)")
+L("Esperar 7 s (a pessoa pode mandar mais)", "Ver se o envio anterior terminou")
+L("Ver se o envio anterior terminou", "Esperar o envio anterior terminar")
+L("Esperar o envio anterior terminar", "Ler ficha e instruções (só a última responde)")
 L("Ler ficha e instruções (só a última responde)", "Ver horários ocupados (90 dias)")
 L("Ver horários ocupados (90 dias)", "Montar o pedido para a IA")
 L("Montar o pedido para a IA", "Pedir a resposta (Claude)")
@@ -764,7 +887,14 @@ L("Falha técnica: avisar", "Registrar a falha na conversa")
 L("Decidir a ação", "Qual ação?")
 for i, t in enumerate(["responder", "humano", "ja_marcada", "sem_avaliacao"]):
     L("Qual ação?", RES[t], out=i)
-L("Qual ação?", "Conferir se o horário segue livre", out=4)
+L("Qual ação?", "Validar o pedido de agenda", out=4)
+L("Validar o pedido de agenda", "Resultado da validação")
+L("Resultado da validação", "Reservar o horário (trava de 2 min)", out=0)
+L("Resultado da validação", RES["dados"], out=1)
+L("Resultado da validação", RES["invalido"], out=2)
+L("Reservar o horário (trava de 2 min)", "Conseguiu reservar?")
+L("Conseguiu reservar?", "Conferir se o horário segue livre", out=0)
+L("Conseguiu reservar?", RES["ocupado"], out=1)
 L("Qual ação?", "Cancelar a avaliação na agenda", out=5)
 L("Qual ação?", RES["sem_agenda"], out=6)
 L("Conferir se o horário segue livre", "Horário livre?")

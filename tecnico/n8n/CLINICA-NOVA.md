@@ -19,7 +19,7 @@ Quem faz o quê: **E** = Erica, **C** = Claude (pelo servidor), **Cl** = clínic
 ## 0. Antes de começar (E e Cl)
 
 - Questionário da clínica respondido: tratamentos, valores, endereço, horários, voz, nome da assistente.
-- Quem recebe os avisos (aprovador) e quem recebe o alerta de falha, com o OK da clínica.
+- Quem recebe os avisos da equipe (aprovador), com o OK da clínica. O alerta de falha do WhatsApp é da Keshion (`alerta-keshion.json`) e não muda por clínica.
 - Número de WhatsApp da clínica conectado num canal do Whapi (anotar o id do canal) e plano do Whapi pago.
 - Conta Google com a agenda das avaliações (pode ser a da clínica ou uma conta criada para ela).
 - Contrato e termo de dados assinados.

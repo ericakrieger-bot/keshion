@@ -1,0 +1,5 @@
+{
+  "_leia": "Alerta de falha do WhatsApp, igual para todas as clínicas: vai só para a Keshion, sem o texto do paciente, pelo canal do Whapi da Keshion (o da demo), nunca pelo canal da clínica que falhou. Quando existir canal fora do WhatsApp (e-mail ou Telegram), trocar aqui. Decisão de 17/11/2026.",
+  "whapi": { "tipo": "httpHeaderAuth", "id": "HpXFZlusXDEZjQm4", "nome": "Header Auth account" },
+  "numero": "972584285541"
+}

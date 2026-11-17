@@ -1,39 +1,95 @@
 {
   "_leia": "Configuração da clínica para o gerador de fluxos (tecnico/n8n/gerar_fluxos.py). Sem chaves: só ids de credenciais do n8n. O caminho secreto do webhook fica em tecnico/n8n/segredos.local.json, fora do Git.",
-
   "slug": "clinica-demo",
   "nome_clinica": "Clínica demo da Dra. Suzana",
   "nome_assistente": "Clara",
   "cidade": "Curitiba",
   "fuso": "America/Sao_Paulo",
   "duracao_avaliacao_min": 60,
-
   "fluxos": {
     "id_atendimento": "ClaraAtendimento",
     "id_envio": "ClaraEnvio000001",
     "semente_webhook": "clara-webhook"
   },
-
-  "whapi": { "canal": "GRNLTR-4K8ZF" },
-
+  "whapi": {
+    "canal": "GRNLTR-4K8ZF"
+  },
   "agenda": {
     "conta_google": "keshion.ai.2026@gmail.com",
-    "calendario": "primary"
+    "calendario": "primary",
+    "regras": {
+      "dias_semana": [
+        2,
+        4
+      ],
+      "horarios": [
+        "09:00",
+        "11:00",
+        "14:00",
+        "16:00"
+      ],
+      "antecedencia_max_dias": 90,
+      "antecedencia_min_minutos": 60,
+      "bloqueios": [
+        {
+          "de": "12-22",
+          "ate": "01-06"
+        }
+      ],
+      "feriados": [
+        "01-01",
+        "04-21",
+        "05-01",
+        "09-07",
+        "09-08",
+        "10-12",
+        "11-02",
+        "11-15",
+        "11-20",
+        "12-25",
+        "03-29",
+        "2027-02-15",
+        "2027-02-16",
+        "2027-03-26",
+        "2027-05-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-04-14",
+        "2028-06-15"
+      ]
+    },
+    "_leia_regras": "Regras que o fluxo confere por conta própria antes de criar ou mudar um evento (a IA não decide sozinha). dias_semana: 0=domingo ... 6=sábado. horarios: início permitido de cada avaliação. bloqueios e feriados: MM-DD ou AAAA-MM-DD."
   },
-
   "banco": "clara",
-
   "credenciais_n8n": {
-    "anthropic": { "tipo": "anthropicApi", "id": "EVx1CbzgsBjsOfBS", "nome": "Anthropic account" },
-    "openai": { "tipo": "openAiApi", "id": "eRxSt3V4rGOaTIAI", "nome": "OpenAI account" },
-    "whapi": { "tipo": "httpHeaderAuth", "id": "HpXFZlusXDEZjQm4", "nome": "Header Auth account" },
-    "google": { "tipo": "googleCalendarOAuth2Api", "id": "PoLFn2QYsgfjLmeI", "nome": "Google Calendar account" },
-    "pg": { "tipo": "postgres", "id": "clarapg0000001", "nome": "Postgres Clara" }
+    "anthropic": {
+      "tipo": "anthropicApi",
+      "id": "EVx1CbzgsBjsOfBS",
+      "nome": "Anthropic account"
+    },
+    "openai": {
+      "tipo": "openAiApi",
+      "id": "eRxSt3V4rGOaTIAI",
+      "nome": "OpenAI account"
+    },
+    "whapi": {
+      "tipo": "httpHeaderAuth",
+      "id": "HpXFZlusXDEZjQm4",
+      "nome": "Header Auth account"
+    },
+    "google": {
+      "tipo": "googleCalendarOAuth2Api",
+      "id": "PoLFn2QYsgfjLmeI",
+      "nome": "Google Calendar account"
+    },
+    "pg": {
+      "tipo": "postgres",
+      "id": "clarapg0000001",
+      "nome": "Postgres Clara"
+    }
   },
-
   "servidor": "https://n8n.169-58-41-107.sslip.io",
   "aviso_falha_envio": "972584285541",
-
   "config_no_banco": {
     "_leia": "Valores da tabela config do banco desta clínica. Instruções e base vêm dos arquivos indicados em 'arquivos'.",
     "aprovador": "972584285541",
@@ -43,7 +99,6 @@
     "prefixo_teste": "554199900",
     "numeros_keshion": "972584285541,972552994413"
   },
-
   "arquivos": {
     "instrucoes": "instrucoes-sarah.md",
     "base": "base-clinica.md"

@@ -92,8 +92,6 @@
     }
   },
   "servidor": "https://n8n.169-58-41-107.sslip.io",
-  "_leia_aviso_falha": "aviso_falha_envio: quem recebe o alerta quando o WhatsApp da clínica falha (sai pelo próprio canal da clínica e leva o texto que não saiu). Precisa ser aprovado pela clínica.",
-  "aviso_falha_envio": "PREENCHER (só números, com 55)",
   "config_no_banco": {
     "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: fica vazio (#reiniciar só existe na demo; preparar_banco.py recusa se tiver número).",
     "aprovador": "PREENCHER",
