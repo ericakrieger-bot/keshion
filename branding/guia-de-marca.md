@@ -97,7 +97,7 @@
 | WhatsApp | Avatar `avatar-whatsapp-1080.png` | Símbolo centralizado com margem para o recorte circular |
 | Apresentação comercial | Escuro na capa e nos slides de impacto | Logo fundo escuro na capa; Manrope nos títulos |
 | **PDF e documento impresso ou assinado** (contrato, proposta, questionário, SOP, manual, relatório) | **Sempre claro. Nunca fundo escuro** (pedido da Erica, 12/11/2026) | Fundo branco ou branco-gelo; texto azul-noite; títulos em azul intenso; logo "fundo claro" no cabeçalho; caixas de destaque em névoa com borda fina; verde só em detalhes pequenos |
-| Redes sociais | Escuro ou claro | Ainda sem modelo oficial (ver "O que ainda não existe") |
+| Redes sociais | Escuro ou claro | Seguir a seção 7 (ícones Lucide, arcos, mockup de WhatsApp, sem foto de pessoa). Modelos ainda não existem |
 | Materiais da clínica para o paciente | Marca da clínica, não a da Keshion | Keshion aparece no máximo como "feito por Keshion AI" |
 
 ## 6. Estilo de interface (visto nos exemplos do manual)
@@ -113,16 +113,37 @@ Usar direto `branding/kit/digital/keshion.css` (variáveis `--keshion-*`) e `kes
 ## Dados de contato e frase de marca (17/11/2026)
 
 - **Domínio:** keshion.com (não usar .com.br). **E-mail:** contato@keshion.com. App: app.keshion.com.
-- **Frase de marca (candidata, ainda não definitiva):** "Keshion · automações inteligentes" (ideia da Erica). O descritor do manual, "Agentes de IA para atendimento no WhatsApp", fica como subtítulo do produto atual.
+- **Frase de marca (aprovada em 17/11/2026):** "Keshion · automações inteligentes" (ideia da Erica, escrita em minúsculas depois do nome). O descritor do manual, "Agentes de IA para atendimento no WhatsApp", fica como subtítulo do produto atual.
 - **Assinatura de e-mail:** modelo em `branding/modelos/assinatura-email.html` (sem nome por enquanto: logo, frase, e-mail e site).
 
 ## Os SVGs do kit são os arquivos editáveis
 
 Os logos e ícones em `kit/logos` e `kit/icones` são vetoriais (SVG): abrem e editam no Figma, Canva, Illustrator ou Inkscape. As letras do logo já são curvas, então não precisam de fonte. Não existe arquivo-fonte original nem logo vertical: para os dois, usar o símbolo isolado ou pedir ao designer.
 
-## Direção visual (fotos, ícones, ilustração)
+## 7. Direção visual: fotos, ícones e ilustração (APROVADA pela Erica em 17/11/2026)
 
-Em proposta, aguardando aprovação: `branding/direcao-visual.html` (visual, abrir no navegador) e `branding/direcao-visual.md` (texto).
+Detalhes e exemplos: `branding/direcao-visual.html` (abrir no navegador) e `branding/direcao-visual.md`.
+
+**Ícones**
+- Traço de 2 px, pontas e cantos arredondados. Biblioteca única: **Lucide** (licença ISC). Não misturar com outra biblioteca na mesma tela.
+- Cor: azul-noite no traço, com um detalhe em azul (fundo claro) ou em verde (fundo escuro). Nunca verde sobre fundo claro.
+- Tamanho: 24 px na interface; 48 a 64 px em seções de site.
+
+**Elementos gráficos e ilustração**
+- Motivo da marca: os dois arcos do símbolo, grandes, cortados pela borda, em azul e verde com baixa opacidade (cerca de 25 a 30%) sobre azul-noite. Usar em capas e em fundos de seção do site.
+- Formas: círculos, arcos e cantos arredondados de 8 a 12 px. Sem degradês fortes, sem sombras pesadas.
+- Para explicar o serviço: diagrama simples de três passos (mensagem chega, assistente responde, consulta confirmada) com ícones de traço e setas finas.
+
+**Fotos**
+- **Padrão: sem foto de pessoa.** A imagem principal é a conversa de WhatsApp em um celular (mockup), com mensagens de teste. Vale para o primeiro site e para materiais de venda.
+- Quando precisar de foto: cenas de clínica sem rosto (mãos com o celular, recepção desfocada, agenda aberta), luz natural e suave, tons neutros. Sobre fundo escuro, aplicar camada de azul-noite (duotone).
+- Pessoas reais só depois de ter clientes e com autorização escrita de uso de imagem. Sem foto de banco de "pessoa sorrindo para a câmera".
+
+**Evitar sempre**
+- Robôs, cérebros digitais, luzes de neon, rede de pontos azuis.
+- Foto de paciente real ou print de conversa real (LGPD): só dados de teste.
+- Misturar estilos de ícone ou de ilustração.
+- Verde vivo como texto em fundo claro.
 
 ## O que ainda não existe
 

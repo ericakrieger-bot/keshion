@@ -1,6 +1,6 @@
-# Direção visual: fotos, ícones e ilustração (PROPOSTA)
+# Direção visual: fotos, ícones e ilustração (APROVADA em 17/11/2026)
 
-> Proposta de 17/11/2026. O manual oficial não define estilo de imagem, ícone ou ilustração. **Nada aqui é regra até a Erica aprovar.** Ao aprovar, mover para `guia-de-marca.md`.
+> Aprovada pela Erica em 17/11/2026. As regras valem a partir do `guia-de-marca.md`, seção 7. Este arquivo guarda o raciocínio e os exemplos.
 
 ## Princípio
 
@@ -37,7 +37,7 @@ Tratamento comum: tom frio e limpo, contraste suave, e, quando a foto entrar em 
 - Misturar estilos de ícone ou de ilustração.
 - Verde vivo como cor de texto em fundo claro.
 
-## Perguntas para a Erica
+## Perguntas respondidas (todas aprovadas em 17/11/2026)
 
 1. Primeiro site sem foto de pessoa (opção 1)?
 2. Aprova o estilo de ícone de traço arredondado com Lucide?
