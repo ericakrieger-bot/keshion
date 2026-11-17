@@ -15,7 +15,7 @@
   --action:var(--blue-strong);--on-action:var(--ice);--action-soft:var(--fog);--focus:var(--blue-strong);
   --hero:var(--night);--hero-ink:var(--ice);--hero-ink2:var(--silver);
   --late:#B42318;--late-soft:#FDECEA;--warn:#8A5300;--warn-soft:#FBF0DA;--good:#1D6B33;--good-soft:#E2F4E6;--info:var(--blue-strong);--info-soft:var(--fog);
-  --bar-a:var(--blue-strong);--bar-b:var(--slate);
+  --bar-a:var(--blue-strong);--bar-b:var(--slate);--c-azul:#2459A6;--c-ambar:#B7791F;--c-rosa:#C0397B;--c-verde:#2E9E4F;--c-coral:#D2503C;--c-ardosia:#50596A;--on-chip:#FFFFFF;
   --font:Inter,system-ui,-apple-system,sans-serif;--font-h:Manrope,Inter,system-ui,sans-serif;--r:12px;--rs:10px;
   color-scheme:light;
 }
@@ -24,13 +24,13 @@
   --action:var(--blue);--on-action:var(--night);--action-soft:#1F2D4D;--focus:var(--green);
   --hero:#1F2D4D;--hero-ink:var(--ice);--hero-ink2:var(--silver);
   --late:#FF9C8F;--late-soft:#3A1E24;--warn:#F2C46B;--warn-soft:#3A2F17;--good:var(--green);--good-soft:#173826;--info:#8DB8F2;--info-soft:#1F2D4D;
-  --bar-a:var(--blue);--bar-b:var(--silver);color-scheme:dark}}
+  --bar-a:var(--blue);--bar-b:var(--silver);--c-azul:#4388E8;--c-ambar:#BF8A14;--c-rosa:#E0609A;--c-verde:#3BAA57;--c-coral:#E5654F;--c-ardosia:#8A94A8;--on-chip:#0B1126;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:var(--night);--card:var(--navy);--soft:#1F2D4D;--ink:var(--ice);--ink2:var(--silver);--line:#26365A;
   --action:var(--blue);--on-action:var(--night);--action-soft:#1F2D4D;--focus:var(--green);
   --hero:#1F2D4D;--hero-ink:var(--ice);--hero-ink2:var(--silver);
   --late:#FF9C8F;--late-soft:#3A1E24;--warn:#F2C46B;--warn-soft:#3A2F17;--good:var(--green);--good-soft:#173826;--info:#8DB8F2;--info-soft:#1F2D4D;
-  --bar-a:var(--blue);--bar-b:var(--silver);color-scheme:dark}
+  --bar-a:var(--blue);--bar-b:var(--silver);--c-azul:#4388E8;--c-ambar:#BF8A14;--c-rosa:#E0609A;--c-verde:#3BAA57;--c-coral:#E5654F;--c-ardosia:#8A94A8;--on-chip:#0B1126;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{min-height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
@@ -192,7 +192,7 @@ textarea{min-height:110px;resize:vertical}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s cubic-bezier(.2,.8,.2,1)}@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}}
 .sym{width:30px;height:30px;stroke:none;flex:none}
 .foot{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 0 8px;margin-top:12px;border-top:1px solid var(--line);color:var(--ink2);font-size:12px;text-align:center}
-.foot svg.logo{width:160px}
+.foot svg.logo{width:128px}
 .dl{display:grid;grid-template-columns:1fr;gap:0;margin:0}
 .dl div{display:grid;grid-template-columns:118px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
 .dl div:last-child{border-bottom:0}
@@ -231,6 +231,36 @@ textarea{min-height:110px;resize:vertical}
 .doc .dfoot span{display:inline-flex;align-items:center;gap:5px}
 .doc .dfoot svg{width:14px;height:14px;stroke:none}
 .bday{font-size:12px;font-weight:600;color:var(--action);display:inline-flex;align-items:center;gap:4px}
+
+.btn.green{background:#55C96A;color:#0B1126;flex:1}
+.btn.green:hover{filter:brightness(1.06)}
+.vcol i{opacity:.45}.vcol:last-child i{opacity:1}
+.dn{display:flex;flex-direction:column;gap:12px;align-items:center}
+.dn-w{position:relative;width:156px;height:156px}
+.dsvg{width:156px;height:156px;display:block}
+.dsvg circle{fill:none;stroke-linecap:butt;transition:opacity .15s,stroke-width .15s;cursor:pointer}
+.dsvg circle.dim{opacity:.3}.dsvg circle.on{stroke-width:17}
+.dn-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px;pointer-events:none}
+.dn-c b{font-family:var(--font-h);font-size:21px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.dn-c small{font-size:11px;color:var(--ink2);line-height:1.25;margin-top:3px}
+.dn-l{width:100%;display:flex;flex-direction:column}
+.dl-r{display:grid;grid-template-columns:28px minmax(0,1fr) auto 44px;gap:10px;align-items:center;padding:8px 6px;border:0;background:none;border-radius:8px;cursor:pointer;color:var(--ink);font:inherit;font-size:14px;text-align:left;transition:background .15s}
+.dl-r:hover,.dl-r.on{background:var(--soft)}
+.dl-i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--on-chip)}
+.dl-i svg{width:16px;height:16px}
+.dl-n{min-width:0}.dl-n small{display:block;color:var(--ink2);font-size:12px}
+.dl-r b{font-weight:600;font-variant-numeric:tabular-nums}
+.dl-r em{font-style:normal;color:var(--ink2);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.fn{display:flex;flex-direction:column;gap:6px}
+.fr{display:grid;grid-template-columns:minmax(92px,32%) minmax(0,1fr) 38px 46px;gap:10px;align-items:center;border:1px solid transparent;background:none;border-radius:10px;padding:9px 10px;cursor:pointer;color:var(--ink);font:inherit;font-size:14px;text-align:left;transition:background .15s}
+.fr:hover{background:var(--soft)}
+.fr[aria-pressed="true"]{background:var(--action-soft);border-color:var(--action)}
+.fr .ft{height:12px;display:block;background:var(--soft);border-radius:0 4px 4px 0}
+.fr .ft i{display:block;height:100%;background:var(--c-azul);border-radius:0 4px 4px 0;min-width:3px}
+.fr[aria-pressed="false"] .ft i{opacity:.4}
+.fr b{text-align:right;font-variant-numeric:tabular-nums}
+.fr small{color:var(--ink2);text-align:right;font-variant-numeric:tabular-nums}
+.fd{margin:0;font-size:14px}
 </style>
 
 <div class="shell">
@@ -261,7 +291,15 @@ const IC={
  x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
  edit:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
  gift:'<svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1"/></svg>',
- text:'<svg viewBox="0 0 24 24"><path d="M5 6h14M5 11h14M5 16h9"/></svg>'
+ text:'<svg viewBox="0 0 24 24"><path d="M5 6h14M5 11h14M5 16h9"/></svg>',
+ insta:'<svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7" fill="currentColor"/></svg>',
+ google:'<svg viewBox="0 0 24 24"><path d="M19.5 12H12"/><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/></svg>',
+ mega:'<svg viewBox="0 0 24 24"><path d="M4 10v4h3l7 4V6L7 10H4zM17 9a4 4 0 0 1 0 6"/></svg>',
+ dots:'<svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="18" cy="12" r="1.3" fill="currentColor"/></svg>',
+ smile:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14c1 1.5 2.3 2.2 4 2.2s3-.7 4-2.2M9 9.5h.01M15 9.5h.01"/></svg>',
+ tooth:'<svg viewBox="0 0 24 24"><path d="M8 4c-2.5 0-4 1.5-4 4 0 3 2 4.5 2 8 0 2 .8 4 2 4s1.2-3 2-3 .8 3 2 3 2-2 2-4c0-3.5 2-5 2-8 0-2.5-1.5-4-4-4-1 0-2 .6-2 .6S9 4 8 4z"/></svg>',
+ aligner:'<svg viewBox="0 0 24 24"><path d="M4 9c0-2 2-3 8-3s8 1 8 3v3c0 3-2 4-8 4s-8-1-8-4z"/><path d="M9 9v6M15 9v6"/></svg>',
+ sun:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 1.8L21.5 18.500l-1.800.7L19 21l-.7-1.800-1.800-.7 1.800-.7z"/></svg>'
 };
 const SIMB='<svg class="sym" viewBox="0 0 100 100" aria-hidden="true"><path d="M80.8367 11.9198 A49 49 0 0 0 11.9198 80.8367 L28.2399 67.6210 A28 28 0 0 1 67.6210 28.2399 Z" fill="#4388E8" fill-rule="evenodd"/><path d="M19.1633 88.0802 A49 49 0 0 0 88.0802 19.1633 L71.7601 32.3790 A28 28 0 0 1 32.3790 71.7601 Z" fill="#55C96A" fill-rule="evenodd"/></svg>';
 const LOGO=document.querySelector(".brand svg").outerHTML;
@@ -403,7 +441,7 @@ function cardPend(x){const p=P(x.pid);const late=x.espera>15;
  <p class="quote"><em>Mensagem do paciente</em>${esc(x.msg)}</p>
  ${x.opcoes?`<div><p class="lbl">Qual resposta a IA deve dar?</p><div class="wrap">${x.opcoes.map(o=>`<button class="choice" data-dec="${x.id}" data-op="${esc(o)}">${esc(o)}</button>`).join("")}<button class="choice" data-act="outra" data-id="${x.id}">${IC.edit} Outra resposta</button></div></div>`:
  x.ensinar?`<div class="acts"><button class="btn acc" data-act="ensinar" data-id="${x.id}">Responder e ensinar a IA</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button></div>`:
- `<div class="acts"><button class="btn dark" data-act="assumir" data-pid="${p.id}" data-id="${x.id}">${IC.wa}Abrir conversa</button><button class="btn round" data-act="ligar" aria-label="Ligar para ${esc(p.nome)}">${IC.tel}</button><button class="btn round" data-act="resolvido" data-id="${x.id}" aria-label="Marcar como resolvido">${IC.ok}</button></div>`}
+ `<div class="acts"><button class="btn green" data-act="assumir" data-pid="${p.id}" data-id="${x.id}">${IC.wa}Abrir conversa</button><button class="btn round" data-act="ligar" aria-label="Ligar para ${esc(p.nome)}">${IC.tel}</button><button class="btn round" data-act="resolvido" data-id="${x.id}" aria-label="Marcar como resolvido">${IC.ok}</button></div>`}
  </article>`}
 function chat(pid){const p=P(pid);const ass=!!S.assumidas[pid];const c=S.conv.find(x=>x.pid===pid);
  const linhas=[["p","Paciente",c?c.ult:"Olá"],...(c&&c.st==="Aguardando a equipe"?[["a","IA","Obrigada por avisar. Vou passar a sua mensagem para a Dra. Suzana e ela te retorna em breve."]]:[["a","IA","Ficou registrado. Você recebe a confirmação na véspera."]])];
@@ -437,7 +475,7 @@ function slotAg(a){const p=P(a.pid);const hoje=a.dia==="Hoje";
  if(hoje){
   if(!a.pres)acts=`<div class="acts"><button class="btn soft sm" style="flex:1" data-pres="${a.id}" data-v3="Compareceu">${IC.ok}Compareceu</button><button class="btn soft sm" style="flex:1" data-pres="${a.id}" data-v3="Faltou">${IC.x}Faltou</button></div>`;
   else if(a.pres==="Compareceu")acts=`<div class="acts"><span class="tag t-good">${IC.ok} Compareceu</span><button class="how" data-pres="${a.id}" data-v3="">Corrigir</button></div>`;
-  else acts=`<div class="acts"><span class="tag t-late">Faltou</span>${a.remarcar?`<span class="tag t-info">IA oferecendo novo horário</span>`:`<button class="btn acc sm" data-act="remarcar" data-id="${a.id}">Pedir à IA para remarcar</button>`}<button class="how" data-pres="${a.id}" data-v3="">Corrigir</button></div>`;
+  else acts=`<div class="acts" style="flex-wrap:wrap"><span class="tag t-late">Faltou</span>${a.remarcar===true?`<span class="tag t-info">IA oferecendo novo horário</span>`:a.remarcar===false?`<span class="tag t-neutral">Sem remarcação</span>`:""}<button class="how" data-pres="${a.id}" data-v3="">Corrigir</button></div>${a.remarcar==null?`<div class="acts" style="flex-wrap:wrap"><span style="flex:1 1 190px;font-size:14px;font-weight:600">Pedir à IA para oferecer novo horário?</span><button class="btn dark sm" style="flex:none;min-width:72px" data-act="remarcar" data-id="${a.id}" data-v2="1">Sim</button><button class="btn soft sm" style="flex:none;min-width:72px" data-act="remarcar" data-id="${a.id}" data-v2="0">Não</button></div>`:""}`;
  }
  return `<div class="agi"><div class="slot"><span class="time">${a.h}</span><button class="person" data-open="${p.id}" style="flex:1"><span class="nm"><b>${esc(p.nome)}</b><small>${esc(a.tipo)}</small></span></button><span class="tag ${CONFTAG[a.conf]}">${a.conf}</span></div>${acts}</div>`}
 
@@ -446,10 +484,12 @@ function pacientes(){
  const f=p=>(fPac==="todos"||(fPac==="novos"?!p.ja:p.ja))&&(!fSit||p.sit===fSit)&&(p.nome+p.tel+(p.email||"")).toLowerCase().includes(busca.toLowerCase());
  const lst=S.pac.filter(f);
  const bdays=S.pac.filter(p=>{const a=aniver(p.nasc);return a&&a.dias<=7});
+ const emT=S.pac.filter(p=>p.sit==="Em tratamento"&&p.trat);
  return header("Pacientes",`${S.pac.length} pessoas · ${S.pac.filter(p=>p.ja).length} já são pacientes`)+
  `<div class="acts"><label class="search" style="flex:1">${IC.search}<input id="busca" type="search" placeholder="Nome, telefone ou e-mail" value="${esc(busca)}" aria-label="Buscar paciente"></label><button class="btn round" style="background:var(--action);color:var(--on-action);border-color:var(--action)" data-act="novo" aria-label="Cadastrar paciente">${IC.plus}</button></div>
  <div class="seg" role="group" aria-label="Tipo">${[["todos","Todos"],["novos","Novos contatos"],["ja","Já pacientes"]].map(s=>`<button data-fpac="${s[0]}" aria-pressed="${fPac===s[0]}">${s[1]}</button>`).join("")}</div>
  <div class="pills" role="group" aria-label="Situação"><button class="pill" data-fsit="" aria-pressed="${!fSit}">Todas</button>${SIT.map(s=>{const n=S.pac.filter(p=>p.sit===s).length;return n?`<button class="pill" data-fsit="${s}" aria-pressed="${fSit===s}">${s} <i>${n}</i></button>`:""}).join("")}</div>
+ ${emT.length&&!busca&&!fSit&&fPac==="todos"?`<div class="card"><div class="cardh"><b>Em tratamento agora</b><span class="tag t-good">${emT.length}</span></div>${emT.map(p=>`<button class="person" data-open="${p.id}">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${esc(p.trat.nome)}${p.prox?" · próxima "+esc(p.prox.toLowerCase()):""}</small><span class="bar" style="margin-top:6px;display:block"><i style="width:${p.trat.total?Math.round(p.trat.feitas/p.trat.total*100):0}%"></i></span></span><small class="note" style="white-space:nowrap">${p.trat.feitas} de ${p.trat.total}</small></button>`).join("")}</div>`:""}
  ${bdays.length&&!busca&&!fSit&&fPac==="todos"?`<div class="card" style="flex-direction:row;align-items:center;gap:10px;padding:12px 16px">${IC.gift.replace('style="width:14px;height:14px"','')}<span style="flex:1;font-size:14px">Aniversários nos próximos 7 dias: ${bdays.map(p=>`<button class="how" style="font-size:14px" data-open="${p.id}">${esc(first(p.nome))}</button>`).join(", ")}</span></div>`:""}
  <div class="card list">${lst.map(p=>{const a=aniver(p.nasc);return `<button class="conv" data-open="${p.id}">${av(p,"sm")}<span class="nm"><span style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>${esc(p.nome)}</b>${IC.next}</span><p>${esc(p.tel)} · ${esc(p.origem)}</p><span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><span class="tag ${SITTAG[p.sit]}">${p.sit}</span>${a&&a.dias<=7?`<span class="bday">${IC.gift} ${a.dias===0?"Aniversário hoje":`Aniversário em ${a.dias} dias`}</span>`:""}</span>${p.trat&&p.trat.total>1?`<span style="display:flex;align-items:center;gap:8px;margin-top:8px"><span class="bar" style="flex:1"><i style="width:${Math.round(p.trat.feitas/p.trat.total*100)}%"></i></span><small class="note" style="font-size:12px">${p.trat.feitas} de ${p.trat.total} sessões</small></span>`:""}</span></button>`}).join("")||`<div class="empty"><b>Ninguém encontrado</b><p>Confira a grafia ou cadastre pelo botão +.</p></div>`}</div>`+foot();
 }
@@ -458,7 +498,7 @@ function ficha(id){const p=P(id);if(!p)return;const t=p.trat;const a=aniver(p.na
  sheet(`<div style="display:flex;gap:14px;align-items:center">${av(p,"lg")}<div style="flex:1;min-width:0"><h2>${esc(p.nome)}</h2><div class="wrap" style="margin-top:6px"><span class="tag ${p.ja?"t-good":"t-info"}">${p.ja?"Já é paciente":"Novo contato"}</span><span class="tag ${SITTAG[p.sit]}">${p.sit}</span></div></div></div>
  <div class="acts"><button class="btn dark" data-act="wa">${IC.wa}WhatsApp</button><button class="btn round" data-act="ligar" aria-label="Ligar">${IC.tel}</button><button class="btn round" data-chat="${p.id}" aria-label="Ver conversa">${IC.conv}</button></div>
  <div class="card" style="gap:4px"><div class="cardh"><b>Dados do paciente</b><button class="how" data-act="eddados" data-pid="${p.id}">Editar</button></div>
- <dl class="dl">${linha("WhatsApp",esc(p.tel))+linha("E-mail",esc(p.email))+linha("Aniversário",p.nasc?`${p.nasc.slice(0,5)} · ${a.idade} anos${a.dias<=7?` <span class="bday">${IC.gift} em ${a.dias} dias</span>`:""}`:"")+linha("Endereço",esc(p.end))+linha("Como conheceu",esc(p.origem)+(p.indic?` (indicação de ${esc(p.indic)})`:""))+linha("Primeiro contato",p.inicio)+linha("Última consulta",p.ult)+linha("Próxima consulta",p.prox)}</dl></div>
+ <dl class="dl">${linha("WhatsApp",esc(p.tel))+linha("E-mail",esc(p.email))+linha("Aniversário",p.nasc?`${p.nasc}${a.dias<=7?` <span class="bday">${IC.gift} em ${a.dias} dias</span>`:""}`:"")+linha("Endereço",esc(p.end))+linha("Como conheceu",esc(p.origem)+(p.indic?` (indicação de ${esc(p.indic)})`:""))+linha("Primeiro contato",p.inicio)+linha("Última consulta",p.ult)+linha("Próxima consulta",p.prox)}</dl></div>
  <button class="tile" data-act="sit" data-pid="${p.id}" style="border:0;text-align:left;cursor:pointer;color:inherit;font:inherit"><span>Situação · tocar para mudar</span><b>${p.sit}</b></button>
  ${t?`<div class="card"><div class="cardh"><b>Tratamento</b><button class="how" data-act="edtrat" data-pid="${p.id}">Editar</button></div><span style="font-weight:600">${esc(t.nome)}</span>${t.total>1?`<div class="bar"><i style="width:${Math.round(t.feitas/t.total*100)}%"></i></div><small class="note">${t.feitas} de ${t.total} sessões feitas</small>`:""}<div class="row2"><div class="tile"><span>Valor</span><b>${t.valor?brl(t.valor):"Não informado"}</b></div><div class="tile"><span>Pagamento</span><b>${esc(t.pag||"Não informado")}</b></div></div></div>`:`<button class="btn soft" data-act="edtrat" data-pid="${p.id}">${IC.plus}Registrar tratamento</button>`}
  ${o?`<button class="card" style="flex-direction:row;align-items:center;cursor:pointer;text-align:left;color:inherit;font:inherit" data-act="pdf" data-id="${o.id}">${IC.doc}<span style="flex:1"><b style="display:block;font-size:15px">Orçamento nº ${o.num}: ${brl(o.valor)}</b><small class="note">${o.st==="aberto"?`Em aberto, entregue há ${o.dias} dias`:o.st==="aceito"?"Aceito":"Recusado"}</small></span>${IC.next}</button>`:""}
@@ -510,7 +550,7 @@ function cardOrc(o){const p=P(o.pid);
  <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-weight:600">${esc(nomeOrc(o))}</b>${o.st==="aceito"?`<span class="wrap"><span class="tag t-good">Aceito</span>${o.rec?'<span class="tag t-acc">Recuperado pela assistente</span>':""}</span>`:o.st==="recusado"?`<span class="tag t-late">Recusou: ${esc(o.motivo)}</span>`:""}</div>
  ${lembretes(o)}
  ${o.obs?`<p class="quote"><em>Atenção</em>${esc(o.obs)}</p>`:""}
- ${o.st==="aberto"?`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}PDF</button><button class="btn dark" data-act="aceitou" data-id="${o.id}">${IC.ok}Aceitou</button><button class="btn round" data-act="recusou" data-id="${o.id}" aria-label="Recusou">${IC.x}</button></div>`:`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}Ver PDF</button></div>`}
+ ${o.st==="aberto"?`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}PDF</button><button class="btn green" data-act="aceitou" data-id="${o.id}">${IC.ok}Aceitou</button><button class="btn round" data-act="recusou" data-id="${o.id}" aria-label="Recusou">${IC.x}</button></div>`:`<div class="acts"><button class="btn soft" data-act="pdf" data-id="${o.id}">${IC.doc}Ver PDF</button></div>`}
  </article>`}
 function pdf(o,novo){const p=P(o.pid);const T=TPL[o.tpl];const emi=new Date(HOJE-o.dias*864e5);const venc=new Date(+emi+o.val*864e5);
  const unit=T.unid==="dente"&&o.qtd>1?o.valor/o.qtd:o.valor;
@@ -561,31 +601,44 @@ function reativar(){const nomeR=r=>r.nome||P(r.id).nome;const sel=S.ret.filter(r
  <button class="btn dark" data-act="lote" ${n?"":"disabled"}>${n?`Aprovar envio para ${n}`:"Selecione ao menos um paciente"}</button><p class="note" style="font-size:12px">Saem em lotes pequenos ao longo do dia. Quem responder SAIR não recebe mais.</p></div></div></div>`+foot();
 }
 
-/* PAINEL: primeiro os números da clínica, depois onde a assistente ajudou */
+/* PAINEL: primeiro os números da clínica (interativos), depois onde a assistente ajudou */
+const ORI={"Google":{c:"var(--c-azul)",ic:IC.google},"Anúncio":{c:"var(--c-ambar)",ic:IC.mega},"Instagram":{c:"var(--c-rosa)",ic:IC.insta},"Indicação":{c:"var(--c-verde)",ic:IC.pac},"Outros":{c:"var(--c-ardosia)",ic:IC.dots}};
+const ETAPAS=[
+ {k:"Contatos novos",n:184,ori:{"Google":31,"Anúncio":52,"Instagram":68,"Indicação":24,"Outros":9}},
+ {k:"Avaliações feitas",n:38,ori:{"Google":6,"Anúncio":8,"Instagram":11,"Indicação":10,"Outros":3}},
+ {k:"Orçamentos entregues",n:23,ori:{"Google":4,"Anúncio":4,"Instagram":6,"Indicação":8,"Outros":1}},
+ {k:"Tratamentos fechados",n:12,ori:{"Google":2,"Anúncio":2,"Instagram":3,"Indicação":5,"Outros":0}}
+];
+const PROC=[["Lentes",46000,"3 tratamentos","var(--c-azul)",IC.smile],["Facetas",18200,"2 tratamentos","var(--c-ambar)",IC.tooth],["Alinhadores",24600,"3 tratamentos","var(--c-rosa)",IC.aligner],["Clareamento",7200,"4 tratamentos","var(--c-verde)",IC.sun]];
+let etapa=0,dsel={};
+const num=v=>v.toLocaleString("pt-BR");
+const pct=(x,y)=>(Math.round(x/y*1000)/10).toLocaleString("pt-BR")+"%";
+function donut(id,items,centro,fmt){
+ const tot=items.reduce((t,i)=>t+i.v,0),sel=dsel[id]==null?null:dsel[id],R=42,C=2*Math.PI*R,gap=1.6;let off=0;
+ const segs=items.map((it,k)=>{const len=it.v/tot*C,dash=Math.max(0,len-gap);
+  const el=`<circle class="${sel===k?"on":sel!=null?"dim":""}" cx="50" cy="50" r="${R}" stroke="${it.c}" stroke-width="14" stroke-dasharray="${dash} ${C-dash}" stroke-dashoffset="${-off}" transform="rotate(-90 50 50)" data-dn="${id}" data-i="${k}" data-tip="${esc(it.l+": "+fmt(it.v)+" ("+Math.round(it.v/tot*100)+"%)")}" tabindex="0" role="button" aria-label="${esc(it.l+": "+fmt(it.v))}"/>`;off+=len;return el}).join("");
+ const cur=sel!=null?items[sel]:null;
+ return `<div class="dn" id="dn-${id}"><div class="dn-w"><svg class="dsvg" viewBox="0 0 100 100" role="group" aria-label="${esc(centro)}">${segs}</svg><div class="dn-c"><b style="font-size:${(cur?fmt(cur.v):fmt(tot)).length>8?16:21}px;white-space:nowrap">${cur?fmt(cur.v):fmt(tot)}</b><small>${cur?esc(cur.l)+" · "+Math.round(cur.v/tot*100)+"%":esc(centro)}</small></div></div>
+ <div class="dn-l">${items.map((it,k)=>`<button class="dl-r${sel===k?" on":""}" data-dn="${id}" data-i="${k}"><span class="dl-i" style="background:${it.c}">${it.ic||""}</span><span class="dl-n">${esc(it.l)}${it.s?`<small>${esc(it.s)}</small>`:""}</span><b>${fmt(it.v)}</b><em>${Math.round(it.v/tot*100)}%</em></button>`).join("")}</div></div>`}
+const DN={
+ origem:()=>donut("origem",Object.entries(ETAPAS[etapa].ori).filter(([,v])=>v>0).map(([l,v])=>({l,v,c:ORI[l].c,ic:ORI[l].ic})),ETAPAS[etapa].k.toLowerCase(),num),
+ fin:()=>{const ab=S.orc.filter(o=>o.st==="aberto"),somaAb=ab.reduce((t,o)=>t+o.valor,0);return donut("fin",[{l:"Fechado",v:96000,c:"var(--c-verde)",ic:IC.ok,s:"12 tratamentos"},{l:"Em aberto",v:somaAb,c:"var(--c-azul)",ic:IC.clock,s:ab.length+" orçamentos"},{l:"Recusado",v:41000,c:"var(--c-coral)",ic:IC.x,s:"4 orçamentos: 2 por preço e 2 outra clínica"}],"total orçado",mil)},
+ proc:()=>donut("proc",PROC.map(x=>({l:x[0],v:x[1],s:x[2],c:x[3],ic:x[4]})),"fechado no mês",mil)
+};
 function vbars(dados,fmt){const max=Math.max(...dados.map(d=>d[1]));
- return `<div class="vbars" role="img" aria-label="${esc(dados.map(d=>d[0]+": "+fmt(d[1])).join("; "))}">${dados.map((d,i)=>{const h=Math.max(3,d[1]/max*100);return `<div class="vcol">${i===dados.length-1?`<em style="bottom:calc(${h}% + 26px)">${fmt(d[1])}</em>`:""}<i style="height:calc(${h}% - 22px)" tabindex="0" data-tip="${esc(d[0]+": "+fmt(d[1]))}"></i><span>${d[0]}</span></div>`}).join("")}</div>`}
-function hbars(dados,fmt,sub){const max=Math.max(...dados.map(d=>d[1]));
- return `<div class="hbars">${dados.map(d=>`<div class="hb"><span>${esc(d[0])}</span><span class="trk"><i style="width:${d[1]/max*100}%" data-tip="${esc(d[0]+": "+fmt(d[1]))}"></i></span><b>${fmt(d[1])}${sub&&d[2]!=null?`<small>${d[2]}</small>`:""}</b></div>`).join("")}</div>`}
+ return `<div class="vbars" role="img" aria-label="${esc(dados.map(d=>d[0]+": "+fmt(d[1])).join("; "))}">${dados.map(d=>{const h=Math.max(3,d[1]/max*100);return `<div class="vcol"><i style="height:calc(${h}% - 22px)" tabindex="0" data-tip="${esc(d[0]+": "+fmt(d[1]))}"></i><span>${d[0]}</span></div>`}).join("")}</div>`}
+function funil(){const base=ETAPAS[0].n,e=ETAPAS[etapa],prev=ETAPAS[etapa-1];
+ const det=etapa===0?`${num(e.n)} pessoas entraram em contato em novembro. Toque numa etapa para ver quantas chegaram até lá e por onde vieram.`:`${num(e.n)} pessoas: ${pct(e.n,base)} dos contatos novos e ${Math.round(e.n/prev.n*100)}% de quem chegou em "${prev.k.toLowerCase()}" (${num(prev.n)}).`;
+ return `<div class="cardh"><b>Do contato ao tratamento</b></div><div class="fn">${ETAPAS.map((x,i)=>`<button class="fr" data-etapa="${i}" aria-pressed="${etapa===i}"><span>${x.k}</span><span class="ft"><i style="width:${x.n/base*100}%"></i></span><b>${num(x.n)}</b><small>${i?pct(x.n,base):"100%"}</small></button>`).join("")}</div><p class="fd">${det}</p><small class="note">A porcentagem é sobre o total de contatos novos.</small>`}
 function painel(){
- const ok=S.recs.filter(r=>r.st!=="Contestado"),tot=ok.reduce((s,r)=>s+r.valor,0),pend=S.recs.filter(r=>r.st==="A confirmar").length;
- const ab=S.orc.filter(o=>o.st==="aberto"),somaAb=ab.reduce((s,o)=>s+o.valor,0);
- const emTrat=S.pac.filter(p=>p.sit==="Em tratamento");
- const n=v=>v.toLocaleString("pt-BR");
+ const ok=S.recs.filter(r=>r.st!=="Contestado"),tot=ok.reduce((t,r)=>t+r.valor,0),pend=S.recs.filter(r=>r.st==="A confirmar").length;
  const hrs=[3,6,9,12,10,8,9,11,10,9,8,12,15,17,14,9,4],lab=["7h","","9h","","11h","","13h","","15h","","17h","","19h","","21h","","23h"];
  return header("Painel","Novembro de 2026, até hoje. Os números da clínica primeiro.")+
  `<div class="pills" role="group" aria-label="Período">${["Semana","Mês","3 meses"].map(x=>`<button class="pill" data-per="${x}" aria-pressed="${periodo===x}">${x}</button>`).join("")}</div>
- <div class="kpis">${kpi("Valor fechado","R$ 96 mil","+14% sobre outubro")+kpi("Tratamentos fechados","12","ticket médio R$ 8 mil")+kpi("Orçamentos entregues","23","12 aceitos, 52%")+kpi("Em aberto",mil(somaAb),ab.length+" orçamentos")}</div>
- <div class="card"><div class="cardh"><b>Valor fechado por mês</b></div>${vbars([["Jun",58000],["Jul",64000],["Ago",71000],["Set",77000],["Out",84000],["Nov",96000]],mil)}<small class="note">Novembro até hoje. Passe o dedo ou o mouse nas barras para ver o valor de cada mês.</small></div>
- <div class="grid2">
-  <div class="card"><div class="cardh"><b>Do contato ao tratamento</b></div>${hbars([["Contatos novos",184,""],["Avaliações",38,"21%"],["Orçamentos",23,"61%"],["Fechados",12,"52%"]],n,true)}<small class="note">A porcentagem compara com a etapa anterior.</small></div>
-  <div class="card"><div class="cardh"><b>De onde vêm os pacientes novos</b></div>${hbars([["Instagram",68],["Anúncio",52],["Google",31],["Indicação",24],["Outros",9]],n)}</div>
-  <div class="card"><div class="cardh"><b>Onde está o dinheiro</b></div>${hbars([["Fechado",96000],["Em aberto",somaAb],["Não fechou",41000]],mil)}<small class="note">"Não fechou" soma os orçamentos recusados no mês: 2 por preço e 2 para outra clínica.</small></div>
-  <div class="card"><div class="cardh"><b>Fechados por tratamento</b></div>${hbars([["Lentes",46000,"3"],["Alinhadores",24600,"3"],["Facetas",18200,"2"],["Clareamento",7200,"4"]],mil,true)}<small class="note">O número pequeno é a quantidade de tratamentos.</small></div>
- </div>
- <div class="grid2">
-  <div class="card"><div class="cardh"><b>Em tratamento agora</b><button class="how" data-go="pacientes">Ver pacientes</button></div>${emTrat.map(p=>`<button class="person" data-open="${p.id}">${av(p,"sm")}<span class="nm"><b>${esc(p.nome)}</b><small>${esc(p.trat.nome)} · ${p.trat.feitas} de ${p.trat.total} sessões</small></span>${IC.next}</button>`).join("")}</div>
-  <div class="kpis" style="grid-template-columns:1fr 1fr">${kpi("Contatos novos","184","+12% sobre outubro")+kpi("Avaliações feitas","38","31 marcadas pela IA")+kpi("Pacientes atendidos","64","+8% sobre outubro")+kpi("Faltas","10%","4 de 41 consultas")}</div>
- </div>
+ <div class="card"><div class="cardh" style="align-items:flex-start"><div><small class="note">Valor fechado em novembro</small><span class="money" style="font-size:30px;display:block">R$ 96 mil</span></div><span class="tag t-good">+14% sobre outubro</span></div>${vbars([["Jun",58000],["Jul",64000],["Ago",71000],["Set",77000],["Out",84000],["Nov",96000]],mil)}<small class="note">Passe o dedo ou o mouse nas barras para ver o valor de cada mês.</small></div>
+ <div class="kpis">${kpi("Tratamentos fechados","12","+3 sobre outubro")+kpi("Ticket médio","R$ 8 mil","por tratamento fechado")+kpi("Pacientes atendidos","64","+8% sobre outubro")+kpi("Comparecimento","90%","4 faltas em 41 consultas")}</div>
+ <div class="grid2"><div class="card" id="funil">${funil()}</div><div class="card"><div class="cardh"><b>De onde vieram</b><small class="note">${ETAPAS[etapa].k}</small></div>${DN.origem()}<small class="note">Toque numa fatia ou numa linha para destacar.</small></div></div>
+ <div class="grid2"><div class="card"><div class="cardh"><b>Resumo financeiro</b></div>${DN.fin()}</div><div class="card"><div class="cardh"><b>Faturamento por procedimento</b></div>${DN.proc()}</div></div>
  <div class="sec" style="margin-top:18px"><h2>Onde a assistente ajudou</h2><span>medido pelo sistema</span></div>
  <div class="grid2"><div class="card"><div class="cardh"><b>Recuperado pela assistente</b>${pend?`<span class="tag t-warn">${pend} a confirmar</span>`:""}</div><span class="money" style="font-size:28px">${mil(tot)}</span><small class="note">${ok.length} tratamentos de pacientes que estavam parados e voltaram depois de conversar com a assistente. A clínica confere cada um.</small><div class="acts"><button class="btn soft" data-act="conferir">Conferir valores</button><button class="how" style="padding:0 8px" data-act="how">Como calculamos</button></div><small class="note">Influenciado, fora do total: R$ 21 mil em 2 tratamentos.</small></div>
  <div class="kpis" style="grid-template-columns:1fr 1fr">${kpi("Resolvidas sozinhas","389","94% das conversas")+kpi("Mensagens respondidas","412","38% fora do horário")+kpi("Primeira resposta","1 min","média do período")+kpi("Lembretes de orçamento","42","11 pacientes responderam")}</div></div>
@@ -627,16 +680,19 @@ function hideTip(){tipEl?.remove();tipEl=null}
 document.addEventListener("pointerover",e=>{const t=e.target.closest("[data-tip]");t?showTip(t):hideTip()});
 document.addEventListener("focusin",e=>{const t=e.target.closest("[data-tip]");t?showTip(t):hideTip()});
 addEventListener("scroll",hideTip,{passive:true});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("circle[data-dn]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 
 document.addEventListener("click",e=>{
- const t=e.target.closest("[data-v],[data-go],[data-open],[data-chat],[data-fc],[data-fo],[data-fpac],[data-fsit],[data-dia],[data-per],[data-dec],[data-sel],[data-setsit],[data-motivo],[data-pres],[data-rec],[data-act]");if(!t)return;const d=t.dataset;
+ const t=e.target.closest("[data-v],[data-go],[data-open],[data-chat],[data-fc],[data-fo],[data-fpac],[data-fsit],[data-etapa],[data-dn],[data-dia],[data-per],[data-dec],[data-sel],[data-setsit],[data-motivo],[data-pres],[data-rec],[data-act]");if(!t)return;const d=t.dataset;
  if(d.v)return go(d.v);if(d.go)return go(d.go);
  if(d.open)return ficha(+d.open);if(d.chat)return chat(+d.chat);
+ if(d.etapa!==undefined&&t.matches("[data-etapa]")){etapa=+d.etapa;dsel.origem=null;const y=scrollY;render();scrollTo(0,y);return}
+ if(d.dn){const i=+d.i;dsel[d.dn]=dsel[d.dn]===i?null:i;hideTip();document.getElementById("dn-"+d.dn).outerHTML=DN[d.dn]();return}
  if(d.fc){fConv=d.fc;return render()}if(d.fo){fOrc=d.fo;return render()}if(d.fpac){fPac=d.fpac;return render()}if(d.fsit!==undefined&&t.matches("[data-fsit]")){fSit=d.fsit;return render()}
  if(d.dia){dia=d.dia;return render()}if(d.per){periodo=d.per;render();return toast("No app real, os números mudam para o período escolhido")}
  if(d.dec){const x=S.pend.find(y=>y.id===+d.dec);return resolvePend(x.id,"A IA vai responder: "+d.op.toLowerCase(),"Equipe decidiu: "+d.op)}
  if(d.sel){S.ret.find(r=>r.id===+d.sel).sel=t.checked;return render()}
- if(d.pres){const a=S.agenda.find(y=>y.id===+d.pres),p=P(a.pid),u=snap();a.pres=d.v3||null;if(!a.pres){a.remarcar=false;render();return toast("Marcação removida",u)}
+ if(d.pres){const a=S.agenda.find(y=>y.id===+d.pres),p=P(a.pid),u=snap();a.pres=d.v3||null;if(!a.pres){delete a.remarcar;render();return toast("Marcação removida",u)}
   p.hist.unshift(["Agora",a.pres+" à consulta das "+a.h]);
   if(a.pres==="Compareceu"&&a.tipo==="Avaliação"&&p.sit==="Avaliação marcada"){p.sit="Avaliou, aguardando orçamento";render();return toast(first(p.nome)+" compareceu. Próximo passo: o orçamento",u)}
   render();return toast(first(p.nome)+": "+a.pres.toLowerCase(),u)}
@@ -655,7 +711,7 @@ document.addEventListener("click",e=>{
   case "outraOk":{const v=$("#outr").value.trim();if(!v){$("#outerr").textContent="Escreva a resposta antes de enviar.";return}return resolvePend(id,"Resposta enviada","Equipe respondeu: "+v)}
   case "ensinar":{const x=S.pend.find(y=>y.id===id);return sheet(`<h2>Responder e ensinar a IA</h2><p class="quote"><em>Pergunta</em>${esc(x.msg)}</p><label class="lbl" for="ens">Resposta</label><textarea id="ens" placeholder="Ex.: Não atendemos pelo OdontoPrev, mas dá para parcelar em até 12 vezes sem juros no cartão."></textarea><span class="err" id="enserr" aria-live="polite"></span><label class="check"><input type="checkbox" id="base" checked> Guardar na base da clínica para as próximas vezes</label><div class="acts"><button class="btn dark" data-act="ensinarOk" data-id="${id}">Enviar</button><button class="btn soft" data-close>Cancelar</button></div>`)}
   case "ensinarOk":{const v=$("#ens").value.trim();if(!v){$("#enserr").textContent="Escreva a resposta antes de enviar.";return}const b=$("#base").checked;return resolvePend(id,b?"Enviado. A IA aprendeu essa resposta":"Resposta enviada","Equipe respondeu"+(b?" e a resposta entrou na base da clínica":""))}
-  case "remarcar":{const a=S.agenda.find(y=>y.id===id),u=snap();a.remarcar=true;P(a.pid).hist.unshift(["Agora","IA ofereceu novos horários depois da falta"]);render();return toast("A IA vai oferecer novos horários para "+first(P(a.pid).nome),u)}
+  case "remarcar":{const a=S.agenda.find(y=>y.id===id),u=snap(),sim=d.v2==="1";a.remarcar=sim;P(a.pid).hist.unshift(["Agora",sim?"IA ofereceu novos horários depois da falta":"Faltou. A equipe decidiu não remarcar agora"]);render();return toast(sim?"A IA vai oferecer novos horários para "+first(P(a.pid).nome):"Ok, sem remarcação para "+first(P(a.pid).nome),u)}
   case "sit":return mudarSit(pid);
   case "edtrat":return edTrat(pid);
   case "eddados":return formDados(P(pid));
