@@ -1,16 +1,31 @@
 # App, CRM e painel da Keshion IA
 
-> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 04/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../SESSAO-2026-11-01-RESUMO.md`.
+> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 17/11/2026, com as decisões de 16/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../SESSAO-2026-11-01-RESUMO.md`.
+
+## 0. Decisões de 16/11/2026 (valem sobre o resto deste guia)
+
+Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra coisa, valem estas:
+
+- **O app deixa de ser planilha + AppSheet/Glide + Looker Studio.** Vira app web em Next.js, que abre no computador e se instala no celular (PWA), com Netlify (telas) e Supabase (login, banco e arquivos), na região São Paulo, com backup diário para o Contabo e cada clínica vendo só os próprios dados.
+- **Público:** dentista solo ou clínica com 2 ou 3 dentistas, sem software de gestão.
+- **Piloto real:** Dra. Vivian, a partir de 01/12/2026. A Dra. Suzana continua sendo a clínica fictícia de demonstração.
+- **Dezembro:** Pendências, Conversas, Agenda do dia (nova, com compareceu e faltou) e Pacientes.
+- **Janeiro:** Orçamentos (nova, com PDF e envio pelo WhatsApp), Resultados e Retornos.
+- **Fora:** prontuário, nota fiscal, financeiro, integrações.
+- **Reais recuperados:** nova regra na seção 3, aba Resultados.
+- **Domínio:** keshion.com, com o app em app.keshion.com.
+- **Em aberto:** o banco "clara" vai para o Supabase ou o app lê os dados do Contabo.
 
 ## O que tem aqui
 
 | Arquivo | O que é |
 |---|---|
 | `LEIA-PRIMEIRO.md` | Este guia: decisões, histórico e o que falta |
+| `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md` | Decisões de 16/11/2026: tecnologia, hospedagem, custos, o que entra em dezembro e janeiro, regra de reais recuperados |
 | `prototipo-crm-mobile.html` | **Protótipo atual, versão 3.** Publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr |
 | `previa-painel.html` | Primeira prévia do painel, com dados fictícios. Publicada em https://claude.ai/artifact/PTMcbDMS6ZhU4CibshYiGS. Ficou antes das decisões da versão 3: usar só como referência |
-| `crm-agenda-painel.md` | Desenho técnico: colunas da planilha, painel, cenários de Agenda e Confirmações, importação de pacientes antigos. **A seção 0 e as regras de UX foram escritas para a versão 2.** Onde houver conflito, vale este guia |
-| `modelo-crm-keshion.xlsx` | Modelo da planilha do CRM: abas Contatos, Mensagens, Agenda, Configuração e Pacientes antigos. **Ainda usa as etapas antigas**; precisa ser trocado para as situações da seção 3 abaixo |
+| `crm-agenda-painel.md` | Desenho técnico: colunas da planilha, painel, cenários de Agenda e Confirmações, importação de pacientes antigos. **Feito para a planilha do Google, que saiu em 16/11/2026.** Serve só de referência de campos e regras |
+| `modelo-crm-keshion.xlsx` | Modelo da planilha do CRM. **Superado em 16/11/2026** pelo banco no Supabase. Serve só de referência de campos |
 
 Para republicar o protótipo no mesmo link, publique este arquivo passando a URL do artifact. Sem a URL, o publish cria um link novo, porque o arquivo mudou de pasta em 04/11/2026.
 
@@ -29,6 +44,7 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
    - "faltas evitadas" não é medível;
    - faltavam avisos e lembretes para a equipe.
 5. **Versão 3:** 5 abas novas, visual refeito a partir das 7 referências da Erica. **Ela aprovou: "ficou ótimo".** Disse que ainda tem alterações a fazer, mas não listou quais.
+6. **16/11/2026:** decisões de tecnologia, hospedagem e calendário (seção 0). O protótipo ainda não foi ajustado a elas: faltam Agenda do dia e Orçamentos, e a regra de reais recuperados mudou.
 
 ## 2. Decisões que valem hoje
 
@@ -39,10 +55,12 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 - **Linguagem de recepção:** nada de "funil", "lead", "etapa" ou "temperatura".
 - **A IA responde sozinha** tudo o que está na base da clínica, incluindo agendar, confirmar e lembrar do orçamento. Opção combinada: 1 semana inicial com aprovação antes do envio, para a clínica ganhar confiança.
 - **A equipe só entra em:** pedido de pessoa, dor ou urgência, reclamação, desconto ou condição especial, pergunta fora da base.
-- **CRM e painel usam os mesmos dados.** Planilha do Google como banco. App de celular sem código por cima (AppSheet ou Glide, **ainda não comparados**). Painel completo no Looker Studio.
+- **CRM e painel usam os mesmos dados**, no banco do Supabase, dentro do próprio app (seção 0). Planilha, AppSheet, Glide e Looker Studio saíram em 16/11/2026.
 - **Anotação clínica fica no prontuário** do sistema da clínica, não no CRM (LGPD).
 
-## 3. As 5 abas
+## 3. As abas
+
+Em dezembro: Pendências, Conversas, Agenda do dia e Pacientes. Em janeiro: Orçamentos, Resultados e Retornos. Agenda do dia e Orçamentos foram definidas em 16/11/2026 e ainda não estão desenhadas no protótipo.
 
 **Pendências:** só o que precisa de uma pessoa.
 - Resumo de quantos esperam e há quanto tempo.
@@ -71,7 +89,12 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 **Resultados:** só o que dá para medir, dizendo de onde vem cada número.
 - Medido pelo sistema: mensagens respondidas, fora do horário, tempo de resposta, avaliações marcadas pela IA, remarcações, confirmações, lembretes de orçamento, retornos que agendaram.
 - Depende de a equipe marcar: valor fechado, comparecimento, orçamentos em aberto, motivos de não fechar.
-- **Valor recuperado:** fechamentos em que o paciente chegou fora do horário, fechou depois de lembrete da IA ou voltou por mensagem de retorno.
+- **Reais recuperados (regra de 16/11/2026):**
+  - *Recuperado pela assistente* (entra no total): paciente parado há 7 dias ou mais sem contato da equipe, que respondeu à assistente e aceitou em até 30 dias.
+  - *Influenciado*: linha separada, fora do total.
+  - *Orgânico*: não conta.
+  - A clínica confirma o valor e pode contestar.
+  - A regra antiga (chegou fora do horário, fechou depois de lembrete ou voltou por retorno) foi substituída. O "R$ 48 mil" e o "Como calculamos" do protótipo ainda usam a antiga.
 - **Faltas:** mostrar a taxa de antes (informada pela clínica) ao lado da de agora, rotulada como comparação. Nunca chamar de "faltas evitadas".
 - A Erica pediu para definir esta aba com calma: ela disse "estamos no caminho".
 
@@ -92,12 +115,14 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 
 ## 6. O que falta
 
-1. **Ouvir da Erica as alterações** que ela ainda quer no protótipo.
-2. Fechar o conteúdo da aba Resultados.
-3. Atualizar `modelo-crm-keshion.xlsx` e `crm-agenda-painel.md` para a versão 3 (situações, campo de pendências, tratamento, sessões).
-4. Comparar AppSheet e Glide (preço, limite de usuários, uso no celular, avisos) e escolher.
-5. Criar a planilha na conta da clínica demo (kashion.ai.2026@gmail.com) e o painel no Looker Studio.
-6. Montar o app real sobre a planilha.
+1. **Calculadora de perdas e ROI** (próximo passo combinado em 16/11/2026; as perguntas estão no outro chat).
+2. Decidir se o banco "clara" vai para o Supabase ou se o app lê os dados do Contabo.
+3. Ajustar o protótipo às decisões de 16/11: desenhar Agenda do dia e Orçamentos, aplicar a nova regra de reais recuperados e ouvir da Erica as outras alterações.
+4. Criar o Supabase (região São Paulo) e o Netlify, com o backup diário para o Contabo e a regra de acesso por clínica.
+5. Montar as telas de dezembro a tempo do piloto da Dra. Vivian em 01/12/2026.
+6. Montar as telas de janeiro: Orçamentos, Resultados e Retornos.
 7. Ajustar o tom da mensagem de retorno quando chegarem as respostas da clínica fictícia da Dra. Suzana.
+
+Saíram da lista em 16/11/2026: comparar AppSheet e Glide, criar a planilha e o painel no Looker Studio, atualizar a planilha modelo.
 
 O estado da automação no Make fica em `../SESSAO-2026-11-01-RESUMO.md`, seções 3 e 4. Confira na conta do Make antes de confiar nele, porque pode ter mudado depois de 01/11/2026.
