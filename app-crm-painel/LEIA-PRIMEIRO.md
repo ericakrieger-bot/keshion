@@ -24,7 +24,7 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 |---|---|
 | `LEIA-PRIMEIRO.md` | Este guia: decisões, histórico e o que falta |
 | `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md` | Decisões de 16/11/2026: tecnologia, hospedagem, custos, o que entra em dezembro e janeiro, regra de reais recuperados |
-| `prototipo-crm-mobile.html` | **Protótipo atual, versão 3.** Publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr |
+| `prototipo-crm-mobile.html` | **Protótipo atual, versão 5** (6 abas, marca Keshion). Publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr |
 | `previa-painel.html` | Primeira prévia do painel, com dados fictícios. Publicada em https://claude.ai/artifact/PTMcbDMS6ZhU4CibshYiGS. Ficou antes das decisões da versão 3: usar só como referência |
 | `crm-agenda-painel.md` | Desenho técnico: colunas da planilha, painel, cenários de Agenda e Confirmações, importação de pacientes antigos. **Feito para a planilha do Google, que saiu em 16/11/2026.** Serve só de referência de campos e regras |
 | `modelo-crm-keshion.xlsx` | Modelo da planilha do CRM. **Superado em 16/11/2026** pelo banco no Supabase. Serve só de referência de campos |
@@ -50,9 +50,8 @@ Para republicar o protótipo no mesmo link, publique este arquivo passando a URL
 
 ## 2. Decisões que valem hoje
 
-- **Estilo visual: Oliva** (creme e verde-oliva). Menta e Lavanda foram vistos e descartados. O seletor de estilos ainda está no protótipo e pode sair.
-- **Direção visual, vinda das referências:** cantos bem arredondados, cartões leves, títulos grandes, muito espaço, avatares com iniciais, etiquetas de status coloridas, barra de navegação escura e flutuante, com a aba ativa em destaque. No computador, vira barra lateral com conteúdo em duas colunas. As imagens originais não ficaram salvas.
-- **Fonte:** Plus Jakarta Sans.
+- **Visual: marca Keshion AI** (17/11/2026, versão 5 do protótipo). Cores, fontes e logo oficiais de `../branding/guia-de-marca.md`: Manrope 700 nos títulos, Inter no texto, azul intenso #2459A6 nas ações no tema claro, azul #4388E8 no escuro. Segue o tema claro ou escuro do celular. O estilo Oliva e o seletor de estilos saíram.
+- **Direção visual "sem cara de IA":** fundo liso, cards com borda fina e cantos de 10 a 12 px, sem degradês nem sombras grandes, títulos de seção como rótulo pequeno em caixa alta, avatares com iniciais numa cor só, etiquetas de status discretas. No celular, barra de abas fixa embaixo com o nome de cada aba sempre visível; no computador, barra lateral com o logo e conteúdo em duas colunas.
 - **Celular primeiro,** mas funcionando também no computador da recepção.
 - **Linguagem de recepção:** nada de "funil", "lead", "etapa" ou "temperatura".
 - **A IA responde sozinha** tudo o que está na base da clínica, incluindo agendar, confirmar e lembrar do orçamento. Opção combinada: 1 semana inicial com aprovação antes do envio, para a clínica ganhar confiança.
