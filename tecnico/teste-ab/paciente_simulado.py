@@ -24,7 +24,7 @@ WEBHOOK = "https://n8n.169-58-41-107.sslip.io/webhook/" + _seg["webhook_path"]
 MODELO_PACIENTE = "claude-sonnet-5-5"
 MODELO_JUIZ = "claude-sonnet-5-5"
 MAX_TURNOS = 14
-RODADA = time.strftime("%Y%m%d-%H%M")
+RODADA = time.strftime("%Y%m%d-%H%M%S")   # com segundos: duas rodadas no mesmo minuto não sobrescrevem o relatório
 
 
 def ler_env():
@@ -315,8 +315,10 @@ def main():
         for r in resultados:
             a = r["avaliacao"]
             f.write(f'{RODADA},"{r["paciente"]}",{a.get("nota")},{"sim" if a.get("objetivo_atingido") else "nao"}\n')
-    db("DELETE FROM pacientes WHERE telefone LIKE '5541999008%'; DELETE FROM saidas_teste WHERE telefone LIKE '5541999008%' OR texto LIKE '%(5541999008%'; "
-       "DELETE FROM mensagens_recebidas WHERE telefone LIKE '5541999008%';")
+    # Limpa só os números desta rodada: outra rodada ao mesmo tempo não pode perder as fichas (erro visto em 17/11/2026).
+    lista = ",".join("'" + r["tel"] + "'" for r in resultados)
+    db(f"DELETE FROM pacientes WHERE telefone IN ({lista}); DELETE FROM saidas_teste WHERE telefone IN ({lista}) OR " + " OR ".join("texto LIKE '%(" + r["tel"] + ")%'" for r in resultados) + "; "
+       f"DELETE FROM mensagens_recebidas WHERE telefone IN ({lista});")
     print("Relatório:", AQUI / f"paciente-simulado-{RODADA}.md")
 
 

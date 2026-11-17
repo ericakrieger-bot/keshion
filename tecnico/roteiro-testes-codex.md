@@ -49,7 +49,7 @@ Isto é o estado verificado no código (`tecnico/n8n/gerar_fluxos.py`), nas inst
 | **Não responde** | Nada. Sem resposta do paciente, a Clara não manda mais nada | Sem reengajamento, sem confirmação 48 h antes, sem lembrete na véspera às 18 h, sem aviso 2 h antes (a base descreve; o fluxo não faz; está no roadmap "depois do piloto") |
 | **Cancelou** | Se a pessoa pede, confirma qual avaliação, cancela no Google Agenda, avisa a equipe e oferece remarcar uma vez | Não trata falta sem aviso sozinha, não registra motivo, não marca "cancelou" na ficha para uso posterior |
 | Volta depois de dias | Retoma pela conversa gravada | Não sabe quanto tempo passou (a conversa não tem data) e pode tratar horário antigo como atual |
-| Idioma | Responde no idioma da pessoa (com falha na 1ª resposta, ver 4.3) | |
+| Idioma | Não há regra de idioma nas instruções nem na base. Na prática a IA costuma responder no idioma da pessoa, mas a 1ª resposta da Emily veio em português e o espanhol voltou em português (ver 4.3) | Não escolhe o idioma pela 1ª mensagem |
 
 Perguntas abertas que o teste deve ajudar a responder (anotar a evidência, sem decidir):
 1. A Clara deve saber que uma pessoa é paciente antiga? Hoje só pelo que ela disse.
@@ -68,7 +68,7 @@ Perguntas abertas que o teste deve ajudar a responder (anotar a evidência, sem 
 | 1.4 | Agenda e banco limpos | 0.3 | Nada sobrou |
 | 1.5 | Revisão independente da feature | `tecnico/n8n/PROMPT-CODEX-REVISAO.md` | Sem achado grave aberto |
 
-Rodada de referência de 17/11/2026 (15 perfis): média 8,3; o único "não" foi o Wagner (antigo, retorno) com nota 5. Notas guardadas em `tecnico/teste-ab/historico-notas.csv`.
+Rodada de referência de 17/11/2026 (15 perfis): média 8,2; o único "não" foi o Wagner (antigo, retorno) com nota 5. Notas guardadas em `tecnico/teste-ab/historico-notas.csv`.
 
 ## 3. Casos de ciclo de vida do paciente (novos, 17/11/2026)
 
