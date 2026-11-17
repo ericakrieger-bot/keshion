@@ -1,6 +1,6 @@
 # Prompt para o Codex revisar as correções de 17/11 (noite)
 
-Abra o Codex na pasta `Documents\Claude Code\keshion` (repositório privado `ericakrieger-bot/keshion`). Antes de colar, confira que nenhuma outra conversa está rodando teste da Clara: duas rodadas ao mesmo tempo apagam as fichas uma da outra. Copie tudo abaixo da linha e cole no Codex.
+Abra o Codex na pasta `Documents\Claude Code\keshion` (repositório privado `ericakrieger-bot/keshion`). Antes de colar, confira que nenhuma outra conversa está rodando teste da Clara: duas rodadas ao mesmo tempo apagam as fichas uma da outra. **Antes, recarregue o saldo da Anthropic:** sem saldo, a Clara responde "Só um instante, vou verificar" a tudo e os testes não valem. Copie tudo abaixo da linha e cole no Codex.
 
 ---
 
