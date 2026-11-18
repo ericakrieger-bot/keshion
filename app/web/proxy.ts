@@ -23,10 +23,13 @@ export async function proxy(request: NextRequest) {
 
   const { data } = await supabase.auth.getClaims();
   const logado = Boolean(data?.claims);
-  const noLogin = request.nextUrl.pathname === "/login";
+  const caminho = request.nextUrl.pathname;
+  const noLogin = caminho === "/login";
+  // Telas abertas a quem ainda não entrou: login, "esqueci a senha" e o link que vem no e-mail.
+  const publica = noLogin || caminho === "/esqueci-senha" || caminho.startsWith("/auth/");
 
-  // Deslogado fora do login vai para o login; logado no login vai para as conversas.
-  if (logado === noLogin) {
+  // Deslogado em tela protegida vai para o login; logado no login vai para as conversas.
+  if ((!logado && !publica) || (logado && noLogin)) {
     const destino = request.nextUrl.clone();
     destino.pathname = logado ? "/conversas" : "/login";
     destino.search = "";
