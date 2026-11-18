@@ -28,7 +28,14 @@
 - Supabase Pro (US$ 25 por mês) no primeiro cliente pagante.
 - Netlify Personal (US$ 9 por mês) quando os créditos passarem de 80%.
 
-**Em aberto:** o banco "clara" vai para o Supabase ou o app lê os dados do Contabo.
+**Decidido em 18/11/2026: cada banco no seu lugar.**
+- A Clara fica no Contabo, com o banco de cada clínica como hoje. Não muda de lugar.
+- O app usa o Supabase para o que é dele: cadastro, tratamentos, orçamentos, agenda do dia, textos padrão e Painel.
+- Os dois trocam avisos. Clara avisa o app (contato novo, conversa encaminhada, avaliação marcada, lembrete enviado); o app avisa a Clara (assumir ou devolver a conversa, resposta da equipe, "ensinar a IA", orçamento enviado).
+- Cada informação tem um dono só. A chave de ligação é o telefone do paciente dentro de cada clínica.
+- Por quê: o Supabase grátis pausa e não tem backup, a Clara precisa responder mesmo se o app cair, e o banco do Contabo fica fechado para a internet de propósito.
+- Hospedagem: Netlify (telas) e Supabase (banco). Vercel e Base44 avaliados e descartados por ora.
+- Conta da Netlify criada em 18/11/2026 com o e-mail da Keshion.
 
 ## Domínio
 

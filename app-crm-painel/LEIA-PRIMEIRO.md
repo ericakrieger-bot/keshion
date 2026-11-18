@@ -16,7 +16,7 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 - **Fora:** prontuário, nota fiscal, financeiro, integrações.
 - **Reais recuperados:** nova regra na seção 3, aba Painel.
 - **Domínio:** keshion.com, com o app em app.keshion.com.
-- **Em aberto:** o banco "clara" vai para o Supabase ou o app lê os dados do Contabo.
+- **Banco da Clara (decidido em 18/11/2026):** a Clara fica no Contabo e o app usa o Supabase, com os dois trocando avisos. Detalhes em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`.
 
 ## O que tem aqui
 
@@ -117,7 +117,7 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 ## 6. O que falta
 
 1. **Calculadora de perdas e ROI** para o site (em segundo plano desde 17/11/2026; as perguntas estão no outro chat).
-2. Decidir se o banco "clara" vai para o Supabase ou se o app lê os dados do Contabo.
+2. ~~Banco da Clara~~ decidido em 18/11: Clara no Contabo, app no Supabase. Falta escrever o desenho dos avisos entre os dois (`../app/supabase/schema.sql` já tem o rascunho do banco do app).
 3. Protótipo versão 7 pronto e testado em 17/11/2026 (6 abas, marca Keshion). Aguardando a Erica ver o link e dizer se falta algum ajuste antes de virar o app de verdade.
 4. Criar o Supabase (região São Paulo) e o Netlify, com o backup diário para o Contabo e a regra de acesso por clínica.
 5. Montar as telas de dezembro a tempo do piloto da Dra. Vivian em 01/12/2026.
