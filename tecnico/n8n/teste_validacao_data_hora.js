@@ -52,7 +52,7 @@ const C = [
   ['Paciente: el 19 a las 11', 19, 11, 11, 1, 1, 'es: el 19'],
   ['Paciente: 1 de diciembre a las 9', 1, 12, 9, 1, 1, 'es: 1 de diciembre'],
   // Não pode aceitar dia errado
-  ['Paciente: são 11:19 agora', 19, 11, 11, 0, 1, 'NÃO: 11:19 (hora)'],
+  ['Paciente: são 11:19 agora', 19, 11, 11, 0, 0, 'NÃO: 11:19 (hora; e 11:19 não é 11h, desde 18/11 os minutos contam)'],
   ['Paciente: custa R$ 1.019 e pago em 3 vezes', 19, 11, 11, 0, 0, 'NÃO: R$ 1.019'],
   ['Paciente: preciso às 19h', 19, 11, 19, 0, 1, 'NÃO: 19h (hora)'],
   ['Paciente: Thursday 11am works', 11, 11, 11, 0, 1, 'NÃO: Thursday 11am (hora, dia 11)'],
@@ -90,4 +90,52 @@ for (const [conv, dia, mes, hora, dataOk, horaOk, desc] of C) {
   if (!ok) { falhas++; console.log('FALHOU  ' + desc + '  (data ' + r.temData + ' esperada ' + !!dataOk + '; hora ' + r.temHora + ' esperada ' + !!horaOk + ')'); }
 }
 console.log((C.length - falhas) + ' de ' + C.length + ' casos certos' + (falhas ? ', ' + falhas + ' falharam' : '') + ' (' + slug + ')');
-process.exit(falhas ? 1 : 0);
+
+// Pacote A (18/11): data e hora juntas na mesma mensagem, minutos, mês e ano batendo, datas relativas e ofertas misturadas.
+// [conversa, dia, mês, hora, minuto, aceita?, descrição]. "aceita" = data e hora ligadas (o que o fluxo exige para marcar).
+const tz = JSON.parse(fs.readFileSync(__dirname + '/../../clientes/' + slug + '/clinica.json', 'utf8')).fuso;
+const diaTz = desloc => Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' })
+  .formatToParts(new Date(Date.now() + desloc * 86400000)).map(x => [x.type, +x.value]));
+const am = diaTz(1), hj = diaTz(0), dam = diaTz(2);
+const P = [
+  ['Clara: Tenho quinta, 19/11, às 9h, ou terça, 24/11, às 16h.\nPaciente: pode ser a primeira', 19, 11, 9, 0, 1, 'oferta com 2 opções, escolhe a primeira'],
+  ['Clara: Tenho quinta, 19/11, às 9h, ou terça, 24/11, às 16h.\nPaciente: Quero 24/11 às 16h', 24, 11, 16, 0, 1, 'escolhe a segunda'],
+  ['Clara: Tenho quinta, 19/11, às 9h, ou terça, 24/11, às 16h.\nPaciente: Quero 24/11 às 16h', 19, 11, 16, 0, 0, 'NÃO: data de 19/11 com a hora de 24/11'],
+  ['Clara: Tenho quinta, 19/11, às 9h, ou terça, 24/11, às 16h.', 24, 11, 9, 0, 0, 'NÃO: data de 24/11 com a hora de 19/11'],
+  ['Clara: Tenho quinta, 12/11, às 9h, terça, 17/11, às 11h, ou quinta, 19/11, às 9h.\nPaciente: pode ser terça', 17, 11, 11, 0, 1, 'escolhe pelo dia da semana'],
+  ['Clara: Tenho quinta, 12/11, às 9h, terça, 17/11, às 11h, ou quinta, 19/11, às 9h.\nPaciente: pode ser terça', 17, 11, 9, 0, 0, 'NÃO: terça com a hora de quinta'],
+  ['Clara: Tenho quinta, 19/11, às 9h ou às 14h.\nPaciente: às 14h', 19, 11, 14, 0, 1, 'mesmo dia, segunda hora'],
+  ['Clara: I have Thursday, Nov 19, at 9am or Tuesday, Nov 24, at 4pm.\nPaciente: Nov 24 works', 24, 11, 16, 0, 1, 'en: escolhe a segunda'],
+  ['Clara: I have 11am on Nov 19 or 4pm on Nov 24.', 24, 11, 11, 0, 0, 'NÃO en: 11am é do dia 19'],
+  ['Clara: I have 11am on Nov 19 or 4pm on Nov 24.', 24, 11, 16, 0, 1, 'en: hora antes da data'],
+  ['Clara: 19/11 às 9h?\nPaciente: Não posso nesse horário', 19, 11, 9, 0, 0, 'NÃO: paciente recusou a oferta'],
+  ['Clara: 19/11 às 9h?\nPaciente: Prefiro outro horário', 19, 11, 9, 0, 0, 'NÃO: pediu outro horário'],
+  ['Paciente: Pode ser 19/11 às 9h.\nPaciente: Corrigindo, quero 24/11 às 16h.', 19, 11, 9, 0, 0, 'NÃO: escolha antiga corrigida'],
+  ['Paciente: 19/11 às 9:30', 19, 11, 9, 0, 0, 'NÃO: 9:30 não é 9h'],
+  ['Paciente: 19/11 às 9:30', 19, 11, 9, 30, 1, '9:30 vale para 9h30'],
+  ['Paciente: 19/11 às 9h30', 19, 11, 9, 30, 1, '9h30 vale para 9h30'],
+  ['Paciente: dia 19 de dezembro às 9h', 19, 11, 9, 0, 0, 'NÃO: dia 19 de dezembro para novembro'],
+  ['Paciente: the 19th of December at 9am', 19, 11, 9, 0, 0, 'NÃO en: 19th of December'],
+  ['Paciente: 19/11/2025 às 9h', 19, 11, 9, 0, 0, 'NÃO: ano passado'],
+  ['Paciente: 19/11/' + hj.year + ' às 9h', 19, 11, 9, 0, 1, 'ano certo'],
+  ['Paciente: 19 de novembro de 2027 às 9h', 19, 11, 9, 0, 0, 'NÃO: ano seguinte por extenso'],
+  ['Paciente: 19.11 às 9h', 19, 11, 9, 0, 1, '19.11 com ponto'],
+  ['Paciente: el 19 de noviembre a las 4 de la tarde', 19, 11, 16, 0, 1, 'es: 4 de la tarde = 16h'],
+  ['Paciente: amanhã às 11h', am.day, am.month, 11, 0, 1, 'pt: amanhã'],
+  ['Paciente: amanhã às 11h', dam.day, dam.month, 11, 0, 0, 'NÃO: amanhã não é depois de amanhã'],
+  ['Paciente: tomorrow at 11am', am.day, am.month, 11, 0, 1, 'en: tomorrow'],
+  ['Paciente: mañana a las 11', am.day, am.month, 11, 0, 1, 'es: mañana'],
+  ['Paciente: hoy a las 9 de la mañana', hj.day, hj.month, 9, 0, 1, 'es: "de la mañana" é manhã, não amanhã'],
+  ['Paciente: hoy a las 9 de la mañana', am.day, am.month, 9, 0, 0, 'NÃO es: "de la mañana" não é amanhã'],
+  ['Paciente: depois de amanhã às 14h', dam.day, dam.month, 14, 0, 1, 'pt: depois de amanhã'],
+  ['Paciente: pasado mañana a las 14', dam.day, dam.month, 14, 0, 1, 'es: pasado mañana'],
+  ['Clara: Perfeito, quinta 19/11 às 9h então.\nClara: Para confirmar, me passa seu nome completo e um telefone de contato?\nPaciente: Ana Souza 41999990000', 19, 11, 9, 0, 1, 'dados depois da escolha'],
+];
+let falhasP = 0;
+for (const [conv, dia, mes, hora, minuto, aceita, desc] of P) {
+  const r = confere(conv, { ...fmt(dia, mes, hora), minute: String(minuto).padStart(2, '0') });
+  const ok = (r.temData && r.temHora) === !!aceita;
+  if (!ok) { falhasP++; console.log('FALHOU  ' + desc + '  (data ' + r.temData + ', hora ligada ' + r.temHora + ', esperado ' + !!aceita + ')'); }
+}
+console.log((P.length - falhasP) + ' de ' + P.length + ' casos do Pacote A certos' + (falhasP ? ', ' + falhasP + ' falharam' : ''));
+process.exit(falhas || falhasP ? 1 : 0);

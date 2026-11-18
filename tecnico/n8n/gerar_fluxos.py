@@ -170,8 +170,8 @@ def pg(f, name, sql, params_expr, pos, **kw):
     return f.add(name, "n8n-nodes-base.postgres", 2.5, p, pos, credentials=CRED["pg"], **kw)
 
 
-def http(f, name, method, url, pos, cred=None, body_expr=None, headers=None, file_out=False, **kw):
-    p = {"method": method, "url": url, "options": {"timeout": 120000}}
+def http(f, name, method, url, pos, cred=None, body_expr=None, headers=None, file_out=False, timeout=120000, **kw):
+    p = {"method": method, "url": url, "options": {"timeout": timeout}}
     if cred:
         ctype = list(CRED[cred].keys())[0]
         if ctype == "httpHeaderAuth":
@@ -280,6 +280,76 @@ E.link("Enviar pelo WhatsApp (digitando)", "Avisar a Keshion da falha", out=1)
 E.link("Avisar a Keshion da falha", "Esperar a mensagem sair")
 E.link("Esperar a mensagem sair", "Uma por vez")
 
+# Trecho comum (Pacote A, 18/11): idioma da paciente, frases fixas em pt/en/es e palavras de urgência.
+# Entra no começo dos nós "Decidir a ação", "Falha técnica: avisar" e "Resultado · ...".
+COMUM_JS = r"""
+const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+// Urgência: sempre gera aviso novo para a equipe (nunca fica escondida como "complemento").
+const URGENCIA = /sangr|bleed|inchad|inchac|swell|hinchad|hinchaz|febre|fever|fiebre|dor (muito )?forte|muita dor|dor insuport|severe pain|lot of pain|mucho dolor|dolor (muy )?fuerte|\bpus\b|desmai|fainted|passed out/;
+// Idioma quando a IA não informou: conta palavras típicas; empate ou nada = português.
+function detectaIdioma(t) {
+  const s = ' ' + norm(t) + ' ';
+  const n = re => (s.match(re) || []).length;
+  const en = n(/\b(the|you|your|my|is|are|can|could|would|please|thanks|thank|yes|hello|hi|appointment|what|how|when|tomorrow|today|want|need|have|i'?m|it'?s|book|cancel)\b/g);
+  const es = n(/\b(usted|quiero|quisiera|puedo|gracias|hola|cita|manana|hoy|tengo|necesito|estoy|muy|pero|donde|cuanto|cuando|tambien|buenos|buenas|si|una|el|los|las|es|con|para mi)\b/g);
+  const pt = n(/\b(voce|quero|queria|posso|obrigad[oa]|oi|ola|amanha|hoje|tenho|preciso|estou|muito|mas|onde|quanto|quando|tambem|bom dia|boa tarde|sim|nao|uma|o|os|as|e|com|do|da|pra)\b/g);
+  if (en > pt && en >= es) return 'en';
+  if (es > pt && es > en) return 'es';
+  return 'pt';
+}
+const FRASES = {
+  pt: { espera: 'Só um instante, vou verificar aqui e já te retorno.',
+    ja_marcada: t => ['Vi aqui que você já tem uma avaliação marcada para ' + t + '.', 'Prefere manter esse horário ou trocar por outro?'],
+    sem_avaliacao: 'Vou verificar aqui a sua avaliação e já te retorno.',
+    sem_agenda: 'Vou conferir a agenda aqui e já te retorno com os horários.',
+    ocupado: 'Sinto muito, esse horário acabou de ser preenchido.',
+    invalido: 'Esse horário não está disponível para avaliação.',
+    outras: 'Quer que eu veja outras opções para você?',
+    formato: 'Não consegui identificar a data certinho.',
+    formato2: 'Me confirma o dia e o mês, por exemplo 19/11, e o horário?',
+    equipe: 'Vou pedir para a equipe confirmar esse horário com você e já te retorno.',
+    dados: ['Para confirmar, me passa seu nome completo e um telefone de contato?', 'Pode ser este mesmo número.'],
+    conf_cancelar: t => 'Só para confirmar: você quer cancelar a sua avaliação de ' + t + ', certo?',
+    mantida: t => 'Combinado, sua avaliação de ' + t + ' continua marcada.' },
+  en: { espera: 'Just a moment, I will check this and get back to you.',
+    ja_marcada: t => ['I see you already have an evaluation scheduled for ' + t + '.', 'Would you like to keep it or change it to another time?'],
+    sem_avaliacao: 'I will check your evaluation here and get back to you.',
+    sem_agenda: 'I will check the schedule and get back to you with the available times.',
+    ocupado: "I'm sorry, that time has just been taken.",
+    invalido: 'That time is not available for an evaluation.',
+    outras: 'Would you like me to check other options for you?',
+    formato: "I couldn't identify the exact date.",
+    formato2: 'Could you confirm the day and month, for example Nov 19, and the time?',
+    equipe: 'I will ask our team to confirm this time with you and get back to you.',
+    dados: ['To confirm, could you send me your full name and a contact phone number?', 'It can be this same number.'],
+    conf_cancelar: t => 'Just to confirm: you would like to cancel your evaluation on ' + t + ', correct?',
+    mantida: t => 'Sure, your evaluation on ' + t + ' is still scheduled.' },
+  es: { espera: 'Un momento, voy a verificarlo y ya te respondo.',
+    ja_marcada: t => ['Veo que ya tienes una evaluación agendada para el ' + t + '.', '¿Prefieres mantener ese horario o cambiarlo por otro?'],
+    sem_avaliacao: 'Voy a verificar tu evaluación y ya te respondo.',
+    sem_agenda: 'Voy a revisar la agenda y ya te respondo con los horarios.',
+    ocupado: 'Lo siento, ese horario se acaba de ocupar.',
+    invalido: 'Ese horario no está disponible para evaluación.',
+    outras: '¿Quieres que busque otras opciones para ti?',
+    formato: 'No logré identificar la fecha exacta.',
+    formato2: '¿Me confirmas el día y el mes, por ejemplo 19 de noviembre, y la hora?',
+    equipe: 'Voy a pedirle al equipo que confirme este horario contigo y ya te respondo.',
+    dados: ['Para confirmar, ¿me pasas tu nombre completo y un teléfono de contacto?', 'Puede ser este mismo número.'],
+    conf_cancelar: t => 'Solo para confirmar: ¿quieres cancelar tu evaluación del ' + t + ', correcto?',
+    mantida: t => 'De acuerdo, tu evaluación del ' + t + ' sigue agendada.' }
+};
+// Data da avaliação no idioma da paciente (português usa o texto já guardado na ficha).
+function quandoLg(iso, lg, padrao) {
+  const d = new Date(iso || '');
+  if (lg === 'pt' || !iso || isNaN(d.getTime())) return padrao || (lg === 'en' ? 'the scheduled date' : lg === 'es' ? 'la fecha agendada' : 'que está marcada');
+  const p = Object.fromEntries(new Intl.DateTimeFormat(lg === 'en' ? 'en-US' : 'es-ES', { timeZone: '__FUSO__', weekday: 'long',
+    day: 'numeric', month: lg === 'en' ? 'short' : 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
+    .formatToParts(d).map(x => [x.type, x.value]));
+  if (lg === 'en') return p.weekday + ', ' + p.month + ' ' + p.day + ', at ' + Number(p.hour) + ':' + p.minute;
+  return p.weekday + ' ' + p.day + ' de ' + p.month + ' a las ' + Number(p.hour) + ':' + p.minute;
+}
+"""
+
 # =====================================================================
 # FLUXO 2: Atendimento (antigos 1A + 1B + 1C)
 # =====================================================================
@@ -370,7 +440,7 @@ pg(A, "Apagar a conversa de teste", r"""
 INSERT INTO pacientes (telefone, nome) VALUES ($1::text, $2::text)
 ON CONFLICT (telefone) DO UPDATE SET nome = EXCLUDED.nome, conversa = '', pendente = '', ultimo_id = NULL,
   nome_paciente = NULL, tratamento = NULL, avaliacao_texto = NULL, avaliacao_evento = NULL,
-  avaliacao_inicio = NULL, pausado_ate = NULL, atualizado = now();
+  avaliacao_inicio = NULL, pausado_ate = NULL, recusas_agenda = 0, ultimo_complemento = NULL, atualizado = now();
 """, "[ $json.telefone, $json.nome ]", (1340, -500))
 code(A, "Aviso de reinício", r"""
 return [{ json: { phone: $('Decidir caminho').first().json.telefone, sem_digitar: true,
@@ -511,7 +581,7 @@ const conteudo =
   'Tipo da última mensagem: ' + (fila.tipo || 'texto') + '\n\n' +
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
   'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim() + '\n\n' +
-  '(Responda no idioma em que o paciente está escrevendo, inclusive ao oferecer horários.)';
+  '(Responda no idioma em que o paciente está escrevendo, inclusive ao oferecer horários. No JSON, inclua também o campo "idioma" com o código do idioma da sua resposta: pt, en ou es.)';
 return [{ json: { agenda_ok: agendaOk, pedido: {
   model: f.modelo, max_tokens: 6000,   // o pensamento interno do Haiku gasta parte disso; 2000 cortava o JSON
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
@@ -538,7 +608,7 @@ if (!d) {
   const bloco = (r.content || []).find(b => b.type === 'text');
   const txt = (bloco && bloco.text) || '';
   const campos = ['mensagem1', 'mensagem2', 'mensagem3', 'acao', 'motivo', 'inicio', 'titulo', 'fechamento',
-                  'nome_completo', 'telefone_contato', 'nome_paciente', 'tratamento'];
+                  'nome_completo', 'telefone_contato', 'nome_paciente', 'tratamento', 'idioma'];
   const achados = {};
   for (const linha of txt.split('\n')) {
     const m = linha.match(/^\s*"?([a-z_0-9]+)"?\s*:\s*(.*?)\s*,?\s*$/i);
@@ -554,7 +624,8 @@ if (!d || !s(d.mensagem1)) {
 return [{ json: { ok: true, mensagem1: s(d.mensagem1), mensagem2: s(d.mensagem2), mensagem3: s(d.mensagem3),
   acao: (s(d.acao) || 'responder').toLowerCase(), motivo: s(d.motivo), inicio: s(d.inicio), titulo: s(d.titulo),
   fechamento: s(d.fechamento), nome_paciente: s(d.nome_paciente), tratamento: s(d.tratamento),
-  nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, '') } }];
+  nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, ''),
+  idioma: (s(d.idioma).toLowerCase().match(/^(pt|en|es)/) || [, ''])[1] } }];
 """
 code(A, "Ler as mensagens e a ação", LEITOR_JS, (3500, 100))
 se(A, "Resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (3740, 100))
@@ -565,10 +636,10 @@ http(A, "Pedir de novo (Claude)", "POST", "https://api.anthropic.com/v1/messages
 code(A, "Ler a segunda tentativa", LEITOR_JS, (3980, 300))
 se(A, "Segunda resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (4220, 300))
 
-code(A, "Falha técnica: avisar", r"""
+code(A, "Falha técnica: avisar", COMUM_JS + r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const erro = $input.first().json.erro || '';
-const espera = 'Só um instante, vou verificar aqui e já te retorno.';
+const espera = FRASES[detectaIdioma(f.pendente)].espera;
 return [   // aviso para a equipe primeiro, sem esperar o "digitando" do paciente
   { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na __ASSISTENTE__ (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
   { json: { phone: f.telefone, m1: espera } }
@@ -578,37 +649,56 @@ chamar_envio(A, "Enviar aviso de falha", (4220, 400))
 # Na falha, também registra o turno e esvazia a fila; senão a próxima mensagem se mistura com esta (revisão Codex, item 4).
 pg(A, "Registrar a falha na conversa", r"""
 UPDATE pacientes SET
-  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\n__ASSISTENTE__: Só um instante, vou verificar aqui e já te retorno.', 11000), E'\n'),
+  conversa = ltrim(right(conversa || E'\nPaciente: ' || $2::text || E'\n__ASSISTENTE__: ' || $5::text, 11000), E'\n'),
   pendente = CASE WHEN ultimo_id = $3::text THEN '' ELSE replace(pendente, $4::text, '') END,
   atualizado = now()
 WHERE telefone = $1::text;
 """, "[ $('Ler ficha e instruções (só a última responde)').first().json.telefone, ($('Ler ficha e instruções (só a última responde)').first().json.pendente || '').trim(), "
-     "$('Ler ficha e instruções (só a última responde)').first().json.ultimo_id, $('Ler ficha e instruções (só a última responde)').first().json.pendente || '' ]",
+     "$('Ler ficha e instruções (só a última responde)').first().json.ultimo_id, $('Ler ficha e instruções (só a última responde)').first().json.pendente || '', "
+     "$('Falha técnica: avisar').last().json.m1 ]",
    (4220, 600), executeOnce=True)
 
-code(A, "Decidir a ação", r"""
+code(A, "Decidir a ação", COMUM_JS + r"""
 const ia = { ...$input.first().json };
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const futura = !!f.avaliacao_inicio && new Date(f.avaliacao_inicio) > new Date();
 const agendaOk = $('Montar o pedido para a IA').first().json.agenda_ok;
-const texto = [ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' ');
-const ofereceHorario = /\b\d{1,2}h\b|\b\d{1,2}:\d{2}\b/.test(texto);
-// Cancelar só depois que a assistente pediu a confirmação ("... certo?"): o fluxo não confia só na ação da IA.
+const pend = String(f.pendente || '');
+// Idioma da paciente (campo "idioma" da IA; se faltar, adivinha pelas mensagens novas). Usado nas frases fixas.
+ia.idioma = ['pt', 'en', 'es'].includes(ia.idioma) ? ia.idioma : detectaIdioma(pend);
+const F = FRASES[ia.idioma];
+// Cancelar só quando (1) a última fala da assistente foi uma pergunta de confirmação e (2) a paciente respondeu que sim.
+// Senão, pergunta de novo no idioma dela; se ela disse que quer manter, confirma que a avaliação continua (Pacote A, item A5).
 if (ia.acao === 'cancelar' && f.avaliacao_evento) {
   const partes = String(f.conversa || '').split('\n__ASSISTENTE__: ');
   const ultima = partes.length > 1 ? partes[partes.length - 1].split('\nPaciente:')[0] : '';
-  if (!/certo\s*\?|cancel/i.test(ultima)) {
+  const u = norm(ultima), p = norm(pend);
+  const perguntou = ultima.includes('?') && /\b(certo|correto|correct|right|confirm\w*|correcto|cancel\w*)\b/.test(u);
+  const nega = /\b(nao|no(?!\s+(?:dia|horario|mesmo|meu|momento))|not|nope|keep|manter|mantenha|mantener|mantengo|wait|espera)\b|don'?t cancel|do not cancel/.test(p);
+  const afirma = /\b(sim|pode|confirmo|confirmado|confirma|isso|exato|correto|certo|yes|yep|yeah|confirm|confirmed|sure|correct|si|claro|correcto|dale|ok|okay)\b|please do/.test(p);
+  if (!(perguntou && afirma && !nega)) {
+    const t = quandoLg(f.avaliacao_inicio, ia.idioma, f.avaliacao_texto);
     ia.acao = 'responder';
-    ia.mensagem1 = 'Só para confirmar: é a sua avaliação de ' + (f.avaliacao_texto || 'que está marcada') + ', certo?';
+    ia.mensagem1 = perguntou && nega && !afirma ? F.mantida(t) : F.conf_cancelar(t);
     ia.mensagem2 = ''; ia.mensagem3 = '';
     ia.motivo = 'Confirmação antes de cancelar (pedida pelo fluxo)';
   }
 }
+const texto = [ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' ');
+const ofereceHorario = /\b\d{1,2}h\b|\b\d{1,2}:\d{2}\b|\b\d{1,2}\s*[ap]\.?\s*m\b/i.test(texto);
 // Se a resposta diz que vai passar o assunto ou verificar, a equipe tem de receber o aviso, mesmo que a IA tenha marcado "responder".
-const promete = /(vou|vamos|irei)\s+(passar|encaminhar|verificar|conferir|consultar|checar|perguntar)(?![^.!?]*hor[aá]rio)|j[aá] te (retorno|respondo|dou um retorno)|te dou um retorno|passar (a |o |sua |seu |essa |esta )?(mensagem|pedido|solicita)/i.test(texto);
+// Português, inglês e espanhol (A7). Conferir horários não conta: isso a própria assistente faz.
+const promete = /(vou|vamos|irei)\s+(passar|encaminhar|verificar|conferir|consultar|checar|perguntar)(?![^.!?]*hor[aá]rio)|j[aá] te (retorno|respondo|dou um retorno)|te dou um retorno|passar (a |o |sua |seu |essa |esta )?(mensagem|pedido|solicita)/i.test(texto)
+  || /\b(I['’]?ll|I will|we['’]?ll|we will)\s+(forward|pass|check|ask|confirm)(?![^.!?]*\b(schedule|availability|available|times?|slots?|calendar)\b)|\blet me (check|ask|confirm)(?![^.!?]*\b(schedule|availability|available|times?|slots?|calendar)\b)|\bwill get back\b|\bget back to you\b/i.test(texto)
+  || /\bvoy a (pasar|consultar|verificar|confirmar|preguntar)(?![^.!?]*horario)|\b(le|te) paso\b|\bte confirmo (en breve|enseguida|luego|pronto|m[aá]s tarde)|\bte aviso\b|\bya te (respondo|confirmo|aviso)\b/i.test(texto);
 if (ia.acao === 'responder' && promete) {
   ia.acao = 'humano';
   ia.motivo = ia.motivo || 'A assistente disse que ia passar ou verificar o assunto';
+}
+// Urgência relatada (sangramento, inchaço, febre, dor forte) sempre vai para a equipe, mesmo que a IA só tenha respondido.
+if (ia.acao === 'responder' && URGENCIA.test(norm(pend)) && !pend.includes('?')) {
+  ia.acao = 'humano';
+  ia.motivo = ia.motivo || 'Paciente relatou possível urgência';
 }
 let rota = 'responder';
 // Decisões que não dependem do texto da IA (revisão Codex, item 4):
@@ -641,7 +731,8 @@ const data = q.year + '-' + q.month + '-' + q.day, md = q.month + '-' + q.day, h
 const dias = Math.round((Date.UTC(+q.year, +q.month - 1, +q.day) - Date.UTC(+hoje.year, +hoje.month - 1, +hoje.day)) / 86400000);
 const fer = R.feriados || [], blo = R.bloqueios || [];
 let erro = '';
-if (d.getTime() < Date.now() + R.antecedencia_min_minutos * 60000) erro = 'horário já passou ou está perto demais';
+if (d.getUTCSeconds() || d.getUTCMilliseconds()) erro = 'horário com segundos fora da grade';
+else if (d.getTime() < Date.now() + R.antecedencia_min_minutos * 60000) erro = 'horário já passou ou está perto demais';
 else if (dias > R.antecedencia_max_dias) erro = 'além do prazo de ' + R.antecedencia_max_dias + ' dias';
 else if (!R.dias_semana.includes(dow)) erro = 'dia da semana sem avaliação';
 else if (!R.horarios.includes(hora)) erro = 'horário fora dos horários de avaliação';
@@ -657,59 +748,170 @@ if (ia.acao === 'agendar') {
 const conversa = String(f.conversa || '') + '\n' + String(f.pendente || '');
 const dd = String(+q.day), mm = String(+q.month), hh = String(+q.hour);
 // INICIO-DATAS
-// A data precisa ter aparecido na conversa, em português, inglês ou espanhol: 19/11, 11/19 (formato dos EUA, só quando o dia passa de 12),
-// 2026-11-19, "dia 19", "día 19", "19 de novembro", "19 de noviembre", "Nov 19", "November 19th", "19 Nov", "Thursday 19", "the 19th", "19th".
-// Um 19 solto não vale: 11:19, R$ 1.019, 19h e "Thursday 11am" não contam como dia. (18/11: "Nov 19" não era reconhecido e a paciente nunca marcava.)
-const temDataNaConversa = (texto, dia, mes) => {
-  const MESES = [
-    ['janeiro', 'jan', 'january', 'enero', 'ene'], ['fevereiro', 'fev', 'february', 'feb', 'febrero'],
-    ['março', 'marco', 'mar', 'march', 'marzo'], ['abril', 'abr', 'april', 'apr'], ['maio', 'mai', 'may', 'mayo'],
-    ['junho', 'jun', 'june', 'junio'], ['julho', 'jul', 'july', 'julio'], ['agosto', 'ago', 'august', 'aug'],
-    ['setembro', 'set', 'september', 'sep', 'sept', 'septiembre', 'setiembre'], ['outubro', 'out', 'october', 'oct', 'octubre'],
-    ['novembro', 'nov', 'november', 'noviembre'], ['dezembro', 'dez', 'december', 'dec', 'diciembre', 'dic']
-  ];
-  const D = '0?' + dia, M = '(?:' + MESES[mes - 1].join('|') + ')';
-  const SEMANA = '(?:segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo|seg|ter|qua|qui|sex|s[aá]b|dom|monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tues?|wed|thu|thur|thurs|fri|sat|sun|lunes|martes|mi[eé]rcoles|jueves|viernes)';
-  const SUF = '(?:st|nd|rd|th|º|°)?';
-  const ANTES = '(?:^|[^\\d:.,/])';                           // o dia não pode vir colado em outro número (11:19, 1.019, 3/19)
-  const NAO_HORA = '(?!\\d)(?!\\s*(?:[:h/]|hs\\b|horas?\\b|[ap]\\.?\\s*m\\b|in the\\b|o.?clock))'; // depois do dia não pode vir hora
-  const mesDepois = '\\s*(?:of\\s+|de\\s+|del\\s+)?(?:the\\s+)?' + M + '(?![a-zà-ú])';
-  const padroes = [
-    ANTES + D + '\\s*/\\s*0?' + mes + '(?!\\d)',               // 19/11, 19/11/2026
-    '\\b\\d{4}-0?' + mes + '-' + D + '(?!\\d)',                // 2026-11-19
-    '\\bd[ií]a\\s+' + D + '(?!\\d)',                           // dia 19, día 19
-    ANTES + D + SUF + mesDepois,                               // 19 de novembro, 19th of November, 19 Nov, 19 de noviembre
-    '\\b' + M + '\\.?,?\\s*(?:the\\s+)?' + D + SUF + '(?!\\d)(?!:\\d)', // Nov 19, November 19th, Nov. 19, nov 19
-    '\\b' + SEMANA + '(?:-feira)?\\.?,?\\s+(?:the\\s+|el\\s+|dia\\s+)?' + D + SUF + NAO_HORA, // Thursday 19, quinta 19, jueves 19
-    '\\b(?:the|el)\\s+' + D + SUF + NAO_HORA,                  // the 19th, the 19, el 19
-    ANTES + D + '(?:st|nd|rd|th)\\b'                           // 19th
-  ];
-  if (dia > 12) padroes.push(ANTES + '0?' + mes + '\\s*/\\s*' + D + '(?!\\d)'); // 11/19 só pode ser mês/dia
-  return padroes.some(p => new RegExp(p, 'i').test(texto));
+// Pacote A (18/11, revisão do Codex): data e hora precisam aparecer JUNTAS, na mesma mensagem (da assistente ou da paciente),
+// e a hora tem de ficar ligada a essa data (não vale juntar o dia de uma opção com a hora de outra). Vale a mensagem mais
+// recente que fala de dia ou hora: se ela traz outro dia ou outra hora, o pedido é recusado; se só repete o dia, a hora
+// ou o dia da semana do pedido ("pode ser às 9h", "a de quinta"), procura o par completo nas mensagens anteriores.
+// Uma recusa da paciente depois da oferta ("não quero", "não posso", "outro horário") também invalida a oferta.
+// Minutos, mês e ano precisam bater. Aceita hoje/amanhã/depois de amanhã (today/tomorrow, hoy/mañana/pasado mañana)
+// pela data de hoje na clínica. Formatos: 19/11, 19.11, 19-11, 11/19 (EUA, só com dia > 12), 2026-11-19, "dia 19",
+// "19 de novembro", "Nov 19", "19th of November", "Thursday 19", "the 19th", "el 19". Um 19 solto não vale.
+const normD = x => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const mi = String(q.minute || '00').padStart(2, '0');
+const hojeTz = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: '__FUSO__', year: 'numeric', month: '2-digit', day: '2-digit' })
+  .formatToParts(new Date()).map(x => [x.type, x.value]));
+const ano = String(q.year || hojeTz.year);
+const diasAteCand = Math.round((Date.UTC(+ano, +mm - 1, +dd) - Date.UTC(+hojeTz.year, +hojeTz.month - 1, +hojeTz.day)) / 86400000);
+const dowCand = new Date(Date.UTC(+ano, +mm - 1, +dd)).getUTCDay();
+const MESES = [
+  ['janeiro', 'jan', 'january', 'enero', 'ene'], ['fevereiro', 'fev', 'february', 'feb', 'febrero'],
+  ['março', 'marco', 'mar', 'march', 'marzo'], ['abril', 'abr', 'april', 'apr'], ['maio', 'mai', 'may', 'mayo'],
+  ['junho', 'jun', 'june', 'junio'], ['julho', 'jul', 'july', 'julio'], ['agosto', 'ago', 'august', 'aug'],
+  ['setembro', 'set', 'september', 'sep', 'sept', 'septiembre', 'setiembre'], ['outubro', 'out', 'october', 'oct', 'octubre'],
+  ['novembro', 'nov', 'november', 'noviembre'], ['dezembro', 'dez', 'december', 'dec', 'diciembre', 'dic']
+];
+// [nomes por extenso, abreviações], 0 = domingo. "segunda opção" não é segunda-feira.
+const SEMANAS = [
+  ['domingo|sunday', 'dom|sun'], ['segunda(?!\\s+(?:op|alternativ|vez|via|chance))|monday|lunes', 'seg|mon'],
+  ['ter[cç]a|tuesday|martes', 'ter|tues?'], ['quarta|wednesday|mi[eé]rcoles', 'qua|wed'],
+  ['quinta|thursday|jueves', 'qui|thu|thur|thurs'], ['sexta|friday|viernes', 'sex|fri'], ['s[aá]bado|saturday', 's[aá]b|sat']
+];
+const L = '[a-zà-ú]';
+const SEM_TODAS = '(?:' + SEMANAS.map(s => s.join('|')).join('|') + ')';
+const SEM_LONGA = '(?:' + SEMANAS.map(s => s[0]).join('|') + ')';
+const MES_TODOS = '(?:' + MESES.flat().join('|') + ')';
+const Mc = '(?:' + MESES[+mm - 1].join('|') + ')';
+const OUTROS = '(?:' + MESES.filter((_, i) => i !== +mm - 1).flat().filter(x => x !== 'may').join('|') + ')';
+const SUF = '(?:st|nd|rd|th|º|°)?';
+const D = '0?' + dd;
+const NAO_HORA = '(?!\\d)(?!\\s*(?:[:h/]|hs\\b|horas?\\b|[ap]\\.?\\s*m\\b|in the\\b|o.?clock))';  // depois do dia não pode vir hora
+const NAO_OUTRO = '(?!(?:st|nd|rd|th|º|°)?\\.?,?\\s*(?:of\\s+|de\\s+|del\\s+)?(?:the\\s+)?' + OUTROS + '(?!' + L + '))(?!\\s*[/.\\-]\\s*\\d)'; // "dia 19 de dezembro"
+const ANO_OK = '(?!,?\\s*(?:de\\s+|del\\s+)?(?!' + ano + '(?!\\d))\\d{4}(?!\\d))';  // ano escrito diferente do pedido
+const mesDepois = '\\s*(?:of\\s+|de\\s+|del\\s+)?(?:the\\s+)?' + Mc + '(?!' + L + ')';
+const padroes = [
+  '(?<![\\d:.,/])(?<!R\\$\\s{0,2})' + D + '\\s*[/.\\-]\\s*0?' + mm + '(?!\\d)(?!\\s*[/.\\-]\\s*(?!(?:' + ano + '|' + ano.slice(2) + ')(?!\\d))\\d)', // 19/11, 19.11, 19-11, 19/11/2026
+  '\\b' + ano + '-0?' + mm + '-' + D + '(?!\\d)',                                     // 2026-11-19
+  '(?<!' + L + ')d[ií]a\\s+' + D + NAO_HORA + NAO_OUTRO,                               // dia 19, día 19
+  '(?<![\\d:.,/])' + D + SUF + mesDepois + ANO_OK,                                    // 19 de novembro, 19th of November, 19 Nov
+  '(?<!' + L + ')' + Mc + '\\.?,?\\s*(?:the\\s+)?' + D + SUF + '(?!\\d)(?!:\\d)' + ANO_OK, // Nov 19, November 19th
+  '(?<!' + L + ')' + SEM_TODAS + '(?:-feira)?\\.?,?\\s+(?:the\\s+|el\\s+|dia\\s+)?' + D + SUF + NAO_HORA + NAO_OUTRO, // quinta 19, jueves 19
+  '(?<!' + L + ')(?:the|el)\\s+' + D + SUF + NAO_HORA + NAO_OUTRO,                     // the 19th, el 19
+  '(?<![\\d:.,/])' + D + '(?:st|nd|rd|th)\\b' + NAO_OUTRO + '(?!\\s+(?:installment|payment|parcela|row|floor|time|try|attempt|birthday|anniversary))' // 19th
+];
+if (+dd > 12) padroes.push('(?<![\\d:.,/])0?' + mm + '\\s*/\\s*' + D + '(?!\\d)');  // 11/19 só pode ser mês/dia
+const RELATIVAS = [
+  [0, '(?<!' + L + ')(?:hoje|today|hoy)(?!' + L + ')'],
+  [1, '(?<!' + L + ')(?<!depois de )(?<!after )(?<!pasado )(?<!(?:la|esta|de)\\s)(?:amanh[ãa]|tomorrow|ma[ñn]ana)(?!' + L + ')'],
+  [2, '(?<!' + L + ')(?:depois de amanh[ãa]|pasado ma[ñn]ana|day after tomorrow)(?!' + L + ')']
+];
+const fontesCand = padroes.concat(RELATIVAS.filter(r => r[0] === diasAteCand).map(r => r[1]));
+const spans = (texto, fontes) => fontes.flatMap(p => [...String(texto).matchAll(new RegExp(p, 'gi'))].map(m => [m.index, m.index + m[0].length]));
+const temDataNaConversa = texto => spans(texto, fontesCand).length > 0;
+// Qualquer menção de dia (para saber se a mensagem fala de OUTRO dia) e de hora.
+const RE_DATA = new RegExp([
+  '(?<![\\d:.,/])\\d{1,2}\\s*[/.\\-]\\s*\\d{1,2}(?:\\s*[/.\\-]\\s*\\d{2,4})?(?![\\d:])',
+  '\\b\\d{4}-\\d{1,2}-\\d{1,2}\\b',
+  '(?<!' + L + ')d[ií]a\\s+\\d{1,2}(?!\\d)(?!\\s*(?:h|hs|horas?)(?!' + L + '))',
+  '(?<![\\d:.,/])\\d{1,2}(?:st|nd|rd|th|º|°)?\\s*(?:of\\s+|de\\s+|del\\s+)?(?:the\\s+)?' + MES_TODOS + '(?!' + L + ')',
+  '(?<!' + L + ')' + MES_TODOS + '\\.?,?\\s*(?:the\\s+)?\\d{1,2}(?:st|nd|rd|th)?(?![\\d:])',
+  '(?<!' + L + ')(?:the|el)\\s+\\d{1,2}(?:st|nd|rd|th|º)?(?![\\d:])(?!\\s*(?:[ap]\\.?\\s*m|h\\b|hs\\b|horas?))',
+  '(?<![\\d:.,/])\\d{1,2}(?:st|nd|rd|th)(?!' + L + ')',
+  '(?<!' + L + ')' + SEM_LONGA + '(?:-feira)?(?!' + L + ')',
+  '(?<!' + L + ')(?:hoje|today|hoy|amanh[ãa]|tomorrow|day after tomorrow|depois de amanh[ãa]|pasado ma[ñn]ana)(?!' + L + ')',
+  '(?<!' + L + ')(?<!(?:la|esta|de)\\s)ma[ñn]ana(?!' + L + ')'
+].join('|'), 'gi');
+const RE_HORA = new RegExp([
+  '(?<!' + L + ')(?:às|as|a\\s+las|at)\\s+\\d{1,2}(?:\\s*[:h]\\s*\\d{2})?(?:\\s*(?:hs?(?![a-z\\d])|horas?\\b|[ap]\\.?\\s*m\\b\\.?))?',
+  '(?<![\\d:./,])\\d{1,2}(?::\\d{2})?\\s*[ap]\\.?\\s*m\\b\\.?',
+  '(?<![\\d:./,])\\d{1,2}\\s*hs?(?:\\s*\\d{2})?(?![a-z\\d])',
+  '(?<![\\d:./,])\\d{1,2}:\\d{2}(?!\\d)',
+  '(?<![\\d:./,])\\d{1,2}\\s*horas?\\b'
+].join('|'), 'gi');
+// Lê a hora de uma menção: [hora 0 a 23, minutos]. "at 4" sem am/pm pode ser 4h ou 16h; "a las 4 de la tarde" = 16h.
+const lerHora = (t, depois) => {
+  const s = t.toLowerCase(), n = s.match(/(\d{1,2})(?:\s*(?::|h)\s*(\d{2}))?/);
+  if (!n) return [];
+  let h = +n[1]; const m = n[2] ? +n[2] : 0;
+  const ap = s.match(/([ap])\.?\s*m/);
+  if (ap) return h > 12 ? [] : [[h % 12 + (ap[1] === 'p' ? 12 : 0), m]];
+  if (/^at\s/.test(s) && h <= 12) return [[h, m], [h % 12 + 12, m]];
+  if (h < 12 && /^\s*(?:da|de la|à|a|in the)\s+(?:tarde|noite|noche|afternoon|evening)/.test(String(depois).toLowerCase())) h += 12;
+  return [[h, m]];
 };
+const juntar = lista => lista.sort((a, b) => a.i - b.i || b.f - a.f).reduce((acc, x) => {
+  const u = acc[acc.length - 1];
+  if (u && x.i < u.f) { u.f = Math.max(u.f, x.f); u.cand = u.cand || x.cand; } else acc.push({ ...x });
+  return acc;
+}, []);
+const SO_SEMANA = new RegExp('^' + SEM_TODAS + '(?:-feira)?$', 'i');
+const DOW_LONGA = SEMANAS.map(s => new RegExp('^(?:' + s[0] + ')(?:-feira)?$', 'i'));
+function mencoes(b) {
+  const cand = spans(b, fontesCand);
+  let datas = [...b.matchAll(RE_DATA)].map(m => ({ tipo: 'data', i: m.index, f: m.index + m[0].length, cand: false }))
+    .concat(cand.map(([i, f]) => ({ tipo: 'data', i, f, cand: true })));
+  datas = juntar(datas).map(x => ({ ...x, cand: x.cand || cand.some(([i, f]) => i < x.f && f > x.i) }));
+  // dia da semana sozinho: vale como o pedido se for o mesmo dia da semana; colado numa data, faz parte dela
+  datas.forEach(x => { const t = b.slice(x.i, x.f).trim(); x.semana = SO_SEMANA.test(t); if (x.semana && !x.cand) x.cand = !!DOW_LONGA[dowCand] && DOW_LONGA[dowCand].test(t); });
+  datas = datas.filter((x, k) => {
+    if (!x.semana) return true;
+    const viz = [datas[k - 1], datas[k + 1]].filter(Boolean).filter(y => !y.semana);
+    return !viz.some(y => /^[\s,.\-]*(?:feira[\s,.]*)?$/i.test(y.i > x.i ? b.slice(x.f, y.i) : b.slice(y.f, x.i)));
+  });
+  const horas = juntar([...b.matchAll(RE_HORA)].map(m => ({ tipo: 'hora', i: m.index, f: m.index + m[0].length })))
+    .map(x => ({ ...x, cand: lerHora(b.slice(x.i, x.f), b.slice(x.f, x.f + 20)).some(([h, m]) => h === +hh && m === +mi) }));
+  return { datas, horas };
+}
+// Cada hora pertence à data mais próxima antes dela (português e espanhol: "19/11 às 9h"); se entre as duas houver
+// "ou/or/o/y/e", pertence à data seguinte ("11am on Nov 19 or 4pm on Nov 24").
+const SEP = /(?:^|[^a-zà-ú])(?:ou|or|o|y|e|and)(?![a-zà-ú])|;/i;
+function parNaMensagem(b, mc) {
+  return mc.horas.filter(h => h.cand).some(h => {
+    const antes = mc.datas.filter(x => x.f <= h.i).pop(), depois = mc.datas.find(x => x.i >= h.f);
+    let dono;
+    if (antes && !SEP.test(b.slice(antes.f, h.i))) dono = antes;
+    else if (depois && !SEP.test(b.slice(h.f, depois.i))) dono = depois;
+    else dono = antes || depois;
+    return !!(dono && dono.cand);
+  });
+}
+const NEGA = /\b(nao|no)\s+(quero|posso|consigo|da|vou|puedo|quiero|me sirve|funciona|serve)\b|\b(can'?t|cannot|doesn'?t work|won'?t work|not good)\b|\b(outro|otro)\s+(horario|dia)\b|\banother (time|day|slot)\b|\bnenhum\b|\bninguno\b/;
+const ehAssistente = b => /^(__ASSISTENTE__|Doutora)\b/.test(b);
+function parNaConversa(texto) {
+  const blocos = String(texto).split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('---'));
+  let negou = false;
+  for (let k = blocos.length - 1; k >= Math.max(0, blocos.length - 40); k--) {
+    const b = blocos[k], mc = mencoes(b);
+    if (!mc.datas.length && !mc.horas.length) {
+      if (!ehAssistente(b) && NEGA.test(normD(b))) negou = true;
+      continue;
+    }
+    if (parNaMensagem(b, mc)) return !negou;
+    if (!mc.datas.concat(mc.horas).every(x => x.cand)) return false;   // fala de outro dia ou outra hora
+  }
+  return false;
+}
 // FIM-DATAS
-const temData = temDataNaConversa(conversa, +q.day, +q.month);
-// Hora em português (9h, 9:00, às 9), inglês (9am, 4 pm, 4:00 p.m., at 4) e espanhol (a las 9). 18/11: em inglês não marcava.
-const h12 = String(+q.hour % 12 || 12), ampm = +q.hour < 12 ? 'a\\.?\\s*m' : 'p\\.?\\s*m';
-const temHora = new RegExp('(^|\\D)0?' + hh + '(\\s*h\\b|:\\d\\d|\\s*horas?\\b)|(às|as|a las)\\s+0?' + hh + '(?!\\d)', 'i').test(conversa)
-  || new RegExp('(^|\\D)' + h12 + '(:00)?\\s*' + ampm + '(?![a-z])|\\bat\\s+' + h12 + '(?![\\d:]|\\s*[ap]\\.?\\s*m)', 'i').test(conversa);
+const temData = temDataNaConversa(conversa);
+const horaSolta = [...conversa.matchAll(RE_HORA)].some(m => lerHora(m[0], conversa.slice(m.index + m[0].length, m.index + m[0].length + 20)).some(([h, m2]) => h === +hh && m2 === +mi));
+// temHora só vale se a hora estiver ligada à data pedida (ou se não houver data nenhuma, para o teste da hora sozinha).
+const temHora = horaSolta && (!temData || parNaConversa(conversa));
 if (!temData || !temHora) return fim('invalido', 'horário que não foi oferecido nem pedido na conversa');
 return fim('ok');
 """, (4460, 300))
 escolha(A, "Resultado da validação", "passo", ["ok", "dados", "invalido"], (4700, 300))
-pg(A, "Reservar o horário (trava de 2 min)", r"""
--- Duas conversas não pegam a mesma vaga: quem chega primeiro segura o horário por 2 minutos (o evento criado depois passa a aparecer na agenda).
+pg(A, "Reservar o horário (trava de 5 min)", r"""
+-- Duas conversas não pegam a mesma vaga: quem chega primeiro segura o horário por 5 minutos (as chamadas ao Google têm limite de 30 s) (o evento criado depois passa a aparecer na agenda).
 WITH limpa AS (DELETE FROM reservas_horario WHERE criado < now() - interval '1 day'),
 t AS (
   INSERT INTO reservas_horario (inicio, telefone, criado) VALUES ($1::timestamptz, $2::text, now())
   ON CONFLICT (inicio) DO UPDATE SET telefone = EXCLUDED.telefone, criado = now()
-  WHERE reservas_horario.telefone = EXCLUDED.telefone OR reservas_horario.criado < now() - interval '2 minutes'
+  WHERE reservas_horario.telefone = EXCLUDED.telefone OR reservas_horario.criado < now() - interval '5 minutes'
   RETURNING 1
 )
 SELECT EXISTS (SELECT 1 FROM t) AS reservado;
 """, "[ $('Decidir a ação').first().json.inicio, $('Ler ficha e instruções (só a última responde)').first().json.telefone ]", (4940, 300))
 se(A, "Conseguiu reservar?", cond("={{ $json.reservado }}", "true", typ="boolean"), (5180, 300))
-http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (5420, 200), cred="google",
+http(A, "Conferir se o horário segue livre", "POST", GCAL + "/freeBusy", (5420, 200), cred="google", timeout=30000,
      onError="continueRegularOutput",
      body_expr="{ timeMin: $('Decidir a ação').first().json.inicio, timeMax: new Date(new Date($('Decidir a ação').first().json.inicio).getTime() + __DURACAO_MS__).toISOString(), timeZone: '" + TZ + "', items: [{ id: '__CALENDARIO__' }] }")
 code(A, "Horário livre?", r"""
@@ -725,21 +927,21 @@ else passo = ia.acao === 'remarcar' ? 'mudar' : 'criar';
 return [{ json: { passo, inicio: ia.inicio, fim: isNaN(ini.getTime()) ? '' : new Date(ini.getTime() + __DURACAO_MS__).toISOString(), titulo: ia.titulo } }];
 """, (4700, 300))
 escolha(A, "Próximo passo na agenda", "passo", ["criar", "mudar", "ocupado", "erro"], (4940, 300))
-http(A, "Criar a avaliação na agenda", "POST", GCAL_EVENTOS, (5180, 200), cred="google",
+http(A, "Criar a avaliação na agenda", "POST", GCAL_EVENTOS, (5180, 200), cred="google", timeout=30000,
      onError="continueRegularOutput",
      body_expr="{ summary: $json.titulo, location: $('Ler ficha e instruções (só a última responde)').first().json.local_avaliacao, "
                "description: 'Marcado pela __ASSISTENTE__ pelo WhatsApp. Paciente: ' + ($('Decidir a ação').first().json.nome_completo || $('Ler ficha e instruções (só a última responde)').first().json.nome_completo || $('Decidir a ação').first().json.nome_paciente || $('Ler ficha e instruções (só a última responde)').first().json.nome_paciente || '') + '. Telefone de contato: ' + ($('Decidir a ação').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone_contato || $('Ler ficha e instruções (só a última responde)').first().json.telefone) + '. WhatsApp: ' + $('Ler ficha e instruções (só a última responde)').first().json.telefone, "
                "start: { dateTime: $json.inicio, timeZone: '" + TZ + "' }, end: { dateTime: $json.fim, timeZone: '" + TZ + "' } }")
 http(A, "Mudar a avaliação na agenda", "PATCH",
      "=" + GCAL_EVENTOS + "/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
-     (5180, 400), cred="google", onError="continueRegularOutput",
+     (5180, 400), cred="google", timeout=30000, onError="continueRegularOutput",
      body_expr="{ summary: $json.titulo, start: { dateTime: $json.inicio, timeZone: '" + TZ + "' }, end: { dateTime: $json.fim, timeZone: '" + TZ + "' } }")
 http(A, "Cancelar a avaliação na agenda", "DELETE",
      "=" + GCAL_EVENTOS + "/{{ $('Ler ficha e instruções (só a última responde)').first().json.avaliacao_evento }}",
-     (4460, 600), cred="google", onError="continueRegularOutput")
+     (4460, 600), cred="google", timeout=30000, onError="continueRegularOutput")
 
 # Resultado: cada caminho monta o mesmo formato (mensagens, ficha, avisos para a equipe).
-RESULTADO_JS = r"""
+RESULTADO_JS = COMUM_JS + r"""
 const TIPO = '__TIPO__';
 const ia = $('Decidir a ação').first().json;
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
@@ -748,7 +950,9 @@ const tel = f.telefone;
 const nome = ia.nome_paciente || f.nome_paciente || f.nome || '';
 const pend = (f.pendente || '').trim();
 const quem = 'Paciente: ' + nome + ' (' + tel + ')';
-const espera = 'Só um instante, vou verificar aqui e já te retorno.';
+const lg = ['pt', 'en', 'es'].includes(ia.idioma) ? ia.idioma : detectaIdioma(pend);
+const F = FRASES[lg];
+const espera = F.espera;
 function quando(iso) {
   const p = Object.fromEntries(new Intl.DateTimeFormat('pt-BR', { timeZone: '__FUSO__', day: '2-digit', month: '2-digit', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
     .formatToParts(new Date(iso)).map(x => [x.type, x.value]));
@@ -757,7 +961,7 @@ function quando(iso) {
 let m = [ia.mensagem1, ia.mensagem2, ia.mensagem3];
 let aval = 'manter', aval_inicio = '', aval_texto = '', aval_evento = '', fechamento = '';
 const avisos = [];
-let aviso_humano = '', motivo_humano = '';
+let aviso_humano = '', motivo_humano = '', complemento = '', recusas = 'manter';
 let tipo = TIPO;
 if (tipo === 'agenda') {
   if (j.error) tipo = 'falha';
@@ -767,65 +971,86 @@ if (tipo === 'agenda') {
 const verbo = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[ia.acao] || ia.acao;
 switch (tipo) {
   case 'humano': {
-    // Não repete o aviso: (1) 15 minutos e a mensagem nova é só um "ok"; (2) 90 minutos e o motivo é parecido com o do último aviso.
-    // No caso (2), se a mensagem nova traz pergunta ou informação, vai um aviso curto de complemento (18/11: avisos com assunto
-    // novo estavam sendo engolidos). Palavras genéricas não contam na comparação.
+    // Pacote A (A1, 18/11): só deixa de avisar quando a mensagem nova é uma confirmação pura (ok, obrigada, valeu, 👍...).
+    // Informação nova gera aviso (ou complemento, se o assunto é o mesmo do último aviso). Urgência sempre gera aviso novo.
+    // Complementos: no máximo 1 a cada 15 minutos por paciente (Camila recebeu 5).
     const idade = f.ultimo_aviso_humano ? Date.now() - new Date(f.ultimo_aviso_humano).getTime() : Infinity;
-    if (idade < 15 * 60000 && pend.length < 60 && !pend.includes('?')) break;
+    const idadeComp = f.ultimo_complemento ? Date.now() - new Date(f.ultimo_complemento).getTime() : Infinity;
+    const urgente = URGENCIA.test(norm(pend));
+    const CONFIRMA = new Set(['ok', 'okay', 'okk', 'obrigado', 'obrigada', 'obg', 'muito', 'valeu', 'vlw', 'blz', 'beleza', 'certo',
+      'combinado', 'thanks', 'thank', 'you', 'gracias', 'muchas', 'perfecto', 'vale']);
+    const pal = norm(pend).replace(/[\u{1F44D}\u{1F64F}\u{1F3FB}-\u{1F3FF}️]/gu, ' ').replace(/[!.,;]+/g, ' ').split(/\s+/).filter(Boolean);
+    const pura = !!pend && !pend.includes('?') && pal.every(w => CONFIRMA.has(w))
+      && (pal.length === 0 || pal.some(w => !['muito', 'you', 'muchas'].includes(w)));
+    if (!urgente && pura && idade < 15 * 60000) break;
     const GENERICAS = new Set(['paciente', 'clinica', 'fechada', 'aberta', 'suzana', 'passar', 'verificar', 'retorna', 'retorno',
       'abrir', 'quando', 'amanha', 'pediu', 'perguntou', 'pergunta', 'sobre', 'saber', 'equipe', 'informacao', 'nesta', 'dessa', 'desta']);
-    const pal = x => new Set(String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/)
-      .filter(w => w.length > 4 && !GENERICAS.has(w)));
-    const pa = pal(ia.motivo), pb = pal(f.ultimo_motivo_humano);
+    const palavras = x => new Set(norm(x).split(/[^a-z0-9]+/).filter(w => w.length > 4 && !GENERICAS.has(w)));
+    const pa = palavras(ia.motivo), pb = palavras(f.ultimo_motivo_humano);
     const comum = [...pa].filter(w => pb.has(w)).length;
-    if (idade < 90 * 60000 && pa.size && pb.size && comum / Math.min(pa.size, pb.size) >= 0.6) {
-      if (pend.length < 60 && !pend.includes('?')) break;
-      aviso_humano = 'sim';
+    if (!urgente && idade < 90 * 60000 && pa.size && pb.size && comum / Math.min(pa.size, pb.size) >= 0.6) {
+      if (pura || idadeComp < 15 * 60000) break;
+      aviso_humano = 'sim'; complemento = 'sim';
       motivo_humano = f.ultimo_motivo_humano || ia.motivo || '';
       avisos.push('*Complemento do aviso anterior*\n' + quem + '\nMensagem nova: ' + pend + '\nMotivo: ' + ia.motivo);
       break;
     }
     aviso_humano = 'sim';
     motivo_humano = ia.motivo || '';
-    avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a __ASSISTENTE__ respondeu:\n' + m.filter(Boolean).join(' '));
+    avisos.push((urgente ? '*URGENTE: chamar uma pessoa agora*' : '*Chamar uma pessoa*') + '\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a __ASSISTENTE__ respondeu:\n' + m.filter(Boolean).join(' '));
     break;
   }
   case 'ja_marcada':
-    m = ['Vi aqui que você já tem uma avaliação marcada para ' + f.avaliacao_texto + '.', 'Prefere manter esse horário ou trocar por outro?', ''];
+    m = F.ja_marcada(quandoLg(f.avaliacao_inicio, lg, f.avaliacao_texto)).concat(['']);
     break;
   case 'sem_avaliacao':
-    m = ['Vou verificar aqui a sua avaliação e já te retorno.', '', ''];
+    m = [F.sem_avaliacao, '', ''];
     avisos.push('*Pedido de ' + ia.acao + ' sem avaliação registrada*\n' + quem + '\nMensagem: ' + pend + '\nConfira a agenda e responda o paciente.');
     break;
   case 'sem_agenda':
-    m = ['Vou conferir a agenda aqui e já te retorno com os horários.', '', ''];
+    m = [F.sem_agenda, '', ''];
     avisos.push('*Agenda do Google não respondeu*\n' + quem + '\nMensagem: ' + pend + '\nResponda o paciente com os horários.');
     break;
   case 'ocupado':
-    m = ['Sinto muito, esse horário acabou de ser preenchido.', 'Quer que eu veja outras opções para você?', ''];
+  case 'invalido': {
+    // Pacote A (A2): conta as recusas seguidas na ficha. Na 1ª, explica (ou pede a data por extenso, se o problema foi
+    // não reconhecer o dia); da 2ª em diante, não repete a recusa: diz que a equipe vai confirmar e avisa a equipe.
+    const n = (Number(f.recusas_agenda) || 0) + 1;
+    recusas = 'somar';
+    const motivoTec = tipo === 'ocupado' ? 'horário ocupado na agenda' : (j.motivo || '-');
+    const pedido = ia.inicio && !isNaN(new Date(ia.inicio).getTime()) ? quando(ia.inicio) : '(sem horário válido)';
+    if (n >= 2) {
+      m = [F.equipe, '', ''];
+      if (n === 2 || (n - 2) % 3 === 0) {
+        aviso_humano = 'sim';
+        motivo_humano = 'Pedido de horário recusado ' + n + ' vezes seguidas';
+        avisos.push('*Confirmar horário com o paciente (' + n + 'ª recusa seguida)*\n' + quem + '\nHorário pedido: ' + pedido +
+          '\nMotivo técnico: ' + motivoTec + '\nMensagem: ' + pend + '\nO paciente recebeu: ' + F.equipe);
+      }
+    } else if (tipo === 'ocupado') m = [F.ocupado, F.outras, ''];
+    else if (/conversa|sem horário válido/.test(j.motivo || '')) m = [F.formato, F.formato2, ''];
+    else m = [F.invalido, F.outras, ''];
     break;
-  case 'invalido':
-    m = ['Esse horário não está disponível para avaliação.', 'Quer que eu veja outras opções para você?', ''];
-    break;
+  }
   case 'dados':
-    m = ['Para confirmar, me passa seu nome completo e um telefone de contato?', 'Pode ser este mesmo número.', ''];
+    m = F.dados.concat(['']);
     break;
   case 'falha':
     m = [espera, '', ''];
     avisos.push('*Falha ao ' + verbo + ' na agenda*\n' + quem + (f.avaliacao_texto ? '\nAvaliação atual: ' + f.avaliacao_texto : '') + (ia.inicio ? '\nHorário pedido: ' + ia.inicio : '') + '\nO paciente recebeu: ' + espera);
     break;
   case 'marcado':
-    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); aval_evento = j.id || '';
+    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); aval_evento = j.id || ''; recusas = 'zerar';
     fechamento = ia.fechamento;
     avisos.push('*Nova avaliação marcada*\n' + ia.titulo + '\nQuando: ' + aval_texto + '\n' + quem +
       '\nNome completo: ' + (ia.nome_completo || f.nome_completo || '-') + '\nTelefone de contato: ' + (ia.telefone_contato || f.telefone_contato || tel));
     break;
   case 'remarcado':
-    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio);
+    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); recusas = 'zerar';
     avisos.push('*Avaliação remarcada*\nDe: ' + f.avaliacao_texto + '\nPara: ' + aval_texto + '\n' + quem);
     break;
   case 'cancelado':
-    aval = 'limpar';
+    aval = 'limpar'; recusas = 'zerar';
     avisos.push('*Avaliação cancelada*\n' + f.avaliacao_texto + '\n' + quem);
     break;
 }
@@ -838,7 +1063,7 @@ const envio_seg = envios.reduce((t, e) => t + [e.m1, e.m2, e.m3].filter(Boolean)
   .reduce((u, b) => u + (e.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(String(b).length / 5)))) + 1, 0), 0);
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
-  envio_seg: Math.min(120, envio_seg), motivo_humano,
+  envio_seg: Math.min(120, envio_seg), motivo_humano, recusas, complemento,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
   aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
   fechamento, envios: JSON.stringify(envios)
@@ -861,6 +1086,8 @@ UPDATE pacientes SET
   telefone_contato = coalesce(nullif($15::text, ''), telefone_contato),
   ultimo_aviso_humano = CASE WHEN $16::text = 'sim' THEN now() ELSE ultimo_aviso_humano END,
   ultimo_motivo_humano = CASE WHEN $16::text = 'sim' THEN $18::text ELSE ultimo_motivo_humano END,
+  ultimo_complemento = CASE WHEN $20::text = 'sim' THEN now() ELSE ultimo_complemento END,
+  recusas_agenda = CASE $19::text WHEN 'zerar' THEN 0 WHEN 'somar' THEN coalesce(recusas_agenda, 0) + 1 ELSE recusas_agenda END,
   envio_ate = now() + make_interval(secs => $17::int),
   avaliacao_inicio = CASE $8::text WHEN 'definir' THEN $9::text WHEN 'limpar' THEN NULL ELSE avaliacao_inicio END,
   avaliacao_texto = CASE $8::text WHEN 'definir' THEN $10::text WHEN 'limpar' THEN NULL ELSE avaliacao_texto END,
@@ -870,7 +1097,7 @@ WHERE telefone = $1::text
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
      "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano, "
-     "$json.envio_seg, $json.motivo_humano ]", (5700, 0))
+     "$json.envio_seg, $json.motivo_humano, $json.recusas, $json.complemento ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 
@@ -935,10 +1162,10 @@ for i, t in enumerate(["responder", "humano", "ja_marcada", "sem_avaliacao"]):
     L("Qual ação?", RES[t], out=i)
 L("Qual ação?", "Validar o pedido de agenda", out=4)
 L("Validar o pedido de agenda", "Resultado da validação")
-L("Resultado da validação", "Reservar o horário (trava de 2 min)", out=0)
+L("Resultado da validação", "Reservar o horário (trava de 5 min)", out=0)
 L("Resultado da validação", RES["dados"], out=1)
 L("Resultado da validação", RES["invalido"], out=2)
-L("Reservar o horário (trava de 2 min)", "Conseguiu reservar?")
+L("Reservar o horário (trava de 5 min)", "Conseguiu reservar?")
 L("Conseguiu reservar?", "Conferir se o horário segue livre", out=0)
 L("Conseguiu reservar?", RES["ocupado"], out=1)
 L("Qual ação?", "Cancelar a avaliação na agenda", out=5)

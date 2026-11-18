@@ -36,7 +36,11 @@ CREATE TABLE IF NOT EXISTS mensagens_recebidas (
 ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS ultimo_motivo_humano text;   -- motivo do último "chamar uma pessoa" (evita aviso repetido)
 ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS envio_ate timestamptz;       -- até quando as mensagens do turno anterior ainda estão saindo
 
--- Trava curta do horário (2 min): duas conversas não reservam a mesma vaga ao mesmo tempo.
+-- Colunas acrescentadas em 18/11/2026 (Pacote A da revisão do Codex). Seguro rodar de novo.
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS recusas_agenda int NOT NULL DEFAULT 0;  -- recusas seguidas de horário (na 2ª, avisa a equipe)
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS ultimo_complemento timestamptz;        -- último "complemento do aviso" (no máximo 1 a cada 15 min)
+
+-- Trava curta do horário (5 min desde 18/11): duas conversas não reservam a mesma vaga ao mesmo tempo.
 CREATE TABLE IF NOT EXISTS reservas_horario (
   inicio   timestamptz PRIMARY KEY,
   telefone text NOT NULL,
