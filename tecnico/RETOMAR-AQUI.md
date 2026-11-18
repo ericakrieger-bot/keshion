@@ -54,10 +54,10 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 
 **Antes do piloto da Dra. Vivian (01/12/2026)**
 1. ✅ Estrutura por clínica (17/11).
-2. ✅ Backup fora do servidor (18/11). Chave e `.env` guardados no Bitwarden da Erica. Falta: revisão no Codex.
+2. ✅ Backup fora do servidor (18/11). Chave e `.env` guardados no Bitwarden da Erica. Revisão do Codex feita em 18/11: correções no **Pacote B** abaixo.
 3. Base, instruções e voz da Dra. Vivian; nome da assistente escolhido por ela; conexão no número dela; preencher `clientes/dra-vivian/clinica.json` e seguir "Clínica nova" do LEIA-ME.
 4. Decidir com ela o modo copiloto (aprovar antes de enviar na 1ª semana): ainda não existe.
-5. Canal de alerta fora do WhatsApp (e-mail ou Telegram) para falhas.
+5. Canal de alerta fora do WhatsApp: **Healthchecks.io por e-mail** (Pacote B2; o script já está preparado, falta a Erica criar a conta).
 6. Usuário de manutenção com sudo (no lugar do root).
 
 **Depois do piloto**
@@ -79,6 +79,21 @@ Pendências desta feature:
 - O rclone avisa que o client_id compartilhado do Google Drive dele será desativado em 2026. **Decidido com a Erica (18/11):** fica assim por enquanto; quando o envio falhar por isso, migrar para client_id próprio no Google Cloud (conta keshion.ai.2026), com a Claude guiando tela por tela. Pede só o escopo `drive.file` (não sensível): deve publicar sem análise do Google, só com nome do app e e-mails, sem logo (logo puxa verificação de marca e domínio; se pedir domínio, usar keshion.com).
 - Aviso automático de falha: entra junto com o canal de alerta fora do WhatsApp (item 5).
 - Revisão no Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`, feature "backup fora do servidor": script, permissões, restauração).
+
+## Pacote B (backup e roteiros): feito no PC em 18/11, aguardando OK para instalar
+
+Plano e achados: `tecnico/n8n/codex-18-11/PLANO-CORRECOES.md`. Nada foi instalado no servidor, nenhum backup manual rodou e o n8n não foi reiniciado.
+
+| # | Situação |
+|---|---|
+| B1 e B3 | ✅ No Git (`tecnico/servidor/backup-postgres.sh`): erro tratado desde antes de `cd`/`.env`/`mktemp`, `EM ANDAMENTO` no início e `OK` só no fim, `flock`, retenção local por idade (7 dias, inclui `.parcial`), tamanho dos dois arquivos conferido no Drive, nomes com segundos. Testado no PC com substitutos: `bash tecnico/servidor/testar-backup-local.sh` (33 conferências certas). **Falta o OK da Erica para instalar no servidor** (copiar o script, `bash -n`, `chmod 700`, guardar `.bak`, sem backup manual e sem tocar no cron). |
+| B2 | Script pronto para avisar o Healthchecks.io (variável `HC_BACKUP_URL` no `.env`, vazia = desligado). **Falta a Erica criar a conta** (passo a passo em `tecnico/servidor/PASSO-A-PASSO-ERICA-BACKUP.md`). **Fica para depois que a conversa do Pacote A publicar:** o nó de alerta de falha do n8n (`tecnico/n8n/alerta-keshion.json` e o que o `gerar_fluxos.py` gera) também chama o monitor: uma chamada HTTP GET/POST ao endereço do check com sufixo `/fail`, texto só com clínica, código do erro e ID da execução (sem mensagem de erro livre, telefone nem corpo de mensagem), URL lida de variável de ambiente do n8n (não escrita no fluxo), `continueRegularOutput` para o alerta nunca derrubar o fluxo. Idealmente um segundo check "Alertas da Clara" separado do check do backup. |
+| B4 | ✅ Roteiro de restauração completo em `tecnico/servidor-n8n.md` (passos 0 a 4): `pipefail`, `ON_ERROR_STOP`, `pg_isready`, sem "...", critérios de conferência (tabelas iguais, papéis, fluxos, credenciais abrindo), limpeza sempre. **Ainda não executado de ponta a ponta:** a primeira execução precisa de OK (usa a chave privada do PC) e deve ser acompanhada. |
+| B5 | Passo a passo guiado para a Erica em `tecnico/servidor/PASSO-A-PASSO-ERICA-BACKUP.md` (cliente OAuth próprio, app publicado, escopo `drive.file`, conferir cópias antigas). Antes de 01/12; não fazer no mesmo dia da primeira conferência do script novo. |
+| B6 | ✅ `tecnico/n8n/CLINICA-NOVA.md`: sem `docker compose restart n8n`, senhas fora dos argumentos (entrada padrão, `-e PGPASSWORD`, arquivo temporário 600), cópia da versão anterior e como voltar, backup conferido antes de valer, copiloto marcado como inexistente. |
+| B7 | Não feito: espera OK explícito da Erica e decisão de janela (recomendação: depois que o Pacote A estiver publicado e testado, antes de 01/12). Roteiro do Codex em `revisao-codex-correcoes-17-11-2026-11-18.md`, "Migração para `_app`"; sem reiniciar o n8n e sem DROP/TRUNCATE em produção. |
+
+**Conferir em 19/11 às 03h de Curitiba (primeira rodada automática):** ainda não aconteceu (escrito em 18/11). Se o script novo já estiver instalado, deve aparecer `OK 2026-11-19 03:..` com nomes com segundos; se ainda for o antigo, `OK` com `HHMM`. Verificação pronta para a conversa de testes: `tecnico/teste-ab/PROMPT-TESTE-18-11-pacote-b.md`. Lembrar a revisão do Codex (feature "backup: tratamento de falha, retenção e restauração").
 
 ## Próxima feature (sugestão): canal de alerta fora do WhatsApp
 
