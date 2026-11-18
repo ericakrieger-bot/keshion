@@ -1,6 +1,6 @@
 # Retomar aqui (Keshion · automações da Clara)
 
-Atualizado em 17/11/2026 (noite). Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
+Atualizado em 18/11/2026 (manhã). Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
 
 ## Onde estamos
 
@@ -25,10 +25,16 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 4. Tom: menos cara de robô (humanizer), espelha o jeito do paciente conforme a voz definida na base de cada clínica, pede nome completo e telefone para marcar, dor e remédio sempre chamam a Dra.
 5. **Estrutura por clínica (17/11):** um banco e um par de fluxos por clínica; fuso, cidade, nome da assistente, calendário, duração da avaliação, canal e credenciais vêm do `clinica.json`. Demo reimportada pelo gerador novo (cópia dos fluxos antigos em `/opt/keshion/backups/fluxos-20261117/`). Bancos `clara`, `n8n` e `clinica_teste` fechados para outros usuários.
 6. Resultados em 17/11: isolamento passou (mesmo telefone e mesmo id nas duas clínicas, cada uma só lembra do próprio paciente, canal de outra clínica ignorado); 56/56 no teste fixo sem falha técnica; pacientes simulados: 15 perfis com média 8,2 e, depois, 7 perfis de ciclo de vida (antigos, follow-up, cancelou); os antigos tiraram 5 a 6. Detalhes e correções pedidas pelo Codex em "Urgente".
+7. **Decisões e correções antes da Vivian (17 e 18/11):** alerta de falha só para a Keshion e sem texto do paciente; `modo_teste` ausente vale como teste; `#reiniciar` só na demo; dois usuários por banco (demo ainda no dono); roteiro geral em `tecnico/n8n/CLINICA-NOVA.md`. Em 18/11: aviso de "complemento" quando o paciente traz assunto novo, lembrete de idioma no pedido para a IA, nada de "encaixe" com a clínica fechada, conferência de horário que entende hora em inglês e espanhol. Tudo publicado na demo e na clínica de teste. Teste do paciente simulado 7 vezes mais barato (paciente no Haiku).
 
 ## Roadmap
 
 **Urgente (esta semana)**
+- **Pendente agora, nesta ordem:**
+  1. Rodar `tecnico/teste-ab/PROMPT-TESTE-18-11-avisos-idioma-hora.md` na conversa de testes (pode ser Sonnet). Nada do que foi publicado em 18/11 foi testado ainda numa rodada válida.
+  2. Revisão do Codex com `tecnico/n8n/PROMPT-CODEX-CORRECOES-17-11-NOITE.md` (cobre 17/11 noite e 18/11). Não rodar junto com o item 1.
+  3. Conferir a agenda da demo: apagar eventos de teste que sobraram (havia Henrique, 19/11 às 14h).
+  4. Com OK: passar a demo e a clínica de teste para o usuário `_app` do banco (passo a passo a pedir ao Codex).
 - **Google Agenda:** o app do Google está em modo Teste, e a autorização expira 7 dias depois de dada. A credencial foi atualizada em 17/11 às 05:16 e a agenda responde: se foi reconexão, vale até cerca de 24/11; se não, o prazo é perto de 19/11. Até publicar o app, reconectar no n8n quando expirar. Para publicar: domínio keshion.com (já registrado), página inicial e política de privacidade.
 - **Achados do Codex nos testes (relatório `tecnico/teste-ab/relatorio-codex-20261117.md`, roteiro em `tecnico/roteiro-testes-codex.md`).** **Itens 1 a 6 CORRIGIDOS em 17/11 (noite)**, publicados na demo e na clínica de teste (detalhes em `tecnico/n8n/LEIA-ME.md`, seção "correções da revisão do Codex"). **Falta validar:** a rodada dos 22 pacientes não terminou porque o saldo da conta da Anthropic acabou (erro "credit balance is too low"); sem saldo, a própria Clara responde "Só um instante, vou verificar" (confirmado na clínica de teste). Depois de recarregar: rodar `paciente_simulado.py` (uma rodada) e `teste_n8n.py`, conferir a agenda da demo à mão (sobrou 1 evento de teste: Henrique, 19/11 às 14h, telefone 554199900810; apagar no Google Agenda da demo). Enunciado original dos itens:
   1. **Agenda:** o fluxo só confere "horário livre" no Google e confia na IA para dia da semana, limite de 90 dias e aceite do paciente; duas pessoas pegando a mesma vaga ao mesmo tempo podem criar duas reservas (não reproduzido). Validar no próprio fluxo antes de criar ou mudar evento.
@@ -74,4 +80,4 @@ Pronto quando: existe cópia fora do servidor de ontem, criptografada; a restaur
 
 ## Regras de sempre
 
-Português com acentos e sem travessão. Chaves só no `.env` (PC) ou em `/opt/keshion/.env` (servidor), nunca no chat nem no Git. Pedir OK antes de mudar produção, gastar dinheiro ou mexer em número de WhatsApp. Testar só com o prefixo `554199900`, um teste por vez. Commit e push dentro de `Documents\Claude Code\keshion`; memória `keshion-migracao-n8n` com cópia no segundo cérebro.
+Português com acentos e sem travessão. Chaves só no `.env` (PC) ou em `/opt/keshion/.env` (servidor), nunca no chat nem no Git. Pedir OK antes de mudar produção, gastar dinheiro ou mexer em número de WhatsApp. Testar só com o prefixo `554199900`, um teste por vez e só na conversa de testes da Erica (as outras conversas corrigem, publicam e entregam um prompt de teste). Publicar fluxo com import e publish, sem reiniciar o n8n. Commit e push dentro de `Documents\Claude Code\keshion`; memória `keshion-migracao-n8n` com cópia no segundo cérebro.

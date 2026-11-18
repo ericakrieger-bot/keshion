@@ -37,6 +37,12 @@ Commits `110f4d1` e `877df8d` (veja `git show`). O `877df8d` também traz as cor
 5. **Roteiro geral de clínica nova:** `tecnico/n8n/CLINICA-NOVA.md`.
 6. A clínica de teste pode marcar na agenda real da demo (decisão: aceitável).
 
+**C. Correções de 18/11 (manhã), publicadas** (commits `d27a0f4` e `e58104a`):
+1. Avisos: quando o motivo é parecido com o do último aviso (até 90 min) mas a mensagem nova traz pergunta ou informação, sai `*Complemento do aviso anterior*` em vez de nada; palavras genéricas não contam na comparação.
+2. O pedido para a IA termina com um lembrete de responder no idioma do paciente.
+3. Base da demo: "Com a clínica fechada, nunca fale em encaixe."
+4. A conferência de horário antes de marcar entende "9am", "4 pm", "at 4" e "a las 9" (antes, paciente em inglês não conseguia marcar). As frases fixas do fluxo continuam só em português: avalie se é problema.
+
 Leia, nesta ordem:
 1. `tecnico/RETOMAR-AQUI.md`
 2. `tecnico/n8n/LEIA-ME.md`
