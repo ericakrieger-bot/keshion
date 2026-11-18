@@ -54,7 +54,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 
 **Antes do piloto da Dra. Vivian (01/12/2026)**
 1. ✅ Estrutura por clínica (17/11).
-2. ✅ Backup fora do servidor (18/11). Falta: a Erica guardar a chave privada e o `.env` no cofre de senhas; revisão no Codex.
+2. ✅ Backup fora do servidor (18/11). Chave e `.env` guardados no Bitwarden da Erica. Falta: revisão no Codex.
 3. Base, instruções e voz da Dra. Vivian; nome da assistente escolhido por ela; conexão no número dela; preencher `clientes/dra-vivian/clinica.json` e seguir "Clínica nova" do LEIA-ME.
 4. Decidir com ela o modo copiloto (aprovar antes de enviar na 1ª semana): ainda não existe.
 5. Canal de alerta fora do WhatsApp (e-mail ou Telegram) para falhas.
@@ -74,9 +74,9 @@ Confirmações (48 h, véspera, 2 h antes), CRM em Google Planilhas, Sonnet nas 
 Decidido com a Erica: Google Drive da keshion.ai.2026@gmail.com (rclone, escopo só dos arquivos que ele cria), `age` com chave privada só no PC e no cofre, 30 dias no Drive. Script `tecnico/servidor/backup-postgres.sh` (instalado em `/opt/keshion/`). Também passou a conferir que o dump terminou inteiro (antes, uma falha do `pg_dumpall` passava em silêncio).
 
 Pendências desta feature:
-- A Erica colar no cofre de senhas o conteúdo de `C:\Users\Erica Krieger-Akerma\.keshion-backup\chave-backup-keshion.txt` e de `env-servidor-20261118.txt`. Se o PC se perder sem isso, os backups do Drive não abrem.
+- ✅ Chave privada e `.env` guardados no Bitwarden da Erica (18/11), além do PC.
 - Conferir amanhã (19/11) o `STATUS-BACKUP.txt` da rodada das 03h, a primeira automática.
-- O rclone avisa que o client_id compartilhado do Google Drive dele será desativado em 2026. Se o envio falhar, criar client_id próprio (depende de publicar o app do Google, como a Agenda).
+- O rclone avisa que o client_id compartilhado do Google Drive dele será desativado em 2026. **Decidido com a Erica (18/11):** fica assim por enquanto; quando o envio falhar por isso, migrar para client_id próprio no Google Cloud (conta keshion.ai.2026), com a Claude guiando tela por tela. Pede só o escopo `drive.file` (não sensível): deve publicar sem análise do Google, só com nome do app e e-mails, sem logo (logo puxa verificação de marca e domínio; se pedir domínio, usar keshion.com).
 - Aviso automático de falha: entra junto com o canal de alerta fora do WhatsApp (item 5).
 - Revisão no Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`, feature "backup fora do servidor": script, permissões, restauração).
 
