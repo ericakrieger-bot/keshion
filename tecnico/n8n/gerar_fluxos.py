@@ -656,8 +656,39 @@ if (ia.acao === 'agendar') {
 // O horário precisa ter aparecido na conversa (oferta da assistente ou fala do paciente): data e hora.
 const conversa = String(f.conversa || '') + '\n' + String(f.pendente || '');
 const dd = String(+q.day), mm = String(+q.month), hh = String(+q.hour);
-const temData = new RegExp('(^|\\D)0?' + dd + '\\s*/\\s*0?' + mm + '(\\D|$)').test(conversa)
-  || new RegExp('dia\\s+0?' + dd + '(\\D|$)', 'i').test(conversa);
+// INICIO-DATAS
+// A data precisa ter aparecido na conversa, em português, inglês ou espanhol: 19/11, 11/19 (formato dos EUA, só quando o dia passa de 12),
+// 2026-11-19, "dia 19", "día 19", "19 de novembro", "19 de noviembre", "Nov 19", "November 19th", "19 Nov", "Thursday 19", "the 19th", "19th".
+// Um 19 solto não vale: 11:19, R$ 1.019, 19h e "Thursday 11am" não contam como dia. (18/11: "Nov 19" não era reconhecido e a paciente nunca marcava.)
+const temDataNaConversa = (texto, dia, mes) => {
+  const MESES = [
+    ['janeiro', 'jan', 'january', 'enero', 'ene'], ['fevereiro', 'fev', 'february', 'feb', 'febrero'],
+    ['março', 'marco', 'mar', 'march', 'marzo'], ['abril', 'abr', 'april', 'apr'], ['maio', 'mai', 'may', 'mayo'],
+    ['junho', 'jun', 'june', 'junio'], ['julho', 'jul', 'july', 'julio'], ['agosto', 'ago', 'august', 'aug'],
+    ['setembro', 'set', 'september', 'sep', 'sept', 'septiembre', 'setiembre'], ['outubro', 'out', 'october', 'oct', 'octubre'],
+    ['novembro', 'nov', 'november', 'noviembre'], ['dezembro', 'dez', 'december', 'dec', 'diciembre', 'dic']
+  ];
+  const D = '0?' + dia, M = '(?:' + MESES[mes - 1].join('|') + ')';
+  const SEMANA = '(?:segunda|ter[cç]a|quarta|quinta|sexta|s[aá]bado|domingo|seg|ter|qua|qui|sex|s[aá]b|dom|monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tues?|wed|thu|thur|thurs|fri|sat|sun|lunes|martes|mi[eé]rcoles|jueves|viernes)';
+  const SUF = '(?:st|nd|rd|th|º|°)?';
+  const ANTES = '(?:^|[^\\d:.,/])';                           // o dia não pode vir colado em outro número (11:19, 1.019, 3/19)
+  const NAO_HORA = '(?!\\d)(?!\\s*(?:[:h/]|hs\\b|horas?\\b|[ap]\\.?\\s*m\\b|in the\\b|o.?clock))'; // depois do dia não pode vir hora
+  const mesDepois = '\\s*(?:of\\s+|de\\s+|del\\s+)?(?:the\\s+)?' + M + '(?![a-zà-ú])';
+  const padroes = [
+    ANTES + D + '\\s*/\\s*0?' + mes + '(?!\\d)',               // 19/11, 19/11/2026
+    '\\b\\d{4}-0?' + mes + '-' + D + '(?!\\d)',                // 2026-11-19
+    '\\bd[ií]a\\s+' + D + '(?!\\d)',                           // dia 19, día 19
+    ANTES + D + SUF + mesDepois,                               // 19 de novembro, 19th of November, 19 Nov, 19 de noviembre
+    '\\b' + M + '\\.?,?\\s*(?:the\\s+)?' + D + SUF + '(?!\\d)(?!:\\d)', // Nov 19, November 19th, Nov. 19, nov 19
+    '\\b' + SEMANA + '(?:-feira)?\\.?,?\\s+(?:the\\s+|el\\s+|dia\\s+)?' + D + SUF + NAO_HORA, // Thursday 19, quinta 19, jueves 19
+    '\\b(?:the|el)\\s+' + D + SUF + NAO_HORA,                  // the 19th, the 19, el 19
+    ANTES + D + '(?:st|nd|rd|th)\\b'                           // 19th
+  ];
+  if (dia > 12) padroes.push(ANTES + '0?' + mes + '\\s*/\\s*' + D + '(?!\\d)'); // 11/19 só pode ser mês/dia
+  return padroes.some(p => new RegExp(p, 'i').test(texto));
+};
+// FIM-DATAS
+const temData = temDataNaConversa(conversa, +q.day, +q.month);
 // Hora em português (9h, 9:00, às 9), inglês (9am, 4 pm, 4:00 p.m., at 4) e espanhol (a las 9). 18/11: em inglês não marcava.
 const h12 = String(+q.hour % 12 || 12), ampm = +q.hour < 12 ? 'a\\.?\\s*m' : 'p\\.?\\s*m';
 const temHora = new RegExp('(^|\\D)0?' + hh + '(\\s*h\\b|:\\d\\d|\\s*horas?\\b)|(às|as|a las)\\s+0?' + hh + '(?!\\d)', 'i').test(conversa)
