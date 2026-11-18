@@ -1,6 +1,6 @@
 # Retomar aqui (Keshion · automações da Clara)
 
-Atualizado em 18/11/2026 (manhã). Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
+Atualizado em 18/11/2026 (tarde). Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
 
 ## Onde estamos
 
@@ -26,6 +26,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 5. **Estrutura por clínica (17/11):** um banco e um par de fluxos por clínica; fuso, cidade, nome da assistente, calendário, duração da avaliação, canal e credenciais vêm do `clinica.json`. Demo reimportada pelo gerador novo (cópia dos fluxos antigos em `/opt/keshion/backups/fluxos-20261117/`). Bancos `clara`, `n8n` e `clinica_teste` fechados para outros usuários.
 6. Resultados em 17/11: isolamento passou (mesmo telefone e mesmo id nas duas clínicas, cada uma só lembra do próprio paciente, canal de outra clínica ignorado); 56/56 no teste fixo sem falha técnica; pacientes simulados: 15 perfis com média 8,2 e, depois, 7 perfis de ciclo de vida (antigos, follow-up, cancelou); os antigos tiraram 5 a 6. Detalhes e correções pedidas pelo Codex em "Urgente".
 7. **Decisões e correções antes da Vivian (17 e 18/11):** alerta de falha só para a Keshion e sem texto do paciente; `modo_teste` ausente vale como teste; `#reiniciar` só na demo; dois usuários por banco (demo ainda no dono); roteiro geral em `tecnico/n8n/CLINICA-NOVA.md`. Em 18/11: aviso de "complemento" quando o paciente traz assunto novo, lembrete de idioma no pedido para a IA, nada de "encaixe" com a clínica fechada, conferência de horário que entende hora em inglês e espanhol. Tudo publicado na demo e na clínica de teste. Teste do paciente simulado 7 vezes mais barato (paciente no Haiku).
+8. **Backup fora do servidor (18/11):** todo dia às 03h, dump criptografado com `age` no Google Drive da keshion.ai.2026@gmail.com (`keshion-backups/`, 30 dias), junto com a configuração (`.env`, Compose, Caddyfile). Chave privada só no PC (`C:\Users\Erica Krieger-Akerma\.keshion-backup\`) e no cofre de senhas. Resultado em `/opt/keshion/backups/STATUS-BACKUP.txt`. Restauração testada de ponta a ponta numa cópia isolada (bancos inteiros, n8n abriu as 6 credenciais). Passo a passo em `tecnico/servidor-n8n.md`, seção Backup.
 
 ## Roadmap
 
@@ -53,7 +54,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 
 **Antes do piloto da Dra. Vivian (01/12/2026)**
 1. ✅ Estrutura por clínica (17/11).
-2. **Backup fora do servidor (próxima feature).**
+2. ✅ Backup fora do servidor (18/11). Falta: a Erica guardar a chave privada e o `.env` no cofre de senhas; revisão no Codex.
 3. Base, instruções e voz da Dra. Vivian; nome da assistente escolhido por ela; conexão no número dela; preencher `clientes/dra-vivian/clinica.json` e seguir "Clínica nova" do LEIA-ME.
 4. Decidir com ela o modo copiloto (aprovar antes de enviar na 1ª semana): ainda não existe.
 5. Canal de alerta fora do WhatsApp (e-mail ou Telegram) para falhas.
@@ -64,19 +65,20 @@ Confirmações (48 h, véspera, 2 h antes), CRM em Google Planilhas, Sonnet nas 
 
 **Custo dos testes (18/11):** os US$ 10 de crédito foram gastos US$ 7,49 nos testes (Sonnet) e US$ 2,52 na Clara (Haiku, cerca de US$ 0,002 por resposta). `paciente_simulado.py` agora usa Haiku no paciente e Sonnet com esforço médio no juiz, e mostra o custo no fim: 5 pacientes custaram US$ 0,12 (antes eram cerca de US$ 0,80). Na rodada de 18/11 (22h37 em Curitiba, clínica fechada), Bia, Camila, Fernanda, Patrícia e Emily tiraram 8, 7, 6, 7 e 7, abaixo de 17/11. Os problemas apontados são da Clara: promete encaixe com a clínica fechada, diz que não sabe uma resposta que está na base, escreve "avalição", volta para o português com a Emily. **Investigado em 18/11:** o juiz novo dá as mesmas notas às conversas de 17/11 (8,0 contra 8,3), então não é o teste. Causas: (1) a deduplicação de avisos publicada em 17/11 (noite) engoliu avisos com assunto novo (Fernanda: parcelamento da avaliação; Camila: clareamento em outra clínica), porque palavras genéricas como "paciente", "clínica" e "fechada" fazem os motivos parecerem iguais; (2) a rodada foi à noite, e com a clínica fechada a Clara misturou a regra de clínica aberta (prometeu "encaixe"); (3) deslizes do Haiku: ofereceu horários em português para a Emily, não usou a resposta da base "Posso parcelar a avaliação?", escreveu "avalição". Propostas (aguardam OK, mexem na produção): aviso de "complemento" em vez de engolir quando a mensagem traz pergunta nova; lembrete de idioma no fim do pedido para a IA; "com a clínica fechada, nunca fale em encaixe" nas instruções; repetir a rodada em horário comercial de Curitiba. **Aplicado em 18/11 (manhã), com OK da Erica:** aviso de "complemento" (publicado), lembrete de idioma no pedido para a IA (publicado), "nunca fale em encaixe" com a clínica fechada (base da demo e da clínica de teste, aplicada no banco). Isolamento passou. A rodada de 5 pacientes depois disso **não vale**: outro teste (provavelmente o Codex) rodava ao mesmo tempo com os mesmos números, e o reinício do n8n às 06h17 (horário de Curitiba) derrubou execuções dele. Achado real dessa rodada: a validação de horário só reconhecia hora em português, e paciente em inglês não conseguia marcar ("9am"). **Corrigido e publicado em 18/11** (06h45 de Curitiba, sem reiniciar o n8n). Teste a fazer na conversa de testes: `tecnico/teste-ab/PROMPT-TESTE-18-11-avisos-idioma-hora.md`. As frases fixas do fluxo ("Esse horário não está disponível...") continuam só em português.
 
-## Próxima feature: backup fora do servidor
+## Backup fora do servidor: feito em 18/11
 
-Por que agora: com a Vivian, o banco passa a ter conversas de pacientes reais. Hoje o backup diário (03h, `pg_dumpall`, últimos 7) fica no próprio servidor (`/opt/keshion/backups/`): se o servidor ou o disco se perderem, o backup vai junto. Também não existe cópia do `/opt/keshion/.env` fora do servidor, e a restauração nunca foi testada. Detalhes do backup atual em `tecnico/servidor-n8n.md` (seção Backup).
+Decidido com a Erica: Google Drive da keshion.ai.2026@gmail.com (rclone, escopo só dos arquivos que ele cria), `age` com chave privada só no PC e no cofre, 30 dias no Drive. Script `tecnico/servidor/backup-postgres.sh` (instalado em `/opt/keshion/`). Também passou a conferir que o dump terminou inteiro (antes, uma falha do `pg_dumpall` passava em silêncio).
 
-O que entra:
-1. Cópia diária, criptografada, para fora do servidor, com a chave de abrir guardada fora do servidor.
-2. Cópia segura do `.env` do servidor (senhas dos bancos, chave de criptografia do n8n) fora dele.
-3. Teste de restauração numa cópia (outro contêiner Postgres temporário), conferindo que os bancos `clara`, `clinica_teste` e `n8n` voltam inteiros e que o n8n abre as credenciais.
-4. Aviso quando o backup falhar (até existir o canal de alerta, pelo menos um registro fácil de conferir).
+Pendências desta feature:
+- A Erica colar no cofre de senhas o conteúdo de `C:\Users\Erica Krieger-Akerma\.keshion-backup\chave-backup-keshion.txt` e de `env-servidor-20261118.txt`. Se o PC se perder sem isso, os backups do Drive não abrem.
+- Conferir amanhã (19/11) o `STATUS-BACKUP.txt` da rodada das 03h, a primeira automática.
+- O rclone avisa que o client_id compartilhado do Google Drive dele será desativado em 2026. Se o envio falhar, criar client_id próprio (depende de publicar o app do Google, como a Agenda).
+- Aviso automático de falha: entra junto com o canal de alerta fora do WhatsApp (item 5).
+- Revisão no Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`, feature "backup fora do servidor": script, permissões, restauração).
 
-O que decidir no começo: para onde vai a cópia (recomendação: Google Drive da conta da Keshion pelo rclone, sem custo; alternativa paga e simples: Backblaze B2), como criptografar (recomendação: `age`, com a chave privada só no PC da Erica e num cofre de senhas) e quanto guardar fora (recomendação: 30 dias). Gastar dinheiro ou criar conta: pedir OK antes.
+## Próxima feature (sugestão): canal de alerta fora do WhatsApp
 
-Pronto quando: existe cópia fora do servidor de ontem, criptografada; a restauração foi testada de ponta a ponta numa cópia isolada, sem tocar na produção; `.env` guardado fora; `tecnico/servidor-n8n.md` atualizado com o passo a passo de restaurar. Depois, revisão no Codex.
+A base e a voz da Vivian dependem dos dados dela. Enquanto isso, o canal de alerta (e-mail ou Telegram) cobre as falhas de envio da Clara e as do backup, que hoje só ficam registradas.
 
 ## Regras de sempre
 

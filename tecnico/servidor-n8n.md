@@ -47,9 +47,37 @@ Configuração do n8n: banco Postgres, `N8N_HOST` e `WEBHOOK_URL` com o endereç
 
 ## Backup
 
-- Todo dia às 03h (`/etc/cron.d/keshion-backup`), um `pg_dumpall` compactado em `/opt/keshion/backups/`, guardando os 7 mais recentes. Registro em `/var/log/keshion-backup.log`.
-- Testado em 12/11/2026: arquivo gerado normalmente.
-- Limite: o backup fica no mesmo servidor. Se o servidor se perder, o backup vai junto. Falta uma cópia fora dele (ver pendências).
+Desde 18/11/2026 o backup tem cópia fora do servidor, criptografada. Script: `/opt/keshion/backup-postgres.sh` (cópia oficial no Git: `tecnico/servidor/backup-postgres.sh`; versão antiga em `backup-postgres.sh.bak-20261118`).
+
+- **Quando:** todo dia às 03h, horário do servidor (`/etc/cron.d/keshion-backup`). Registro em `/var/log/keshion-backup.log`.
+- **O que faz:** `pg_dumpall` compactado em `/opt/keshion/backups/` (7 mais recentes no servidor), confere que o dump terminou inteiro, criptografa com `age` e envia ao Google Drive da conta keshion.ai.2026@gmail.com, pasta `keshion-backups/` (`postgres/` com os bancos, `config/` com `.env`, `docker-compose.yml`, `Caddyfile` e o próprio script). Confere o tamanho no Drive e apaga lá o que tiver mais de 30 dias.
+- **Resultado:** `/opt/keshion/backups/STATUS-BACKUP.txt` diz `OK` ou `FALHA` com data e etapa. Conferir: `ssh -i ~/.ssh/keshion_vps root@169.58.41.107 cat /opt/keshion/backups/STATUS-BACKUP.txt`. Ainda não avisa ninguém sozinho: isso entra com o canal de alerta fora do WhatsApp.
+- **Chaves:** o servidor só tem a chave **pública** (`/opt/keshion/backup-chave-publica.txt`, só tranca). A chave **privada** (abre) fica no PC da Erica em `C:\Users\Erica Krieger-Akerma\.keshion-backup\chave-backup-keshion.txt` e no cofre de senhas. Na mesma pasta do PC: `rclone.conf` (acesso ao Drive, escopo só dos arquivos que o rclone criou), `chave-publica.txt` e `env-servidor-20261118.txt` (cópia do `.env` do servidor). Nada disso entra no Git. **Sem a chave privada, os backups do Drive não abrem.**
+- **Ferramentas:** servidor com `age` 1.1.1 e `rclone` 1.60 (apt); PC com age 1.3.2 e rclone 1.76 (winget), em `%LOCALAPPDATA%\Microsoft\WinGet\Packages\`.
+- **Atenção:** o rclone usa o client_id compartilhado dele para o Google Drive, que o rclone avisa que será desativado em 2026. Se o backup começar a dar `FALHA` na etapa de envio, criar um client_id próprio no Google Cloud (precisa do app do Google publicado, senão a autorização expira em 7 dias, como na Agenda) e refazer `rclone config` no PC.
+- **Tamanho:** o dump cresce com as execuções do n8n (52 MB em 18/11 de manhã, 66 MB à tarde). 30 dias cabem folgados nos 15 GB do Drive.
+
+### Restaurar (testado em 18/11/2026)
+
+Teste de ponta a ponta feito em 18/11: arquivo baixado do Drive, aberto com a chave do PC, restaurado num Postgres temporário sem rede; `clara`, `clinica_teste` e `n8n` voltaram com todas as tabelas (diferenças só de movimento depois da hora do backup), e um n8n 2.47.5 temporário ligado na cópia abriu as 6 credenciais e os 6 fluxos. Produção não foi tocada.
+
+Passos (no Git Bash do PC; `RC` e `AGE` são os caminhos do rclone e do age instalados pelo winget):
+
+```bash
+D="$HOME/.keshion-backup"; K="$HOME/.ssh/keshion_vps"; S=root@169.58.41.107
+"$RC" --config "$D/rclone.conf" lsl gdrive:keshion-backups/postgres     # escolher o arquivo
+ARQ=postgres-AAAA-MM-DD_HHMM.sql.gz.age
+```
+
+1. **Cópia isolada para conferir (não mexe na produção):**
+   ```bash
+   ssh -i "$K" $S 'docker run -d --name restore-teste --network none -e POSTGRES_PASSWORD=descartavel postgres:16.15'
+   "$RC" --config "$D/rclone.conf" cat gdrive:keshion-backups/postgres/$ARQ | "$AGE" -d -i "$D/chave-backup-keshion.txt" \
+     | ssh -i "$K" $S 'gunzip | docker exec -i restore-teste psql -U postgres -q -o /dev/null'
+   ```
+   Para ver o n8n abrindo as credenciais: rodar a imagem `docker.n8n.io/n8nio/n8n:2.47.5` com `--network container:restore-teste`, `DB_POSTGRESDB_HOST=localhost`, as variáveis do `.env` e `n8n export:credentials --all --decrypted` (não imprimir o resultado). No fim: `docker rm -f -v restore-teste`.
+2. **Servidor novo (perda total):** instalar Docker; criar `/opt/keshion`; abrir a configuração do Drive (`"$RC" ... cat gdrive:keshion-backups/config/<arquivo> | "$AGE" -d -i "$D/chave-backup-keshion.txt" | ssh ... 'tar -xzf - -C /opt/keshion'`); `docker compose up -d postgres`; esperar ficar saudável; restaurar o dump como no passo 1, mas em `docker compose exec -T postgres psql -U <POSTGRES_USER> -d postgres`; depois `docker compose up -d`. O `.env` restaurado traz a mesma `N8N_ENCRYPTION_KEY`, então as credenciais abrem. Apontar o DNS (ou o sslip) para o IP novo, recolocar `backup-chave-publica.txt`, `rclone.conf`, o cron e instalar `age` e `rclone`.
+3. **Voltar a produção a um dia anterior (servidor vivo):** só com OK da Erica e com o n8n parado (`docker compose stop n8n`); fazer antes um backup do estado atual. Restaurar sobre bancos existentes exige apagá-los antes (`DROP DATABASE`), por isso a recomendação é conferir primeiro na cópia isolada.
 
 ## Comandos úteis (dentro do servidor, em `/opt/keshion`)
 
@@ -61,7 +89,7 @@ Configuração do n8n: banco Postgres, `N8N_HOST` e `WEBHOOK_URL` com o endereç
 ## Pendências deste servidor
 
 1. **A Erica cria o usuário dono do n8n** na primeira tela do endereço acima.
-2. **Guardar uma cópia do `/opt/keshion/.env` fora do servidor** (gerenciador de senhas). Sem a `N8N_ENCRYPTION_KEY`, as credenciais salvas no n8n não podem ser lidas de novo se o servidor for refeito.
-3. Copiar os backups para fora do servidor (por exemplo, para o Google Drive da Keshion).
+2. ✅ Cópia do `/opt/keshion/.env` fora do servidor (18/11/2026): no PC (`.keshion-backup\env-servidor-20261118.txt`) e criptografada no Drive todo dia. Falta a Erica colar o conteúdo dele e a chave privada do backup no cofre de senhas.
+3. ✅ Backups copiados para fora do servidor (18/11/2026, Google Drive, ver Backup).
 4. Hoje o acesso é como root, só por chave. O LEIA-PRIMEIRO previa um usuário não root com sudo; não foi pedido nesta etapa e fica para decidir.
 5. Trocar o endereço para `n8n.keshion.com.br` quando o domínio for registrado (mudar `DOMINIO` no `.env` e o DNS, e reiniciar).
