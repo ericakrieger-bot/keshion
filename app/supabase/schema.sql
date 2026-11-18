@@ -176,6 +176,18 @@ alter table membros enable row level security;
 drop policy if exists ver_meu_acesso on membros;
 create policy ver_meu_acesso on membros for select to authenticated using (user_id = auth.uid());
 
+-- 3b. LIBERAÇÃO DA API --------------------------------------------------------------------------------------
+-- O projeto keshion-app (sa-east-1) foi criado com "Grant API access to new tables automatically" DESLIGADO e
+-- "Enable RLS on new tables automatically" LIGADO. Por isso cada tabela é liberada aqui, de propósito, só para quem
+-- está logado. Visitante sem login (anon) não lê nada, só chama a função da Clara (seção 4).
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on pacientes, tratamentos, textos_orcamento, orcamentos, consultas,
+      conversas, encaminhamentos, recuperacoes to authenticated;
+grant select on clinicas, membros to authenticated;
+revoke all on all tables in schema public from anon;
+revoke all on function minhas_clinicas() from public, anon;
+grant execute on function minhas_clinicas() to authenticated;
+
 -- 4. ENTRADA DA CLARA: UMA FUNÇÃO, UM TOKEN POR CLÍNICA --------------------------------------------------
 -- O n8n guarda só a chave pública do projeto e o token da clínica. Se o token vazar, o estrago fica numa clínica
 -- e só nestas operações. Gerar o token: 32 bytes aleatórios; no banco entra só o hash:

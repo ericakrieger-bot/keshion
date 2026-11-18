@@ -36,6 +36,7 @@
 - Por quê: o Supabase grátis pausa e não tem backup, a Clara precisa responder mesmo se o app cair, e o banco do Contabo fica fechado para a internet de propósito.
 - Hospedagem: Netlify (telas) e Supabase (banco). Vercel e Base44 avaliados e descartados por ora.
 - Conta da Netlify criada em 18/11/2026 com o e-mail da Keshion.
+- **Supabase criado em 18/11/2026:** organização KESHION (plano grátis), projeto `keshion-app`, região South America (São Paulo, sa-east-1), referência `hqxmcyckdjfbbcqtxfax`, endereço `https://hqxmcyckdjfbbcqtxfax.supabase.co`. Criado com o acesso automático da API desligado e o RLS automático ligado: cada tabela é liberada de propósito em `app/supabase/schema.sql`. A senha do banco fica só no cofre de senhas da Erica. Chave secreta: nunca no chat nem no Git, só no `.env`.
 
 ## Domínio
 
