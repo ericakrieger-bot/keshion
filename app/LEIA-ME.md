@@ -29,5 +29,9 @@ Precisa do arquivo `app/web/.env.local` (fora do Git) com `NEXT_PUBLIC_SUPABASE_
 
 ## Cuidados
 
+- **Certificado no teste local (Windows):** o servidor de teste não confiava no certificado do Supabase (erro `UNABLE_TO_VERIFY_LEAF_SIGNATURE`, mostrado só como "fetch failed"). O script `npm run dev` agora usa `node --use-system-ca`, que aproveita os certificados do Windows. Se algum dia aparecer "fetch failed" no login ou no "esqueci a senha", é isso. Na Netlify não acontece.
+- O login só diz "senha incorreta" quando o Supabase responde `invalid_credentials`; outras falhas dizem que é um problema do sistema. O motivo real vai para o registro do servidor.
+- **E-mail do Supabase:** o padrão só deixa editar o modelo depois de ligar um serviço de envio próprio (SMTP) e manda no máximo 2 e-mails por hora, só para e-mails da equipe do projeto. Antes do piloto: ligar um serviço (ex.: Resend) ao domínio keshion.com, com modelo em português e link `token_hash`.
+
 - O Next 16 mudou: o arquivo antigo `middleware.ts` agora é `proxy.ts`, e `cookies()` é assíncrono. Antes de escrever código novo, consultar `web/node_modules/next/dist/docs/`.
 - O modo "Cache Components" fica desligado de propósito (`web/next.config.ts`): tudo aqui depende de quem está logado.

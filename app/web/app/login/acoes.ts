@@ -12,7 +12,13 @@ export async function entrar(_anterior: EstadoLogin, dados: FormData): Promise<E
 
   const supabase = await criarClienteServidor();
   const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
-  if (error) return { erro: "E-mail ou senha incorretos." };
+  if (error) {
+    // Só diz "senha incorreta" quando o Supabase respondeu que as credenciais não conferem.
+    // Falha de conexão ou do servidor é outra coisa, e a pessoa precisa saber para não trocar a senha à toa.
+    if (error.code === "invalid_credentials") return { erro: "E-mail ou senha incorretos." };
+    console.error("[login] falha que não é de senha:", error.status, error.code, error.message);
+    return { erro: "Não conseguimos entrar agora por um problema no sistema. Tente de novo em alguns minutos." };
+  }
 
   redirect("/conversas");
 }

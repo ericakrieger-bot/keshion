@@ -18,7 +18,13 @@ export async function pedirNovaSenha(_anterior: EstadoEsqueci, dados: FormData):
 
   const supabase = await criarClienteServidor();
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
-  if (error?.status === 429) return { erro: "Muitos pedidos seguidos. Espere alguns minutos e tente de novo." };
+  if (error) {
+    // O motivo real fica só no registro do servidor (nunca na tela), para a Keshion investigar e-mail que não chega.
+    console.error("[esqueci-senha] o Supabase recusou o pedido:", error.status, error.code, error.message);
+    if (error.status === 429) return { erro: "Muitos pedidos seguidos. Espere alguns minutos e tente de novo." };
+    // Falha do sistema (sem conexão ou erro do servidor): avisa, porque o e-mail não saiu. Não revela se o e-mail existe.
+    if (!error.status || error.status >= 500) return { erro: "Não conseguimos enviar agora. Tente de novo em alguns minutos." };
+  }
   // A resposta é a mesma exista o e-mail ou não: assim ninguém descobre quem é cliente.
   return { enviado: true };
 }
