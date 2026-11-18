@@ -40,6 +40,16 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 | 3.4 | Rodar os pacientes simulados depois de cada ajuste pedido pela clínica | C |
 | 3.5 | Conferir a autorização do Google e o vencimento do plano do Whapi | E |
 
+## Registro de rodadas
+
+**18/11/2026, manhã (06h56 a 08h, Curitiba, clínica FECHADA o tempo todo), correções de avisos, idioma, "encaixe" e hora em inglês:**
+
+- 1.3, 5 perfis (06h57, US$ 0,14): Bia 8, Camila 8, Fernanda 6, Patrícia 9, Emily 6 (17/11: 9, 8, 9, 9,5, 8; 18/11 22h37: 8, 7, 6, 7, 7). Emily ofereceu horários em inglês, marcou e cancelou; sem "Esse horário não está disponível"; Camila sem "encaixe".
+- 1.3, 22 perfis (07h11, US$ 0,58): notas de 6 a 9, **exceto Emily 2**. Em inglês com a data escrita "Nov 19" a conferência de horário não reconhece a data (só aceita "19/11" ou "dia 19") e a Clara repetiu "Esse horário não está disponível" 10 vezes. Nos 5 perfis a Clara escreveu "19/11" e funcionou: depende de como a IA escreve a data. Sem "SEM RESPOSTA" em nenhuma das duas rodadas.
+- 1.2, 56 mensagens: 56 de 56 respondidas, nenhuma sem resposta, maior tempo 58 s, 4 avisos, sem "só um instante" de falha. Resultado em `tecnico/teste-ab/teste-n8n-resultado-20261118-avisos-idioma-hora.json`.
+- 1.4: fichas 8xx apagadas pelo script; fichas 101 a 107 do teste das 56 ficam no banco (sem evento de agenda). **Agenda da demo NÃO conferida:** esta sessão não enxerga a conta keshion.ai.2026 (precisa ser compartilhada). Conferir à mão os eventos de 19/11 em diante.
+- Não rodado em horário comercial (clínica aberta): repetir os perfis de agenda depois das 8h.
+
 ## Melhorias nos scripts
 
 1. Criar `teste_rapido.py` (1.1).
