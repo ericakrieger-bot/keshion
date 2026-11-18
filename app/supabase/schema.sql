@@ -1,4 +1,4 @@
--- Banco do app da Keshion (Supabase, região São Paulo). RASCUNHO de 18/11/2026, ainda não aplicado em nenhum projeto.
+-- Banco do app da Keshion (Supabase, região São Paulo). APLICADO em 18/11/2026 no projeto keshion-app e testado (teste-isolamento.sql).
 -- Regra de ouro: cada clínica só vê as linhas dela (RLS). A Clara (n8n, no Contabo) NÃO usa chave de administrador:
 -- ela chama só a função clara_evento, com um token por clínica (seção 4).
 -- Quem é dono de quê: a Clara é dona da conversa em andamento (fica no Contabo); o app é dono do cadastro,

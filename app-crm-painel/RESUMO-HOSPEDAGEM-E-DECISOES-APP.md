@@ -36,7 +36,7 @@
 - Por quê: o Supabase grátis pausa e não tem backup, a Clara precisa responder mesmo se o app cair, e o banco do Contabo fica fechado para a internet de propósito.
 - Hospedagem: Netlify (telas) e Supabase (banco). Vercel e Base44 avaliados e descartados por ora.
 - Conta da Netlify criada em 18/11/2026 com o e-mail da Keshion.
-- **Supabase criado em 18/11/2026:** organização KESHION (plano grátis), projeto `keshion-app`, região South America (São Paulo, sa-east-1), referência `hqxmcyckdjfbbcqtxfax`, endereço `https://hqxmcyckdjfbbcqtxfax.supabase.co`. Criado com o acesso automático da API desligado e o RLS automático ligado: cada tabela é liberada de propósito em `app/supabase/schema.sql`. A senha do banco fica só no cofre de senhas da Erica. Chave secreta: nunca no chat nem no Git, só no `.env`.
+- **Supabase criado em 18/11/2026:** organização KESHION (plano grátis), projeto `keshion-app`, região South America (São Paulo, sa-east-1), referência `hqxmcyckdjfbbcqtxfax`, endereço `https://hqxmcyckdjfbbcqtxfax.supabase.co`. Criado com o acesso automático da API desligado e o RLS automático ligado: cada tabela é liberada de propósito em `app/supabase/schema.sql`. **Banco aplicado e testado em 18/11/2026** (10 tabelas, 10 regras por clínica): cada clínica vê só o que é dela, visitante sem login não lê nada, a função da Clara recusa token errado e tipo desconhecido, a numeração dos orçamentos é por clínica. Teste repetível em app/supabase/teste-isolamento.sql; o projeto ficou vazio (0 clínicas, 0 pacientes). Endereço e chave pública no .env. A senha do banco fica só no cofre de senhas da Erica. Chave secreta: nunca no chat nem no Git, só no `.env`.
 
 ## Domínio
 
