@@ -510,7 +510,8 @@ const conteudo =
   'Nome no perfil do WhatsApp (não usar na conversa): ' + (f.nome || '') + '\n' +
   'Tipo da última mensagem: ' + (fila.tipo || 'texto') + '\n\n' +
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
-  'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim();
+  'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim() + '\n\n' +
+  '(Responda no idioma em que o paciente está escrevendo, inclusive ao oferecer horários.)';
 return [{ json: { agenda_ok: agendaOk, pedido: {
   model: f.modelo, max_tokens: 6000,   // o pensamento interno do Haiku gasta parte disso; 2000 cortava o JSON
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
@@ -657,7 +658,10 @@ const conversa = String(f.conversa || '') + '\n' + String(f.pendente || '');
 const dd = String(+q.day), mm = String(+q.month), hh = String(+q.hour);
 const temData = new RegExp('(^|\\D)0?' + dd + '\\s*/\\s*0?' + mm + '(\\D|$)').test(conversa)
   || new RegExp('dia\\s+0?' + dd + '(\\D|$)', 'i').test(conversa);
-const temHora = new RegExp('(^|\\D)0?' + hh + '(\\s*h\\b|:\\d\\d|\\s*horas?\\b)|(às|as)\\s+0?' + hh + '(?!\\d)', 'i').test(conversa);
+// Hora em português (9h, 9:00, às 9), inglês (9am, 4 pm, 4:00 p.m., at 4) e espanhol (a las 9). 18/11: em inglês não marcava.
+const h12 = String(+q.hour % 12 || 12), ampm = +q.hour < 12 ? 'a\\.?\\s*m' : 'p\\.?\\s*m';
+const temHora = new RegExp('(^|\\D)0?' + hh + '(\\s*h\\b|:\\d\\d|\\s*horas?\\b)|(às|as|a las)\\s+0?' + hh + '(?!\\d)', 'i').test(conversa)
+  || new RegExp('(^|\\D)' + h12 + '(:00)?\\s*' + ampm + '(?![a-z])|\\bat\\s+' + h12 + '(?![\\d:]|\\s*[ap]\\.?\\s*m)', 'i').test(conversa);
 if (!temData || !temHora) return fim('invalido', 'horário que não foi oferecido nem pedido na conversa');
 return fim('ok');
 """, (4460, 300))
@@ -733,12 +737,23 @@ const verbo = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[
 switch (tipo) {
   case 'humano': {
     // Não repete o aviso: (1) 15 minutos e a mensagem nova é só um "ok"; (2) 90 minutos e o motivo é parecido com o do último aviso.
+    // No caso (2), se a mensagem nova traz pergunta ou informação, vai um aviso curto de complemento (18/11: avisos com assunto
+    // novo estavam sendo engolidos). Palavras genéricas não contam na comparação.
     const idade = f.ultimo_aviso_humano ? Date.now() - new Date(f.ultimo_aviso_humano).getTime() : Infinity;
     if (idade < 15 * 60000 && pend.length < 60 && !pend.includes('?')) break;
-    const pal = x => new Set(String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/).filter(w => w.length > 4));
+    const GENERICAS = new Set(['paciente', 'clinica', 'fechada', 'aberta', 'suzana', 'passar', 'verificar', 'retorna', 'retorno',
+      'abrir', 'quando', 'amanha', 'pediu', 'perguntou', 'pergunta', 'sobre', 'saber', 'equipe', 'informacao', 'nesta', 'dessa', 'desta']);
+    const pal = x => new Set(String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/)
+      .filter(w => w.length > 4 && !GENERICAS.has(w)));
     const pa = pal(ia.motivo), pb = pal(f.ultimo_motivo_humano);
     const comum = [...pa].filter(w => pb.has(w)).length;
-    if (idade < 90 * 60000 && pa.size && pb.size && comum / Math.min(pa.size, pb.size) >= 0.6) break;
+    if (idade < 90 * 60000 && pa.size && pb.size && comum / Math.min(pa.size, pb.size) >= 0.6) {
+      if (pend.length < 60 && !pend.includes('?')) break;
+      aviso_humano = 'sim';
+      motivo_humano = f.ultimo_motivo_humano || ia.motivo || '';
+      avisos.push('*Complemento do aviso anterior*\n' + quem + '\nMensagem nova: ' + pend + '\nMotivo: ' + ia.motivo);
+      break;
+    }
     aviso_humano = 'sim';
     motivo_humano = ia.motivo || '';
     avisos.push('*Chamar uma pessoa*\n' + quem + '\nMensagem: ' + pend + '\nMotivo: ' + ia.motivo + '\n\nO que a __ASSISTENTE__ respondeu:\n' + m.filter(Boolean).join(' '));
