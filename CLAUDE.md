@@ -31,7 +31,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, a
 2. **Resumo ou nova conversa:** atualizar `tecnico/RETOMAR-AQUI.md` e terminar com a frase pronta para colar: "Projeto Keshion. Leia `tecnico/RETOMAR-AQUI.md` e vamos para [próxima feature]." (conversa aberta na pasta `Documents\Claude Code\keshion`)
 3. **Uma feature por conversa.** Ao terminar, atualizar o RETOMAR-AQUI e sugerir abrir conversa nova.
 4. **Revisão pelo Codex:** ao fechar cada feature que mexa no fluxo, nas instruções ou no servidor, lembrar a Erica de rodar a revisão no Codex com `tecnico/n8n/PROMPT-CODEX-REVISAO.md` (dizer qual feature revisar).
-5. **Testes:** depois de mudar instruções, rodar `tecnico/teste-ab/paciente_simulado.py`; depois de mudar o fluxo, também `teste_n8n.py`. Lista completa em `tecnico/testes-checklist.md`.
+5. **Testes (regra de 18/11/2026):** os testes da Clara rodam só na conversa de testes da Erica, um por vez. Nas outras conversas: corrigir, publicar e entregar um prompt de teste pronto para colar lá (depois de mudar instruções, `tecnico/teste-ab/paciente_simulado.py`; depois de mudar o fluxo, também `teste_n8n.py`). Não rodar teste fora dela. Para publicar fluxo, import e publish bastam: não reiniciar o n8n, que derruba conversas em andamento. Lista completa em `tecnico/testes-checklist.md`.
 6. **Modelo:** Opus para desenhar feature nova, decisão difícil e revisão; Sonnet para rodar teste, ajustar texto, documentar e tarefas repetidas.
 
 ## Mapa curto
