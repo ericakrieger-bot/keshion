@@ -56,6 +56,8 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 **Depois do piloto**
 Confirmações (48 h, véspera, 2 h antes), CRM em Google Planilhas, Sonnet nas mensagens clínicas, ordem de envio garantida entre respostas próximas, reservas de horário no banco, resumo do histórico longo, Postgres 17, Jev (classificador de intenção).
 
+**Custo dos testes (18/11):** os US$ 10 de crédito foram gastos US$ 7,49 nos testes (Sonnet) e US$ 2,52 na Clara (Haiku, cerca de US$ 0,002 por resposta). `paciente_simulado.py` agora usa Haiku no paciente e Sonnet com esforço médio no juiz, e mostra o custo no fim: 5 pacientes custaram US$ 0,12 (antes eram cerca de US$ 0,80). Na rodada de 18/11 (22h37 em Curitiba, clínica fechada), Bia, Camila, Fernanda, Patrícia e Emily tiraram 8, 7, 6, 7 e 7, abaixo de 17/11. Os problemas apontados são da Clara: promete encaixe com a clínica fechada, diz que não sabe uma resposta que está na base, escreve "avalição", volta para o português com a Emily. Investigar junto com a revisão do Codex das correções de 17/11 (podem ser efeito das instruções novas ou do horário).
+
 ## Próxima feature: backup fora do servidor
 
 Por que agora: com a Vivian, o banco passa a ter conversas de pacientes reais. Hoje o backup diário (03h, `pg_dumpall`, últimos 7) fica no próprio servidor (`/opt/keshion/backups/`): se o servidor ou o disco se perderem, o backup vai junto. Também não existe cópia do `/opt/keshion/.env` fora do servidor, e a restauração nunca foi testada. Detalhes do backup atual em `tecnico/servidor-n8n.md` (seção Backup).

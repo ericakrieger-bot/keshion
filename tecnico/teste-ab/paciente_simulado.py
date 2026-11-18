@@ -21,8 +21,24 @@ SSH_CHAVE = str(Path.home() / ".ssh" / "keshion_vps")
 _seg = json.loads((NEG / "tecnico/n8n/segredos.local.json").read_text(encoding="utf-8"))
 _seg = _seg.get("clinica-demo", _seg)   # formato novo (por clínica) ou antigo
 WEBHOOK = "https://n8n.169-58-41-107.sslip.io/webhook/" + _seg["webhook_path"]
-MODELO_PACIENTE = "claude-sonnet-5-5"
+# Custo (18/11): fazer o papel do paciente é tarefa simples, vai no Haiku com pouco pensamento; a nota fica no Sonnet,
+# com esforço médio. Antes os dois eram Sonnet no padrão e uma rodada de 22 pacientes custava uns US$ 3,50.
+MODELO_PACIENTE = "claude-haiku-5-5"
+ESFORCO_PACIENTE = "low"
 MODELO_JUIZ = "claude-sonnet-5-5"
+ESFORCO_JUIZ = "medium"
+# Preço por milhão de tokens (entrada, saída), para o custo estimado no fim da rodada. A Clara (Haiku, no n8n) não entra.
+PRECO = {"claude-haiku-5-5": (0.10, 0.50), "claude-sonnet-5-5": (2.00, 10.00)}
+import threading
+_GASTO = {}
+_TRAVA = threading.Lock()
+
+
+def anotar(modelo, r):
+    with _TRAVA:
+        g = _GASTO.setdefault(modelo, [0, 0])
+        g[0] += r.usage.input_tokens
+        g[1] += r.usage.output_tokens
 MAX_TURNOS = 14
 RODADA = time.strftime("%Y%m%d-%H%M%S")   # com segundos: duas rodadas no mesmo minuto não sobrescrevem o relatório
 
@@ -201,7 +217,9 @@ def fala_do_paciente(p, historico):
         msgs.append({"role": "assistant" if quem == "Paciente" else "user", "content": texto or "(sem resposta)"})
     if msgs[-1]["role"] == "assistant":
         msgs.append({"role": "user", "content": "(sem resposta ainda)"})
-    r = IA.messages.create(model=MODELO_PACIENTE, max_tokens=1500, system=sistema, messages=msgs)
+    r = IA.messages.create(model=MODELO_PACIENTE, max_tokens=3000, system=sistema, messages=msgs,
+                          output_config={"effort": ESFORCO_PACIENTE})
+    anotar(MODELO_PACIENTE, r)
     return "".join(b.text for b in r.content if b.type == "text").strip()
 
 
@@ -235,7 +253,9 @@ CONVERSA:
 
 AVISOS PARA A EQUIPE:
 {chr(10).join(avisos) or '(nenhum)'}"""
-    r = IA.messages.create(model=MODELO_JUIZ, max_tokens=4000, messages=[{"role": "user", "content": pedido}])
+    r = IA.messages.create(model=MODELO_JUIZ, max_tokens=8000, messages=[{"role": "user", "content": pedido}],
+                          output_config={"effort": ESFORCO_JUIZ})
+    anotar(MODELO_JUIZ, r)
     t = "".join(b.text for b in r.content if b.type == "text")
     try:
         return json.loads(t[t.index("{"): t.rindex("}") + 1])
@@ -319,6 +339,12 @@ def main():
     lista = ",".join("'" + r["tel"] + "'" for r in resultados)
     db(f"DELETE FROM pacientes WHERE telefone IN ({lista}); DELETE FROM saidas_teste WHERE telefone IN ({lista}) OR " + " OR ".join("texto LIKE '%(" + r["tel"] + ")%'" for r in resultados) + "; "
        f"DELETE FROM mensagens_recebidas WHERE telefone IN ({lista});")
+    total = 0
+    for m, (ent, sai) in _GASTO.items():
+        c = ent / 1e6 * PRECO[m][0] + sai / 1e6 * PRECO[m][1]
+        total += c
+        print(f"Custo do teste ({m}): {ent} tokens de entrada, {sai} de saída, US$ {c:.2f}")
+    print(f"Custo do teste: US$ {total:.2f} para {len(resultados)} paciente(s), fora a Clara")
     print("Relatório:", AQUI / f"paciente-simulado-{RODADA}.md")
 
 
