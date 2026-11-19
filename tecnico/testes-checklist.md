@@ -50,6 +50,16 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 - 1.4: fichas 8xx apagadas pelo script; fichas 101 a 107 do teste das 56 ficam no banco (sem evento de agenda). **Agenda da demo NÃO conferida:** esta sessão não enxerga a conta keshion.ai.2026 (precisa ser compartilhada). Conferir à mão os eventos de 19/11 em diante.
 - Não rodado em horário comercial (clínica aberta): repetir os perfis de agenda depois das 8h.
 
+**18/11/2026, noite (18h08 a 18h56 de Curitiba, clínica ABERTA), Pacote A, casos 1 a 7 e 5 perfis:**
+
+- Casos 1 a 7 (conversas sintéticas, finais 961 a 967): **todos OK.** 1 sangramento depois de aviso de recibo gerou "URGENTE: chamar uma pessoa agora" e "ok obrigada" não gerou aviso; 2 "amanhã às 11h" marcou 19/11 às 11h; 3 sábado e 24/11 às 10h: a IA recusou sozinha (contador em 0, a trava do fluxo não foi acionada, mas a equipe foi avisada); 4 "Yes" em inglês cancelou na hora, tudo em inglês; 5 "Não, quero manter" respondeu "continua marcada"; 6 espanhol inteiro sem português para a paciente; 7 "26/11 às 14h" gravou 26/11 às 14h no Google. Agenda do Google conferida (nada sobrou).
+- **Problema 1 (leve a médio): vaga presa depois de cancelar.** A trava de 5 min (A8) não é solta no cancelamento: 19/11 às 11h, livre no Google, foi recusado como "preenchido" por uns 4 min depois do cancelamento da Emma (964) e a Clara ainda mandou o aviso "2ª recusa seguida" quando a paciente disse "Não, quero manter". Cancelar e remarcar deveriam apagar a linha de `reservas_horario`.
+- **Problema 2 (leve): cancelamento perguntado duas vezes** em português (Bia, 801): depois do "certo?" da IA, a resposta "sim, pode cancelar ... || e a armadilha ainda não rolou" (duas mensagens juntas) fez o fluxo perguntar de novo "Só para confirmar...".
+- 1.3, 5 perfis (18h46, US$ 0,14): Bia 6, Camila 7, Fernanda 7, Patrícia 8, Emily 8 (média 7,2; manhã 8, 8, 6, 9, 6 = 7,4). Quem marcou antes continuou marcando; Emily em inglês e espanhol sem frase fixa em português.
+
+**19/11/2026, 08h20 (Curitiba, clínica aberta), 22 perfis: INVÁLIDA, a repetir.** Notas 0 a 4 e 137 "SEM RESPOSTA" vieram do teste, não da Clara: por volta das 08h28 o `paciente_simulado.py` (no PC) parou de ler as respostas no banco (provável: o Claude fechou sozinho e o processo ficou solto). O n8n processou tudo sem erro (233 atendimentos e 160 envios, todos com sucesso, sem "credit balance", sem "Só um instante"), e a Clara respondeu em cerca de 20 s a cada mensagem. O teste também não limpou no fim: sobraram 22 fichas, 454 saídas, 232 mensagens recebidas, 4 reservas e 3 eventos no Google (Bia 24/11, Paula 26/11, Júlia 26/11), apagados à mão depois, sobrando só o evento antigo do Sergio. As notas dessa rodada foram tiradas do `historico-notas.csv`. A rodada anterior (18/11 de noite, 22h) também travou (PC suspendeu). **Lição:** rodar `paciente_simulado.py` com o PC sem suspender e sem fechar o Claude; conferir no meio se a ficha ainda é lida.
+- **Ainda por fazer:** 22 perfis (comparar com 18/11 manhã, 6 a 9, Emily 2) e as 56 mensagens fixas.
+
 ## Melhorias nos scripts
 
 1. Criar `teste_rapido.py` (1.1).
