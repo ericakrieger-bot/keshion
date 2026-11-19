@@ -83,7 +83,8 @@ O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realid
 3. **Marcos do roadmap:** status e progresso conforme as tarefas ligadas a eles.
 4. **Vitórias:** registre cada entrega relevante (publicação, teste aprovado, cliente, reunião).
 5. **Decisões a tomar:** registre cada decisão que depende da Erica ou do Sérgio, com a sua recomendação.
-6. **Painel KESHION AI:** atualize "Estamos aqui", as 3 prioridades da semana (marcar as feitas; às segundas, propor as novas) e a tabela de números quando houver dado novo (Funil de clínicas, propostas, clientes).
+6. **Finanças, base "Ferramentas e assinaturas"** (`collection://4199b089-c509-810c-8d8f-000b8562d734`): no bloco 8, aponte cobranças dos próximos 7 dias; no bloco 9, o custo mensal total e as ferramentas sem valor ou com "Pago por: A confirmar". Nunca invente preço: valor só com evidência (fatura, painel, a Erica). O termo novo que a Erica não conhecer vai para a página "Dicionário técnico" do KESHION AI.
+7. **Painel KESHION AI:** atualize "Estamos aqui", as 3 prioridades da semana (marcar as feitas; às segundas, propor as novas) e a tabela de números quando houver dado novo (Funil de clínicas, propostas, clientes).
 
 Liste no bloco 10 cada mudança feita (o quê, de onde para onde, e a evidência). Na dúvida sobre a evidência, não mude: coloque em "Propostas de mudança no Notion".
 
