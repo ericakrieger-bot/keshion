@@ -2,7 +2,7 @@
 # clínicas ao mesmo tempo, e cada uma só pode enxergar a própria conversa.
 # Roda NO SERVIDOR: python3 teste_isolamento.py <caminho webhook demo> <caminho webhook clinica-teste>
 # Usa o número fictício 554199900777 (prefixo de teste: nada sai pelo WhatsApp) e apaga tudo no fim.
-import json, subprocess, sys, time, urllib.request
+import json, os, subprocess, sys, time, urllib.request
 
 SERVIDOR = "https://n8n.169-58-41-107.sslip.io/webhook/"
 ENV = dict(l.split("=", 1) for l in open("/opt/keshion/.env").read().splitlines() if "=" in l)
@@ -19,9 +19,11 @@ OUTRA = {"demo": "teste", "teste": "demo"}
 
 
 def sql(c, q):
-    r = subprocess.run(["docker", "compose", "exec", "-T", "-e", "PGPASSWORD=" + c["senha"], "postgres", "psql",
+    # Senha pelo ambiente do processo (-e PGPASSWORD sem valor): nunca como argumento visível no ps.
+    r = subprocess.run(["docker", "compose", "exec", "-T", "-e", "PGPASSWORD", "postgres", "psql", "-v", "ON_ERROR_STOP=1",
                         "-h", "localhost", "-U", c["usuario"], "-d", c["banco"], "-At", "-c", q],
-                       cwd="/opt/keshion", capture_output=True, text=True, stdin=subprocess.DEVNULL)
+                       cwd="/opt/keshion", capture_output=True, text=True, stdin=subprocess.DEVNULL,
+                       env=dict(os.environ, PGPASSWORD=c["senha"]), timeout=120)
     if r.returncode != 0 or "ERROR" in r.stderr:   # erro de consulta não pode parecer ficha vazia
         raise RuntimeError("SQL falhou em " + c["banco"] + ": " + r.stderr.strip()[:300])
     return r.stdout.strip()
@@ -40,10 +42,15 @@ def enviar(c, mid, texto, canal=None):
                                                   {"Content-Type": "application/json; charset=utf-8"}), timeout=30)
 
 
-def limpar():
+def limpar(espera=0):
+    q = (f"DELETE FROM pacientes WHERE telefone = '{TEL}'; DELETE FROM mensagens_recebidas WHERE telefone = '{TEL}'; "
+         f"DELETE FROM saidas_teste WHERE telefone = '{TEL}' OR texto LIKE '%({TEL})%'; DELETE FROM reservas_horario WHERE telefone = '{TEL}';")
     for c in CLINICAS.values():
-        sql(c, f"DELETE FROM pacientes WHERE telefone = '{TEL}'; DELETE FROM mensagens_recebidas WHERE telefone = '{TEL}'; "
-               f"DELETE FROM saidas_teste WHERE telefone = '{TEL}' OR texto LIKE '%({TEL})%';")
+        sql(c, q)
+    if espera:   # saídas atrasadas (despedidas, avisos) chegam depois: espera e apaga de novo
+        time.sleep(espera)
+        for c in CLINICAS.values():
+            sql(c, q)
 
 
 def esperar(mid, voltas):
@@ -69,7 +76,7 @@ def main():
     try:
         rodar()
     finally:
-        limpar()   # mesmo se der erro ou for interrompido
+        limpar(espera=60)   # mesmo se der erro ou for interrompido
 
 
 def rodar():

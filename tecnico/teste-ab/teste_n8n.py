@@ -2,14 +2,26 @@
 # Roda NO SERVIDOR (python3 teste_n8n.py). Nada sai pelo WhatsApp: os números usados começam com
 # config.prefixo_teste (554199900), ou o modo teste geral está ligado.
 # Usa números fictícios 554199900101 a 554199900107. Lê a senha do banco do /opt/keshion/.env.
-# Saída: /root/teste-n8n-resultado.json
-import json, subprocess, threading, time, urllib.request
+# Saída: /root/teste-n8n-resultado.json (rodada completa) ou /root/teste-n8n-resultado-INVALIDO.json (falha do teste: não vale como nota).
+# Desde 19/11/2026: para com erro claro se o SQL/docker falhar, exige os 56 casos, e limpa fichas, saídas atrasadas e reservas no fim.
+import json, os, subprocess, sys, threading, time, urllib.request
 RODADA = time.strftime('%Y%m%d%H%M%S')
+URL = None   # preenchido em iniciar(): o caminho do webhook é secreto e vem como argumento
+ENV = {}
 
-# O caminho do webhook é secreto: passe como argumento (python3 teste_n8n.py <caminho>).
-import sys
-URL = "https://n8n.169-58-41-107.sslip.io/webhook/" + sys.argv[1]
-ENV = dict(l.split("=", 1) for l in open("/opt/keshion/.env").read().splitlines() if "=" in l)
+
+class ErroTeste(RuntimeError):
+    """Falha do próprio teste (SQL/docker/webhook): NÃO é falha da Clara, e a rodada não vale."""
+
+
+def iniciar():
+    global URL, ENV
+    caminho = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("WEBHOOK_CAMINHO", "")   # variável de ambiente evita o caminho no ps
+    if not caminho:
+        sys.exit("Uso: python3 teste_n8n.py <caminho do webhook>  (ou defina WEBHOOK_CAMINHO)")
+    URL = "https://n8n.169-58-41-107.sslip.io/webhook/" + caminho
+    ENV = dict(l.split("=", 1) for l in open("/opt/keshion/.env").read().splitlines() if "=" in l)
+
 
 CONVERSAS = {
     "C1 Primeiro contato e preço": [
@@ -50,9 +62,14 @@ CONVERSAS = {
 
 
 def sql(q):
-    r = subprocess.run(["docker", "compose", "exec", "-T", "-e", "PGPASSWORD=" + ENV["CLARA_DB_PASSWORD"],
-                        "postgres", "psql", "-h", "localhost", "-U", "clara", "-d", "clara", "-At", "-c", q],
-                       cwd="/opt/keshion", capture_output=True, text=True, stdin=subprocess.DEVNULL)
+    # Antes: o código de retorno não era conferido, então uma falha do docker/SQL virava texto vazio ("sem ficha" = "sem resposta").
+    # A senha vai pelo ambiente do processo (docker compose exec -e PGPASSWORD, sem valor), nunca como argumento visível no ps.
+    ambiente = dict(os.environ, PGPASSWORD=ENV["CLARA_DB_PASSWORD"])
+    r = subprocess.run(["docker", "compose", "exec", "-T", "-e", "PGPASSWORD",
+                        "postgres", "psql", "-v", "ON_ERROR_STOP=1", "-h", "localhost", "-U", "clara", "-d", "clara", "-At", "-c", q],
+                       cwd="/opt/keshion", capture_output=True, text=True, stdin=subprocess.DEVNULL, env=ambiente, timeout=120)
+    if r.returncode != 0:
+        raise ErroTeste(f"ERRO DE LEITURA (não é falha da Clara): consulta SQL falhou, código {r.returncode}: {(r.stderr or '').strip()[:300]}")
     return r.stdout.strip()
 
 
@@ -69,8 +86,12 @@ def enviar(tel, mid, texto):
                                                   {"Content-Type": "application/json; charset=utf-8"}), timeout=30)
 
 
+def tel_da_conversa(k):
+    return f"5541999001{k:02d}"
+
+
 def rodar(k, nome, msgs, saida):
-    tel = f"5541999001{k:02d}"
+    tel = tel_da_conversa(k)
     for i, msg in enumerate(msgs, 1):
         partes = msg if isinstance(msg, list) else [msg]
         antes = (ficha(tel).get("conversa") or "").count("Paciente: ")
@@ -82,7 +103,7 @@ def rodar(k, nome, msgs, saida):
         resposta, f = None, {}
         while time.time() - t0 < 150:
             time.sleep(4)
-            f = ficha(tel)
+            f = ficha(tel)   # se a leitura falhar, levanta ErroTeste: não vira "sem resposta"
             c = f.get("conversa") or ""
             if f.get("ultimo_id") == mid and f.get("pendente", "x") == "" and c.count("Paciente: ") > antes:
                 resposta = c.rsplit("\nClara: ", 1)[-1] if "\nClara: " in c else c.rsplit("Clara: ", 1)[-1]
@@ -96,32 +117,81 @@ def rodar(k, nome, msgs, saida):
         time.sleep(3)
 
 
+def rodar_seguro(k, nome, msgs, saida, erros):
+    """Roda uma conversa numa thread e guarda a falha (se houver) para o main: exceção de thread não some mais."""
+    try:
+        rodar(k, nome, msgs, saida)
+    except BaseException as e:
+        erros.append(f"{nome}: {type(e).__name__}: {e}"[:400])
+        print(nome, "FALHOU DO LADO DO TESTE:", str(e)[:200], flush=True)
+
+
+def limpar(espera=0):
+    """Apaga fichas, mensagens, saídas simuladas e reservas de vaga dos 7 telefones desta ferramenta (só deles).
+    Com espera, repete depois dela (saídas atrasadas) e devolve quantas linhas sobraram."""
+    tels = ",".join(f"'{tel_da_conversa(k)}'" for k in range(1, len(CONVERSAS) + 1))
+    achar = " OR ".join(f"texto LIKE '%({tel_da_conversa(k)})%'" for k in range(1, len(CONVERSAS) + 1))
+    q = (f"DELETE FROM pacientes WHERE telefone IN ({tels}); DELETE FROM saidas_teste WHERE telefone IN ({tels}) OR {achar}; "
+         f"DELETE FROM mensagens_recebidas WHERE telefone IN ({tels}); DELETE FROM reservas_horario WHERE telefone IN ({tels});")
+    sql(q)
+    if not espera:
+        return 0
+    time.sleep(espera)
+    sql(q)
+    return int(sql(f"select (select count(*) from pacientes where telefone in ({tels})) + (select count(*) from saidas_teste where telefone in ({tels}) or {achar}) "
+                   f"+ (select count(*) from mensagens_recebidas where telefone in ({tels})) + (select count(*) from reservas_horario where telefone in ({tels}))") or 0)
+
+
+def contar_esperado():
+    return sum(len(m) for m in CONVERSAS.values())
+
+
 def main():
+    iniciar()
     # Seguro com a Clara no ar: os números 5541999001xx começam com o prefixo de teste,
     # então nada (nem os avisos para a equipe) sai pelo WhatsApp. Confere ANTES de apagar qualquer coisa.
     prefixo = sql("select valor from config where chave = 'prefixo_teste'")
-    assert sql("select valor from config where chave = 'modo_teste'") == "1" or \
-        (prefixo and "554199900101".startswith(prefixo)), "sem modo teste nem prefixo de teste: abortando"
-    tels = ",".join(f"'5541999001{k:02d}'" for k in range(1, 8))
-    sql(f"DELETE FROM pacientes WHERE telefone IN ({tels}); "
-        "DELETE FROM saidas_teste WHERE telefone LIKE '554199900%' OR texto LIKE '%(5541999001%'; "
-        f"DELETE FROM mensagens_recebidas WHERE telefone IN ({tels});")
-    resultados = {}
-    threads = []
-    for k, (nome, msgs) in enumerate(CONVERSAS.items(), 1):
-        resultados[nome] = []
-        threads.append(threading.Thread(target=rodar, args=(k, nome, msgs, resultados[nome])))
-    for t in threads:
-        t.start()
-        time.sleep(2)
-    for t in threads:
-        t.join()
-    time.sleep(70)   # dá tempo para despedidas e avisos saírem
-    avisos = sql("select json_agg(json_build_object('telefone', telefone, 'texto', texto, 'criado', criado) order by id) "
-                 "from saidas_teste where telefone = (select valor from config where chave = 'aprovador')")
-    json.dump({"respostas": [l for n in CONVERSAS for l in resultados[n]], "avisos": json.loads(avisos or "[]")},
-              open("/root/teste-n8n-resultado.json", "w"), ensure_ascii=False, indent=1)
-    print("FIM", flush=True)
+    if not (sql("select valor from config where chave = 'modo_teste'") == "1" or (prefixo and "554199900101".startswith(prefixo))):
+        sys.exit("sem modo teste nem prefixo de teste: abortando")
+    resultados, erros, avisos, resto = {}, [], [], None
+    try:
+        limpar()
+        threads = []
+        for k, (nome, msgs) in enumerate(CONVERSAS.items(), 1):
+            resultados[nome] = []
+            threads.append(threading.Thread(target=rodar_seguro, args=(k, nome, msgs, resultados[nome], erros)))
+        for t in threads:
+            t.start()
+            time.sleep(2)
+        for t in threads:
+            t.join()
+        time.sleep(70)   # dá tempo para despedidas e avisos saírem
+        tels_like = " OR ".join(f"texto LIKE '%({tel_da_conversa(k)})%'" for k in range(1, len(CONVERSAS) + 1))
+        avisos = json.loads(sql("select json_agg(json_build_object('telefone', telefone, 'texto', texto, 'criado', criado) order by id) "
+                                f"from saidas_teste where telefone = (select valor from config where chave = 'aprovador') and ({tels_like})") or "[]")
+    except BaseException as e:
+        erros.append(f"{type(e).__name__}: {e}"[:400])
+    finally:
+        try:
+            resto = limpar(espera=75)   # apaga fichas, saídas (inclusive as atrasadas) e reservas de vaga
+        except BaseException as e:
+            erros.append(f"limpeza final falhou: {e}"[:300])
+    linhas = [l for n in CONVERSAS for l in resultados.get(n, [])]
+    esperado = contar_esperado()
+    if len(linhas) != esperado:
+        erros.append(f"contagem incompleta: {len(linhas)} de {esperado} casos")
+    if resto:
+        erros.append(f"sobraram {resto} linha(s) dos telefones de teste depois da limpeza final")
+    valida = not erros
+    json.dump({"valida": valida, "erros": erros, "esperado": esperado, "respostas": linhas, "avisos": avisos},
+              open("/root/teste-n8n-resultado.json" if valida else "/root/teste-n8n-resultado-INVALIDO.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    if not valida:
+        print("RODADA INVÁLIDA (falha do teste, não da Clara):", flush=True)
+        for e in erros:
+            print(" -", e, flush=True)
+        sys.exit(2)
+    sem = sum(1 for l in linhas if l["resposta"].startswith("(SEM RESPOSTA"))
+    print(f"FIM: {len(linhas)}/{esperado} casos completos, {sem} sem resposta da Clara", flush=True)
 
 
 if __name__ == "__main__":

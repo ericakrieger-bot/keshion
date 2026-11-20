@@ -52,6 +52,22 @@ cat > "$RAIZ/bin/mktemp" <<'E'
 [ "${STUB_MKTEMP:-ok}" = fail ] && exit 1
 exec /usr/bin/mktemp "$@"
 E
+cat > "$RAIZ/bin/mkdir" <<'E'
+#!/bin/bash
+[ "${STUB_MKDIR:-ok}" = fail ] && exit 1
+exec /usr/bin/mkdir "$@"
+E
+cat > "$RAIZ/bin/mv" <<'E'
+#!/bin/bash
+# STUB_MV=ok_status: só falha ao gravar um status que começa com OK; status_sempre: falha em qualquer gravação de status.
+destino="${@: -1}"; origem="${@: -2:1}"
+case "$destino" in
+  */STATUS-BACKUP.txt)
+    [ "${STUB_MV:-ok}" = status_sempre ] && exit 1
+    if [ "${STUB_MV:-ok}" = ok_status ] && head -c 3 "$origem" | grep -q '^OK '; then exit 1; fi ;;
+esac
+exec /usr/bin/mv "$@"
+E
 chmod +x "$RAIZ"/bin/*
 
 # $1 = nome; cria uma pasta nova com status antigo "OK ANTIGO"
@@ -63,7 +79,7 @@ novo() {
   echo "OK ANTIGO" > "$B/backups/STATUS-BACKUP.txt"
   export KESHION_BASE="$B" STUB_REMOTE="$RAIZ/remoto-$1" STUB_CURL_LOG="$RAIZ/curl-$1.log"
   : > "$STUB_CURL_LOG"
-  unset STUB_DOCKER STUB_AGE STUB_RCLONE STUB_FLOCK STUB_CURL STUB_MKTEMP
+  unset STUB_DOCKER STUB_AGE STUB_RCLONE STUB_FLOCK STUB_CURL STUB_MKTEMP STUB_MKDIR STUB_MV
 }
 rodar() { PATH="$RAIZ/bin:$PATH" bash "$AQUI/backup-postgres.sh" > "$RAIZ/saida.txt" 2>&1; CODIGO=$?; STAT=$(cat "$B/backups/STATUS-BACKUP.txt"); }
 confere() { # descrição, condição (0 = passou)
@@ -112,6 +128,26 @@ confere "status FALHA por interrupção" $(tem 'FALHA*interrompido*'; echo $?)
 echo "12. sem HC_BACKUP_URL não chama o monitor"
 novo c12; printf 'POSTGRES_USER=teste\n' > "$B/.env"; rodar
 confere "OK e curl nunca chamado" $(tem 'OK 20*' && [ ! -s "$STUB_CURL_LOG" ]; echo $?)
+
+echo "13. falhas antes dos traps antigos (D1, 20/11/2026)"
+echo " 13a. mkdir da pasta de backups falha"
+novo c13a; STUB_MKDIR=fail rodar; falha_esperada mkdir
+confere "mkdir: etapa citada no status" $(tem '*pasta de backups*'; echo $?)
+echo " 13b. arquivo de trava indisponível (flock não chega a rodar)"
+novo c13b; mkdir "$B/backups/.backup.lock"; rodar; falha_esperada trava
+confere "trava: etapa citada no status" $(tem '*arquivo de trava*'; echo $?)
+echo " 13c. falha ao gravar o status OK final"
+novo c13c; STUB_MV=ok_status rodar; falha_esperada status_ok
+confere "status OK final: não ficou OK nem OK ANTIGO" $(! tem 'OK*'; echo $?)
+confere "status OK final: etapa citada" $(tem '*gravação do resultado*'; echo $?)
+confere "status OK final: monitor NÃO recebeu aviso de sucesso" $(! grep -q 'ok postgres' "$STUB_CURL_LOG"; echo $?)
+confere "status OK final: arquivos já estavam no Drive (falha só do status)" $([ -n "$(ls "$STUB_REMOTE/postgres")" ]; echo $?)
+echo " 13d. nenhum status consegue ser gravado (disco só leitura simulado)"
+novo c13d; STUB_MV=status_sempre rodar
+confere "sem status: código diferente de zero" $([ $CODIGO != 0 ]; echo $?)
+confere "sem status: o OK antigo não vira OK novo" $([ "$STAT" = "OK ANTIGO" ]; echo $?)
+confere "sem status: monitor recebeu /fail" $(grep -q '/fail' "$STUB_CURL_LOG"; echo $?)
+confere "sem status: nenhum OK enviado ao monitor" $(! grep -q 'ok postgres' "$STUB_CURL_LOG"; echo $?)
 
 echo; echo "Resultado: $OK conferências certas, $RUIM erradas."
 [ "$RUIM" = 0 ]

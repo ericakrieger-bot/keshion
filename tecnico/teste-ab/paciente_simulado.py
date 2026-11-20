@@ -170,11 +170,33 @@ PACIENTES = [
 ]
 
 
-def db(sql):
-    cmd = "cd /opt/keshion; set -a; . ./.env; set +a; docker compose exec -T postgres sh -c 'PGPASSWORD=\"$CLARA_DB_PASSWORD\" psql -h localhost -U clara -d clara -At'"
-    r = subprocess.run(["ssh", "-i", SSH_CHAVE, "-o", "ServerAliveInterval=10", "root@169.58.41.107", cmd],
-                       input=sql, capture_output=True, text=True, encoding="utf-8")
-    return (r.stdout or "").strip()
+class ErroTeste(RuntimeError):
+    """Falha do próprio teste (SSH, SQL ou webhook): NÃO é falha da Clara e a rodada não vale."""
+
+
+def db(sql, tentativas=3):
+    # Antes (19/11/2026) a falha de SSH/SQL voltava como texto vazio e virava "Clara sem resposta" (nota baixa injusta).
+    # Agora confere o código de retorno; só repete quando o SSH nem conectou (255) ou estourou o tempo.
+    cmd = "cd /opt/keshion; set -a; . ./.env; set +a; docker compose exec -T postgres sh -c 'PGPASSWORD=\"$CLARA_DB_PASSWORD\" psql -v ON_ERROR_STOP=1 -h localhost -U clara -d clara -At'"
+    ultimo = ""
+    for t in range(tentativas):
+        transitorio = True
+        try:
+            r = subprocess.run(["ssh", "-i", SSH_CHAVE, "-o", "ServerAliveInterval=10", "-o", "ConnectTimeout=20", "root@169.58.41.107", cmd],
+                               input=sql, capture_output=True, text=True, encoding="utf-8", timeout=180)
+        except subprocess.TimeoutExpired:
+            ultimo = "tempo esgotado (180 s)"
+        else:
+            if r.returncode == 0:
+                return (r.stdout or "").strip()
+            transitorio = r.returncode == 255
+            ultimo = f"código {r.returncode}: {(r.stderr or '').strip()[:300]}"
+        if not transitorio:
+            break
+        if t < tentativas - 1:
+            print(f"  (leitura do servidor falhou, tentando de novo: {ultimo[:80]})", file=sys.stderr, flush=True)
+            time.sleep(5)
+    raise ErroTeste("ERRO DE LEITURA (não é falha da Clara): consulta SSH/SQL falhou, " + ultimo)
 
 
 def enviar(tel, mid, texto):
@@ -188,7 +210,7 @@ def enviar(tel, mid, texto):
             return
         except Exception:
             time.sleep(5)
-    raise RuntimeError("webhook não respondeu")
+    raise ErroTeste("ERRO DE ENVIO (não é falha da Clara): o webhook não respondeu depois de 3 tentativas")
 
 
 def resposta_da_clara(tel, mid):
@@ -265,8 +287,7 @@ AVISOS PARA A EQUIPE:
 
 def rodar(p):
     tel = p["tel"]
-    db(f"DELETE FROM pacientes WHERE telefone='{tel}'; DELETE FROM saidas_teste WHERE telefone='{tel}' OR texto LIKE '%({tel})%'; "
-       f"DELETE FROM mensagens_recebidas WHERE telefone='{tel}';")
+    limpar([tel])
     historico = []
     sem = p.get("semente")
     if sem:
@@ -306,16 +327,47 @@ def rodar(p):
     return {"paciente": p["nome"], "tel": tel, "conversa": historico, "avisos": avisos, "ficha": ficha, "limpeza": limpeza, "avaliacao": nota}
 
 
-def main():
-    filtro = sys.argv[1:]
-    escolhidos = [x for x in PACIENTES if not filtro or any(x["tel"].endswith(f) for f in filtro)]
-    with ThreadPoolExecutor(max_workers=5) as ex:
-        resultados = list(ex.map(rodar, escolhidos))
-    (AQUI / f"paciente-simulado-{RODADA}.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=1), encoding="utf-8")
-    L = [f"# Teste com paciente simulado ({RODADA})", "",
-         f"Outra IA ({MODELO_PACIENTE}) fez o papel de {len(resultados)} pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). "
-         f"Uma terceira IA ({MODELO_JUIZ}) avaliou cada conversa.", "",
-         "| Paciente | Nota | Objetivo atingido | Agenda no fim |", "|---|---|---|---|"]
+def limpar(tels, espera=0):
+    """Apaga fichas, mensagens, saídas simuladas e reservas de vaga destes telefones (e SÓ deles: outra rodada ao mesmo
+    tempo não pode perder dados, erro visto em 17/11/2026). Com espera, repete depois dela para pegar saídas atrasadas
+    (despedidas e avisos saem até ~1 min depois) e confere que sobrou zero. Devolve quantas linhas sobraram."""
+    if not tels:
+        return 0
+    lista = ",".join("'" + t + "'" for t in tels)
+    achar = " OR ".join("texto LIKE '%(" + t + ")%'" for t in tels)
+    sql = (f"DELETE FROM pacientes WHERE telefone IN ({lista}); DELETE FROM saidas_teste WHERE telefone IN ({lista}) OR {achar}; "
+           f"DELETE FROM mensagens_recebidas WHERE telefone IN ({lista}); DELETE FROM reservas_horario WHERE telefone IN ({lista});")
+    db(sql)
+    if not espera:
+        return 0
+    time.sleep(espera)
+    db(sql)
+    resto = db(f"select (select count(*) from pacientes where telefone in ({lista})) + (select count(*) from saidas_teste where telefone in ({lista}) or {achar}) "
+               f"+ (select count(*) from mensagens_recebidas where telefone in ({lista})) + (select count(*) from reservas_horario where telefone in ({lista}));")
+    return int(resto or 0)
+
+
+def conferir(resultados, falhas, esperados):
+    """Lista o que impede a rodada de valer (vazio = rodada completa)."""
+    problemas = [f"{p['nome']}: {e}" for p, e in falhas]
+    if len(resultados) != esperados:
+        problemas.append(f"contagem incompleta: {len(resultados)} de {esperados} perfis terminaram")
+    for r in resultados:
+        if len(r["conversa"]) < 2:
+            problemas.append(f"{r['paciente']}: conversa sem nenhum turno")
+        if r["avaliacao"].get("nota") is None:
+            problemas.append(f"{r['paciente']}: avaliação ilegível (sem nota)")
+    return problemas
+
+
+def gravar(resultados, problemas, sufixo):
+    (AQUI / f"paciente-simulado-{RODADA}{sufixo}.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=1), encoding="utf-8")
+    L = [f"# Teste com paciente simulado ({RODADA})", ""]
+    if problemas:
+        L += ["> **RODADA INVÁLIDA: falha do próprio teste (leitura, envio ou thread), não da Clara. Não usar as notas.**", ""] + [f"> - {x}" for x in problemas] + [""]
+    L += [f"Outra IA ({MODELO_PACIENTE}) fez o papel de {len(resultados)} pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). "
+          f"Uma terceira IA ({MODELO_JUIZ}) avaliou cada conversa.", "",
+          "| Paciente | Nota | Objetivo atingido | Agenda no fim |", "|---|---|---|---|"]
     for r in resultados:
         a = r["avaliacao"]
         L.append(f"| {r['paciente']} | {a.get('nota')} | {'sim' if a.get('objetivo_atingido') else 'não'} | {r['limpeza']} |")
@@ -327,7 +379,9 @@ def main():
               f"**Espelhamento:** {a.get('espelhamento', '-')}", "", f"**Ficha no fim:** {r['ficha']}", "", "### Conversa", ""]
         L += [f"- **{q}:** {t}" for q, t in r["conversa"]]
         L += ["", "### Avisos para a equipe", ""] + ([f"- {x}" for x in r["avisos"]] or ["- (nenhum)"])
-    (AQUI / f"paciente-simulado-{RODADA}.md").write_text("\n".join(L), encoding="utf-8")
+    (AQUI / f"paciente-simulado-{RODADA}{sufixo}.md").write_text("\n".join(L), encoding="utf-8")
+    if problemas:
+        return   # rodada inválida não entra no histórico de notas
     hist = AQUI / "historico-notas.csv"
     if not hist.exists():
         hist.write_text("data,perfil,nota,objetivo_atingido\n", encoding="utf-8")
@@ -335,17 +389,49 @@ def main():
         for r in resultados:
             a = r["avaliacao"]
             f.write(f'{RODADA},"{r["paciente"]}",{a.get("nota")},{"sim" if a.get("objetivo_atingido") else "nao"}\n')
-    # Limpa só os números desta rodada: outra rodada ao mesmo tempo não pode perder as fichas (erro visto em 17/11/2026).
-    lista = ",".join("'" + r["tel"] + "'" for r in resultados)
-    db(f"DELETE FROM pacientes WHERE telefone IN ({lista}); DELETE FROM saidas_teste WHERE telefone IN ({lista}) OR " + " OR ".join("texto LIKE '%(" + r["tel"] + ")%'" for r in resultados) + "; "
-       f"DELETE FROM mensagens_recebidas WHERE telefone IN ({lista});")
+
+
+def main():
+    filtro = sys.argv[1:]
+    escolhidos = [x for x in PACIENTES if not filtro or any(x["tel"].endswith(f) for f in filtro)]
+    if not escolhidos:
+        sys.exit("Nenhum perfil corresponde ao filtro: " + " ".join(filtro))
+    tels = [p["tel"] for p in escolhidos]
+    resultados, falhas, problemas, sufixo, resto = [], [], [], "-INVALIDA", None
+    try:
+        with ThreadPoolExecutor(max_workers=5) as ex:
+            futuros = [(p, ex.submit(rodar, p)) for p in escolhidos]
+            for p, f in futuros:   # a falha de uma thread aparece aqui (antes só sumia do relatório)
+                try:
+                    resultados.append(f.result())
+                except Exception as e:
+                    falhas.append((p, f"{type(e).__name__}: {e}"[:400]))
+        problemas = conferir(resultados, falhas, len(escolhidos))
+        sufixo = "" if not problemas else "-INVALIDA"
+        gravar(resultados, problemas, sufixo)
+    finally:
+        # Mesmo com erro ou Ctrl+C: apaga o que a rodada deixou, espera as saídas atrasadas e apaga de novo.
+        try:
+            resto = limpar(tels, espera=75)
+        except Exception as e:
+            resto = None
+            print(f"ATENÇÃO: não consegui limpar ({e}). Apague à mão os telefones: {', '.join(tels)}", file=sys.stderr, flush=True)
+    if resto:
+        print(f"ATENÇÃO: sobraram {resto} linha(s) dos telefones de teste depois da limpeza final.", file=sys.stderr, flush=True)
     total = 0
     for m, (ent, sai) in _GASTO.items():
         c = ent / 1e6 * PRECO[m][0] + sai / 1e6 * PRECO[m][1]
         total += c
         print(f"Custo do teste ({m}): {ent} tokens de entrada, {sai} de saída, US$ {c:.2f}")
     print(f"Custo do teste: US$ {total:.2f} para {len(resultados)} paciente(s), fora a Clara")
-    print("Relatório:", AQUI / f"paciente-simulado-{RODADA}.md")
+    print("Relatório:", AQUI / f"paciente-simulado-{RODADA}{sufixo}.md")
+    if problemas:
+        print("RODADA INVÁLIDA (falha do teste, não da Clara; as notas NÃO foram para o historico-notas.csv):", file=sys.stderr)
+        for x in problemas:
+            print(" -", x, file=sys.stderr)
+        sys.exit(2)
+    if resto != 0:
+        sys.exit(3)
 
 
 if __name__ == "__main__":

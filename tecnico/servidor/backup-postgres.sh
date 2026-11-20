@@ -10,8 +10,12 @@
 # 6. Se HC_BACKUP_URL estiver no .env (monitor externo, ex.: Healthchecks.io), avisa início,
 #    sucesso e falha. Sem a variável, nada é enviado. O aviso leva só a etapa e o código do
 #    erro, nunca dados de paciente. A URL é secreta: fica só no .env, nunca em argumento.
-# Uma segunda execução ao mesmo tempo é ignorada (flock). Falha em qualquer ponto, inclusive
-# antes de ler o .env, vira FALHA no status: o OK antigo nunca fica no lugar.
+# Uma segunda execução ao mesmo tempo é ignorada (flock). Falha em qualquer ponto vira FALHA no
+# status e código de saída diferente de zero: os traps são os primeiros comandos do script (antes
+# de mkdir, flock, .env e mktemp), então o OK antigo nunca fica no lugar. O OK só é anunciado
+# depois de o status ter sido gravado e relido; se a gravação falhar, o backup inteiro falha.
+# (Atenção: disco realmente cheio pode impedir qualquer status local; por isso o monitor externo
+# deve alertar também pela AUSÊNCIA de um sucesso novo.)
 # Cópia oficial deste arquivo: tecnico/servidor/backup-postgres.sh no Git.
 # Teste local sem custo: tecnico/servidor/testar-backup-local.sh
 set -Eeuo pipefail
@@ -29,15 +33,21 @@ DIAS_DRIVE=30
 ETAPA="preparação"
 LINHA="?"
 CONCLUIDO=0
+IGNORADA=0
 TMP=""
 HC_URL=""
 
 agora() { date '+%Y-%m-%d %H:%M'; }
 
 # Grava o status por arquivo temporário + mv, para nunca ficar meio escrito.
+# Devolve 1 se não conseguiu: quem chama decide (no OK final, a falha derruba o backup).
 gravar_status() {
-  { printf '%s\n' "$1" > "$STATUS.novo" && mv -f "$STATUS.novo" "$STATUS"; } 2>/dev/null \
-    || echo "AVISO: não consegui gravar o status ($1)"
+  if { printf '%s\n' "$1" > "$STATUS.novo" && mv -f "$STATUS.novo" "$STATUS"; } 2>/dev/null; then
+    return 0
+  fi
+  rm -f "$STATUS.novo" 2>/dev/null || true
+  echo "AVISO: não consegui gravar o status ($1)" >&2
+  return 1
 }
 
 # Aviso ao monitor externo. A URL vai por stdin (curl -K -), nunca na linha de comando.
@@ -51,42 +61,55 @@ ping_monitor() {
 
 falha() { ETAPA="$1"; exit 1; }
 
+# Falha que acontece antes de o .env ser lido (mkdir, trava): lê só a linha da URL do monitor, sem executar o .env.
+carregar_url_monitor() {
+  [ -z "$HC_URL" ] || return 0
+  HC_URL=$(sed -n 's/^HC_BACKUP_URL=//p' "$BASE/.env" 2>/dev/null | head -n 1 | tr -d "\"'") || HC_URL=""
+  return 0
+}
+
 ao_sair() {
   local codigo=$?
   trap - EXIT ERR INT TERM
+  set +e
   [ -z "$TMP" ] || rm -rf "$TMP"
-  if [ "$CONCLUIDO" != 1 ]; then
+  if [ "$CONCLUIDO" != 1 ] && [ "$IGNORADA" != 1 ]; then
     local msg
     msg="FALHA $(agora) etapa: $ETAPA (linha $LINHA, código $codigo)"
     echo "$msg"
-    gravar_status "$msg"
+    gravar_status "$msg"   # se nem isso gravar, o código de saída e o monitor ainda avisam
+    carregar_url_monitor
     ping_monitor /fail "etapa: $ETAPA; código $codigo"
     [ "$codigo" -ne 0 ] || codigo=1
     exit "$codigo"
   fi
 }
 
-mkdir -p "$DEST"
-
-# Trava contra duas execuções ao mesmo tempo. Quem chega depois sai sem mexer no status.
-exec 9>"$DEST/.backup.lock"
-if ! flock -n 9; then
-  echo "== $(agora) já existe um backup em andamento; esta execução foi ignorada"
-  exit 0
-fi
-
-# A partir daqui qualquer erro vira FALHA no status, mesmo antes de cd, .env ou mktemp.
+# Traps ANTES de qualquer outro comando que possa falhar (mkdir, flock, .env, mktemp).
 trap 'LINHA=$LINENO' ERR
 trap ao_sair EXIT
 trap 'ETAPA="interrompido por sinal"; exit 143' INT TERM
 
-gravar_status "EM ANDAMENTO $(agora) início"
+ETAPA="pasta de backups"
+mkdir -p "$DEST"
+
+# Trava contra duas execuções ao mesmo tempo. Quem chega depois sai sem mexer no status.
+ETAPA="arquivo de trava"
+exec 9>"$DEST/.backup.lock"
+if ! flock -n 9; then
+  IGNORADA=1
+  echo "== $(agora) já existe um backup em andamento; esta execução foi ignorada"
+  exit 0
+fi
+
 echo "== $(date '+%Y-%m-%d %H:%M:%S') início"
 
 ETAPA="leitura do .env"
 cd "$BASE"
 . ./.env
 HC_URL="${HC_BACKUP_URL:-}"
+ETAPA="gravação do status inicial"
+gravar_status "EM ANDAMENTO $(agora) início"
 ping_monitor /start "início"
 
 ETAPA="pasta temporária"
@@ -136,10 +159,12 @@ ETAPA="limpeza no Drive"
 $RCLONE delete "$REMOTO/postgres/" --min-age "${DIAS_DRIVE}d" -q
 $RCLONE delete "$REMOTO/config/" --min-age "${DIAS_DRIVE}d" -q
 
-# 5. Resultado: OK só aqui, com tudo conferido
+# 5. Resultado: OK só aqui, com tudo conferido, e só depois de o status ter sido gravado e relido.
+# Se a gravação falhar, CONCLUIDO continua 0 e o trap registra FALHA (código diferente de zero).
 ETAPA="gravação do resultado"
-CONCLUIDO=1
 MSG="OK $(agora) $PG_ARQ ($LOCAL_PG bytes) e $CFG_ARQ ($LOCAL_CFG bytes) no Drive"
-gravar_status "$MSG"
+gravar_status "$MSG" || falha "gravação do resultado (não consegui gravar o status OK)"
+[ "$(cat "$STATUS" 2>/dev/null)" = "$MSG" ] || falha "gravação do resultado (o status OK gravado não confere)"
+CONCLUIDO=1
 echo "$MSG"
 ping_monitor "" "ok $PG_ARQ"
