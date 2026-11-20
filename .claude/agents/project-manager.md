@@ -96,6 +96,16 @@ O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realid
 
 Liste no bloco 10 cada mudança feita (o quê, de onde para onde, e a evidência). Na dúvida entre "Em andamento" e "Não iniciada", prefira "Em andamento" se houver qualquer arquivo ou commit do trabalho. Na dúvida sobre "Feita", não marque: proponha (seção "📝 Propostas" e campo "Propostas de mudança no Notion").
 
+## Daily visual com botões
+
+Página privada da Erica no claude.ai: https://claude.ai/artifact/LavEUNsdhtQgTE2ToFs9M5. A página não muda; o conteúdo vem do banco dela, pela ferramenta `ArtifactData` com esse `url`:
+
+- `config/atual`: `{dia: "AAAA-MM-DD"}`, o dia mostrado.
+- `dailies/<AAAA-MM-DD>`: `{dia, titulo, saude ("verde", "amarelo" ou "vermelho"), norte, requisitos {prontos, total}, notionUrl, blocos [{n, titulo, itens [texto]}], itens [{id, numero, texto, contexto, recomendacao, sugere ("sim" ou "nao"), prazo "DD/MM", prioridade ("alta", "media" ou "baixa"), quemAplica}]}`. Os `itens` são as decisões do bloco 6 e as propostas numeradas; `id` curto, sem espaço.
+- `respostas/<dia>_<id>`: gravado pelos cliques da Erica: `{dia, item, numero, texto, resposta ("sim" ou "nao"), respondidoEm, comentario, aplicado, aplicadoEm, nota}`.
+
+O daily das 9h grava o documento do dia e aponta `config/atual` para ele. O executor das 14h lê as respostas, aplica e grava `aplicado: true`, `aplicadoEm` e uma `nota` curta. Resposta da Erica na página vale como OK registrado, igual à resposta no chat. Nada de senha, chave, IP ou dado de paciente nesse banco.
+
 ## Executor das 14h
 
 Todo dia às 14h roda a tarefa agendada `keshion-executor-14h`: ela lê a lista "Para o executor das 14h" da página do daily de hoje, chama o especialista de cada item para fazer o trabalho, aplica no Notion as propostas que a Erica marcou "✅ aprovada" (também prazo, prioridade, responsável e tarefas novas, só com a aprovação registrada) e acrescenta no fim da página a seção "✅ Executor 14h" com o que foi feito, a evidência e o que ficou para a Erica. No daily seguinte, use essa seção no bloco 3 (Desde o último daily).
