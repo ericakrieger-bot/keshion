@@ -41,7 +41,7 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
    - **n8n** (com Postgres como banco do próprio n8n);
    - **Postgres** também para os dados da Clara (substitui o data store 240983 do Make: fichas, conversas, `_instrucoes`, `_base`);
    - **Caddy** para HTTPS automático.
-   - Endereço provisório sem domínio: `n8n.169-58-41-107.sslip.io` (o sslip.io aponta para o IP e o Caddy gera o certificado). Trocar para `n8n.keshion.com.br` quando o domínio for registrado.
+   - Endereço provisório sem domínio: `n8n.169-58-41-107.sslip.io` (o sslip.io aponta para o IP e o Caddy gera o certificado). Trocar para `n8n.keshion.com` quando o domínio for registrado.
    - Senhas e chaves geradas no servidor, num arquivo `.env` dentro do servidor, nunca no chat nem no repositório. A Erica cria o usuário de login do n8n ela mesma na primeira tela.
 5. ✅ **Credenciais no n8n** (feito em 12/11: Anthropic, OpenAI, Whapi como "Header Auth account", Google Agenda; mais "Postgres Clara", criada pelo servidor. O app do Google ficou em modo Teste: a autorização expira a cada 7 dias até publicar o app, o que exige domínio, página inicial e política de privacidade. Resolver antes do piloto.) (a Erica cola as chaves direto na tela do n8n, nunca no chat): Anthropic, OpenAI (áudio e foto), Whapi, Google (Agenda).
 6. ✅ **Reconstruir os fluxos** (feito em 12/11: `Clara · Atendimento` e `Clara · Envio`, gerados por `tecnico/n8n/gerar_fluxos.py`) a partir das cópias em `tecnico/make-cenarios/` (1A, 1B, 1C, 1D, com LEIA-ME). Pontos de atenção:
@@ -89,4 +89,4 @@ A senha de root não funcionou, nem depois de redefinida. A Erica escolheu o **C
 - Confirmações (48 h, véspera às 18h, 2 h antes) e CRM em Google Planilhas.
 - Versão da Dra. Vivian: base, manual de voz, nome da assistente, ligação no número dela, termo do piloto assinado.
 - Teste do Jev (ver memória `pendencia-teste-jev`).
-- Logística: domínio keshion.com.br, e-mail @keshion.com.br, site, perfis, acordo de sócios, contador.
+- Logística: domínio keshion.com, e-mail @keshion.com, site, perfis, acordo de sócios, contador.

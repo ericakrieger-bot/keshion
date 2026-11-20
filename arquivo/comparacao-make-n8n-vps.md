@@ -1,3 +1,5 @@
+> **ARQUIVADO em 19/11/2026: superado.** Valores atuais: `CLAUDE.md`, `tecnico/RETOMAR-AQUI.md` e `plano-estrategico-keshion.md`. Mantido só como histórico.
+
 # Make x n8n x VPS (Hostinger e Contabo)
 
 > Comparação feita em 29/10/2026 para a Keshion. Os preços vêm de fontes de terceiros de agosto a outubro de 2026, que nem sempre concordam entre si. Confirmar na página oficial de cada empresa antes de assinar.

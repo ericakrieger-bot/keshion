@@ -14,7 +14,7 @@ O teste local de expressões (61 casos) já passou. Para repetir, sem custo: `no
 
 ## Antes de começar
 
-- Confirme que nenhum outro teste está rodando: `select telefone, atualizado from pacientes where telefone like '5541999%' and atualizado > now() - interval '10 minutes'` no banco `clara`. Se houver fichas atualizadas, pare e me avise.
+- Confirme que nenhum outro teste está rodando: `select telefone, atualizado from pacientes where telefone like '554199900%' and atualizado > now() - interval '10 minutes'` no banco `clara`. Se houver fichas atualizadas, pare e me avise.
 - Um teste por vez, nunca dois juntos. Anote a hora de Curitiba e se a clínica estava aberta (seg a sex, 8h às 19h) ou fechada.
 
 ## Testes, nesta ordem

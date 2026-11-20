@@ -16,7 +16,7 @@ Projeto Keshion. Quero testar correções publicadas na Clara da demo em 18/11 d
 ## Antes de começar
 
 - Confirme que nenhum outro teste está rodando. Fichas dos números de teste atualizadas nos últimos 10 minutos indicam outro teste em andamento; nesse caso, pare e me avise:
-  `select telefone, atualizado from pacientes where telefone like '5541999%' and atualizado > now() - interval '10 minutes'` no banco `clara`.
+  `select telefone, atualizado from pacientes where telefone like '554199900%' and atualizado > now() - interval '10 minutes'` no banco `clara`.
 - Rode um teste por vez, nunca dois juntos.
 - Anote a hora de Curitiba: com a clínica aberta (seg a sex, 8h às 19h) e fechada, a Clara segue regras diferentes.
 

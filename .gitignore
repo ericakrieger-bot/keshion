@@ -19,3 +19,6 @@ tecnico/n8n/clara-*.json
 
 # Saída dos geradores (contém o caminho secreto do webhook e a config de cada clínica)
 tecnico/n8n/gerados/
+
+# Mapa gerado pelo Graphify (refazer com graphify update)
+graphify-out/

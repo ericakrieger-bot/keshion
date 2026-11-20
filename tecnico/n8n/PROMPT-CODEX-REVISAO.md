@@ -93,7 +93,7 @@ Leia `gerar_fluxos.py` e os cenários do Make e aponte:
 - Diferenças de comportamento entre o Make e o n8n que possam ser erro (o LEIA-ME lista as diferenças intencionais).
 - Problemas de lógica nas consultas SQL (fila, pendentes, corte do histórico, avaliação futura).
 - Riscos de segurança: o webhook não tem autenticação (só um caminho difícil de adivinhar); dados de pacientes ficam nas execuções do n8n; o que mais você vê.
-- Pontos frágeis: o que pode quebrar quando trocarmos de clínica (Dra. Vivian, piloto em 01/12/2026) ou de domínio (`n8n.keshion.com.br`).
+- Pontos frágeis: o que pode quebrar quando trocarmos de clínica (Dra. Vivian, piloto em 01/12/2026) ou de domínio (`n8n.keshion.com`).
 - Configurações do servidor que merecem atenção (Postgres 16 com aviso do n8n, backups só no próprio servidor, acesso root por chave).
 
 ## Entrega

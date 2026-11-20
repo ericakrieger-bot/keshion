@@ -1,6 +1,6 @@
 # App, CRM e painel da Keshion IA
 
-> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 17/11/2026, com as decisões de 16/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../SESSAO-2026-11-01-RESUMO.md`.
+> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 17/11/2026, com as decisões de 16/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../arquivo/SESSAO-2026-11-01-RESUMO.md`.
 
 ## 0. Decisões de 16/11/2026 (valem sobre o resto deste guia)
 
@@ -112,7 +112,7 @@ Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Reativ
 
 ## 5. O que os concorrentes mostram
 
-AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhum mostra a tela real. Nenhum cita orçamento formal, valor recuperado com regra explicada ou aprovação antes do envio. Ideias aproveitadas: pacientes quentes, reativação por tempo parado, lembrete 2 horas antes, resumo do dia no WhatsApp da doutora. Detalhes na seção 6 de `../SESSAO-2026-11-01-RESUMO.md`.
+AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhum mostra a tela real. Nenhum cita orçamento formal, valor recuperado com regra explicada ou aprovação antes do envio. Ideias aproveitadas: pacientes quentes, reativação por tempo parado, lembrete 2 horas antes, resumo do dia no WhatsApp da doutora. Detalhes na seção 6 de `../arquivo/SESSAO-2026-11-01-RESUMO.md`.
 
 ## 6. O que falta
 
@@ -126,4 +126,4 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 
 Saíram da lista em 16/11/2026: comparar AppSheet e Glide, criar a planilha e o painel no Looker Studio, atualizar a planilha modelo.
 
-O estado da automação no Make fica em `../SESSAO-2026-11-01-RESUMO.md`, seções 3 e 4. Confira na conta do Make antes de confiar nele, porque pode ter mudado depois de 01/11/2026.
+O estado da automação no Make fica em `../arquivo/SESSAO-2026-11-01-RESUMO.md`, seções 3 e 4. Confira na conta do Make antes de confiar nele, porque pode ter mudado depois de 01/11/2026.

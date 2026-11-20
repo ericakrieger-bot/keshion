@@ -45,7 +45,6 @@ m.append("\n---\n\n## Rotina fixa durante o sprint\n")
 m.append("| Quando | O quê | Quem |\n|---|---|---|")
 for r in dados["rotina"]:
     m.append(f"| {r['quando']} | {r['oque']} | {r['quem']} |")
-(AQUI.parent / "plano-de-acao.md").write_text("\n".join(m) + "\n", encoding="utf-8")
 
 html = (AQUI / "quadro-modelo.html").read_text(encoding="utf-8")
 js = json.dumps(dados, ensure_ascii=False).replace("</", "<\\/")

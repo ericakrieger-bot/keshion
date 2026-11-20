@@ -1,3 +1,5 @@
+> **ARQUIVADO em 19/11/2026: superado.** Valores atuais: `CLAUDE.md`, `tecnico/RETOMAR-AQUI.md` e `plano-estrategico-keshion.md`. Mantido só como histórico.
+
 # Resumo da sessão de 19/10 a 01/11/2026 (Keshion IA)
 
 > Leia este arquivo inteiro antes de continuar o projeto. Ele resume uma conversa longa: decisões, o que já existe, onde está cada coisa e o que falta. O contexto fixo do projeto fica em `negocio-ia-clinicas/CLAUDE.md`; o material de base em `negocio-ia-clinicas/MATERIAL-COMPLETO.md`.

@@ -209,4 +209,4 @@ Mande junto com as respostas, por WhatsApp ou e-mail:
 
 Obrigada pelo tempo, doutora. Com essas respostas, montamos a base da clínica e o manual de voz, e mostramos uma prévia das respostas antes de qualquer mensagem chegar a um paciente.
 
-**Keshion** · contato@keshion.com.br
+**Keshion** · contato@keshion.com

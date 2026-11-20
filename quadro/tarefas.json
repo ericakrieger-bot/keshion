@@ -146,20 +146,20 @@
       "porque": "Sem nome não há domínio, e-mail oficial, site nem perfil. É a primeira peça para começar os contatos com cara de empresa.",
       "passos": [
         "Nome escolhido: Keshion. Leitura fácil em português, inglês e hebraico, e serve para outros nichos além da odontologia.",
-        "Confirmar que keshion.com.br está livre no registro.br (feito na tarefa do domínio).",
+        "Confirmar que keshion.com está livre no registro.br (feito na tarefa do domínio).",
         "Confirmar o @keshion no Instagram. Se estiver ocupado, usar @keshion.ai ou @keshionbr.",
         "Fazer a busca de marca no INPI (busca.inpi.gov.br) nas classes 35 e 42.",
         "Depois que a empresa existir, avaliar o pedido de registro da marca no INPI (pode ficar para 2027)."
       ],
       "entrega": "Nome decidido: Keshion.",
-      "pronto": "Os dois aprovaram o nome e a tarefa do domínio pode registrar keshion.com.br.",
+      "pronto": "Os dois aprovaram o nome e a tarefa do domínio pode registrar keshion.com.",
       "ferramentas": "registro.br, Instagram, busca do INPI."
     },
     {
       "id": "t46",
       "semana": "s1",
       "tipo": "tarefa",
-      "titulo": "Registrar o domínio keshion.com.br",
+      "titulo": "Registrar o domínio keshion.com",
       "resp": [
         "Sérgio"
       ],
@@ -167,13 +167,13 @@
       "data": "2026-10-31",
       "porque": "O domínio é a base do e-mail oficial e do site.",
       "passos": [
-        "Checar no registro.br se keshion.com.br está livre. Se estiver ocupado, opções: keshionai.com.br, usekeshion.com.br ou keshion.app.",
+        "Checar no registro.br se keshion.com está livre. Se estiver ocupado, opções: keshionai.com.br, usekeshion.com ou keshion.app.",
         "Registrar em registro.br (cerca de R$ 40 por ano). O registro.br exige CPF ou CNPJ brasileiro: registrar no CPF de um dos sócios agora e transferir para o CNPJ quando a empresa abrir.",
         "Se o keshion.com também estiver livre, avaliar registrá-lo num registrador internacional para proteger o nome (opcional).",
         "Ligar a renovação automática e guardar o acesso no Bitwarden.",
         "Anotar no grupo em nome de quem o domínio está."
       ],
-      "entrega": "Domínio keshion.com.br registrado.",
+      "entrega": "Domínio keshion.com registrado.",
       "pronto": "O domínio aparece ativo no painel do registro.br.",
       "ferramentas": "registro.br, Bitwarden."
     },
@@ -181,7 +181,7 @@
       "id": "t47",
       "semana": "s1",
       "tipo": "tarefa",
-      "titulo": "Criar o e-mail oficial @keshion.com.br e configurar para não cair em spam",
+      "titulo": "Criar o e-mail oficial @keshion.com e configurar para não cair em spam",
       "resp": [
         "Erica"
       ],
@@ -190,13 +190,13 @@
       "porque": "Os primeiros contatos com clínicas saem de um e-mail com o nome da empresa, o que passa mais confiança que um Gmail pessoal.",
       "passos": [
         "Escolher o provedor: Google Workspace (Business Starter, preço por usuário; confirmar o valor atual no site) é o mais simples e já traz Agenda, Meet e Drive da empresa. Alternativa mais barata: Zoho Mail.",
-        "Criar as contas erica@keshion.com.br e sergio@keshion.com.br e o apelido contato@keshion.com.br, que chega para os dois.",
+        "Criar as contas erica@keshion.com e sergio@keshion.com e o apelido contato@keshion.com, que chega para os dois.",
         "Configurar no registro.br os registros MX, SPF, DKIM e DMARC que o provedor indicar. Sem isso, os e-mails para clínicas tendem a cair no spam.",
         "Criar a assinatura padrão: nome, cargo, Keshion, telefone do WhatsApp comercial e link do site.",
         "Aquecer o e-mail: nas duas primeiras semanas, mandar no máximo 15 a 20 e-mails por dia, de preferência personalizados.",
         "Migrar para o e-mail da empresa as contas das ferramentas do projeto (Make, IA, Z-API), para que nada fique preso a um e-mail pessoal."
       ],
-      "entrega": "Contas @keshion.com.br ativas, com autenticação configurada e assinatura padrão.",
+      "entrega": "Contas @keshion.com ativas, com autenticação configurada e assinatura padrão.",
       "pronto": "Um e-mail de teste enviado para um Gmail chega na caixa de entrada, não no spam.",
       "ferramentas": "Google Workspace ou Zoho Mail, registro.br."
     },
@@ -261,7 +261,7 @@
       "porque": "A Dra. Vivian, o site e as primeiras propostas precisam da mesma resposta para o que o atendente faz e o que não faz.",
       "passos": [
         "O que o atendente responde: dúvidas sobre tratamentos (explicação simples, sem orientação clínica), localização, horários, estacionamento, formas de pagamento e parcelamento, como funciona a avaliação, e preço apenas na forma autorizada por escrito pela clínica.",
-        "O que o atendente faz: agenda a avaliação, confirma na véspera, remarca, acompanha o orçamento nos dias 1, 3, 7, 15 e 30, reativa pacientes parados e transcreve áudios.",
+        "O que o atendente faz: agenda a avaliação, confirma na véspera, remarca, acompanha o orçamento nos dias 3, 10, 17 e 30, reativa pacientes parados e transcreve áudios.",
         "O que sempre vai para uma pessoa: dor, urgência, sangramento, reclamação, pergunta sobre o próprio caso, pedido para falar com alguém, negociação de preço fora da política.",
         "Como funciona por horário: no horário comercial, modo copiloto (a IA escreve e a secretária aprova); fora do horário, responde sozinho depois do período de ajuste.",
         "Canais nesta fase: só WhatsApp. Direct do Instagram fica para uma segunda fase.",
@@ -285,7 +285,7 @@
       "data": "2026-10-31",
       "porque": "Sem a chave, o Make não consegue pedir respostas à IA. O limite mensal evita uma conta inesperada.",
       "passos": [
-        "Acessar platform.openai.com e criar a conta da empresa com o e-mail @keshion.com.br (separada de qualquer assinatura do ChatGPT).",
+        "Acessar platform.openai.com e criar a conta da empresa com o e-mail @keshion.com (separada de qualquer assinatura do ChatGPT).",
         "Em Billing, adicionar créditos (US$ 10 bastam para o piloto e a demonstração).",
         "Em Limits, definir um limite mensal de gasto (ex.: US$ 30) e um alerta por e-mail em US$ 20.",
         "Em API keys, criar a chave com o nome atendente-piloto.",
@@ -678,7 +678,7 @@
       "porque": "Completa o produto: confirmação reduz falta, acompanhamento recupera orçamento e o relatório mostra o resultado ao dono.",
       "passos": [
         "Confirmações: todo fim de tarde (horário de Brasília), confirma as avaliações do dia seguinte e remarca quem não pode.",
-        "Acompanhamento: toda manhã, procura orçamentos em aberto na planilha e manda a mensagem do dia certo (1, 3, 7, 15, 30).",
+        "Acompanhamento: toda manhã, procura orçamentos em aberto na planilha e manda a mensagem do dia certo (3, 10, 17 e 30).",
         "Relatório: semanal e mensal, conta contatos, avaliações marcadas, comparecimento, faltas evitadas e orçamentos fechados em reais.",
         "Alarme completo: avisa no WhatsApp quando um cenário falha ou os créditos passam de 80%.",
         "Testar cada um no número de demonstração antes de ligar na Dra. Vivian."
@@ -737,7 +737,7 @@
       "id": "t20",
       "semana": "s3",
       "tipo": "tarefa",
-      "titulo": "Escrever as mensagens da jornada do orçamento (dias 1, 3, 7, 15 e 30)",
+      "titulo": "Escrever as mensagens da jornada do orçamento (dias 3, 10, 17 e 30)",
       "resp": [
         "Erica"
       ],

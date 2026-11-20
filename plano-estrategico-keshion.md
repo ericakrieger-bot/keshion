@@ -180,7 +180,7 @@ Plano de 10/11 a 19/12 (atualizado em 11/11/2026), com dono e critério de pront
 |---|---|---|
 | Seg 1 | Decidir com o Sérgio a oferta de fundador (3 vagas, implantação de R$ 3.000, mensalidade de R$ 1.500 por 12 meses) | Reuniões, com demonstração ao vivo |
 | Ter 2 a qui 4 | Página de proposta modelo. Mais 10 diagnósticos montados | 4 reuniões na semana (a Erica entra na demonstração) |
-| Sex 5 a dom 7 | Lembretes de orçamento (dias 1, 3, 7, 15 e 30) escritos e aprovados pela Dra. Vivian | Enviar os 10 diagnósticos novos (total 20). Registrar as objeções ouvidas |
+| Sex 5 a dom 7 | Lembretes de orçamento (dias 3, 10, 17 e 30) escritos e aprovados pela Dra. Vivian | Enviar os 10 diagnósticos novos (total 20). Registrar as objeções ouvidas |
 
 **Pronto quando:** 20 diagnósticos enviados, 4 reuniões feitas, proposta modelo pronta e lembretes aprovados.
 

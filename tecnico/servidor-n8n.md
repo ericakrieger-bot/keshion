@@ -198,4 +198,4 @@ Só com OK da Erica e depois de conferir o arquivo na cópia isolada (passos 1 e
 2. ✅ Cópia do `/opt/keshion/.env` fora do servidor (18/11/2026): no PC (`.keshion-backup\env-servidor-20261118.txt`) e criptografada no Drive todo dia. Guardado também no Bitwarden da Erica, junto com a chave privada do backup.
 3. ✅ Backups copiados para fora do servidor (18/11/2026, Google Drive, ver Backup).
 4. Hoje o acesso é como root, só por chave. O LEIA-PRIMEIRO previa um usuário não root com sudo; não foi pedido nesta etapa e fica para decidir.
-5. Trocar o endereço para `n8n.keshion.com.br` quando o domínio for registrado (mudar `DOMINIO` no `.env` e o DNS; o Caddy e o n8n precisam recarregar a configuração, então combinar a janela e pedir OK da Erica antes).
+5. Trocar o endereço para `n8n.keshion.com` quando o domínio for registrado (mudar `DOMINIO` no `.env` e o DNS; o Caddy e o n8n precisam recarregar a configuração, então combinar a janela e pedir OK da Erica antes).

@@ -1,0 +1,36 @@
+# Segredos e configuracao sensivel: nunca entram no grafo
+.env
+.env.*
+*.key
+*.pem
+.claude/
+tecnico/n8n/segredos.local.json
+tecnico/n8n/clara-*.json
+tecnico/n8n/gerados/
+
+# Dados de clinicas e pacientes (so o modelo fica)
+clientes/clinica-demo/
+clientes/clinica-teste/
+clientes/dra-vivian/
+dados-reais/
+
+# Build e dependencias (gerado, sem valor para o grafo)
+app/web/.next/
+**/node_modules/
+**/.next/
+**/dist/
+**/*.map
+**/*.sst
+**/*.meta
+
+# Transcricoes longas de teste (custo alto, pouco valor estrutural)
+tecnico/teste-ab/paciente-simulado-*.md
+
+# Dados brutos de pesquisa e atalhos
+pesquisa/dados/
+*.lnk
+
+# Material comercial pesado e historico duplicado
+2026-10-19-ia-clinicas-investidores/
+apresentacoes/
+branding/kit/
