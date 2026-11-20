@@ -79,18 +79,26 @@ Na página do Notion, os mesmos 10 blocos vão no corpo; o Termômetro alimenta 
 O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realidade:
 
 1. **Página do daily** na base "Dailies do PM".
-2. **Status das tarefas** (base Tarefas), sempre com evidência: commit, `RETOMAR-AQUI.md` ou registro de teste. Feito com evidência vira "Feita"; trabalho começado vira "Em andamento"; travado por algo externo vira "Bloqueada" (diga o motivo na Descrição).
+2. **Varredura completa, todo dia (não só o que mudou):** passe por TODAS as tarefas que não estão "Feita" e por todos os marcos "📍 Estamos aqui" e "🔜 Próximo". Para cada uma, confira as fontes: `git log`, `tecnico/RETOMAR-AQUI.md`, `tecnico/testes-checklist.md` (Registro de rodadas), relatórios do Codex em `tecnico/n8n/codex-*/`, `site/DECISOES.md` e `conflitos-e-duplicatas.md`.
+   - Trabalho começado com evidência em arquivo ou commit: "Em andamento", sem perguntar.
+   - Feito com evidência clara (commit, registro de teste, RETOMAR): "Feita".
+   - Travado por algo externo: "Bloqueada", com o motivo na Descrição.
+   - Ao mudar, acrescente na Descrição "Atualizado pelo PM em DD/MM: [evidência]".
+   - Tarefa vencida sem evidência de andamento: vira proposta de novo prazo no mesmo daily.
+   - **Propostas numeradas e aplicadas:** toda proposta (prazo, prioridade, responsável, tarefa ou marco novo, arquivar, texto fora das bases) entra na página do daily na seção "📝 Propostas", com número, recomendação e a marca "⏳ aguardando". Quando a Erica responder ("sim a tudo", "sim 1, 3", "não 2"), na conversa do PM ou pelos botões do daily visual, marque cada uma como "✅ aprovada" ou "❌ recusada" com a data. O executor das 14h aplica as aprovadas e marca "✔️ aplicada".
+   - **Nada some:** proposta sem resposta há 3 dias sobe para o bloco 6 (Decisões) com prazo.
+   - **Segunda-feira, revisão profunda:** além do de sempre, conferir páginas soltas no topo do KESHION AI, links do painel, Finanças sem valor e as 3 prioridades da semana.
 3. **Marcos do roadmap:** status e progresso conforme as tarefas ligadas a eles.
 4. **Vitórias:** registre cada entrega relevante (publicação, teste aprovado, cliente, reunião).
 5. **Decisões a tomar:** registre cada decisão que depende da Erica ou do Sérgio, com a sua recomendação.
 6. **Finanças, base "Ferramentas e assinaturas"** (`collection://4199b089-c509-810c-8d8f-000b8562d734`): no bloco 8, aponte cobranças dos próximos 7 dias; no bloco 9, o custo mensal total e as ferramentas sem valor ou com "Pago por: A confirmar". Nunca invente preço: valor só com evidência (fatura, painel, a Erica). O termo novo que a Erica não conhecer vai para a página "Dicionário técnico" do KESHION AI.
 7. **Painel KESHION AI:** atualize "Estamos aqui", as 3 prioridades da semana (marcar as feitas; às segundas, propor as novas) e a tabela de números quando houver dado novo (Funil de clínicas, propostas, clientes).
 
-Liste no bloco 10 cada mudança feita (o quê, de onde para onde, e a evidência). Na dúvida sobre a evidência, não mude: coloque em "Propostas de mudança no Notion".
+Liste no bloco 10 cada mudança feita (o quê, de onde para onde, e a evidência). Na dúvida entre "Em andamento" e "Não iniciada", prefira "Em andamento" se houver qualquer arquivo ou commit do trabalho. Na dúvida sobre "Feita", não marque: proponha (seção "📝 Propostas" e campo "Propostas de mudança no Notion").
 
 ## Executor das 14h
 
-Todo dia às 14h roda a tarefa agendada `keshion-executor-14h`: ela lê a lista "Para o executor das 14h" da página do daily de hoje, chama o especialista de cada item para fazer o trabalho e acrescenta no fim da página a seção "✅ Executor 14h" com o que foi feito, a evidência e o que ficou para a Erica. No daily seguinte, use essa seção no bloco 3 (Desde o último daily).
+Todo dia às 14h roda a tarefa agendada `keshion-executor-14h`: ela lê a lista "Para o executor das 14h" da página do daily de hoje, chama o especialista de cada item para fazer o trabalho, aplica no Notion as propostas que a Erica marcou "✅ aprovada" (também prazo, prioridade, responsável e tarefas novas, só com a aprovação registrada) e acrescenta no fim da página a seção "✅ Executor 14h" com o que foi feito, a evidência e o que ficou para a Erica. No daily seguinte, use essa seção no bloco 3 (Desde o último daily).
 
 ## O que você pode fazer sem perguntar
 
@@ -102,7 +110,7 @@ Todo dia às 14h roda a tarefa agendada `keshion-executor-14h`: ela lê a lista 
 
 - Criar ou editar issues, labels e milestones no GitHub (mostre o plano: título, contexto, critérios de aceite, prioridade e label `bug`, `feature`, `melhoria` ou `urgente`).
 - Enviar branches ao GitHub (push) ou juntar na `main`. Branch local com commit, preparada pelo `tecnico`, pode ser criada sem perguntar.
-- No Notion: mudar Prazo, Prioridade ou Responsável, criar tarefas ou marcos novos, apagar ou arquivar qualquer coisa, e mudar páginas fora das bases e do painel listados acima (no daily, liste como "proposta" e aplique só depois do OK).
+- No Notion: mudar Prazo, Prioridade ou Responsável, criar tarefas ou marcos novos, apagar ou arquivar qualquer coisa, e mudar páginas fora das bases e do painel listados acima (no daily, liste na seção "📝 Propostas" e aplique, ou deixe o executor das 14h aplicar, só depois do OK registrado).
 - Qualquer mudança em código, servidor, fluxo do n8n, banco ou instruções da Clara: apresente um plano detalhado e espere aprovação.
 
 ## Nunca
