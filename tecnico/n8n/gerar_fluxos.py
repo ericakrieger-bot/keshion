@@ -18,6 +18,8 @@ if CLI.get("slug") != SLUG:
 def _faltando(o, caminho=""):
     if isinstance(o, dict):
         return [x for k, v in o.items() if not k.startswith("_") for x in _faltando(v, caminho + "." + k)]
+    if isinstance(o, str) and caminho.endswith(".numeros_keshion"):
+        return ["numeros_keshion"] if "PREENCHER" in o else []   # vazio é o certo em clínica real (C7, 19/11)
     return [caminho[1:]] if isinstance(o, str) and ("PREENCHER" in o or not o.strip()) else []
 if _faltando(CLI):
     sys.exit("Ainda falta preencher em " + str(_ARQ) + ": " + ", ".join(_faltando(CLI)))
@@ -257,7 +259,14 @@ for (const it of pedidos) {
 return saida;
 """, (440, 0))
 E.add("Uma por vez", "n8n-nodes-base.splitInBatches", 3, {"batchSize": 1, "options": {}}, (660, 0))
-se(E, "Modo teste ligado?", cond("={{ $json.teste }}", "true", typ="boolean"), (880, 0))
+# C4 (19/11): a Dra. pode assumir pelo celular com mensagens da assistente já na fila. Antes de CADA mensagem
+# para a paciente, relê a pausa no banco; pausada = descarta (avisos para a equipe não estão na tabela de pacientes e seguem).
+pg(E, "Ler a pausa agora", r"""
+SELECT $1::text AS "to", $2::text AS body, $3::int AS typing_time, $4::int AS espera, $5::boolean AS teste,
+       coalesce((SELECT pausado_ate > now() FROM pacientes WHERE telefone = $1::text), false) AS pausada;
+""", "[ $json.to, $json.body, $json.typing_time, $json.espera, $json.teste ]", (770, 0))
+se(E, "Paciente pausada?", cond("={{ $json.pausada }}", "true", typ="boolean"), (880, 150))
+se(E, "Modo teste ligado?", cond("={{ $json.teste }}", "true", typ="boolean"), (990, 0))
 pg(E, "Guardar saída de teste", "INSERT INTO saidas_teste (telefone, texto) VALUES ($1, $2);",
    "[ $json.to, $json.body ]", (1100, -200))
 http(E, "Enviar pelo WhatsApp (digitando)", "POST", "https://gate.whapi.cloud/messages/text", (1100, 100),
@@ -265,13 +274,16 @@ http(E, "Enviar pelo WhatsApp (digitando)", "POST", "https://gate.whapi.cloud/me
      onError="continueErrorOutput")
 http(E, "Avisar a Keshion da falha", "POST", "https://gate.whapi.cloud/messages/text", (1340, 300),
      cred="alerta", onError="continueRegularOutput",
-     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion (" + SLUG + "): a mensagem da __ASSISTENTE__ para o paciente de final ' + String($('Uma por vez').item.json.to).slice(-4) + ' não saiu pelo WhatsApp da clínica. Erro: ' + String(($json.error && ($json.error.message || $json.error)) || 'sem detalhe').slice(0, 120) + '. Ver a execução no n8n.' }")
+     body_expr="{ to: '" + AVISO_FALHA_ENVIO + "', typing_time: 1, body: '⚠️ Aviso Keshion (" + SLUG + "): uma mensagem da __ASSISTENTE__ para a paciente não saiu pelo WhatsApp da clínica. Código do erro: ' + String(($json.error && ($json.error.httpCode || $json.error.code || $json.error.name)) || 'sem código').replace(/[^A-Za-z0-9_.-]/g, '').slice(0, 30) + '. Execução: ' + $execution.id + '.' }")
 espera(E, "Esperar a mensagem sair", "={{ $('Uma por vez').item.json.espera }}", (1580, 0))
 
 E.link("Recebe pedido de envio", "Modo teste?")
 E.link("Modo teste?", "Montar mensagens")
 E.link("Montar mensagens", "Uma por vez")
-E.link("Uma por vez", "Modo teste ligado?", out=1)
+E.link("Uma por vez", "Ler a pausa agora", out=1)
+E.link("Ler a pausa agora", "Paciente pausada?")
+E.link("Paciente pausada?", "Uma por vez", out=0)      # pausada: descarta esta mensagem e passa à próxima
+E.link("Paciente pausada?", "Modo teste ligado?", out=1)
 E.link("Modo teste ligado?", "Guardar saída de teste", out=0)
 E.link("Modo teste ligado?", "Enviar pelo WhatsApp (digitando)", out=1)
 E.link("Guardar saída de teste", "Esperar a mensagem sair")
@@ -286,6 +298,22 @@ COMUM_JS = r"""
 const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 // Urgência: sempre gera aviso novo para a equipe (nunca fica escondida como "complemento").
 const URGENCIA = /sangr|bleed|inchad|inchac|swell|hinchad|hinchaz|febre|fever|fiebre|dor (muito )?forte|muita dor|dor insuport|severe pain|lot of pain|mucho dolor|dolor (muy )?fuerte|\bpus\b|desmai|fainted|passed out/;
+// C3 (19/11): urgência vale para qualquer ação da IA e também para pergunta ("estou sangrando, o que faço?"),
+// mas não quando há negação ("não estou com febre", "no tengo fiebre", "I don't have a fever") nem quando é só dúvida
+// geral ("clareamento faz a gengiva sangrar?": sem relato em primeira pessoa e sem "o que faço").
+const NEGACAO = /(?:^|\s)(?:nao|nunca|sem|nem|ni|not|never|without|(?:do|does|did|have|has|is|are|was|were)n'?t|no(?=\s+(?:tengo|tiene|tienes|estoy|esta|hay|siento|he|ha|presento|fever|bleeding|swelling|pus|pain|signs?)))(?:\s+[a-z']+){0,3}\s*$/;
+const RELATO = /\b(estou|estoy|minha|meu|meus|minhas|comecei|comecou|ficou|fiquei|agora|ontem|desde|i'?m|i am|i have|i'?ve|i got|i fainted|my|started|now|since|tengo|mi|mis|empece|empezo|ahora|hace)\b|\b(to|ta|esta) (com|sangr\w*|inchad\w*|sentindo)\b/;
+const PEDE_AJUDA = /o que (eu )?faco|what (should )?i do|que hago|que debo hacer|help|ajuda|ayuda/;
+function ehUrgente(texto) {
+  const t = norm(texto);
+  let achou = false;
+  for (const m of t.matchAll(new RegExp(URGENCIA.source, 'g'))) {
+    const antes = t.slice(0, m.index).split(/[.!?;,\n]|\b(?:mas|pero|but|porem|embora)\b/).pop();
+    if (!NEGACAO.test(antes)) { achou = true; break; }
+  }
+  if (!achou) return false;
+  return !t.includes('?') || RELATO.test(t) || PEDE_AJUDA.test(t);
+}
 // Idioma quando a IA não informou: conta palavras típicas; empate ou nada = português.
 function detectaIdioma(t) {
   const s = ' ' + norm(t) + ' ';
@@ -310,7 +338,8 @@ const FRASES = {
     equipe: 'Vou pedir para a equipe confirmar esse horário com você e já te retorno.',
     dados: ['Para confirmar, me passa seu nome completo e um telefone de contato?', 'Pode ser este mesmo número.'],
     conf_cancelar: t => 'Só para confirmar: você quer cancelar a sua avaliação de ' + t + ', certo?',
-    mantida: t => 'Combinado, sua avaliação de ' + t + ' continua marcada.' },
+    mantida: t => 'Combinado, sua avaliação de ' + t + ' continua marcada.',
+    urgencia: 'Sinto muito que você esteja assim. Já avisei a nossa equipe agora para falar com você o quanto antes. Se piorar muito, procure um pronto atendimento.' },
   en: { espera: 'Just a moment, I will check this and get back to you.',
     ja_marcada: t => ['I see you already have an evaluation scheduled for ' + t + '.', 'Would you like to keep it or change it to another time?'],
     sem_avaliacao: 'I will check your evaluation here and get back to you.',
@@ -323,7 +352,8 @@ const FRASES = {
     equipe: 'I will ask our team to confirm this time with you and get back to you.',
     dados: ['To confirm, could you send me your full name and a contact phone number?', 'It can be this same number.'],
     conf_cancelar: t => 'Just to confirm: you would like to cancel your evaluation on ' + t + ', correct?',
-    mantida: t => 'Sure, your evaluation on ' + t + ' is still scheduled.' },
+    mantida: t => 'Sure, your evaluation on ' + t + ' is still scheduled.',
+    urgencia: "I'm sorry you are going through this. I have alerted our team right now so someone can reach you as soon as possible. If it gets much worse, please go to an urgent care." },
   es: { espera: 'Un momento, voy a verificarlo y ya te respondo.',
     ja_marcada: t => ['Veo que ya tienes una evaluación agendada para el ' + t + '.', '¿Prefieres mantener ese horario o cambiarlo por otro?'],
     sem_avaliacao: 'Voy a verificar tu evaluación y ya te respondo.',
@@ -336,7 +366,8 @@ const FRASES = {
     equipe: 'Voy a pedirle al equipo que confirme este horario contigo y ya te respondo.',
     dados: ['Para confirmar, ¿me pasas tu nombre completo y un teléfono de contacto?', 'Puede ser este mismo número.'],
     conf_cancelar: t => 'Solo para confirmar: ¿quieres cancelar tu evaluación del ' + t + ', correcto?',
-    mantida: t => 'De acuerdo, tu evaluación del ' + t + ' sigue agendada.' }
+    mantida: t => 'De acuerdo, tu evaluación del ' + t + ' sigue agendada.',
+    urgencia: 'Lamento que estés así. Ya avisé a nuestro equipo ahora para que hablen contigo lo antes posible. Si empeora mucho, acude a urgencias.' }
 };
 // Data da avaliação no idioma da paciente (português usa o texto já guardado na ficha).
 function quandoLg(iso, lg, padrao) {
@@ -459,15 +490,24 @@ WHERE telefone = $1::text;
 http(A, "Baixar o áudio", "GET", "={{ $json.audio }}", (1340, -100), file_out=True, onError="continueRegularOutput")
 code(A, "Ajustar o nome do áudio", r"""
 // A voz do WhatsApp chega como .oga (Ogg com outra extensão) e a OpenAI recusa esse nome
-// ("Unsupported file format oga"). O Make mandava sempre "audio.ogg". Aqui: .oga, .opus ou sem
-// extensão viram .ogg; formatos que a OpenAI já aceita ficam como estão.
+// ("Unsupported file format oga"). O Make mandava sempre "audio.ogg". Aqui (C6, 19/11): só vira .ogg o que é
+// oga, opus ou sem extensão nenhuma (nem no nome, nem no campo de extensão, nem no tipo). Trocar a etiqueta não
+// converte o formato: um WAV, MP3 etc. mantém nome, extensão e tipo.
 const aceitos = ['flac', 'm4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'ogg', 'wav', 'webm'];
+const doTipo = { 'audio/wav': 'wav', 'audio/x-wav': 'wav', 'audio/wave': 'wav', 'audio/mpeg': 'mp3', 'audio/mp3': 'mp3', 'audio/mp4': 'm4a',
+  'audio/x-m4a': 'm4a', 'audio/m4a': 'm4a', 'audio/webm': 'webm', 'audio/flac': 'flac', 'audio/x-flac': 'flac', 'audio/ogg': 'ogg' };
 return $input.all().map(it => {
   const b = it.binary && it.binary.data;
   if (b) {
     const nome = String(b.fileName || 'audio');
-    const ext = (nome.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
-    if (!aceitos.includes(ext)) {
+    const extNome = (nome.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase();
+    const extCampo = String(b.fileExtension || '').toLowerCase().replace(/^\./, '');
+    const tipo = String(b.mimeType || '').toLowerCase().split(';')[0].trim();
+    const ext = extNome || extCampo || doTipo[tipo] || '';
+    if (aceitos.includes(ext)) {
+      if (!extNome) b.fileName = nome + '.' + ext;          // nome sem ponto, formato já conhecido: só acrescenta a extensão certa
+      b.fileExtension = ext;
+    } else if (!ext || ext === 'oga' || ext === 'opus') {
       b.fileName = nome.replace(/\.[a-z0-9]+$/i, '') + '.ogg';
       b.fileExtension = 'ogg';
       b.mimeType = 'audio/ogg';
@@ -673,13 +713,22 @@ if (ia.acao === 'cancelar' && f.avaliacao_evento) {
   const partes = String(f.conversa || '').split('\n__ASSISTENTE__: ');
   const ultima = partes.length > 1 ? partes[partes.length - 1].split('\nPaciente:')[0] : '';
   const u = norm(ultima), p = norm(pend);
-  const perguntou = ultima.includes('?') && /\b(certo|correto|correct|right|confirm\w*|correcto|cancel\w*)\b/.test(u);
+  // C1 (19/11): a última fala da assistente tem de falar de cancelar (cancelar, cancel) e ser uma pergunta; só "certo?" ou
+  // "esse é o seu telefone?" não bastam. O "sim" tem de ser curto, sem pergunta e só com palavras de confirmação.
+  const perguntou = ultima.includes('?') && /cancel/.test(u);
+  const perguntouAlgo = ultima.includes('?') && /\b(certo|correto|correct|right|confirm\w*|correcto|cancel\w*)\b/.test(u);   // só para responder "continua marcada"
+  const SIM_OK = new Set(['sim', 'pode', 'confirmo', 'confirmado', 'confirma', 'isso', 'mesmo', 'exato', 'correto', 'certo', 'certeza', 'tenho', 'quero', 'gostaria',
+    'por', 'favor', 'pfv', 'obrigado', 'obrigada', 'de', 'que', 'o', 'a', 'e', 'ok', 'okay', 'claro', 'yes', 'yep', 'yeah', 'sure', 'confirm', 'confirmed', 'correct', 'right',
+    'that', 'thats', "that's", 'is', 'please', 'do', 'it', 'i', 'would', 'like', 'to', 'thanks', 'thank', 'you', 'si', 'dale', 'correcto', 'estoy', 'seguro', 'segura',
+    'quiero', 'gracias', 'favor', 'esta', 'bien', 'eso', 'asi']);
+  const palavras = p.replace(/[!.,;:]+/g, ' ').split(/\s+/).filter(Boolean);
+  const curto = palavras.length <= 8 && !pend.includes('?') && palavras.every(w => SIM_OK.has(w) || /^cancel/.test(w));
   const nega = /\b(nao|no(?!\s+(?:dia|horario|mesmo|meu|momento))|not|nope|keep|manter|mantenha|mantener|mantengo|wait|espera)\b|don'?t cancel|do not cancel/.test(p);
   const afirma = /\b(sim|pode|confirmo|confirmado|confirma|isso|exato|correto|certo|yes|yep|yeah|confirm|confirmed|sure|correct|si|claro|correcto|dale|ok|okay)\b|please do/.test(p);
-  if (!(perguntou && afirma && !nega)) {
+  if (!(perguntou && afirma && !nega && curto)) {
     const t = quandoLg(f.avaliacao_inicio, ia.idioma, f.avaliacao_texto);
     ia.acao = 'responder';
-    ia.mensagem1 = perguntou && nega && !afirma ? F.mantida(t) : F.conf_cancelar(t);
+    ia.mensagem1 = perguntouAlgo && nega && !afirma ? F.mantida(t) : F.conf_cancelar(t);
     ia.mensagem2 = ''; ia.mensagem3 = '';
     ia.motivo = 'Confirmação antes de cancelar (pedida pelo fluxo)';
   }
@@ -696,9 +745,11 @@ if (ia.acao === 'responder' && promete) {
   ia.motivo = ia.motivo || 'A assistente disse que ia passar ou verificar o assunto';
 }
 // Urgência relatada (sangramento, inchaço, febre, dor forte) sempre vai para a equipe, mesmo que a IA só tenha respondido.
-if (ia.acao === 'responder' && URGENCIA.test(norm(pend)) && !pend.includes('?')) {
+// C3: vale para qualquer ação (se a IA ia marcar, cancelar etc., a mensagem dela é trocada por um aviso de que a equipe foi chamada).
+if (ia.acao !== 'humano' && ehUrgente(pend)) {
+  if (ia.acao !== 'responder') { ia.mensagem1 = F.urgencia; ia.mensagem2 = ''; ia.mensagem3 = ''; }
+  ia.motivo = 'Paciente relatou possível urgência' + (ia.motivo ? ' (' + ia.motivo + ')' : '');
   ia.acao = 'humano';
-  ia.motivo = ia.motivo || 'Paciente relatou possível urgência';
 }
 let rota = 'responder';
 // Decisões que não dependem do texto da IA (revisão Codex, item 4):
@@ -874,8 +925,16 @@ function parNaMensagem(b, mc) {
     return !!(dono && dono.cand);
   });
 }
-const NEGA = /\b(nao|no)\s+(quero|posso|consigo|da|vou|puedo|quiero|me sirve|funciona|serve)\b|\b(can'?t|cannot|doesn'?t work|won'?t work|not good)\b|\b(outro|otro)\s+(horario|dia)\b|\banother (time|day|slot)\b|\bnenhum\b|\bninguno\b/;
+const NEGA = /\b(nao|no)\s+(quero|posso|consigo|da|vou|puedo|quiero|me sirve|funciona|serve|pode|podera|tenho como|marque|marca|marcar|agende|agenda|agendar|reserve|reservar|confirme|marques|agendes|reserves|lo agende|lo marque)\b|\b(can'?t|cannot|doesn'?t work|won'?t work|not good|don'?t (book|schedule|reserve|confirm)|do not (book|schedule|reserve|confirm))\b|\b(outro|otro)\s+(horario|dia)\b|\banother (time|day|slot)\b|\bnenhum\b|\bninguno\b|\bainda nao\b|\baun no\b|\btodavia no\b|\bnot yet\b|\bhold off\b|\b(espera|espere|aguarde|wait)\b/;
 const ehAssistente = b => /^(__ASSISTENTE__|Doutora)\b/.test(b);
+// C2 (19/11): a negativa da própria mensagem da paciente vale (cada trecho entre ponto, "mas", "pero", "but" é conferido sozinho).
+function parNaMensagemLivre(b) {
+  const trechos = b.split(/\.(?!\d)|(?<!\d)\.|[;!]|,\s*(?=(?:pode|poderia|podemos|tem como|que tal|e se|puede|podemos|can|could|how about|what about)\b)|\b(?:mas|pero|but|porem|embora)\b/i).map(x => x.trim()).filter(Boolean);
+  return trechos.some(tr => {
+    const mt = mencoes(tr);
+    return (mt.datas.length || mt.horas.length) && parNaMensagem(tr, mt) && !NEGA.test(normD(tr));
+  });
+}
 function parNaConversa(texto) {
   const blocos = String(texto).split('\n').map(s => s.trim()).filter(s => s && !s.startsWith('---'));
   let negou = false;
@@ -885,7 +944,10 @@ function parNaConversa(texto) {
       if (!ehAssistente(b) && NEGA.test(normD(b))) negou = true;
       continue;
     }
-    if (parNaMensagem(b, mc)) return !negou;
+    if (parNaMensagem(b, mc)) {
+      if (ehAssistente(b)) return !negou;                      // horário oferecido pela assistente
+      return !negou && parNaMensagemLivre(b);                  // pedido da paciente, sem negativa no mesmo trecho
+    }
     if (!mc.datas.concat(mc.horas).every(x => x.cand)) return false;   // fala de outro dia ou outra hora
   }
   return false;
@@ -976,7 +1038,7 @@ switch (tipo) {
     // Complementos: no máximo 1 a cada 15 minutos por paciente (Camila recebeu 5).
     const idade = f.ultimo_aviso_humano ? Date.now() - new Date(f.ultimo_aviso_humano).getTime() : Infinity;
     const idadeComp = f.ultimo_complemento ? Date.now() - new Date(f.ultimo_complemento).getTime() : Infinity;
-    const urgente = URGENCIA.test(norm(pend));
+    const urgente = ehUrgente(pend);
     const CONFIRMA = new Set(['ok', 'okay', 'okk', 'obrigado', 'obrigada', 'obg', 'muito', 'valeu', 'vlw', 'blz', 'beleza', 'certo',
       'combinado', 'thanks', 'thank', 'you', 'gracias', 'muchas', 'perfecto', 'vale']);
     const pal = norm(pend).replace(/[\u{1F44D}\u{1F64F}\u{1F3FB}-\u{1F3FF}️]/gu, ' ').replace(/[!.,;]+/g, ' ').split(/\s+/).filter(Boolean);
