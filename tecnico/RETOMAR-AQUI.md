@@ -31,11 +31,14 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 ## Roadmap
 
 **Urgente (esta semana)**
-- **Pendente agora, nesta ordem:**
-  1. Rodar `tecnico/teste-ab/PROMPT-TESTE-18-11-avisos-idioma-hora.md` na conversa de testes (pode ser Sonnet). Nada do que foi publicado em 18/11 foi testado ainda numa rodada válida.
-  2. Revisão do Codex com `tecnico/n8n/PROMPT-CODEX-CORRECOES-17-11-NOITE.md` (cobre 17/11 noite e 18/11). Não rodar junto com o item 1.
-  3. Conferir a agenda da demo: apagar eventos de teste que sobraram (havia Henrique, 19/11 às 14h).
-  4. Com OK: passar a demo e a clínica de teste para o usuário `_app` do banco (passo a passo a pedir ao Codex).
+- **Pendente agora, nesta ordem (conferido em 20/11):**
+  1. ✅ Rodada de 22 perfis e 56 mensagens: feita pelo Codex em 19/11 (56 de 56; ver `tecnico/n8n/codex-19-11/revisao-codex-verificacao-2026-11-19.md`). O teste de 18/11 (avisos, idioma e hora) está coberto por ela.
+  2. ✅ Revisão do Codex: feita em 19/11; as correções viraram o Pacote C (publicado em 20/11) e o Pacote D (abaixo).
+  3. ✅ Agenda da demo: o Codex conferiu em 19/11 que as 7 conversas de marcação e cancelamento terminaram sem sobra no Google. O evento do Henrique (19/11 às 14h) já passou; vale uma olhada rápida no Google Agenda da demo.
+  4. Teste ao vivo do Pacote C na conversa de testes: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-c.md`, depois a revisão do Codex dele.
+  5. Com OK: instalar no servidor o `backup-postgres.sh` novo (Pacote D1).
+  6. Com OK, antes de 01/12: passar a demo e a clínica de teste para o usuário `_app` do banco (B7).
+  7. Antes de 26/11: publicar o app do Google (passo a passo em `tecnico/servidor/PASSO-A-PASSO-ERICA-GOOGLE-OAUTH.md`) ou reconectar o Google Agenda no n8n.
 - **Google Agenda:** o app do Google está em modo Teste, e a autorização expira 7 dias depois de dada. A credencial foi atualizada em 17/11 às 05:16 e a agenda responde: se foi reconexão, vale até cerca de 24/11; se não, o prazo é perto de 19/11. Até publicar o app, reconectar no n8n quando expirar. Para publicar: domínio keshion.com (já registrado), página inicial e política de privacidade.
 - **Achados do Codex nos testes (relatório `tecnico/teste-ab/relatorio-codex-20261117.md`, roteiro em `tecnico/roteiro-testes-codex.md`).** **Itens 1 a 6 CORRIGIDOS em 17/11 (noite)**, publicados na demo e na clínica de teste (detalhes em `tecnico/n8n/LEIA-ME.md`, seção "correções da revisão do Codex"). **Falta validar:** a rodada dos 22 pacientes não terminou porque o saldo da conta da Anthropic acabou (erro "credit balance is too low"); sem saldo, a própria Clara responde "Só um instante, vou verificar" (confirmado na clínica de teste). Depois de recarregar: rodar `paciente_simulado.py` (uma rodada) e `teste_n8n.py`, conferir a agenda da demo à mão (sobrou 1 evento de teste: Henrique, 19/11 às 14h, telefone 554199900810; apagar no Google Agenda da demo). Enunciado original dos itens:
   1. **Agenda:** o fluxo só confere "horário livre" no Google e confia na IA para dia da semana, limite de 90 dias e aceite do paciente; duas pessoas pegando a mesma vaga ao mesmo tempo podem criar duas reservas (não reproduzido). Validar no próprio fluxo antes de criar ou mudar evento.
