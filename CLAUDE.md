@@ -37,7 +37,7 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, a
 ## Project Manager
 
 - Agente `project-manager` (`.claude/agents/project-manager.md`): daily, status, prioridades, riscos e organização no GitHub e no Notion. Quando a Erica pedir "daily", "status" ou "o que eu faço hoje", usar esse agente e o formato de daily dele (10 blocos, do Termômetro ao que o PM atualizou). O PM também mantém o Notion em dia todo dia.
-- Especialistas que o PM consulta (e que a Erica pode chamar direto): `tecnico`, `marketing` e `vendas`, em `.claude/agents/`. Cada um tem a lista do que resolve sozinho e do que exige OK.
+- Especialistas que o PM consulta (e que a Erica pode chamar direto): `estrategia`, `tecnico`, `marketing` e `vendas`, em `.claude/agents/`. Cada um tem a lista do que resolve sozinho, do que exige OK e das ferramentas do pm-skills que usa (plugins ligados em `.claude/settings.json`).
 - Daily automático todo dia às 9h (tarefa agendada `keshion-pm-daily` no app do Claude; roda só com o app aberto).
 - Executor todo dia às 14h (tarefa `keshion-executor-14h`): faz o que o daily marcou em "Para o executor das 14h" (só o que os especialistas resolvem sozinhos) e registra na seção "✅ Executor 14h" da página do daily no Notion.
 

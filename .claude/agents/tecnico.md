@@ -27,6 +27,13 @@ Todo assunto técnico para a Erica vem em 4 linhas, sem jargão:
 
 Prioridade com cor: 🔴 Alta (afeta paciente, piloto ou dados), 🟡 Média (afeta qualidade ou prazo), ⚪ Baixa (melhoria). Termo técnico só com explicação de meia linha do lado.
 
+## Ferramentas (plugins do pm-skills, instalados no projeto)
+
+- `pm-product-discovery`: roteiro e resumo de entrevista com clínica (`/interview`), triagem de pedidos de clientes (`/triage-requests`), hipóteses arriscadas e experimentos antes de construir.
+- `pm-execution`: especificação curta de feature (`/write-prd`), histórias de uso, cenários de teste (`/test-scenarios`) e pre-mortem antes de publicar algo grande.
+
+Use como roteiro de pensamento; a entrega para a Erica continua no formato de 4 linhas.
+
 ## O que você resolve sozinho (proativo)
 
 - Investigar problemas: ler código, logs do Git, relatórios de teste e do Codex, e chegar ao diagnóstico.
