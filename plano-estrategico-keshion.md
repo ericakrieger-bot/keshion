@@ -5,6 +5,8 @@
 
 ---
 
+> **Mudança de 21/11/2026 (decisão da Erica):** os pilotos passam a ser com clínicas que a Erica e o Sérgio conhecem (1 até 30/11, mais 1 ou 2 até 15/12), só odontologia e, na maioria, clínica do dia a dia (limpeza, extração, obturação, canal, manutenção), com pouca ou nenhuma estética. O piloto da Dra. Vivian está suspenso. Onde este plano fala em "alto valor" ou "alto padrão", vale o público novo; cliente ideal, proposta de valor e preço estão sendo revistos (`comercial/piloto/`).
+
 ## 1. Destino
 
 | Item | Definição |
@@ -42,10 +44,10 @@ Composição do alvo de dezembro de 2030: cerca de 120 clientes no Brasil a R$ 4
 
 | Fase | Período | Objetivo | Clientes pagantes | Receita por mês | Só avança se |
 |---|---|---|---|---|---|
-| 0. Voltar ao trilho | 10/11 a 18/12/2026 | Piloto no ar e máquina de vendas ligada | 0 | R$ 0 | Dra. Vivian no ar, 20 diagnósticos enviados, 8 reuniões feitas, 3 propostas enviadas |
+| 0. Voltar ao trilho | 10/11 a 18/12/2026 | Pilotos no ar com clínicas conhecidas e aprendizado registrado | 0 | R$ 0 | 1º piloto no ar, 2º e 3º combinados até 15/12, aprendizado de cada piloto registrado (mudança de 21/11: antes era Dra. Vivian no ar e 20 diagnósticos) |
 | 1. Primeiros pagantes | 19/12/2026 a 31/03/2027 | Provar que alguém paga | 3 | R$ 5 mil | 1 pagante até 31/01/2027 e 3 até 31/03/2027 |
 | 2. Padronizar | Abril a setembro de 2027 | Implantar sem depender da Erica em cada detalhe | 10 | R$ 20 mil | 2 cases com números reais, cancelamento perto de zero, implantação em 2 semanas |
-| 3. Referência no odonto | Outubro de 2027 a junho de 2028 | Ser o nome conhecido no odonto de alto padrão | 40 | R$ 100 mil | Indicação gerando 30% das vendas, equipe de 4 a 5 pessoas |
+| 3. Referência no odonto | Outubro de 2027 a junho de 2028 | Ser o nome conhecido na odontologia | 40 | R$ 100 mil | Indicação gerando 30% das vendas, equipe de 4 a 5 pessoas |
 | 4. Plataforma e novos mercados | Julho de 2028 a dezembro de 2029 | Segundo e terceiro tipo de cliente, parceiros, piloto nos Estados Unidos | 110 | R$ 400 a 500 mil | Segundo tipo de cliente com 15 pagantes, 5 clientes nos Estados Unidos |
 | 5. Internacional | 2030 | Operação americana rodando | 160 | R$ 1 milhão | Revisão anual |
 
@@ -78,7 +80,7 @@ Regra: nenhuma função nova entra sem que um cliente ou uma reunião de venda t
 | Outubro de 2027 a junho de 2028 | Primeiro vendedor comissionado no Brasil. Ritmo de 3 a 4 clínicas novas por mês |
 | 2028 e 2029 | Parceiros: agências de marketing odontológico e consultores de gestão de clínicas revendem com comissão |
 
-Meta semanal fixa do Sérgio desde já: 10 clínicas novas na lista, 5 diagnósticos enviados, 2 reuniões.
+Meta semanal fixa do Sérgio: 10 clínicas novas na lista, 5 diagnósticos enviados, 2 reuniões. **Suspensa em 21/11/2026 até o fim dos pilotos** (ver nota no topo).
 
 ### 5.3 Marketing e marca
 
