@@ -41,7 +41,7 @@ Só odontologia nesta fase (decisão da Erica em 21/11). Outra área fica para d
 7. **Como é a implantação:** passo a passo da seção 6, quanto tempo leva e o que precisamos.
 8. **Pacientes que já são da clínica:** seção 7.
 9. **Dados e privacidade:** sem prontuário, banco separado por clínica, dados da clínica, pode pedir para apagar tudo.
-10. **O combinado:** primeiro mês de entrada com acompanhamento de perto; depois a clínica segue como clínica piloto, recebendo primeiro cada função nova. Sem custo por um período estendido, depois preço de clínica piloto com desconto (duração e condições a combinar). Pode sair quando quiser, resultado pode virar caso (com ou sem nome). Ver seção 9, decisão 3.
+10. **O combinado:** a clínica é **clínica parceira**: primeiro mês (01 a 31/12/2026, recesso incluído) com acompanhamento de perto; depois segue recebendo primeiro cada função nova. Sem custo e sem falar de dinheiro com ela por enquanto (decisão de 22/11). Em troca: retorno franco, indicações e, quando ela quiser, depoimento. Pode sair quando quiser; resultado pode virar caso (com ou sem nome). Ver seção 9, decisões 3 e 6.
 11. **Próximo passo:** conversa de 30 minutos para ver a assistente funcionando na clínica de demonstração.
 
 Formato sugerido: um PDF curto de 4 ou 5 páginas, fundo claro (regra da marca), feito em `material-piloto-v2.html` (a versão 1 foi arquivada em `arquivo/piloto-material-2026-11-20/`), mais uma demonstração ao vivo.
@@ -54,16 +54,16 @@ Datas são sugestão, contando que o convite sai em 23 ou 24/11.
 |---|---|---|---|
 | Semana 0 (23 a 29/11) | Preparação | Nada no número real ainda | Conversa de 60 min, questionário, prints, nome da assistente, agenda. O dentista conversa com a assistente num número de teste, fingindo ser paciente, e aponta o que estranhou |
 | Semana 1 | WhatsApp **só fora do horário de atendimento** (decisão de 21/11) | A assistente responde à noite e no fim de semana; no horário, a clínica responde como sempre | Olha as conversas da noite e aponta o que achou; a Keshion lê tudo todo dia |
-| Semana 2 | **Copiloto** no horário de atendimento (decisão de 22/11) | A assistente escreve e manda primeiro ao WhatsApp do dentista; só envia ao paciente depois que ele aprova, o tempo que for; nessa fase não marca agenda sozinha | Aprova, corrige ou reescreve. Cada correção vira ajuste |
+| Semana 2 | **Copiloto mínimo, 3 dias úteis**, no horário de atendimento (decisões de 22/11) | A assistente escreve e manda primeiro ao WhatsApp do dentista; ele responde "ok" ou corrige, e só então ela envia; nesses dias não marca agenda sozinha. Depois dos 3 dias, ela responde no horário também | Responde "ok" ou corrige. Cada correção vira ajuste |
 | Semana 3 | Pacientes antigos e app | Confirmação e lembrete de consulta. App no celular com conversas, agenda do dia e "Precisa de você" | Testa o app, diz o que usa e o que sobra |
-| Semana 4 | Orçamento e balanço do 1º mês | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa de balanço: o que funcionou, o que faltou, quanto pagaria no futuro. Combinar como segue o piloto contínuo |
+| Semana 4 | Orçamento e balanço do 1º mês | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa de balanço: o que funcionou, o que faltou, o que testar a seguir. Pedir indicações. Sem falar de preço |
 | Mês 2 em diante | Piloto contínuo (sem prazo fixo) | Cada função nova entra primeiro aqui, em ritmo combinado. Relatório todo mês | Testa a função nova, aponta erros, diz se usaria. Conversa de 20 min por semana ou a cada 15 dias |
 
 Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos já corrigidos).
 
 **Atenção, coisas que ainda não existem e precisam estar prontas antes da etapa:**
 - **Só fora do horário de atendimento:** não existe. Precisa estar pronto para a semana 1.
-- **Copiloto (aprovar antes de enviar):** não existe. Precisa estar pronto para a semana 2.
+- **Copiloto (aprovar antes de enviar):** não existe. Versão mínima (3 dias úteis, "ok" ou correção pelo WhatsApp), pronta para a semana 2.
 - **Confirmação e lembrete de consulta:** não existem (estão no roadmap para depois do piloto). Precisam estar prontos até a semana 3.
 - **App:** em construção (Conversas, Agenda do dia e Pacientes previstos para dezembro).
 - **Lembrete de orçamento:** decidido, não construído.
@@ -75,7 +75,7 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 - Testar antes de ligar, fingindo ser paciente (inclusive casos difíceis: dor, reclamação, pedido de desconto).
 - Apontar tudo o que achar: erro, coisa estranha, o que ficou bom.
 - 20 minutos por semana de conversa.
-- No fim do primeiro mês, dizer com franqueza o que funcionou e quanto pagaria no futuro.
+- No fim do primeiro mês, dizer com franqueza o que funcionou e indicar colegas, se gostar.
 - Depois, seguir como clínica piloto: testar primeiro cada função nova e dizer se ela serve antes de ir para outras clínicas.
 - Se gostar, autorizar o uso do resultado como caso e indicar um colega.
 
@@ -168,7 +168,7 @@ Exemplo de tom (a ajustar com a Erica e o Sérgio):
 - Assistente feita do jeito da clínica, sem custo no piloto.
 - Recebe primeiro tudo o que for construído (confirmação, app, relatório).
 - Atenção direta da Erica e do Sérgio, de perto no primeiro mês e depois em cada função nova.
-- Preço de clínica piloto, com desconto, quando passar a pagar.
+- Sem custo como clínica parceira; o assunto preço fica para depois e nunca de surpresa.
 
 ## 9. Decisões para a Erica
 
@@ -177,3 +177,5 @@ Exemplo de tom (a ajustar com a Erica e o Sérgio):
 3. ✅ **Duração do piloto (decidido em 21/11, reforçado em 22/11):** o piloto não acaba em 30 dias. Depois do primeiro mês, a clínica segue como clínica piloto contínua, sem prazo fixo: toda função nova (confirmação, lembretes, app, relatório) é testada primeiro nela antes de ir para os clientes pagantes. São 3 pilotos; os demais clientes são pagantes. O período sem custo é estendido; duração e condições a combinar no convite; preço com desconto de clínica piloto só depois desse período.
 4. ✅ **Quem manda o convite (decidido em 21/11):** quem conhece a pessoa (Erica ou Sérgio), sempre em nome próprio.
 5. ✅ **Pilotos 2 e 3 (decidido em 21/11):** entram na semana 2 do piloto 1.
+6. ✅ **Clínica parceira e calendário (decidido em 22/11, depois do red team):** os pilotos (1, até 3) são clínicas parceiras: entram no mercado com a gente, testam primeiro cada função nova e servem de referência. Não falamos de dinheiro com elas por enquanto; a pergunta de preço da semana 4 saiu. O piloto 1 roda de 01 a 31/12, recesso incluído. Dezembro prepara a prospecção (manual revisado e lista de indicações); a prospecção volta com força em 07/01/2027, e o primeiro pagante vem de fora dos pilotos: combinado até 31/01, instalação no início de fevereiro. Os números dos pilotos 2 e 3 só conectam quando o piloto 1 estiver estável.
+7. ✅ **Paciente antigo no dia 1 (22/11):** regra de paciente antigo (limpeza e manutenção, retorno, obturação, canal, extração, dor, remarcar e cancelar) entra na publicação de 27/11, junto com o "só fora do horário", com perfis novos de paciente antigo nos testes. O número real da clínica só conecta com média 7 ou mais nesses testes.

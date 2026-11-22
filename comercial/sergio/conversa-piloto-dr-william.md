@@ -21,17 +21,17 @@ Para o Sérgio, 22/11/2026. Rascunho para a Erica e o Sérgio ajustarem antes da
 |---|---|
 | Semana 0 | Conversa de 60 min com a Erica para entender como a clínica atende; o dentista testa a assistente num número de teste, fingindo ser paciente |
 | Semana 1 | A assistente responde **só fora do horário de atendimento** (noite e fim de semana) |
-| Semana 2 em diante | **Modo copiloto:** a assistente escreve a resposta e manda primeiro para o WhatsApp do dentista. **Só envia ao paciente depois que ele aprova**, mesmo que demore. Nessa fase ela **não marca nada na agenda sozinha**: é o tempo de o dentista ganhar confiança |
+| Semana 2 | **Copiloto por 3 dias úteis:** a assistente escreve a resposta e manda primeiro para o WhatsApp do dentista. **Só envia ao paciente depois que ele responde "ok" ou corrige.** Nesses dias ela **não marca nada na agenda sozinha**. Depois, passa a responder no horário também |
 | Semanas 3 e 4 | Conforme a confiança, entram novas funções para testar primeiro na clínica dele (confirmação e lembrete de consulta, app no celular, relatório do mês) |
 
-**O combinado:** sem custo; pode sair quando quiser; o período sem custo pode ser estendido, em troca de ele testar primeiro as funções novas e contar com franqueza o que achou.
+**O combinado:** ele vira **clínica parceira**: sem custo, pode sair quando quiser, testa primeiro as funções novas e conta com franqueza o que achou. O primeiro mês vai de 01 a 31/12, recesso incluído (a assistente atende mesmo com ele de férias).
 
 ## 4. O que a gente precisa dele
 
 - A conversa de 60 minutos e um questionário (quem responde o WhatsApp hoje, o que mais perguntam, preços que podem ser ditos).
 - Uma conversa de 20 minutos por semana para contar o que achou.
 - Usar o WhatsApp da clínica num número só e, de preferência, Google Agenda (se usar outro sistema, a gente anota como aprendizado).
-- No fim, dizer com franqueza se continuaria e quanto pagaria.
+- No fim do mês, dizer com franqueza o que funcionou e, se gostar, indicar colegas.
 
 ## 5. O que ele ganha
 
@@ -45,7 +45,7 @@ Para o Sérgio, 22/11/2026. Rascunho para a Erica e o Sérgio ajustarem antes da
 - **"E os dados dos meus pacientes?"** Ficam num banco só da clínica dele, sem prontuário. Ele pode pedir para apagar tudo quando quiser.
 - **"E se ela falar besteira?"** No copiloto nada sai sem ele aprovar. Depois, ele lê as conversas do dia e aponta o que corrigir; cada correção vira regra.
 - **"Vou ter que trocar de número?"** Não. É o mesmo WhatsApp da clínica.
-- **"Quanto vai custar depois?"** No piloto, nada. O preço a gente define junto, com o que aprendermos com ele; ninguém é surpreendido.
+- **"Quanto vai custar depois?"** Como clínica parceira, nada. Se um dia isso mudar, a gente conversa antes; ninguém é surpreendido.
 - **"Quanto tempo eu gasto?"** Uma hora no começo e uns 20 minutos por semana.
 
 ## 7. Próximo passo (fechar a conversa assim)
