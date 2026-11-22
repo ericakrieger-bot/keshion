@@ -7,7 +7,7 @@
 
 Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, app em app.keshion.com). Serviço B2B: implantação e operação de atendente de IA no WhatsApp para clínicas odontológicas (por enquanto só odontologia; a maioria clínica do dia a dia: limpeza, extração, obturação, canal, manutenção, com pouca ou nenhuma estética), vendido como resultado (lead sem resposta, falta e paciente que não volta). Modelo: diagnóstico grátis, implantação e mensalidade. Pilotos com clínicas que a Erica e o Sérgio conhecem: o 1º combinado até 30/11/2026, o 2º e o 3º até 15/12, entrando na semana 2 do 1º (`comercial/piloto/estrutura-piloto-conhecidos.md`). Piloto da Dra. Vivian suspenso em 20/11/2026.
 
-## Estado técnico (17/11/2026)
+## Estado técnico (22/11/2026)
 
 - **Começar por `tecnico/RETOMAR-AQUI.md`**: onde está cada peça, o que foi feito, roadmap e próxima feature.
 - A Clara (assistente da clínica demo da Dra. Suzana) roda no **n8n próprio** (Contabo 169.58.41.107, `/opt/keshion`). Fluxos gerados por `tecnico/n8n/gerar_fluxos.py`; instruções e base em `clientes/clinica-demo/` e na tabela `config` do Postgres `clara`. Make desativado.
@@ -43,11 +43,16 @@ Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, a
 
 ## Mapa curto
 
+Mapa completo, com a fonte oficial de cada assunto e as decisões em aberto: `MAPA-DO-PROJETO.md`.
+
 | Onde | O quê |
 |---|---|
+| `MAPA-DO-PROJETO.md` | onde está cada coisa e qual arquivo vale |
 | `tecnico/` | n8n, servidor, testes, revisões |
 | `clientes/` | uma pasta por clínica (sem dados de pacientes) |
 | `comercial/` | oferta, proposta, contrato |
 | `app-crm-painel/` | app da clínica, CRM e painel |
 | `pesquisa/` | mercado, nichos, concorrentes |
 | `plano-estrategico-keshion.md` | plano de longo prazo (metas até 2030) |
+| `arquivo/` | o que saiu de uso, com o registro em `arquivo/LOG.md` |
+| `keshion-wt-copiloto/` (pasta irmã) | branch do copiloto e do modo "só fora do horário", em construção |

@@ -23,6 +23,6 @@
 
 ## Arquivos ligados
 
-- `clientes/dra-vivian/questionario-web/index.html` (ficha atual)
+- `arquivo/dra-vivian-suspenso-2026-11-20/questionario-web/index.html` (ficha atual)
 - `app-crm-painel/LEIA-PRIMEIRO.md` (aplicativo e painel da clínica)
 - `plano-estrategico-keshion.md`

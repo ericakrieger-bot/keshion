@@ -1,6 +1,6 @@
 # Clara no n8n · como está montada
 
-Montada em 12/11/2026, a partir das cópias do Make em `tecnico/make-cenarios/`. Sem chaves neste arquivo.
+Montada em 12/11/2026, a partir das cópias do Make em `arquivo/make/make-cenarios/`. Sem chaves neste arquivo.
 
 ## Os dois fluxos
 
@@ -20,7 +20,7 @@ Endereço do webhook: `https://n8n.169-58-41-107.sslip.io/webhook/<caminho secre
 - `segredos.local.json` (fora do Git): caminho secreto do webhook de cada clínica, `{"<slug>": {"webhook_path": "..."}}`.
 - `gerados/<slug>/`: `atendimento.json`, `envio.json` e `banco.sql`. Fora do Git, porque contêm o caminho secreto.
 - `schema-clara.sql`: as tabelas (iguais em todas as clínicas).
-- `revisao-codex-2026-11-12.md` e `plano-pos-revisao-codex.md`: revisão independente e o que foi feito com ela.
+- Revisões do Codex e planos de correção: os de 12 a 18/11 estão em `arquivo/codex/`; o mais recente em `codex-19-11/`. Prompt de revisão em uso: `PROMPT-CODEX-REVISAO.md`.
 
 Para atualizar no servidor (mesmo id substitui o fluxo antigo):
 ```bash
@@ -36,7 +36,7 @@ Cada clínica tem: uma pasta em `clientes/<slug>/` com `clinica.json` (sem chave
 |---|---|---|---|
 | Demo (Dra. Suzana, Clara) | `clientes/clinica-demo` | `clara` | `ClaraAtendimento`, `ClaraEnvio000001` |
 | Teste de isolamento (no ar desde 17/11, canal falso) | `clientes/clinica-teste` | `clinica_teste` | `TesteAtendimento`, `TesteEnvio000001` |
-| Dra. Vivian (piloto) | `clientes/dra-vivian` (a preencher) | `clinica_vivian` | `VivianAtendiment`, `VivianEnvio00001` |
+| Dra. Vivian (piloto suspenso em 20/11) | `arquivo/dra-vivian-suspenso-2026-11-20` (não preenchida) | `clinica_vivian` | `VivianAtendiment`, `VivianEnvio00001` |
 
 **Clínica nova:** roteiro completo em [`CLINICA-NOVA.md`](CLINICA-NOVA.md) (banco com dois usuários, credenciais, fluxos, WhatsApp, testes e virada para valer).
 

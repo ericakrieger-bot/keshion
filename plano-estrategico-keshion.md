@@ -1,6 +1,6 @@
 # Plano estratégico da Keshion IA (2026 a 2030)
 
-> Versão 1, 10/11/2026. As metas são alvos de planejamento, não promessas. Revisar a cada trimestre.
+> Versão 1, 10/11/2026, com ajustes de 21 e 22/11 (pilotos com clínicas conhecidas). As metas são alvos de planejamento, não promessas. Revisar a cada trimestre.
 > Premissa de tempo: Erica com 4 a 6 horas por dia; Sérgio em vendas. Se as horas forem por semana, as datas das fases 0 e 1 atrasam cerca de 2 meses.
 
 ---
@@ -20,7 +20,7 @@
 ## 2. Ponto de partida (10/11/2026)
 
 - **Produto:** a Sarah funciona na clínica de demonstração (responde, marca, remarca, cancela). Faltam histórico do paciente, confirmações, lembretes de orçamento e relatório.
-- **Clientes:** nenhum pagante. A Dra. Vivian é parceira gratuita do piloto e ainda não está no ar.
+- **Clientes:** nenhum pagante. O piloto da Dra. Vivian foi suspenso em 20/11/2026; os pilotos passam a ser com clínicas conhecidas (nenhum no ar ainda).
 - **Vendas:** nada começou (lista, diagnósticos, reuniões, site, domínio, perfis).
 - **Empresa:** sem CNPJ e sem acordo escrito entre os sócios.
 - **Caixa:** investimento perto de zero, só ferramentas.
@@ -60,7 +60,7 @@ Composição do alvo de dezembro de 2030: cerca de 120 clientes no Brasil a R$ 4
 | Quando | Entrega |
 |---|---|
 | Até 16/11/2026 | Congelar a versão 1 da Sarah. Só entram: remover o #reiniciar, proteger chamada sem telefone, pausar quando a equipe assume |
-| Até 30/11/2026 | Histórico do paciente em planilha e confirmações de consulta, já rodando na Dra. Vivian |
+| Até 30/11/2026 | Histórico do paciente em planilha e confirmações de consulta, rodando no 1º piloto (confirmações entram na semana 3) |
 | Até 31/12/2026 | Lembretes de orçamento e relatório mensal de valor recuperado |
 | 1º trimestre de 2027 | Migração para o n8n no servidor próprio, com uma estrutura única que lê a configuração de cada clínica. API oficial do WhatsApp nas clínicas pagantes |
 | 2º e 3º trimestres de 2027 | Aplicativo da clínica (o protótipo Oliva), implantação em 2 semanas, biblioteca de bases por tratamento |
@@ -73,7 +73,7 @@ Regra: nenhuma função nova entra sem que um cliente ou uma reunião de venda t
 
 | Quando | Entrega |
 |---|---|
-| Semana de 10/11/2026 | Sérgio lista as primeiras 30 clínicas e conversa com a Dra. Vivian sobre como um dono de clínica decide |
+| Semana de 10/11/2026 | Sérgio lista as primeiras 30 clínicas e conversa com uma dentista conhecida sobre como um dono de clínica decide |
 | Até 18/12/2026 | 60 clínicas listadas, 20 diagnósticos enviados, 8 reuniões, 3 propostas de fundador |
 | Janeiro a março de 2027 | 3 vagas de fundador vendidas (implantação de R$ 3.000 e mensalidade de R$ 1.500 congelada por 12 meses, em troca de depoimento e case) |
 | Abril a setembro de 2027 | Preço cheio (implantação de R$ 6.000, mensalidade de R$ 2.200 a 2.800). Ritmo de 1 a 2 clínicas novas por mês. Programa de indicação |
@@ -88,7 +88,7 @@ Meta semanal fixa do Sérgio: 10 clínicas novas na lista, 5 diagnósticos envia
 |---|---|
 | Até 23/11/2026 | Domínio, e-mail, site de uma página, Instagram e LinkedIn |
 | Dezembro de 2026 em diante | Erica publica 2 vezes por semana no LinkedIn e no Instagram: bastidores do piloto, erros de atendimento vistos nos diagnósticos (sem expor clínicas), números reais |
-| 2º trimestre de 2027 | Primeiro case publicado com números da Dra. Vivian e dos fundadores |
+| 2º trimestre de 2027 | Primeiro case publicado com números das clínicas piloto e dos fundadores |
 | 2º semestre de 2027 | Estudo anual "Como as clínicas de alto padrão respondem no WhatsApp", feito com os dados dos diagnósticos. É a peça que gera imprensa e convites |
 | 2028 | Palestras em congressos de odontologia e eventos de gestão de clínicas. Presença em podcasts do setor |
 | 2029 | Conteúdo em inglês e presença em eventos americanos |
@@ -97,7 +97,7 @@ Meta semanal fixa do Sérgio: 10 clínicas novas na lista, 5 diagnósticos envia
 
 | Quando | Entrega |
 |---|---|
-| Fase 0 e 1 | Implantação gravada desde a Dra. Vivian. Checklist de entrada no ar. Revisão semanal das conversas |
+| Fase 0 e 1 | Implantação gravada desde o 1º piloto. Checklist de entrada no ar. Revisão semanal das conversas |
 | Fase 2 | Manual de implantação, reunião mensal de resultado com cada dono, alarme de falhas |
 | Fase 3 | Uma pessoa de implantação e uma de relacionamento. Erica sai da operação diária |
 | Fase 4 | Equipe por tipo de cliente. Atendimento em inglês |
@@ -127,7 +127,7 @@ Erica e Sérgio registram desde já quantas horas cada clínica consome. Esse n�
 
 | Quando | Entrega |
 |---|---|
-| Até 16/11/2026 | Acordo de sócios de uma página (ver seção 9) e termo de parceria do piloto com a Dra. Vivian, com proteção de dados |
+| Até 16/11/2026 | Acordo de sócios de uma página (ver seção 9) e termo de parceria de cada clínica piloto, com proteção de dados (antes de conectar o número) |
 | Até 18/12/2026 | Conversa com contador sobre CNPJ com sócios residentes em Israel |
 | Com a primeira proposta aceita | Contrato-base revisado por advogado, com anexo de proteção de dados |
 | 1º semestre de 2027 | Pedido de registro da marca Keshion no INPI |
@@ -141,6 +141,8 @@ Erica e Sérgio registram desde já quantas horas cada clínica consome. Esse n�
 - **2030:** operação americana com equipe própria.
 
 ## 6. Os próximos 40 dias
+
+> **Superado em 21/11/2026.** Este cronograma semana a semana foi montado em 10/11 em torno do piloto da Dra. Vivian (suspenso em 20/11) e do Make (substituído pelo n8n em 12/11). Fica como registro. O cronograma que vale: `comercial/piloto/estrutura-piloto-conhecidos.md` (seção 3) e as tarefas e marcos no Notion.
 
 Plano de 10/11 a 19/12 (atualizado em 11/11/2026), com dono e critério de pronto por semana. O tempo da Erica se divide meio a meio entre produto e materiais de venda. Reuniões com donos de clínica ficam entre 9h e 13h de Brasília (14h às 18h em Israel).
 
@@ -182,7 +184,7 @@ Plano de 10/11 a 19/12 (atualizado em 11/11/2026), com dono e critério de pront
 |---|---|---|
 | Seg 1 | Decidir com o Sérgio a oferta de fundador (3 vagas, implantação de R$ 3.000, mensalidade de R$ 1.500 por 12 meses) | Reuniões, com demonstração ao vivo |
 | Ter 2 a qui 4 | Página de proposta modelo. Mais 10 diagnósticos montados | 4 reuniões na semana (a Erica entra na demonstração) |
-| Sex 5 a dom 7 | Lembretes de orçamento (dias 3, 10, 17 e 30) escritos e aprovados pela Dra. Vivian | Enviar os 10 diagnósticos novos (total 20). Registrar as objeções ouvidas |
+| Sex 5 a dom 7 | Lembretes de orçamento (dias 3, 10, 17 e 30) escritos e aprovados pela 1ª clínica piloto | Enviar os 10 diagnósticos novos (total 20). Registrar as objeções ouvidas |
 
 **Pronto quando:** 20 diagnósticos enviados, 4 reuniões feitas, proposta modelo pronta e lembretes aprovados.
 

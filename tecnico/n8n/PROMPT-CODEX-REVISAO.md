@@ -18,8 +18,8 @@ Leia primeiro, nesta ordem:
 5. `tecnico/n8n/gerar_fluxos.py` (gera os dois fluxos; é a fonte da verdade, os `.json` saem dele)
 6. `tecnico/n8n/schema-clara.sql` (banco de dados)
 7. `clientes/clinica-demo/instrucoes-sarah.md` e `clientes/clinica-demo/base-clinica.md` (as instruções e a base que a IA recebe; "Sarah" é o nome antigo da Clara)
-8. `tecnico/make-cenarios/` (os cenários originais do Make, 1A, 1B, 1C e 1D, para comparar com a versão n8n)
-9. `tecnico/teste-ab/teste_n8n.py`, `tecnico/teste-ab/comparar_n8n.py` e `tecnico/teste-ab/relatorio-n8n.md` (o teste das 56 mensagens e o resultado)
+8. `arquivo/make/make-cenarios/` (os cenários originais do Make, 1A, 1B, 1C e 1D, para comparar com a versão n8n)
+9. `tecnico/teste-ab/teste_n8n.py`, `tecnico/teste-ab/comparar_n8n.py` e `arquivo/testes-2026-11/relatorio-n8n.md` (o teste das 56 mensagens e o resultado)
 
 ## Onde as coisas estão
 

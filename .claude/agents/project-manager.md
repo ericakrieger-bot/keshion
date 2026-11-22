@@ -84,7 +84,7 @@ Na página do Notion, os mesmos 10 blocos vão no corpo; o Termômetro alimenta 
 O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realidade:
 
 1. **Página do daily** na base "Dailies do PM".
-2. **Varredura completa, todo dia (não só o que mudou):** passe por TODAS as tarefas que não estão "Feita" e por todos os marcos "📍 Estamos aqui" e "🔜 Próximo". Para cada uma, confira as fontes: `git log`, `tecnico/RETOMAR-AQUI.md`, `tecnico/testes-checklist.md` (Registro de rodadas), relatórios do Codex em `tecnico/n8n/codex-*/`, `site/DECISOES.md` e `conflitos-e-duplicatas.md`.
+2. **Varredura completa, todo dia (não só o que mudou):** passe por TODAS as tarefas que não estão "Feita" e por todos os marcos "📍 Estamos aqui" e "🔜 Próximo". Para cada uma, confira as fontes: `git log`, `tecnico/RETOMAR-AQUI.md`, `tecnico/testes-checklist.md` (Registro de rodadas), relatórios do Codex em `tecnico/n8n/codex-*/`, `site/DECISOES.md` e `MAPA-DO-PROJETO.md` (fonte oficial de cada assunto e decisões em aberto).
    - Trabalho começado com evidência em arquivo ou commit: "Em andamento", sem perguntar.
    - Feito com evidência clara (commit, registro de teste, RETOMAR): "Feita".
    - Travado por algo externo: "Bloqueada", com o motivo na Descrição.

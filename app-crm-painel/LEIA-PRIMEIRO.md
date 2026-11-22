@@ -1,6 +1,6 @@
 # App, CRM e painel da Keshion IA
 
-> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 17/11/2026, com as decisões de 16/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../arquivo/SESSAO-2026-11-01-RESUMO.md`.
+> Tudo sobre o dashboard, o CRM e o app da clínica está nesta pasta. Estado em 17/11/2026, com as decisões de 16/11/2026. Para o contexto geral do negócio, leia também `../CLAUDE.md` e `../arquivo/sessoes/2026-11-01-resumo-sessao.md`.
 
 ## 0. Decisões de 16/11/2026 (valem sobre o resto deste guia)
 
@@ -8,7 +8,7 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 
 - **O app deixa de ser planilha + AppSheet/Glide + Looker Studio.** Vira app web em Next.js, que abre no computador e se instala no celular (PWA), com Netlify (telas) e Supabase (login, banco e arquivos), na região São Paulo, com backup diário para o Contabo e cada clínica vendo só os próprios dados.
 - **Público:** dentista solo ou clínica com 2 ou 3 dentistas, sem software de gestão.
-- **Piloto real:** Dra. Vivian, a partir de 01/12/2026. A Dra. Suzana continua sendo a clínica fictícia de demonstração.
+- **Pilotos reais:** clínicas que a Erica e o Sérgio conhecem, o 1º combinado até 30/11/2026 e o 2º e o 3º até 15/12 (`comercial/piloto/estrutura-piloto-conhecidos.md`). O piloto da Dra. Vivian foi suspenso em 20/11. A Dra. Suzana continua sendo a clínica fictícia de demonstração.
 - **Dezembro:** Conversas (com "Precisa de você" no topo), Agenda do dia (nova, com compareceu e faltou) e Pacientes.
 - **Janeiro:** Orçamentos (nova, com PDF e envio pelo WhatsApp), Retornos e Painel.
 - **17/11/2026:** Pendências entrou dentro de Conversas, Resultados virou Painel e os lembretes do orçamento passaram a ser nos dias 3, 10, 17 e 30. Estrutura completa na seção 3.
@@ -112,7 +112,7 @@ Seis abas: Conversas, Agenda do dia e Pacientes em dezembro; Orçamentos, Reativ
 
 ## 5. O que os concorrentes mostram
 
-AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhum mostra a tela real. Nenhum cita orçamento formal, valor recuperado com regra explicada ou aprovação antes do envio. Ideias aproveitadas: pacientes quentes, reativação por tempo parado, lembrete 2 horas antes, resumo do dia no WhatsApp da doutora. Detalhes na seção 6 de `../arquivo/SESSAO-2026-11-01-RESUMO.md`.
+AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhum mostra a tela real. Nenhum cita orçamento formal, valor recuperado com regra explicada ou aprovação antes do envio. Ideias aproveitadas: pacientes quentes, reativação por tempo parado, lembrete 2 horas antes, resumo do dia no WhatsApp da doutora. Detalhes na seção 6 de `../arquivo/sessoes/2026-11-01-resumo-sessao.md`.
 
 ## 6. O que falta
 
@@ -120,10 +120,10 @@ AtendeJá, Secretária Odonto e Secretária IA prometem painel ou CRM, mas nenhu
 2. ~~Banco da Clara~~ decidido em 18/11: Clara no Contabo, app no Supabase. Falta escrever o desenho dos avisos entre os dois (`../app/supabase/schema.sql` já tem o rascunho do banco do app).
 3. Protótipo versão 7 pronto e testado em 17/11/2026 (6 abas, marca Keshion). Aguardando a Erica ver o link e dizer se falta algum ajuste antes de virar o app de verdade.
 4. Criar o Supabase (região São Paulo) e o Netlify, com o backup diário para o Contabo e a regra de acesso por clínica.
-5. Montar as telas de dezembro a tempo do piloto da Dra. Vivian em 01/12/2026.
+5. Montar as telas de dezembro a tempo da semana 3 do 1º piloto (app com Conversas, Agenda do dia e "Precisa de você").
 6. Montar as telas de janeiro: Orçamentos, Reativar e Painel.
 7. Ajustar o tom da mensagem de retorno quando chegarem as respostas da clínica fictícia da Dra. Suzana.
 
 Saíram da lista em 16/11/2026: comparar AppSheet e Glide, criar a planilha e o painel no Looker Studio, atualizar a planilha modelo.
 
-O estado da automação no Make fica em `../arquivo/SESSAO-2026-11-01-RESUMO.md`, seções 3 e 4. Confira na conta do Make antes de confiar nele, porque pode ter mudado depois de 01/11/2026.
+O estado da automação no Make fica em `../arquivo/sessoes/2026-11-01-resumo-sessao.md`, seções 3 e 4. Confira na conta do Make antes de confiar nele, porque pode ter mudado depois de 01/11/2026.

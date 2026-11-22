@@ -19,7 +19,7 @@ Já aceitos pela Erica (não corrigir agora): vaga presa por uns 4 min depois de
 | C7 | O gerador rejeita o campo `numeros_keshion` vazio, mas o roteiro de clínica nova manda deixar vazio | `_faltando` aceita vazio nesse campo (clínica real); `preparar_banco.py` continua recusando número preenchido fora da demo e do teste. Testar o cadastro da Vivian de ponta a ponta sem publicar. |
 | C8 | Aviso repetido para o mesmo assunto (Fernanda: 3 avisos); promessa de "urgência" sem a marca URGENTE (Marta); Diego: isenção de multa e agendamento normal ficaram todos com a equipe | Deduplicar por assunto, não por palavras; separar a exceção (pessoa decide) do agendamento normal (Clara continua oferecendo horários). **Prioridade menor**: pode ser feito com acompanhamento no piloto. |
 
-Depois: gerar, rodar os testes locais (61+32, 48 do Pacote A, os do Codex em `codex-18-11/`, mais casos novos de C1 a C3 e C7), commit e push, pedir OK para publicar na demo (import e publish, sem reiniciar o n8n), conferir publicado = gerado e entregar prompt de teste. Incluir também a clínica de teste, que está com o fluxo antigo.
+Depois: gerar, rodar os testes locais (61+32, 48 do Pacote A, os do Codex em `tecnico/n8n/testes-codex/`, mais casos novos de C1 a C3 e C7), commit e push, pedir OK para publicar na demo (import e publish, sem reiniciar o n8n), conferir publicado = gerado e entregar prompt de teste. Incluir também a clínica de teste, que está com o fluxo antigo.
 
 ## Pacote D: servidor, backup e ferramentas de teste
 

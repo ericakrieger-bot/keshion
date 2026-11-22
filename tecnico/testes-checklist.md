@@ -1,6 +1,6 @@
 # Testes da Clara (checklist completo)
 
-Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A agenda do Google é real: todo teste que marca precisa cancelar no fim e conferir que não sobrou evento. Quem executa: **C** = Claude (conversa de testes), **X** = Codex (revisão independente), **E** = Erica (celular real), **V** = Dra. Vivian.
+Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A agenda do Google é real: todo teste que marca precisa cancelar no fim e conferir que não sobrou evento. Quem executa: **C** = Claude (conversa de testes), **X** = Codex (revisão independente), **E** = Erica (celular real), **V** = dentista da clínica piloto.
 
 ## Portão 1: a cada mudança publicada (fluxo, instruções ou base)
 
@@ -12,7 +12,7 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 | 1.4 | Agenda limpa e banco de teste limpo depois dos testes | C | consulta no banco `clara` | pronto (os scripts limpam) |
 | 1.5 | Revisão independente da feature | X | `PROMPT-CODEX-REVISAO.md` com a feature indicada | pronto |
 
-## Portão 2: antes de ligar uma clínica real (piloto Dra. Vivian, 01/12)
+## Portão 2: antes de ligar uma clínica real (1º piloto com clínica conhecida, até 30/11)
 
 | # | Teste | Quem | Situação |
 |---|---|---|---|
@@ -27,7 +27,7 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 | 2.9 | Carga: 20 conversas ao mesmo tempo (tempo de resposta e erros) | C | **por fazer** |
 | 2.10 | Custo por conversa (tokens da IA e mensagens) para fechar o preço | C | **por fazer** |
 | 2.11 | Recuperação: reiniciar o servidor; restaurar o backup numa cópia; backup fora do servidor | C | **por fazer** |
-| 2.12 | Aceite da clínica: roteiro com os casos reais da Vivian; ela aprova tom, regras e avisos | V, E | antes de 01/12 |
+| 2.12 | Aceite da clínica: roteiro com os casos reais da clínica piloto; o dentista aprova tom, regras e avisos | V, E | antes de ligar o número |
 | 2.13 | Avisos chegando no número certo da clínica (não no da Erica) | E | quando a estrutura por clínica existir |
 
 ## Portão 3: durante o piloto (toda semana)

@@ -10,7 +10,7 @@ Você cuida das escolhas que valem por meses: para quem vendemos, por quanto, co
 ## Fontes
 
 1. `CLAUDE.md`, `plano-estrategico-keshion.md` (o mais recente; vale sobre os planos antigos) e `historico-e-estrategia.md`.
-2. `conflitos-e-duplicatas.md`, seção 2 ("Decisões que só você pode tomar"): é a sua lista de trabalho.
+2. `MAPA-DO-PROJETO.md`, seção 3 ("Decisões em aberto"): é a sua lista de trabalho (espelhada no Notion, em "Decisões a tomar").
 3. `pesquisa/` (mercado, nichos, concorrentes), `comercial/` (oferta, piloto, proposta) e `site/DECISOES.md`.
 4. Notion: base "Decisões a tomar" (`collection://4199b089-c509-8128-807d-000b77f550e2`), marcos de Vendas e de Finanças e jurídico, e o Funil.
 

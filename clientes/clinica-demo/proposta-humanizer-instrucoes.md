@@ -1,6 +1,6 @@
 # Proposta: instruções da Clara com menos cara de robô
 
-Feita em 12/11/2026 com a skill humanizer (padrões de "texto de IA" da Wikipédia), aplicada às instruções (`instrucoes-sarah.md`, registro `_instrucoes`) e às respostas reais da Clara no teste das 56 mensagens (`tecnico/teste-ab/relatorio-n8n.md`). **Nada foi aplicado ainda.** Nenhuma proposta muda fato, preço, regra clínica ou ação: só a forma de escrever.
+Feita em 12/11/2026 com a skill humanizer (padrões de "texto de IA" da Wikipédia), aplicada às instruções (`instrucoes-sarah.md`, registro `_instrucoes`) e às respostas reais da Clara no teste das 56 mensagens (`arquivo/testes-2026-11/relatorio-n8n.md`). **Nada foi aplicado ainda.** Nenhuma proposta muda fato, preço, regra clínica ou ação: só a forma de escrever.
 
 Achado principal: a Clara quase não tem os vícios clássicos de IA (travessão, palavras infladas, listas com negrito). O que soa robótico é **repetição de frases prontas**, e várias delas vêm dos exemplos das próprias instruções, que ela copia ao pé da letra.
 

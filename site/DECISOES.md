@@ -1,11 +1,11 @@
 # Site Keshion: decisões
 
-Atualizado em 17/11/2026. Estrutura e copy em `site/proposta-estrutura-e-copy.html` (v1) e `site/copy-v2.html` (v2, vale a v2).
+Atualizado em 17/11/2026. Estrutura e copy: vale `site/copy-v3.html` (18/11). As versões anteriores (v1 `proposta-estrutura-e-copy.html` e v2 `copy-v2.html`) estão em `arquivo/site-versoes-antigas/`.
 
 ## Decididas pela Erica
 
 - **Preço:** não publicar valores agora. Mostrar o que a mensalidade, a implantação e as mensagens da Meta incluem; valores só no diagnóstico.
-- **Conversa com a Clara no site:** quer incluir. Plano técnico em `site/copy-v2.html`, seção 4. Falta OK para criar canal novo no Whapi (gasto) e escolher o caminho do número (A: Whapi, B: API oficial).
+- **Conversa com a Clara no site:** quer incluir. Plano técnico em `arquivo/site-versoes-antigas/copy-v2.html`, seção 4. Falta OK para criar canal novo no Whapi (gasto) e escolher o caminho do número (A: Whapi, B: API oficial).
 - **Conexão oficial do WhatsApp:** mudar mais para frente. Até lá o site não promete "API oficial" nem "sem bloqueio".
 - **Clínicas parceiras de lançamento:** ainda não. A Erica quer pensar melhor na abordagem. Fora do site.
 

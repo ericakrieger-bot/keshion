@@ -63,7 +63,7 @@ Preços da tabela vêm da clínica demo (`clientes/clinica-demo/base-clinica.md`
 
 ## 3. Hipóteses de preço (só para testar, nada decidido)
 
-**Referências** (`pesquisa/concorrentes-odonto.html` e `conflitos-e-duplicatas.md`):
+**Referências** (`pesquisa/concorrentes-odonto.html` e `arquivo/organizacao/conflitos-e-duplicatas.md`):
 - Software com IA: R$ 259 a 997 por mês, implantação de R$ 497 a 700.
 - IA do Simples Dental: cerca de R$ 180 por mês. Odonto Results: R$ 790 por mês mais marketing.
 - AtendeJá: R$ 447 por mês só fora do horário, R$ 897 em 24 horas, implantação de R$ 497.

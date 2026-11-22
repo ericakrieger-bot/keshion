@@ -1,5 +1,7 @@
 # CRM, agenda e painel da Keshion
 
+> **Conceito de 01/11/2026.** Desde 16/11 o CRM e o painel são o app Next.js (planilha e Looker Studio saíram). Onde este texto discordar, valem `LEIA-PRIMEIRO.md` e `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`.
+
 > Desenho de 01/11/2026. Vale para a clínica demo (Dra. Suzana) e serve de modelo para cada cliente real. Tudo fica na conta Google **da clínica**: agenda, planilha e painel.
 
 ## 0. Versão 2 (01/11/2026): celular primeiro, pacientes antigos e lições dos concorrentes
