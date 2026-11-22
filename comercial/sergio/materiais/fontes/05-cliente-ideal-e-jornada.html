@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cliente ideal e jornada da clínica · Keshion AI</title>
+<link rel="stylesheet" href="base.css">
+<style>
+@page paisagem{size:A4 landscape;margin:11mm 12mm 10mm}
+.paisagem{page:paisagem;break-before:page}
+.sinais{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.sinais .caixa{margin:0}
+.sinais ol{margin-bottom:0}
+.persona{display:grid;grid-template-columns:1.1fr .9fr;gap:5mm;align-items:start}
+.jtbd{border-left:3px solid var(--intenso);padding:2mm 0 2mm 4mm;font-family:"Manrope";font-weight:700;font-size:11pt;line-height:1.4}
+/* jornada */
+.jtopo{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3mm}
+.jtopo img{width:36mm}
+.jtopo h1{font-size:17pt}
+.jtopo p{margin:1mm 0 0;color:var(--ardosia);font-size:9.5pt}
+.curva{width:100%;height:auto;display:block}
+.fases{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;font-size:7.6pt;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ardosia);margin:0 0 2mm}
+.grade5{display:grid;grid-template-columns:repeat(5,1fr);gap:2.6mm}
+.etapa{border:1px solid var(--prata);border-radius:2.6mm;padding:2.6mm 3mm;background:#fff;break-inside:avoid;font-size:7.7pt;line-height:1.36}
+.etapa .n{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2mm}
+.etapa .n b{font-family:"Manrope";font-weight:800;font-size:8.8pt;color:var(--noite)}
+.etapa .n span{font-size:11pt}
+.etapa .onde{color:var(--ardosia);font-style:italic;margin-bottom:1.4mm}
+.etapa .k{font-weight:600;font-size:6.9pt;letter-spacing:.06em;text-transform:uppercase;margin-top:1.4mm}
+.etapa .k.faz{color:var(--noite)}.etapa .k.dor{color:#8A2E2E}.etapa .k.op{color:var(--intenso)}
+.etapa p{margin:.3mm 0 0}
+.etapa.uau{border:1.6px solid var(--intenso);background:var(--nevoa)}
+.momentos{display:grid;grid-template-columns:1fr;gap:3mm;margin-top:1mm}
+.momentos .caixa{margin:0;font-size:8.4pt;padding:3mm 4mm}
+.momentos h3{margin:0 0 1.2mm;font-size:9.4pt}
+.momentos ol,.momentos ul{margin:0;padding-left:4.5mm}
+.momentos li{margin-bottom:.6mm}
+.leg{font-size:7.6pt;color:var(--ardosia);margin-top:2mm}
+</style>
+</head>
+<body>
+
+<div class="topo"><img src="../../../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Uso interno · Hipótese para o piloto</span></div>
+
+<h1>Que clínica a gente procura agora</h1>
+<p class="lead">O cliente ideal desta fase e a jornada dele com a Keshion, do primeiro problema até virar cliente que paga e indica.</p>
+
+<div class="aviso"><b>Tudo aqui é hipótese.</b> Nenhum dentista foi entrevistado ainda. O piloto existe para confirmar ou derrubar cada ponto, e depois da conversa de 60 minutos com o dentista real a gente corrige com as palavras dele. Rascunho de 22/11/2026.</div>
+
+<h2 style="margin-top:4mm">Quem é</h2>
+<p>Clínica odontológica de bairro, do próprio dentista, com 1 a 3 dentistas. Vive de limpeza, obturação, extração, canal e manutenção. Pode ter um pouco de estética, mas não vive dela.</p>
+
+<div class="sinais">
+  <div class="caixa">
+    <h3 style="margin-top:0">Sinais para reconhecer</h3>
+    <ol>
+      <li>1 a 3 dentistas, dono presente, não é rede nem franquia.</li>
+      <li>WhatsApp é o canal principal, num número só.</li>
+      <li>Quem responde é o próprio dentista ou uma secretária que também faz a recepção.</li>
+      <li>Muito paciente antigo, que volta a cada 6 meses ou quando sente dor.</li>
+      <li>Agenda no papel, no Google Agenda ou num sistema simples.</li>
+      <li>Particular, ou particular com alguns convênios.</li>
+      <li>Paciente novo chega por indicação e pelo Google, quase nunca por anúncio.</li>
+    </ol>
+  </div>
+  <div class="caixa">
+    <h3 style="margin-top:0">O que dói no WhatsApp dela</h3>
+    <ol>
+      <li>Mensagem sem resposta enquanto o dentista está com paciente na cadeira.</li>
+      <li>Paciente que escreve à noite ou no fim de semana e marca em outro lugar.</li>
+      <li>Falta e remarcação de última hora, que deixam buraco na agenda.</li>
+      <li>Paciente que não volta para a limpeza porque ninguém lembrou.</li>
+      <li>As mesmas perguntas o dia todo: preço da limpeza, endereço, convênio, horário.</li>
+      <li>Dor e urgência chegando no meio do atendimento.</li>
+    </ol>
+  </div>
+</div>
+
+<h2>Como escolher as clínicas: filtro A, B, C</h2>
+<p class="sub">Tudo dá para checar numa conversa, no Google ou no Instagram da clínica.</p>
+<table>
+  <thead><tr><th style="width:17%">Nota</th><th style="width:22%">Quando</th><th>Critérios</th></tr></thead>
+  <tbody>
+    <tr><td><span class="selo a">A</span> convidar já</td><td>Encaixa bem no piloto</td><td>1 a 3 dentistas; WhatsApp num número só; agenda no Google ou topa usar uma agenda Google no piloto; responde a gente em menos de 1 dia; diz que perde mensagem ou tem falta toda semana.</td></tr>
+    <tr><td><span class="selo b">B</span> talvez, depois</td><td>Encaixa, mas com algo que ainda não resolvemos</td><td>Usa Clinicorp ou Simples Dental (ainda sem integração); vive principalmente de convênio; recebe poucos contatos pelo WhatsApp (menos de 5 por dia, a confirmar na conversa).</td></tr>
+    <tr><td><span class="selo c">C</span> não agora</td><td>Não encaixa nesta fase</td><td>Rede ou franquia; já usa a IA do Simples Dental; agenda cheia só de convênio; mais de um número sem dono claro do WhatsApp.</td></tr>
+  </tbody>
+</table>
+
+<h2>Um exemplo para imaginar: Dr. Marcos</h2>
+<div class="persona">
+  <div>
+    <p class="sub" style="margin-bottom:1.5mm">Persona fictícia, 42 anos, dono de clínica de bairro.</p>
+    <ul>
+      <li>2 dentistas e 1 secretária que também faz recepção e financeiro.</li>
+      <li>Vive de limpeza, obturação, extração, canal e manutenção. Um pouco de clareamento.</li>
+      <li>Particular e 2 convênios. Agenda no Google Agenda ou num sistema simples.</li>
+      <li>Um número de WhatsApp: a secretária responde no horário, ele responde à noite, no celular.</li>
+      <li>Paciente novo chega por indicação e pelo Google.</li>
+    </ul>
+  </div>
+  <div>
+    <p class="etiqueta" style="margin-bottom:1.5mm">O que ele quer resolver</p>
+    <div class="jtbd">"Quando estou com paciente na cadeira e o WhatsApp não para, quero que alguém de confiança responda e marque por mim, para eu não perder paciente nem levar a clínica para casa à noite."</div>
+    <p class="nota" style="margin-top:3mm">Quando ele pesquisar, vai achar "robô barato": há pelo menos 12 ofertas no Brasil, várias abaixo de R$ 500 por mês.</p>
+  </div>
+</div>
+
+  <h2>Momentos que decidem a jornada</h2>
+  <div class="momentos">
+    <div class="caixa"><h3>Momento "uau"</h3><p style="margin:0">A primeira manhã em que ele abre o WhatsApp e vê que a assistente respondeu e <b>marcou</b> um paciente que escreveu às 22h. Tudo nas semanas 0 e 1 serve para isso acontecer cedo.</p></div>
+    <div class="caixa"><h3>Momentos que decidem se ele fica</h3><ol><li><b>Demonstração:</b> se sair achando que é "robô de R$ 300", o preço futuro fica difícil.</li><li><b>Primeiro erro com paciente dele:</b> como corrigimos pesa mais que o erro.</li><li><b>Balanço da semana 4:</b> precisa ver números da clínica dele, não promessa.</li><li><b>Primeira função nova com erro:</b> o ritmo de correção decide se ele segue.</li></ol></div>
+    <div class="caixa"><h3>O que faz ele desistir</h3><ul><li>Erro com paciente antigo ou com dor.</li><li>Continuar respondendo porque ela não marca limpeza nem fala de convênio.</li><li>Implantação que toma muito tempo dele.</li><li>Não enxergar o ganho no fim do mês.</li></ul></div>
+  </div>
+
+<!-- JORNADA EM QUADRO (paisagem) -->
+<section class="paisagem">
+  <div class="jtopo">
+    <div>
+      <h1>Jornada da clínica com a Keshion</h1>
+      <p>Do problema que ele acha normal até pagar e indicar um colega. Emoção de 1 (ruim) a 5 (ótima), hipótese.</p>
+    </div>
+    <img src="../../../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI">
+  </div>
+
+  <!-- curva de emoção: 10 pontos, x de 27 a 1053 (passo 114), y = 92 - (nota-1)*18 -->
+  <svg class="curva" viewBox="0 0 1080 112" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="1080" height="112" rx="10" fill="#F7F8F4"/>
+    <line x1="14" y1="92" x2="1066" y2="92" stroke="#CCD5E6" stroke-dasharray="3 4"/>
+    <line x1="14" y1="20" x2="1066" y2="20" stroke="#CCD5E6" stroke-dasharray="3 4"/>
+    <path d="M54 74 C 100 66, 120 56, 162 56 S 230 56, 270 56 S 340 38, 378 38 S 446 56, 486 56 S 554 38, 594 38 S 662 38, 702 38 S 770 56, 810 56 S 878 38, 918 38 S 986 20, 1026 20" fill="none" stroke="#2459A6" stroke-width="3" stroke-linecap="round"/>
+    <line x1="594" y1="56" x2="594" y2="20" stroke="#4388E8" stroke-width="2" stroke-dasharray="2 3"/>
+    <g fill="#fff" stroke="#2459A6" stroke-width="2.5">
+      <circle cx="54" cy="74" r="6"/><circle cx="162" cy="56" r="6"/><circle cx="270" cy="56" r="6"/><circle cx="378" cy="38" r="6"/><circle cx="486" cy="56" r="6"/>
+      <circle cx="594" cy="38" r="6"/><circle cx="702" cy="38" r="6"/><circle cx="810" cy="56" r="6"/><circle cx="918" cy="38" r="6"/>
+    </g>
+    <circle cx="1026" cy="20" r="7" fill="#55C96A" stroke="#1F6B34" stroke-width="2"/>
+    <circle cx="594" cy="20" r="5" fill="#55C96A" stroke="#1F6B34" stroke-width="2"/>
+  </svg>
+  <div class="fases"><span>Antes: problema e convite</span><span>Avaliação e entrada</span><span>Primeiro mês do piloto</span><span>Depois: clínica piloto e cliente</span></div>
+
+  <div class="grade5">
+    <div class="etapa"><div class="n"><b>1. Percebe o problema</b><span>😟</span></div><div class="onde">O próprio WhatsApp, a agenda com buracos</div><div class="k faz">Faz</div><p>Vê mensagem de ontem sem resposta, paciente que faltou, limpeza que ninguém remarcou.</p><div class="k dor">Dor</div><p>Acha normal ("clínica é assim") e não mede quanto perde.</p><div class="k op">Oportunidade</div><p>Ajudar a contar: mensagens, faltas, pacientes sumidos.</p></div>
+    <div class="etapa"><div class="n"><b>2. Fica sabendo</b><span>🙂</span></div><div class="onde">Mensagem pessoal da Erica ou do Sérgio</div><div class="k faz">Faz</div><p>Lê o convite de alguém que conhece.</p><div class="k dor">Dor</div><p>Desconfia de "mais uma IA"; pouco tempo.</p><div class="k op">Oportunidade</div><p>Convite pedindo ajuda, não vendendo; exemplo do "paciente das 22h".</p></div>
+    <div class="etapa"><div class="n"><b>3. Avalia</b><span>🤔</span></div><div class="onde">Demonstração de 30 min, PDF, Google</div><div class="k faz">Faz</div><p>Vê a assistente atendendo e compara com o que acha na internet.</p><div class="k dor">Dor</div><p>Medo de a IA falar besteira; acha opções de R$ 150 a 500.</p><div class="k op">Oportunidade</div><p>Mostrar o controle: ela só fala o aprovado e chama ele na dor. Serviço feito junto, não só software.</p></div>
+    <div class="etapa"><div class="n"><b>4. Entra no piloto</b><span>🙂</span></div><div class="onde">WhatsApp, termo de parceria</div><div class="k faz">Faz</div><p>Diz sim, sem custo.</p><div class="k dor">Dor</div><p>Medo do número ser bloqueado; "vai dar trabalho".</p><div class="k op">Oportunidade</div><p>Deixar claro: sem custo, sai quando quiser, 20 min por semana do tempo dele.</p></div>
+    <div class="etapa"><div class="n"><b>5. Implantação</b><span>😐</span></div><div class="onde">Semana 0: conversa de 60 min, questionário, prints</div><div class="k faz">Faz</div><p>Responde perguntas, manda preços e regras, testa como paciente.</p><div class="k dor">Dor</div><p>Questionário cansa; base ainda não fala de convênio nem canal.</p><div class="k op">Oportunidade</div><p>Questionário curto e já preenchido em parte por nós.</p></div>
+    <div class="etapa uau"><div class="n"><b>6. Primeiros dias</b><span>😬→😄</span></div><div class="onde">Semana 1: só fora do horário</div><div class="k faz">Faz</div><p>Acorda e vê o que ela respondeu à noite.</p><div class="k dor">Dor</div><p>Um erro com paciente antigo derruba a confiança.</p><div class="k op">Oportunidade</div><p>Momento "uau": ela marcou quem escreveu às 22h. Corrigir erro grave no mesmo dia.</p></div>
+    <div class="etapa"><div class="n"><b>7. Uso no dia a dia</b><span>🙂</span></div><div class="onde">Semanas 2 e 3: copiloto, dia todo, app</div><div class="k faz">Faz</div><p>Aprova respostas, deixa ela marcar, olha o app.</p><div class="k dor">Dor</div><p>Se ela não marca limpeza sozinha, ele continua respondendo.</p><div class="k op">Oportunidade</div><p>Vários tipos de consulta e lembrete prontos a tempo; resumo semanal.</p></div>
+    <div class="etapa"><div class="n"><b>8. Balanço do 1º mês</b><span>🤔</span></div><div class="onde">Semana 4: conversa e relatório</div><div class="k faz">Faz</div><p>Compara o ganho com o que esperava; diz quanto pagaria.</p><div class="k dor">Dor</div><p>Não enxerga o ganho; compara com robô de R$ 300.</p><div class="k op">Oportunidade</div><p>Números da clínica dele: fora do horário, marcações, faltas antes e depois.</p></div>
+    <div class="etapa"><div class="n"><b>9. Clínica piloto</b><span>🙂</span></div><div class="onde">Mês 2 em diante, sem prazo fixo</div><div class="k faz">Faz</div><p>Testa cada novidade antes dos outros e diz se serve.</p><div class="k dor">Dor</div><p>Cansa de testar; função nova com erro atrapalha a rotina.</p><div class="k op">Oportunidade</div><p>Ritmo combinado de novidades; relatório todo mês; avisar antes.</p></div>
+    <div class="etapa"><div class="n"><b>10. Paga e indica</b><span>😄</span></div><div class="onde">Proposta com desconto de piloto</div><div class="k faz">Faz</div><p>Começa a pagar e conta para um colega.</p><div class="k dor">Dor</div><p>Só paga e indica se viu ganho mês a mês.</p><div class="k op">Oportunidade</div><p>Pedir indicação logo depois de um resultado concreto.</p></div>
+  </div>
+
+  <p class="leg">A etapa com borda azul é onde acontece o momento "uau". Na etapa 6 a emoção pode ir de 3 a 5, conforme a primeira noite der certo ou não.</p>
+</section>
+
+</body>
+</html>

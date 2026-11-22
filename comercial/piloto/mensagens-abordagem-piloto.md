@@ -11,7 +11,7 @@ Regras de tom: conversa entre conhecidos, curta, sem cara de venda, sem prometer
 
 **Versão com mais contexto (para quem é menos próximo):**
 > Oi, [nome], tudo bem? Aqui é a [Erica/Sérgio]. Estou com um projeto de assistente de WhatsApp para clínica odontológica: ela responde paciente a qualquer hora, marca limpeza e consulta na agenda, remarca e avisa o dentista quando é dor ou algo que precisa dele.
-> Ela já funciona numa clínica de demonstração, mas agora precisa do dia a dia de verdade. Estou convidando poucas clínicas para um piloto de 30 dias, sem custo, em troca de opinião sincera: o que funciona, o que está errado e o que falta.
+> Ela já funciona numa clínica de demonstração, mas agora precisa do dia a dia de verdade. Estou convidando só 3 clínicas para serem as clínicas piloto, sem custo, em troca de opinião sincera: o que funciona, o que está errado e o que falta. No primeiro mês a gente acompanha de perto, e depois a sua clínica continua recebendo primeiro cada novidade que a gente construir.
 > Posso te mostrar em 30 minutos, por vídeo, quando for melhor para você?
 
 ## 2. Follow-up (2 ou 3 dias depois, se não responder)
@@ -32,8 +32,9 @@ Depois disso, não insistir.
 
 ## 4. Se a pessoa perguntar
 
-- **"Quanto vai custar depois?"** Resposta a definir pela Erica (decisão 3 da estrutura). Sugestão até lá: "No piloto é sem custo. Ao fim dos 30 dias a gente conversa com calma, e você só continua se fizer sentido."
-- **"E se ela falar besteira para o paciente?"** "Na primeira semana ela escreve e você aprova antes de sair. E ela não dá diagnóstico nem preço que você não autorizou: quando é algo clínico, chama você."
+- **"Quanto vai custar depois?"** Resposta a definir pela Erica (decisão 3 da estrutura). Sugestão até lá: "No piloto é sem custo por um bom período, e a sua clínica recebe primeiro cada novidade. Quando chegar a hora de pagar, clínica piloto tem preço com desconto, e a gente combina tudo com calma. Você pode sair quando quiser."
+- **"Quanto tempo dura o piloto?"** "Não acaba em 30 dias. O primeiro mês é para ela aprender a sua rotina, com a gente bem perto. Depois a sua clínica segue como clínica piloto: cada função nova (lembrete de consulta, app, relatório) entra primeiro com você, e você diz se serve antes de ir para outras clínicas."
+- **"E se ela falar besteira para o paciente?"** "No começo ela responde só fora do horário de atendimento e a gente lê todas as conversas no mesmo dia; depois você pode aprovar cada resposta antes de sair. E ela não dá diagnóstico nem preço que você não autorizou: quando é algo clínico, chama você."
 - **"Meu número pode ser bloqueado?"** "Ela só responde quem escreve para a clínica, sem propaganda nem mensagem em massa. Com esse uso o risco é baixo, mas não é zero. Se preferir, dá para usar a conexão oficial do WhatsApp."
 - **"Não uso Google Agenda."** "No piloto usamos uma agenda Google só para as consultas que ela marcar. Saber como você organiza a agenda hoje já é um aprendizado para a gente."
 - **"Minha clínica não é de estética."** "Melhor ainda: queremos justamente a rotina do dia a dia, limpeza, obturação, retorno, remarcação."

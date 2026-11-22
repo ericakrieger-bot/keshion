@@ -3,7 +3,10 @@
 Rascunho de 22/11/2026, feito com a skill `customer-journey-map` (pm-market-research). Nada aplicado no Notion nem nos materiais.
 
 **Fontes:** `relatorio-mercado-keshion.pdf` (pesquisa de mercado de 13/11/2026: concorrentes, preços, riscos e lacunas), `cliente-ideal-e-aprendizado.md` e `estrutura-piloto-conhecidos.md`.
-**Limite importante:** o relatório estuda o mercado e os concorrentes, não conversou com nenhum dentista. Toda emoção, pensamento e dor abaixo é **hipótese**, para confirmar na conversa de 60 minutos e nas 4 semanas do piloto.
+**Limite importante:** o relatório estuda o mercado e os concorrentes, não conversou com nenhum dentista. Toda emoção, pensamento e dor abaixo é **hipótese**, para confirmar na conversa de 60 minutos e no primeiro mês do piloto.
+**Duração do piloto (decisão da Erica, 22/11):** o piloto não acaba em 30 dias. Depois do primeiro mês, a clínica segue como clínica piloto contínua, sem prazo fixo, e recebe primeiro cada função nova antes dos clientes pagantes. São 3 pilotos; os demais clientes são pagantes.
+
+Quadro visual: [Jornada da clínica do dia a dia](https://claude.ai/artifact/EgoJH597KZhd861dDLBfmW) (privado; compartilhar pelo menu Share).
 
 ---
 
@@ -36,9 +39,9 @@ Emoção de 1 (😟 ruim) a 5 (😄 ótima).
 | **5. Implantação (semana 0)** | Conversa de 60 min, questionário, prints, teste como paciente | Responde perguntas, manda preços e regras, testa a Clara | 😐 3 | Questionário cansa; base atual é de estética e não fala de convênio nem canal | Questionário curto e já preenchido em parte por nós; base do dia a dia pronta antes |
 | **6. Primeiros dias (semana 1)** | Clara só fora do horário; grupo de feedback | Acorda e vê o que ela respondeu à noite | 😬 3 a 😄 5 | Um erro com paciente antigo derruba a confiança (nos testes, paciente antigo tirou 5 a 6) | Corrigir 🔴 no mesmo dia; regra de retorno e limpeza pronta antes de ligar |
 | **7. Uso do dia a dia (semanas 2 e 3)** | Copiloto, dia todo, app, lembrete de consulta | Aprova respostas, deixa ela marcar, olha o app | 🙂 4 | Se ela não marca limpeza sozinha (só um tipo de consulta hoje), ele continua respondendo | Vários tipos de consulta e confirmação prontos a tempo; resumo semanal do que ela fez |
-| **8. Decide continuar e pagar (semana 4)** | Conversa final, relatório do mês | Compara o que ganhou com o preço | 🤔 3 | Não consegue provar ganho (falta e retorno são difíceis de medir); compara com robô de R$ 300 | Relatório com números dele: mensagens fora do horário, marcações, faltas antes e depois |
-| **9. Fica (meses seguintes)** | Clara no ar, app, suporte | Usa sem pensar | 🙂 4 | Cancela se o valor some da vista ou se a Meta mudar regras e custo | Relatório mensal simples; avisar com antecedência qualquer mudança de custo |
-| **10. Indica** | Conversa com colegas, grupos de dentistas | Conta para um colega | 😄 5 | Só indica se teve um momento marcante | Pedir indicação logo depois de um resultado concreto; caso com ou sem nome |
+| **8. Balanço do 1º mês (semana 4)** | Conversa de balanço, relatório do mês | Compara o que ganhou com o que esperava; diz quanto pagaria no futuro | 🤔 3 | Não enxerga o ganho (falta e retorno são difíceis de medir); compara com robô de R$ 300 | Relatório com números dele: mensagens fora do horário, marcações, faltas antes e depois. Combinar como segue o piloto |
+| **9. Vira clínica de teste (mês 2 em diante, sem prazo fixo)** | Clara no ar, app, cada função nova primeiro | Testa cada novidade e diz se serve | 🙂 4 | Cansa de testar; função nova com erro atrapalha a rotina; Meta muda regras e custo | Ritmo combinado de novidades; relatório todo mês; avisar antes qualquer mudança |
+| **10. Passa a pagar (preço de piloto) e indica** | Proposta com desconto de clínica piloto, conversa com colegas | Começa a pagar e conta para um colega | 😄 5 | Só paga e indica se viu ganho mês a mês | Desconto de piloto; pedir indicação logo depois de um resultado concreto; caso com ou sem nome |
 
 ---
 
@@ -49,7 +52,8 @@ Emoção de 1 (😟 ruim) a 5 (😄 ótima).
 **Momentos da verdade (fica ou desiste):**
 1. **A demonstração (etapa 3):** se ele sair achando que é "um robô igual aos de R$ 300", o preço futuro fica difícil.
 2. **O primeiro erro com paciente dele (etapa 6):** como corrigimos importa mais do que o erro.
-3. **A conversa da semana 4 (etapa 8):** ele precisa ver números da clínica dele, não promessa.
+3. **A conversa da semana 4 (etapa 8):** ele precisa ver números da clínica dele, não promessa, para topar seguir como clínica piloto.
+4. **A primeira função nova com erro (etapa 9):** como clínica de teste, ele vai ver coisa quebrada antes de todo mundo. O ritmo e a correção rápida decidem se ele segue.
 
 **Gatilhos de desistência:**
 - Erro com paciente antigo ou com paciente com dor.
@@ -62,7 +66,7 @@ Emoção de 1 (😟 ruim) a 5 (😄 ótima).
 ## 4. Melhorias em ordem de prioridade
 
 **Maior impacto em continuar e pagar**
-1. **Provar o ganho com números da clínica dele.** Medir o "antes" na semana 0 e montar um relatório simples da semana 4: mensagens fora do horário, marcações feitas pela Clara, faltas antes e depois. O relatório da pesquisa aponta exatamente isso como lacuna do mercado: o que a clínica consegue conferir na rotina.
+1. **Provar o ganho com números da clínica dele.** Medir o "antes" na semana 0 e montar um relatório simples na semana 4 e depois todo mês: mensagens fora do horário, marcações feitas pela Clara, faltas antes e depois. O relatório da pesquisa aponta exatamente isso como lacuna do mercado: o que a clínica consegue conferir na rotina.
 2. **Não errar com paciente antigo.** Regra de retorno e limpeza pronta antes de ligar.
 3. **Marcar limpeza sozinha.** Vários tipos de consulta na agenda até a semana 2.
 
@@ -83,4 +87,4 @@ Emoção de 1 (😟 ruim) a 5 (😄 ótima).
 
 Para desenhar o mapa visual, dá para levar a tabela da seção 2 para o Miro ou o FigJam (uma coluna por etapa, uma linha por item).
 
-**Recomendação:** usar esta jornada como hipótese no piloto 1 e, depois da conversa de 60 minutos, corrigir emoções e dores com as palavras do dentista real. Prioridade 1 desta jornada: preparar o "antes" e o relatório da semana 4. **Sim ou não?**
+**Recomendação:** usar esta jornada como hipótese no piloto 1 e, depois da conversa de 60 minutos, corrigir emoções e dores com as palavras do dentista real. Prioridade 1 desta jornada: preparar o "antes" e o relatório da semana 4, que depois vira mensal. **Sim ou não?**

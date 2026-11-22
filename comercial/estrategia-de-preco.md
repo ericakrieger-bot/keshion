@@ -125,7 +125,7 @@ O que muda de um plano para o outro é **trabalho e risco que a assistente tira 
 
 | Fase | Preço | Regra |
 |---|---|---|
-| Piloto (30 dias, pode estender) | Sem custo | Em troca de feedback semanal, depoimento e case |
+| Piloto (3 clínicas; primeiro mês de entrada, depois clínica piloto contínua sem prazo fixo, decisão de 22/11) | Sem custo por um período estendido; depois preço de clínica piloto com desconto | Em troca de feedback, testar primeiro cada função nova antes dos clientes pagantes, depoimento e case |
 | Fundador (3 vagas, jan a mar/2027) | Implantação de R$ 3.000; mensalidade de R$ 1.500 congelada por 12 meses (como no plano) | Equivale ao Completo com app com 11% de desconto |
 | **Escada do fundador (sugestão)** | Começa em R$ 790 enquanto só o Essencial estiver no ar e sobe para R$ 1.500 quando confirmação e app estiverem rodando na clínica | Aplica a regra "só paga o que está no ar" e tira a objeção "ainda não está pronto" |
 
