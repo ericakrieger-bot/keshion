@@ -8,6 +8,7 @@ Rascunho de 21/11/2026. Nada foi enviado a ninguém. Serve de esqueleto para mon
 - **Ritmo:** 1 clínica piloto na primeira semana. Depois de 1 ou 2 semanas, mais 1 ou 2.
 - **Tipo de clínica (decidido pela Erica em 21/11):** só odontologia por enquanto, mas **não exclusivamente estética**. A maioria dos pilotos deve ser de clínica com serviços comuns (limpeza, extração, obturação, canal, manutenção), que pode oferecer alguma estética, mas não vive só dela. A Erica acredita que esse dentista é muito mais comum do que o 100% estético. Expectativa ajustada: o público do piloto é o dentista do dia a dia, não o "alto valor".
 - **Objetivo do piloto:** sair da teoria. Ver o dia a dia real da clínica, achar os erros da assistente e descobrir o que de fato vale para o dentista.
+- **Duração (decidido pela Erica em 22/11):** o piloto **não é de 30 dias**. O primeiro mês é a entrada (seção 3). Depois, a clínica segue como **clínica piloto contínua, sem prazo fixo**: toda função nova (confirmação, lembretes, app, relatório) entra primeiro nela, é com ela que vemos se a função funciona, e só depois vai para os clientes pagantes. Por isso são **3 pilotos**, e os demais clientes são pagantes.
 
 ## 1. Quem convidar e em que ordem
 
@@ -40,10 +41,10 @@ Só odontologia nesta fase (decisão da Erica em 21/11). Outra área fica para d
 7. **Como é a implantação:** passo a passo da seção 6, quanto tempo leva e o que precisamos.
 8. **Pacientes que já são da clínica:** seção 7.
 9. **Dados e privacidade:** sem prontuário, banco separado por clínica, dados da clínica, pode pedir para apagar tudo.
-10. **O combinado:** sem custo, 30 dias de acompanhamento, pode sair quando quiser, resultado pode virar caso (com ou sem nome). O que acontece depois dos 30 dias (decisão da Erica, seção 9).
+10. **O combinado:** primeiro mês de entrada com acompanhamento de perto; depois a clínica segue como clínica piloto, recebendo primeiro cada função nova. Sem custo por um período estendido, depois preço de clínica piloto com desconto (duração e condições a combinar). Pode sair quando quiser, resultado pode virar caso (com ou sem nome). Ver seção 9, decisão 3.
 11. **Próximo passo:** conversa de 30 minutos para ver a assistente funcionando na clínica de demonstração.
 
-Formato sugerido: um PDF curto de 4 ou 5 páginas, fundo claro (regra da marca), aproveitando o `material-piloto.html` que já existe, mais uma demonstração ao vivo.
+Formato sugerido: um PDF curto de 4 ou 5 páginas, fundo claro (regra da marca), feito em `material-piloto-v2.html` (a versão 1 foi arquivada em `arquivo/piloto-material-2026-11-20/`), mais uma demonstração ao vivo.
 
 ## 3. Linha do tempo do piloto (começa no básico e vai crescendo)
 
@@ -52,15 +53,17 @@ Datas são sugestão, contando que o convite sai em 23 ou 24/11.
 | Quando | Etapa | O que liga | O que a clínica faz |
 |---|---|---|---|
 | Semana 0 (23 a 29/11) | Preparação | Nada no número real ainda | Conversa de 60 min, questionário, prints, nome da assistente, agenda. O dentista conversa com a assistente num número de teste, fingindo ser paciente, e aponta o que estranhou |
-| Semana 1 | WhatsApp em **copiloto** | A assistente escreve a resposta e a clínica aprova antes de sair | Aprova, corrige ou reescreve. Cada correção vira ajuste |
-| Semana 2 | WhatsApp sozinho no horário combinado | Começa à noite e no fim de semana; se for bem, passa para o dia todo. Marca na agenda | Olha as conversas do dia e aponta o que achou |
+| Semana 1 | WhatsApp **só fora do horário de atendimento** (decisão de 21/11) | A assistente responde à noite e no fim de semana; no horário, a clínica responde como sempre | Olha as conversas da noite e aponta o que achou; a Keshion lê tudo todo dia |
+| Semana 2 | **Copiloto** no horário de atendimento (decisão de 22/11) | A assistente escreve e manda primeiro ao WhatsApp do dentista; só envia ao paciente depois que ele aprova, o tempo que for; nessa fase não marca agenda sozinha | Aprova, corrige ou reescreve. Cada correção vira ajuste |
 | Semana 3 | Pacientes antigos e app | Confirmação e lembrete de consulta. App no celular com conversas, agenda do dia e "Precisa de você" | Testa o app, diz o que usa e o que sobra |
-| Semana 4 | Orçamento e resultado | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa final: continua? O que pagaria? O que faltou? |
+| Semana 4 | Orçamento e balanço do 1º mês | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa de balanço: o que funcionou, o que faltou, quanto pagaria no futuro. Combinar como segue o piloto contínuo |
+| Mês 2 em diante | Piloto contínuo (sem prazo fixo) | Cada função nova entra primeiro aqui, em ritmo combinado. Relatório todo mês | Testa a função nova, aponta erros, diz se usaria. Conversa de 20 min por semana ou a cada 15 dias |
 
 Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos já corrigidos).
 
 **Atenção, coisas que ainda não existem e precisam estar prontas antes da etapa:**
-- **Copiloto (aprovar antes de enviar):** não existe. Precisa estar pronto para a semana 1. Se não der, alternativa: semana 1 só fora do horário de atendimento, com a Keshion lendo tudo no mesmo dia.
+- **Só fora do horário de atendimento:** não existe. Precisa estar pronto para a semana 1.
+- **Copiloto (aprovar antes de enviar):** não existe. Precisa estar pronto para a semana 2.
 - **Confirmação e lembrete de consulta:** não existem (estão no roadmap para depois do piloto). Precisam estar prontos até a semana 3.
 - **App:** em construção (Conversas, Agenda do dia e Pacientes previstos para dezembro).
 - **Lembrete de orçamento:** decidido, não construído.
@@ -72,7 +75,8 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 - Testar antes de ligar, fingindo ser paciente (inclusive casos difíceis: dor, reclamação, pedido de desconto).
 - Apontar tudo o que achar: erro, coisa estranha, o que ficou bom.
 - 20 minutos por semana de conversa.
-- No fim, dizer com franqueza se continuaria e quanto pagaria.
+- No fim do primeiro mês, dizer com franqueza o que funcionou e quanto pagaria no futuro.
+- Depois, seguir como clínica piloto: testar primeiro cada função nova e dizer se ela serve antes de ir para outras clínicas.
 - Se gostar, autorizar o uso do resultado como caso e indicar um colega.
 
 ## 5. Como funciona o feedback
@@ -111,7 +115,7 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 | 8 | Ajustes do teste | Keshion | 1 dia |
 | 9 | Termo de parceria assinado | Dentista | 5 min |
 | 10 | Conectar o WhatsApp da clínica (QR code, igual ao WhatsApp Web; o celular continua normal) | Dentista + Keshion | 10 min |
-| 11 | Entrar no ar em copiloto | Keshion | |
+| 11 | Entrar no ar só fora do horário de atendimento (copiloto entra na semana 2) | Keshion | |
 | 12 | Acompanhamento diário na semana 1, semanal depois | Keshion | |
 
 Do passo 1 ao 11: cerca de 5 a 7 dias (estimativa).
@@ -143,7 +147,7 @@ O que a assistente faz para quem já é paciente, do básico para o mais complet
 - Tom de conversa entre conhecidos, sem cara de venda.
 - Diz o que estamos construindo em uma frase.
 - Pede ajuda: "queria você como uma das primeiras clínicas a testar, porque confio no seu olhar".
-- Deixa claro: sem custo, 30 dias, pode sair quando quiser.
+- Deixa claro: sem custo, a clínica dele recebe primeiro cada novidade, pode sair quando quiser.
 - Pergunta simples no fim: "posso te mostrar em 30 minutos essa semana?"
 
 Exemplo de tom (a ajustar com a Erica e o Sérgio):
@@ -163,12 +167,13 @@ Exemplo de tom (a ajustar com a Erica e o Sérgio):
 - Nenhum paciente sem resposta enquanto atende.
 - Assistente feita do jeito da clínica, sem custo no piloto.
 - Recebe primeiro tudo o que for construído (confirmação, app, relatório).
-- Atenção direta da Erica e do Sérgio durante o mês.
+- Atenção direta da Erica e do Sérgio, de perto no primeiro mês e depois em cada função nova.
+- Preço de clínica piloto, com desconto, quando passar a pagar.
 
 ## 9. Decisões para a Erica
 
 1. ✅ **Mistura dos pilotos:** só odontologia, sem ser exclusivamente estética (decidido em 21/11). A lista de clínicas é feita pela Erica e pelo Sérgio.
 2. ✅ **Copiloto (decidido em 21/11):** o piloto começa com a Clara respondendo só fora do horário de atendimento; o copiloto (o dentista aprova antes de enviar) é prioridade do técnico e entra na semana 2.
-3. ✅ **Depois dos 30 dias (decidido em 21/11):** o período sem custo pode ser estendido, e a clínica piloto vira a clínica onde testamos as funções novas (confirmação, lembretes, app) antes de oferecer para outras. Duração e condições a combinar no convite; preço com desconto de clínica piloto só depois desse período.
+3. ✅ **Duração do piloto (decidido em 21/11, reforçado em 22/11):** o piloto não acaba em 30 dias. Depois do primeiro mês, a clínica segue como clínica piloto contínua, sem prazo fixo: toda função nova (confirmação, lembretes, app, relatório) é testada primeiro nela antes de ir para os clientes pagantes. São 3 pilotos; os demais clientes são pagantes. O período sem custo é estendido; duração e condições a combinar no convite; preço com desconto de clínica piloto só depois desse período.
 4. ✅ **Quem manda o convite (decidido em 21/11):** quem conhece a pessoa (Erica ou Sérgio), sempre em nome próprio.
 5. ✅ **Pilotos 2 e 3 (decidido em 21/11):** entram na semana 2 do piloto 1.
