@@ -27,7 +27,8 @@ def lit(texto):
 import re
 if not re.fullmatch(r"[a-z][a-z0-9_]{2,62}", CLI["banco"]):
     sys.exit("banco precisa ter só letras minúsculas, números e _")
-PERMITIDAS = {"aprovador", "local_avaliacao", "modelo", "modo_teste", "prefixo_teste", "numeros_keshion"}
+PERMITIDAS = {"aprovador", "local_avaliacao", "modelo", "modo_teste", "prefixo_teste", "numeros_keshion",
+              "no_horario", "fora_do_horario"}   # modos por horário (22/11): sim, copiloto ou nao
 valores = {k: str(v) for k, v in CLI["config_no_banco"].items() if not k.startswith("_")}
 if set(valores) - PERMITIDAS:
     sys.exit("config_no_banco tem chaves desconhecidas: " + ", ".join(sorted(set(valores) - PERMITIDAS)))
@@ -40,6 +41,9 @@ for chave, campo in (("_instrucoes", "instrucoes"), ("_base", "base")):
 SO_DEMO = {"clinica-demo", "clinica-teste"}
 if SLUG not in SO_DEMO and valores.get("numeros_keshion", "").strip():
     sys.exit("numeros_keshion precisa ficar vazio em " + SLUG + ": #reiniciar só existe na demo")
+for _k in ("no_horario", "fora_do_horario"):
+    if valores.get(_k, "sim") not in ("sim", "copiloto", "nao"):
+        sys.exit("config_no_banco." + _k + " precisa ser \"sim\", \"copiloto\" ou \"nao\"")
 if valores.get("modo_teste") not in ("0", "1"):
     sys.exit("config_no_banco.modo_teste precisa ser \"1\" (teste) ou \"0\" (valendo)")
 for k, v in valores.items():

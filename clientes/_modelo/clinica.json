@@ -62,6 +62,33 @@
     },
     "_leia_regras": "CONFERIR COM A CLÍNICA (valores de exemplo da demo). Regras que o fluxo confere por conta própria antes de criar ou mudar um evento (a IA não decide sozinha). dias_semana: 0=domingo ... 6=sábado. horarios: início permitido de cada avaliação. bloqueios e feriados: MM-DD ou AAAA-MM-DD."
   },
+  "horario_atendimento": {
+    "_leia": "CONFERIR COM A CLÍNICA. Horário de atendimento da clínica (horário local). Dias: 0 = domingo ... 6 = sábado; dia ausente = fechado; feriados de agenda.regras contam como fechado. Dois turnos: [[\"08:00\", \"12:00\"], [\"14:00\", \"19:00\"]]. Usado pelos modos no_horario e fora_do_horario.",
+    "1": [
+      "08:00",
+      "19:00"
+    ],
+    "2": [
+      "08:00",
+      "19:00"
+    ],
+    "3": [
+      "08:00",
+      "19:00"
+    ],
+    "4": [
+      "08:00",
+      "19:00"
+    ],
+    "5": [
+      "08:00",
+      "19:00"
+    ],
+    "6": [
+      "08:00",
+      "12:00"
+    ]
+  },
   "banco": "PREENCHER (ex.: clinica_vivian; um banco por clínica)",
   "credenciais_n8n": {
     "_leia": "Ids das credenciais criadas no n8n. Anthropic e OpenAI podem ser as mesmas da Keshion; Whapi, Google e Postgres são só desta clínica.",
@@ -93,13 +120,15 @@
   },
   "servidor": "https://n8n.169-58-41-107.sslip.io",
   "config_no_banco": {
-    "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: fica vazio (#reiniciar só existe na demo; preparar_banco.py recusa se tiver número).",
+    "_leia": "Vai para a tabela config do banco desta clínica (preparar_banco.py). aprovador: quem recebe os avisos (só números, com 55). numeros_keshion: fica vazio (#reiniciar só existe na demo; preparar_banco.py recusa se tiver número). no_horario e fora_do_horario: o que a assistente faz com a clínica aberta e fechada: sim (responde sozinha), copiloto (o dentista aprova cada resposta pelo WhatsApp dele, o número aprovador; sem agenda) ou nao (fica quieta, a equipe responde). Semana 1 do piloto: nao e sim; semana 2: copiloto e sim. Ausente = sim.",
     "aprovador": "PREENCHER",
     "local_avaliacao": "PREENCHER (endereço completo, vai no evento da agenda)",
     "modelo": "claude-haiku-5-5",
     "modo_teste": "1",
     "prefixo_teste": "554199900",
-    "numeros_keshion": ""
+    "numeros_keshion": "",
+    "no_horario": "nao",
+    "fora_do_horario": "sim"
   },
   "arquivos": {
     "_leia": "Arquivos desta pasta com as instruções e a base da clínica (a voz da clínica fica na parte 'Registro' da base).",

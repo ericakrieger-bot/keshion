@@ -113,6 +113,25 @@ for _outra in sorted((RAIZ / "clientes").glob("*/clinica.json")):
         _igual("credencial " + _k, CLI["credenciais_n8n"][_k]["id"], o["credenciais_n8n"].get(_k, {}).get("id"))
 if "pg" in _meu:
     _erros.append("o banco (credencial pg) nunca pode ser compartilhado, nem em teste")
+# Modos por horário (22/11): no_horario e fora_do_horario = sim (responde sozinha), copiloto (o dentista aprova antes) ou
+# nao (fica quieta; a equipe responde). Ausente = sim. Com algum modo diferente de sim, o horário de atendimento é obrigatório.
+_cfg = CLI.get("config_no_banco") or {}
+_modos = {k: str(_cfg.get(k, "sim")) for k in ("no_horario", "fora_do_horario")}
+for _k, _v in _modos.items():
+    if _v not in ("sim", "copiloto", "nao"):
+        _erros.append("config_no_banco." + _k + " precisa ser \"sim\", \"copiloto\" ou \"nao\"")
+HORARIO = CLI.get("horario_atendimento") or {}
+if any(v != "sim" for v in _modos.values()) and not HORARIO:
+    _erros.append("falta horario_atendimento (ex.: {\"1\": [\"08:00\", \"19:00\"]}): é obrigatório quando no_horario ou fora_do_horario não é \"sim\"")
+_HM = r"([01]\d|2[0-3]):[0-5]\d"
+for _dia, _turnos in HORARIO.items():
+    if _dia.startswith("_"):
+        continue
+    _lista = [_turnos] if isinstance(_turnos, list) and _turnos and isinstance(_turnos[0], str) else _turnos
+    if not re.fullmatch(r"[0-6]", _dia) or not isinstance(_lista, list) or not _lista or not all(
+            isinstance(t, list) and len(t) == 2 and all(re.fullmatch(_HM, str(x)) for x in t) and t[0] < t[1] for t in _lista):
+        _erros.append("horario_atendimento." + _dia + " precisa ser [\"08:00\", \"19:00\"] ou [[\"08:00\", \"12:00\"], [\"14:00\", \"19:00\"]] (dia de 0 a 6)")
+HORARIO = {k: ([v] if isinstance(v, list) and v and isinstance(v[0], str) else v) for k, v in HORARIO.items() if not k.startswith("_")}
 if _erros:
     sys.exit("clinica.json de " + SLUG + " recusado:\n- " + "\n- ".join(_erros))
 
@@ -121,7 +140,8 @@ GCAL_EVENTOS = GCAL + "/calendars/" + urllib.parse.quote(CALENDARIO, safe="@") +
 # Trocas feitas em todo código JavaScript e texto dos nós (nada de nome de clínica escrito à mão).
 TROCAS = {"__FUSO__": TZ, "__CIDADE__": CIDADE, "__ASSISTENTE__": ASSISTENTE, "__CALENDARIO__": CALENDARIO,
           "__DURACAO_MS__": str(DURACAO_MS), "__CANAL__": CANAL_WHAPI,
-          "__REGRAS__": json.dumps(REGRAS_AGENDA, ensure_ascii=False)}
+          "__REGRAS__": json.dumps(REGRAS_AGENDA, ensure_ascii=False),
+          "__HORARIO__": json.dumps(HORARIO, ensure_ascii=False)}
 
 
 def trocar(s):
@@ -242,7 +262,8 @@ code(E, "Montar mensagens", r"""
 const cfg = $('Modo teste?').first().json;
 const pedidos = $('Recebe pedido de envio').all();
 const prefixo = String(cfg.prefixo || '').trim();
-const loteTeste = !!prefixo && pedidos.some(it => String(it.json.phone || '').replace(/\D/g, '').startsWith(prefixo));
+// "ref" (copiloto, 22/11): telefone da paciente a que um pedido de aprovação se refere; paciente de teste = lote de teste.
+const loteTeste = !!prefixo && pedidos.some(it => [it.json.phone, it.json.ref].some(x => String(x || '').replace(/\D/g, '').startsWith(prefixo)));
 const teste = !!cfg.teste || loteTeste;
 const saida = [];
 for (const it of pedidos) {
@@ -450,7 +471,10 @@ ON CONFLICT (telefone) DO UPDATE SET
 
 pg(A, "Ler a ficha (pausa e comando)", r"""
 SELECT p.*, coalesce(p.pausado_ate > now(), false) AS pausado,
-       (SELECT valor FROM config WHERE chave = 'numeros_keshion') AS numeros_keshion
+       (SELECT valor FROM config WHERE chave = 'numeros_keshion') AS numeros_keshion,
+       (SELECT valor FROM config WHERE chave = 'aprovador') AS cfg_aprovador,
+       coalesce((SELECT valor FROM config WHERE chave = 'no_horario'), 'sim') AS cfg_no_horario,
+       coalesce((SELECT valor FROM config WHERE chave = 'fora_do_horario'), 'sim') AS cfg_fora_do_horario
 FROM (SELECT 1) x LEFT JOIN pacientes p ON p.telefone = $1::text;
 """, "[ $json.telefone ]", (660, 100))
 code(A, "Decidir caminho", r"""
@@ -458,13 +482,51 @@ const msg = $('Normalizar mensagem').first().json;
 const f = $input.first().json;
 const cmd = (msg.texto || '').trim().toLowerCase();
 const keshion = String(f.numeros_keshion || '').split(',').map(s => s.trim());
+// Modo por horário (22/11): a clínica está aberta agora? (horario_atendimento do clinica.json; feriado = fechada)
+const HORARIO = __HORARIO__;
+const FERIADOS = (__REGRAS__).feriados || [];
+function clinicaAberta(d) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: '__FUSO__', year: 'numeric', month: '2-digit', day: '2-digit',
+    weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(d).map(x => [x.type, x.value]));
+  const md = p.month + '-' + p.day;
+  if (FERIADOS.includes(md) || FERIADOS.includes(p.year + '-' + md)) return false;
+  const dow = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[p.weekday];
+  const hm = p.hour + ':' + p.minute;
+  return (HORARIO[String(dow)] || []).some(t => hm >= t[0] && hm < t[1]);
+}
+const VALIDOS = ['sim', 'copiloto', 'nao'];
+const noHorario = VALIDOS.includes(f.cfg_no_horario) ? f.cfg_no_horario : 'sim';
+const foraHorario = VALIDOS.includes(f.cfg_fora_do_horario) ? f.cfg_fora_do_horario : 'sim';
+const aberta = clinicaAberta(new Date());
+const modo = aberta ? noHorario : foraHorario;
+const copilotoLigado = noHorario === 'copiloto' || foraHorario === 'copiloto';
+const aprovador = String(f.cfg_aprovador || '').replace(/\D/g, '');
 let caminho;
 if (cmd === '#reiniciar' && keshion.includes(msg.telefone)) caminho = 'reiniciar';  // só números da Keshion
+else if (copilotoLigado && aprovador && msg.telefone === aprovador) caminho = 'aprovacao';   // o dentista respondendo uma aprovação
 else if (f.pausado) caminho = 'pausado';
+else if (modo === 'nao') caminho = 'quieto';   // a equipe responde por conta própria: só guarda a conversa
 else caminho = msg.midia;   // texto, audio, imagem ou outro
-return [{ json: { ...msg, caminho } }];
+return [{ json: { ...msg, caminho, modo, aberta } }];
 """, (880, 100))
-escolha(A, "Tipo de mensagem", "caminho", ["reiniciar", "pausado", "audio", "imagem", "texto", "outro"], (1100, 100))
+escolha(A, "Tipo de mensagem", "caminho", ["reiniciar", "pausado", "audio", "imagem", "texto", "outro", "aprovacao", "quieto"], (1100, 100))
+
+# quieto (modo "nao", 22/11): guarda a mensagem na conversa e não responde. A equipe responde pelo celular da clínica
+# (o que pausa a assistente por 12 h para essa paciente, como sempre).
+pg(A, "Guardar sem responder (a equipe atende)", r"""
+WITH novo AS (
+  INSERT INTO mensagens_recebidas (id, telefone) VALUES ($4::text, $1::text)
+  ON CONFLICT (id) DO NOTHING RETURNING id
+)
+INSERT INTO pacientes (telefone, nome, conversa, pendente, ultimo_id, atualizado)
+SELECT $1::text, $2::text, 'Paciente: ' || $3::text, '', $4::text, now() FROM novo
+ON CONFLICT (telefone) DO UPDATE SET
+  nome = EXCLUDED.nome,
+  conversa = ltrim(right(pacientes.conversa
+    || CASE WHEN length(trim(pacientes.pendente)) > 0 THEN E'\nPaciente: ' || trim(pacientes.pendente) ELSE '' END
+    || E'\nPaciente: ' || $3::text, 11000), E'\n'),
+  pendente = '', ultimo_id = EXCLUDED.ultimo_id, atualizado = now();
+""", "[ $json.telefone, $json.nome, $json.resumo, $json.id ]", (1340, -700))
 
 # reiniciar (só demo)
 pg(A, "Apagar a conversa de teste", r"""
@@ -604,7 +666,15 @@ for (let i = 1; i <= 90; i++) dias.push(fDia.format(new Date(agora.getTime() + i
 const prim = (r.calendars && r.calendars['__CALENDARIO__']) || {};
 const busy = prim.busy;
 const agendaOk = Array.isArray(busy) && !(Array.isArray(prim.errors) && prim.errors.length);
-const ocupados = agendaOk ? JSON.stringify(busy)
+// Copiloto (22/11): o dentista aprova cada resposta e, nesta fase, a assistente não mexe na agenda nem oferece horários.
+const copiloto = $('Decidir caminho').first().json.modo === 'copiloto';
+const ocupados = copiloto
+  ? 'MODO COPILOTO: nesta fase você NÃO vê a agenda, NÃO oferece horários específicos e NÃO marca, remarca nem cancela avaliações. '
+    + 'Se o paciente quiser marcar, remarcar ou cancelar, pergunte o dia e o período de preferência (manhã ou tarde) e, para marcar, o nome completo e um telefone de contato; '
+    + 'quando tiver isso, diga que vai confirmar o horário com a equipe e já retorna (ação humano, com o pedido no motivo). '
+    + 'Na conversa, "[aguardando aprovação]" marca uma resposta sua que o paciente ainda não recebeu, e "[não enviada...]" uma que ele nunca recebeu: '
+    + 'responda levando em conta só o que ele recebeu de fato.'
+  : agendaOk ? JSON.stringify(busy)
   : 'AGENDA INDISPONÍVEL AGORA: não ofereça horários nem marque. Diga que vai verificar e já retorna (ação humano).';
 const conteudo =
   'Data e hora em __CIDADE__ agora: ' + fAgora.format(agora) + '\n\n' +
@@ -622,7 +692,7 @@ const conteudo =
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
   'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim() + '\n\n' +
   '(Responda no idioma em que o paciente está escrevendo, inclusive ao oferecer horários. No JSON, inclua também o campo "idioma" com o código do idioma da sua resposta: pt, en ou es.)';
-return [{ json: { agenda_ok: agendaOk, pedido: {
+return [{ json: { agenda_ok: agendaOk, copiloto, pedido: {
   model: f.modelo, max_tokens: 6000,   // o pensamento interno do Haiku gasta parte disso; 2000 cortava o JSON
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
   messages: [{ role: 'user', content: conteudo }]
@@ -680,9 +750,12 @@ code(A, "Falha técnica: avisar", COMUM_JS + r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const erro = $input.first().json.erro || '';
 const espera = FRASES[detectaIdioma(f.pendente)].espera;
+// Copiloto (22/11): nada sai para a paciente sem aprovação, nem a frase de espera. Só a equipe é avisada.
+const copiloto = !!$('Montar o pedido para a IA').first().json.copiloto;
+const recebeu = copiloto ? 'nada (modo copiloto): responda pelo WhatsApp da clínica' : espera;
 return [   // aviso para a equipe primeiro, sem esperar o "digitando" do paciente
-  { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na __ASSISTENTE__ (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
-  { json: { phone: f.telefone, m1: espera } }
+  { json: { phone: f.aprovador, ref: f.telefone, sem_digitar: true, m1: '*Falha técnica na __ASSISTENTE__ (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + recebeu } },
+  { json: { phone: f.telefone, m1: copiloto ? '' : espera, registro: copiloto ? '[sem resposta: falha técnica, equipe avisada]' : espera } }
 ];
 """, (3980, 400))
 chamar_envio(A, "Enviar aviso de falha", (4220, 400))
@@ -695,7 +768,7 @@ UPDATE pacientes SET
 WHERE telefone = $1::text;
 """, "[ $('Ler ficha e instruções (só a última responde)').first().json.telefone, ($('Ler ficha e instruções (só a última responde)').first().json.pendente || '').trim(), "
      "$('Ler ficha e instruções (só a última responde)').first().json.ultimo_id, $('Ler ficha e instruções (só a última responde)').first().json.pendente || '', "
-     "$('Falha técnica: avisar').last().json.m1 ]",
+     "$('Falha técnica: avisar').last().json.registro ]",
    (4220, 600), executeOnce=True)
 
 code(A, "Decidir a ação", COMUM_JS + r"""
@@ -707,6 +780,14 @@ const pend = String(f.pendente || '');
 // Idioma da paciente (campo "idioma" da IA; se faltar, adivinha pelas mensagens novas). Usado nas frases fixas.
 ia.idioma = ['pt', 'en', 'es'].includes(ia.idioma) ? ia.idioma : detectaIdioma(pend);
 const F = FRASES[ia.idioma];
+// Copiloto (22/11): nada de agenda. Pedido de marcar, remarcar ou cancelar vira "chamar uma pessoa" com o pedido no motivo;
+// o texto da IA segue para o dentista aprovar ou corrigir (ele decide o horário).
+const copiloto = !!$('Montar o pedido para a IA').first().json.copiloto;
+if (copiloto && ['agendar', 'remarcar', 'cancelar'].includes(ia.acao)) {
+  const verboC = { agendar: 'marcar', remarcar: 'remarcar', cancelar: 'cancelar' }[ia.acao];
+  ia.motivo = 'Pedido para ' + verboC + ' avaliação' + (ia.inicio ? ' (horário citado: ' + ia.inicio + ')' : '') + (ia.motivo ? '. ' + ia.motivo : '');
+  ia.acao = 'humano';
+}
 // Cancelar só quando (1) a última fala da assistente foi uma pergunta de confirmação e (2) a paciente respondeu que sim.
 // Senão, pergunta de novo no idioma dela; se ela disse que quer manter, confirma que a avaliação continua (Pacote A, item A5).
 if (ia.acao === 'cancelar' && f.avaliacao_evento) {
@@ -754,6 +835,7 @@ if (ia.acao !== 'humano' && ehUrgente(pend)) {
 let rota = 'responder';
 // Decisões que não dependem do texto da IA (revisão Codex, item 4):
 if (!['responder', 'humano', 'agendar', 'remarcar', 'cancelar'].includes(ia.acao)) rota = 'humano';
+else if (copiloto) rota = ia.acao === 'humano' ? 'humano' : 'responder';   // copiloto: nunca vai para a agenda
 else if (!agendaOk && (ia.acao === 'agendar' || ia.acao === 'remarcar' || ofereceHorario)) rota = 'sem_agenda';
 else if (ia.acao === 'humano') rota = 'humano';
 else if (ia.acao === 'agendar') rota = futura ? 'ja_marcada' : 'agenda';
@@ -1117,14 +1199,17 @@ switch (tipo) {
     break;
 }
 m = m.map(x => (x || '').trim());
+// Copiloto (22/11): a resposta fica guardada esperando o dentista; na conversa entra marcada "[aguardando aprovação]".
+const COPILOTO = !!$('Montar o pedido para a IA').first().json.copiloto;
 // Avisos para a equipe primeiro: uma urgência não espera o "digitando" do paciente (revisão Codex).
-const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }))
+const envios = avisos.map(a => ({ phone: f.aprovador, ref: tel, m1: a, sem_digitar: true }))
   .concat([{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]);
 // Quanto tempo as mensagens deste turno levam para sair (o próximo turno espera, para a ordem não se misturar).
-const envio_seg = envios.reduce((t, e) => t + [e.m1, e.m2, e.m3].filter(Boolean)
+const envio_seg = (COPILOTO ? envios.filter(e => e.phone !== tel) : envios).reduce((t, e) => t + [e.m1, e.m2, e.m3].filter(Boolean)
   .reduce((u, b) => u + (e.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(String(b).length / 5)))) + 1, 0), 0);
 return [{ json: {
-  telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
+  telefone: tel, pend, pend_bruto: f.pendente || '', id_msg: f.ultimo_id,
+  texto: (COPILOTO && m.some(Boolean) ? '[aguardando aprovação] ' : '') + m.filter(Boolean).join(' '),
   envio_seg: Math.min(120, envio_seg), motivo_humano, recusas, complemento,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
   aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
@@ -1162,6 +1247,141 @@ RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::te
      "$json.envio_seg, $json.motivo_humano, $json.recusas, $json.complemento ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
+
+# ---------- copiloto (22/11): a resposta espera o dentista aprovar, o tempo que for ----------
+se(A, "Copiloto?", cond("={{ $('Montar o pedido para a IA').first().json.copiloto }}", "true", typ="boolean"), (5820, -300))
+code(A, "Preparar a sugestão (copiloto)", r"""
+const s = $('Salvar conversa e ficha').first().json;
+const f = $('Ler ficha e instruções (só a última responde)').first().json;
+const ia = $('Decidir a ação').first().json;
+const tel = s.telefone;
+const envios = JSON.parse(s.envios || '[]');
+const paciente = envios.find(e => e.phone === tel) || {};
+const ms = [paciente.m1, paciente.m2, paciente.m3].map(x => String(x || '').trim());
+return [{ json: {
+  telefone: tel, nome: ia.nome_paciente || f.nome_paciente || f.nome || '', pedido: String(f.pendente || '').trim(),
+  texto: ms.filter(Boolean).join(' '),   // igual ao que entrou na conversa depois de "[aguardando aprovação] "
+  envio: JSON.stringify({ m1: ms[0], m2: ms[1], m3: ms[2] }), avisos: JSON.stringify(envios.filter(e => e.phone !== tel)),
+  aprovador: String(f.aprovador || '')
+} }];
+""", (6060, -400))
+pg(A, "Guardar a sugestão para aprovar", r"""
+-- Uma sugestão por paciente: a anterior que ainda esperava vira "substituída" (na conversa, marcada como não enviada).
+WITH velhas AS (
+  UPDATE copiloto_pendentes SET status = 'substituida', resolvido = now()
+  WHERE telefone = $1::text AND status = 'pendente' RETURNING texto
+),
+nova AS (
+  INSERT INTO copiloto_pendentes (telefone, nome, pedido, texto, envio) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text)
+  RETURNING codigo
+),
+cauda AS (SELECT E'\n__ASSISTENTE__: [aguardando aprovação] ' || $4::text AS t),
+conv AS (
+  UPDATE pacientes p SET conversa = replace(left(p.conversa, length(p.conversa) - length(c.t)),
+      E'\n__ASSISTENTE__: [aguardando aprovação] ' || v.texto, E'\n__ASSISTENTE__: [não enviada, substituída] ' || v.texto) || c.t
+  FROM (SELECT texto FROM velhas LIMIT 1) v, cauda c
+  WHERE p.telefone = $1::text AND right(p.conversa, length(c.t)) = c.t
+  RETURNING 1
+)
+SELECT (SELECT codigo FROM nova) AS codigo,
+       (SELECT count(*) FROM copiloto_pendentes WHERE status = 'pendente' AND telefone <> $1::text) + 1 AS pendentes;
+""", "[ $json.telefone, $json.nome, $json.pedido, $json.texto, $json.envio ]", (6300, -400))
+code(A, "Montar o pedido de aprovação", r"""
+const p = $('Preparar a sugestão (copiloto)').first().json;
+const g = $input.first().json;
+const avisos = JSON.parse(p.avisos || '[]');
+const ms = Object.values(JSON.parse(p.envio)).filter(Boolean);
+const saida = avisos.map(e => ({ json: e }));
+if (ms.length && p.aprovador) {
+  const cod = 'C' + g.codigo;
+  saida.push({ json: { phone: p.aprovador, ref: p.telefone, sem_digitar: true,
+    m1: '*Aprovar resposta ' + cod + '* · ' + (p.nome || 'Paciente') + ' (final ' + String(p.telefone).slice(-4) + ')\n' +
+      'Paciente: ' + (p.pedido || '(sem texto)') + '\n\nSugestão da __ASSISTENTE__:\n' + ms.join('\n') + '\n\n' +
+      'Responda *ok* para enviar, *não* para não enviar nada, ou escreva o texto exato que vai para a paciente.' +
+      (Number(g.pendentes) > 1 ? '\nHá ' + g.pendentes + ' respostas esperando: comece pelo código (ex.: "' + cod + ' ok").' : '') } });
+}
+return saida;
+""", (6540, -400))
+chamar_envio(A, "Enviar o pedido de aprovação", (6780, -400))
+
+# O dentista respondeu (do WhatsApp dele para o da clínica): ok, não, ou o texto certo.
+pg(A, "Ler respostas esperando aprovação", r"""
+WITH novo AS (   -- reenvio do mesmo id do Whapi: não aplica duas vezes
+  INSERT INTO mensagens_recebidas (id, telefone) VALUES ($2::text, $1::text) ON CONFLICT (id) DO NOTHING RETURNING id
+)
+SELECT (SELECT count(*) FROM novo) AS nova,
+       coalesce((SELECT json_agg(json_build_object('codigo', codigo, 'telefone', telefone, 'nome', nome, 'texto', texto, 'envio', envio)
+                 ORDER BY codigo) FROM copiloto_pendentes WHERE status = 'pendente'), '[]'::json) AS lista;
+""", "[ $json.telefone, $json.id ]", (1340, -900))
+code(A, "Entender a resposta do dentista", r"""
+const msg = $('Decidir caminho').first().json;
+const r = $input.first().json;
+if (!Number(r.nova)) return [];
+const lista = (typeof r.lista === 'string' ? JSON.parse(r.lista) : r.lista) || [];
+const resp = (acao, extra) => [{ json: { acao, aprovador: msg.telefone, ...extra } }];
+const responder = (texto, ref) => resp('responder', { m1: texto, ref: ref || (lista[0] && lista[0].telefone) || '' });
+const bruto = String(msg.texto || '').trim();
+if (!bruto) return responder('Não consegui ler. Responda por texto: *ok*, *não* ou o texto exato para a paciente.');
+// Código "C7" em qualquer lugar (sozinho); o resto é a decisão.
+const mc = bruto.match(/(?:^|\s)\*?[Cc]\s?(\d{1,9})\*?(?=$|[\s:,.!;-])/);
+const resto = (mc ? (bruto.slice(0, mc.index) + ' ' + bruto.slice(mc.index + mc[0].length)) : bruto).replace(/^[\s:,.;-]+|[\s]+$/g, '').trim();
+const quem = x => (x.nome || 'paciente') + ' (final ' + String(x.telefone).slice(-4) + ')';
+if (!lista.length) return responder('Não há nenhuma resposta da __ASSISTENTE__ esperando aprovação agora.');
+let alvo;
+if (mc) {
+  alvo = lista.find(x => String(x.codigo) === mc[1]);
+  if (!alvo) return responder('A resposta C' + mc[1] + ' não está mais esperando (já foi resolvida ou trocada por uma mais nova). Esperando agora: ' + lista.map(x => 'C' + x.codigo + ' ' + quem(x)).join(', ') + '.');
+} else if (lista.length === 1) alvo = lista[0];
+else return responder('Há ' + lista.length + ' respostas esperando. Comece pelo código: ' + lista.map(x => 'C' + x.codigo + ' ' + quem(x)).join(', ') + '.');
+const n = resto.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[\u{1F44D}\u{1F3FB}-\u{1F3FF}✅️]/gu, ' ok ').replace(/[!.\s]+$/g, '').trim();
+const OK = /^(ok|okay|okk|ok ok|sim|s|pode|pode enviar|pode mandar|envia|enviar|envie|manda|mandar|aprovado|aprovada|aprovo|certo|isso|perfeito)$/;
+const NAO = /^(n|nao|nao envia|nao enviar|nao envie|nao manda|nao mande|descarta|descartar|cancela|❌|✖)$/;
+const cod = 'C' + alvo.codigo;
+if (!n) return responder('Para a ' + cod + ', responda *ok*, *não* ou o texto exato para a paciente.', alvo.telefone);
+if (OK.test(n)) return resp('aprovada', { codigo: alvo.codigo, telefone: alvo.telefone, nome: alvo.nome, texto: alvo.texto, final: alvo.texto, envio: alvo.envio });
+if (NAO.test(n)) return resp('descartada', { codigo: alvo.codigo, telefone: alvo.telefone, nome: alvo.nome, texto: alvo.texto, final: '', envio: '' });
+// Começa com ok/sim/não e continua: pode ser instrução para a assistente, não texto para a paciente. Pergunta, não envia.
+if (/^(ok|okay|sim|nao|pode|isso|certo)\b/.test(n) && resto.split(/\s+/).length <= 12)
+  return responder('Não entendi se é para enviar. Para a ' + cod + ', responda só *ok*, só *não*, ou o texto exato que vai para a paciente.', alvo.telefone);
+return resp('corrigida', { codigo: alvo.codigo, telefone: alvo.telefone, nome: alvo.nome, texto: alvo.texto, final: resto, envio: JSON.stringify({ m1: resto, m2: '', m3: '' }) });
+""", (1580, -900))
+se(A, "Aplicar a decisão?", cond("={{ $json.acao }}", "notEquals", "responder"), (1820, -900))
+pg(A, "Aplicar a decisão do dentista", r"""
+-- Atômico: só a primeira resposta para o mesmo código vale. Na conversa, a sugestão marcada vira o texto que saiu.
+WITH d AS (
+  UPDATE copiloto_pendentes SET status = $2::text, resolvido = now(), resposta = $3::text
+  WHERE codigo = $1::bigint AND status = 'pendente' RETURNING telefone, texto
+),
+p AS (
+  UPDATE pacientes SET conversa = replace(conversa, E'\n__ASSISTENTE__: [aguardando aprovação] ' || d.texto,
+      E'\n__ASSISTENTE__: ' || CASE WHEN $2::text = 'descartada' THEN '[não enviada: o dentista vai responder] ' || d.texto ELSE $3::text END),
+    atualizado = now()
+  FROM d WHERE pacientes.telefone = d.telefone
+  RETURNING pacientes.pausado_ate
+)
+SELECT (SELECT count(*) FROM d) AS aplicada, coalesce((SELECT pausado_ate > now() FROM p LIMIT 1), false) AS pausada;
+""", "[ $json.codigo, $json.acao, $json.final ]", (2060, -1000))
+code(A, "Montar o envio aprovado", r"""
+const d = $('Entender a resposta do dentista').first().json;
+const a = $input.first().json;
+const quem = (d.nome || 'paciente') + ' (final ' + String(d.telefone).slice(-4) + ')';
+const cod = 'C' + d.codigo;
+const aoDentista = m1 => ({ json: { phone: d.aprovador, ref: d.telefone, sem_digitar: true, m1 } });
+if (!Number(a.aplicada)) return [aoDentista('A ' + cod + ' já não está esperando (já foi resolvida ou trocada por uma mais nova). Nada foi enviado.')];
+if (d.acao === 'descartada') return [aoDentista('Ok, não enviei a ' + cod + '. Responda ' + quem + ' pelo WhatsApp da clínica.')];
+if (a.pausada) return [aoDentista('A equipe já respondeu ' + quem + ' pelo celular da clínica, então não enviei a ' + cod + '.')];
+const e = JSON.parse(d.envio || '{}');
+return [
+  { json: { phone: d.telefone, m1: e.m1 || '', m2: e.m2 || '', m3: e.m3 || '' } },
+  aoDentista('✅ ' + cod + (d.acao === 'corrigida' ? ' enviada com o seu texto para ' : ' enviada para ') + quem + '.')
+];
+""", (2300, -1000))
+chamar_envio(A, "Enviar a resposta aprovada", (2540, -1000))
+code(A, "Responder ao dentista", r"""
+const d = $input.first().json;
+return [{ json: { phone: d.aprovador, ref: d.ref || '', sem_digitar: true, m1: d.m1 } }];
+""", (2060, -800))
+chamar_envio(A, "Enviar a resposta ao dentista", (2300, -800))
 
 # fechamento (antigo 1C): 1 minuto depois de marcar, se o paciente não respondeu
 se(A, "Tem despedida para depois?", cond("={{ $json.fechamento }}", "notEmpty"), (5940, 200))
@@ -1201,6 +1421,15 @@ L("Tipo de mensagem", "Ler a foto (OpenAI)", out=3)
 L("Ler a foto (OpenAI)", "Texto final da mensagem")
 L("Tipo de mensagem", "Texto final da mensagem", out=4)
 L("Tipo de mensagem", "Texto final da mensagem", out=5)
+L("Tipo de mensagem", "Ler respostas esperando aprovação", out=6)
+L("Tipo de mensagem", "Guardar sem responder (a equipe atende)", out=7)
+L("Ler respostas esperando aprovação", "Entender a resposta do dentista")
+L("Entender a resposta do dentista", "Aplicar a decisão?")
+L("Aplicar a decisão?", "Aplicar a decisão do dentista", out=0)
+L("Aplicar a decisão?", "Responder ao dentista", out=1)
+L("Aplicar a decisão do dentista", "Montar o envio aprovado")
+L("Montar o envio aprovado", "Enviar a resposta aprovada")
+L("Responder ao dentista", "Enviar a resposta ao dentista")
 L("Texto final da mensagem", "Guardar na fila (ignora repetida)")
 L("Guardar na fila (ignora repetida)", "Esperar 7 s (a pessoa pode mandar mais)")
 L("Esperar 7 s (a pessoa pode mandar mais)", "Ver se o envio anterior terminou")
@@ -1243,7 +1472,12 @@ L("Mudar a avaliação na agenda", RES["agenda"])
 L("Cancelar a avaliação na agenda", RES["agenda"])
 for t in RES:
     L(RES[t], "Salvar conversa e ficha")
-L("Salvar conversa e ficha", "Montar os envios")
+L("Salvar conversa e ficha", "Copiloto?")
+L("Copiloto?", "Preparar a sugestão (copiloto)", out=0)
+L("Copiloto?", "Montar os envios", out=1)
+L("Preparar a sugestão (copiloto)", "Guardar a sugestão para aprovar")
+L("Guardar a sugestão para aprovar", "Montar o pedido de aprovação")
+L("Montar o pedido de aprovação", "Enviar o pedido de aprovação")
 L("Montar os envios", "Enviar ao paciente e à equipe")
 L("Salvar conversa e ficha", "Tem despedida para depois?")
 L("Tem despedida para depois?", "Esperar 1 minuto", out=0)

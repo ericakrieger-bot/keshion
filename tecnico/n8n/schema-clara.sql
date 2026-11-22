@@ -55,5 +55,21 @@ CREATE TABLE IF NOT EXISTS saidas_teste (
   texto     text
 );
 
+-- Modo copiloto (22/11/2026): respostas da assistente esperando o dentista aprovar (ok, não ou texto corrigido).
+-- status: pendente, aprovada, corrigida, descartada, substituida. Seguro rodar de novo.
+CREATE TABLE IF NOT EXISTS copiloto_pendentes (
+  codigo    bigserial PRIMARY KEY,           -- aparece para o dentista como C<codigo>
+  telefone  text NOT NULL,
+  nome      text,
+  pedido    text,                            -- o que a paciente escreveu
+  texto     text NOT NULL,                   -- sugestão da assistente (como entrou na conversa)
+  envio     text NOT NULL,                   -- mensagens a enviar (JSON com m1, m2, m3)
+  status    text NOT NULL DEFAULT 'pendente',
+  resposta  text,                            -- texto que saiu (aprovado ou corrigido)
+  criado    timestamptz NOT NULL DEFAULT now(),
+  resolvido timestamptz
+);
+CREATE INDEX IF NOT EXISTS copiloto_pendentes_pendentes ON copiloto_pendentes (status, telefone);
+
 -- Os valores da tabela config (aprovador, prefixo_teste, instruções, base...) vêm do clinica.json
 -- de cada clínica: rodar preparar_banco.py <slug>, que inclui este arquivo e preenche a config.

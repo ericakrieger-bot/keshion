@@ -60,6 +60,33 @@
     },
     "_leia_regras": "Regras que o fluxo confere por conta própria antes de criar ou mudar um evento (a IA não decide sozinha). dias_semana: 0=domingo ... 6=sábado. horarios: início permitido de cada avaliação. bloqueios e feriados: MM-DD ou AAAA-MM-DD."
   },
+  "horario_atendimento": {
+    "_leia": "Horário de atendimento da clínica (horário local). Dias: 0 = domingo ... 6 = sábado; dia ausente = fechado; feriados de agenda.regras contam como fechado. Dois turnos: [[\"08:00\", \"12:00\"], [\"14:00\", \"19:00\"]]. Usado pelos modos no_horario e fora_do_horario.",
+    "1": [
+      "08:00",
+      "19:00"
+    ],
+    "2": [
+      "08:00",
+      "19:00"
+    ],
+    "3": [
+      "08:00",
+      "19:00"
+    ],
+    "4": [
+      "08:00",
+      "19:00"
+    ],
+    "5": [
+      "08:00",
+      "19:00"
+    ],
+    "6": [
+      "08:00",
+      "12:00"
+    ]
+  },
   "banco": "clara",
   "credenciais_n8n": {
     "anthropic": {
