@@ -48,6 +48,20 @@ const casosC1 = [
   [PERG_CANC, 'sim, mas não cancela ainda', 'responder', 'C1 "sim, mas não" vence a negativa'],
   [PERG_CANC, 'sim?', 'responder', 'C1 "sim?" (com pergunta) não cancela'],
 ];
+// Diagnóstico de 20/11: pergunta de cancelar repetida. Segunda rodada: a fala anterior da assistente também era a pergunta.
+const ficha2 = (resp1, pend) => ({ avaliacao_evento: 'ev1', avaliacao_texto: '19/11 às 11:00', avaliacao_inicio: '2026-11-19T14:00:00.000Z',
+  conversa: ['Paciente: oi', ASS + ': ' + PERG_CANC, 'Paciente: ' + resp1, ASS + ': ' + PERG_CANC].join('\n'), pendente: pend });
+const casosC1b = [
+  ['sim, esse horário mesmo', 'sim, pode cancelar esse horário mesmo', 'cancelar', 'C1b 2ª rodada: "sim" com palavras a mais cancela'],
+  ['sim, obrigada', 'sim, claro, pode ser', 'cancelar', 'C1b 2ª rodada: "sim, claro, pode ser" cancela'],
+  ['sim, e o endereço?', 'sim, mas qual o endereço?', 'responder', 'C1b 2ª rodada: "sim" com pergunta continua sem cancelar'],
+  ['sim, esse horário mesmo', 'sim, mas não cancela ainda', 'responder', 'C1b 2ª rodada: negativa vence'],
+  ['sim, esse horário mesmo', 'não, quero manter', 'responder', 'C1b 2ª rodada: "não, quero manter" não cancela'],
+];
+for (const [r1, pend, esperado, desc] of casosC1b) tenta(desc, () => {
+  const d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.' }, ficha2(r1, pend));
+  t(desc, d.rota === esperado, d.rota + ' / ' + d.mensagem1);
+});
 for (const [ultima, pend, esperado, desc] of casosC1) tenta(desc, () => {
   const d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.' }, ficha(ultima, pend));
   t(desc, d.rota === esperado, d.rota + ' / ' + d.mensagem1);

@@ -725,7 +725,13 @@ if (ia.acao === 'cancelar' && f.avaliacao_evento) {
   const curto = palavras.length <= 8 && !pend.includes('?') && palavras.every(w => SIM_OK.has(w) || /^cancel/.test(w));
   const nega = /\b(nao|no(?!\s+(?:dia|horario|mesmo|meu|momento))|not|nope|keep|manter|mantenha|mantener|mantengo|wait|espera)\b|don'?t cancel|do not cancel/.test(p);
   const afirma = /\b(sim|pode|confirmo|confirmado|confirma|isso|exato|correto|certo|yes|yep|yeah|confirm|confirmed|sure|correct|si|claro|correcto|dale|ok|okay)\b|please do/.test(p);
-  if (!(perguntou && afirma && !nega && curto)) {
+  // Diagnóstico de 20/11: com "sim" mais outro assunto ("sim, esse horário mesmo", "sim, obrigada") o "curto" falha e a pergunta de
+  // cancelar era repetida sem fim. Se a fala anterior da assistente também era a pergunta de cancelar (já perguntou uma vez), um "sim"
+  // sem pergunta e sem negativa na própria mensagem vale como confirmação.
+  const anterior = partes.length > 2 ? norm(partes[partes.length - 2].split('\nPaciente:')[0]) : '';
+  const jaPerguntouAntes = partes.length > 2 && partes[partes.length - 2].split('\nPaciente:')[0].includes('?') && /cancel/.test(anterior);
+  const simSegundaVez = perguntou && jaPerguntouAntes && afirma && !nega && !pend.includes('?') && palavras.length <= 12;
+  if (!(perguntou && afirma && !nega && curto) && !simSegundaVez) {
     const t = quandoLg(f.avaliacao_inicio, ia.idioma, f.avaliacao_texto);
     ia.acao = 'responder';
     ia.mensagem1 = perguntouAlgo && nega && !afirma ? F.mantida(t) : F.conf_cancelar(t);
