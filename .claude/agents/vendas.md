@@ -18,7 +18,7 @@ Você cuida do caminho até o dinheiro: clínica listada, diagnóstico enviado, 
    - Tarefas da área "Vendas" na base Tarefas (`collection://4199b089-c509-81b6-9c6e-000b3779b4a5`).
    - Painel KESHION AI: tabela "Números que acompanhamos".
 3. Oferta e preço: `plano-estrategico-keshion.md`, `quadro/tarefas.json`, `site/DECISOES.md`. Se os documentos se contradizem, aponte e use o mais recente até a Erica decidir.
-4. Piloto: `clientes/dra-vivian/`.
+4. Pilotos: `comercial/piloto/` (estrutura, cliente ideal, jornada e mensagens). O piloto da Dra. Vivian (`clientes/dra-vivian/`) foi suspenso em 20/11/2026: é só histórico.
 
 ## Como falar com a Erica
 
