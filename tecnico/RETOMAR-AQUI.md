@@ -40,7 +40,8 @@ Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (m
 3. **Regra para paciente antigo** (retorno, limpeza, manutenção): nos testes, os perfis de paciente antigo tiraram 5 a 6. Falta a regra na base e nas instruções.
 4. Base, instruções, voz e número da clínica escolhida, seguindo `tecnico/n8n/CLINICA-NOVA.md`.
 5. Canal de alerta fora do WhatsApp: Healthchecks.io por e-mail (o script já está preparado; falta a Erica criar a conta, `tecnico/servidor/PASSO-A-PASSO-ERICA-BACKUP.md`).
-6. Base da Clara no servidor ainda com os lembretes de orçamento antigos (15 dias; dias 2, 7 e 14). Vale 3, 10, 17 e 30 (decidido em 18/11; ver `app-crm-painel/LEIA-PRIMEIRO.md`, seção 3). Levar para o servidor com OK.
+6. Base da Clara no servidor ainda com os lembretes de orçamento antigos (15 dias; dias 2, 7 e 14). Vale 3, 10, 17 e 30. **Aprovado pela Erica em 21/11 (Notion):** levar junto com a próxima publicação e testar com o paciente simulado.
+7. Até o alerta por e-mail existir: a Erica confere o backup (Sérgio de substituto), e o executor das 14h confere o `STATUS-BACKUP.txt` todo dia (decidido em 21/11).
 
 ## Durante o piloto (semanas 3 e 4)
 

@@ -55,9 +55,10 @@ Também registradas no Notion, em "Decisões a tomar".
 | Conexão oficial do WhatsApp | O plano estratégico pede a API oficial no 1º trimestre de 2027. Pilotos começam na conexão não oficial | Erica, antes do 1º pagante |
 | Prazo de retorno e parcelamento da avaliação | A base da demo diz "retornamos em instantes" e "12x" genérico; o real de cada clínica sai do questionário | Cada clínica piloto |
 | Voz em áudio (Ester x OpenAI) | O roteiro de comparação (`tecnico/teste-voz/`) está sem resultado. As frases do roteiro não batem com a demo (40 min x 60 min; sexta 14h30 x avaliação só terça e quinta): corrigir antes de gerar os áudios | Erica |
-| Dono do alerta de backup | Erica ou Sérgio | Erica e Sérgio |
-| Lembretes de orçamento na base do servidor | A base da Clara no servidor ainda diz 15 dias e dias 2, 7 e 14. Vale 3, 10, 17 e 30 | Mexe em produção: precisa do OK da Erica |
+| Oferta de fundador final, app na mensalidade ou à parte, quem paga cada ferramenta até o CNPJ, e-mail profissional | Detalhes e prazos no Notion | Erica e Sérgio |
 | Custo por clínica | Estimativas antigas variavam de R$ 180 a 590 por mês, sem fonte confiável | Medir no 1º piloto |
+
+**Decididas no Notion em 21/11 (valem sobre os arquivos):** lembretes de orçamento nos dias 3, 10, 17 e 30 vão para a base do servidor junto com a próxima publicação, testados com o paciente simulado (ainda não publicado); quem confere o backup é a Erica, com o Sérgio de substituto, e o executor das 14h confere todo dia até o alerta por e-mail existir; a migração para o usuário `_app` (B7) é depois do teste do Pacote C e antes da 1ª clínica piloto entrar no ar. Copiloto: decidido em 21 e 22/11 (ver `tecnico/RETOMAR-AQUI.md`).
 
 **Resolvidas na organização de 22/11:** primeiro pagante até 31/01/2027 (era 18/12 em planos antigos); metas de crescimento seguem o plano estratégico (os planos de negócio de outubro foram apagados em 19/11); a Mamãe Planejada só aparecia em material de outubro, hoje arquivado; piloto da Dra. Vivian suspenso em 20/11 e retirado de todos os documentos ativos.
 
