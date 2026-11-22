@@ -34,7 +34,7 @@
 | Remarcar a própria avaliação | A fazer |
 | Cancelar a própria avaliação | A fazer |
 | Confirmar a consulta (48 h antes, véspera às 18h, 2 h antes) | A fazer (cenário Confirmações) |
-| Acompanhar o orçamento (dias 2, 7 e 14) | A fazer (cenário Lembretes de orçamento) |
+| Acompanhar o orçamento (dias 3, 10, 17 e 30) | A fazer (cenário Lembretes de orçamento) |
 | Retomar conversas interrompidas | A fazer, com regras da seção 7 |
 
 ## 5. Quando chama uma pessoa
@@ -73,7 +73,7 @@ Segue a parte 11 da base: dor forte, inchaço, sangramento ou trauma; reclamaç�
 
 - Sem mensagem de "não quero mais receber mensagens". A decisão de parar é tomada pela conversa: se a pessoa recusar, demonstrar irritação, disser que já resolveu em outro lugar ou pedir para parar com as palavras dela, a ficha recebe "não retomar" e nenhum lembrete automático sai mais.
 - Agendamento concluído encerra os lembretes de conversão.
-- Frequência e limite de tentativas: a definir (a base já prevê dias 2, 7 e 14 depois do orçamento).
+- Frequência e limite de tentativas: a definir (decidido em 18/11: dias 3, 10, 17 e 30 depois do orçamento, igual ao app).
 - Mensagem de retomada: personalizada pelo tratamento de interesse, com uma pergunta fácil de responder, sem promoção e sem prazo falso.
 
 ## 8. Correções técnicas (cenários 1A e 1B)

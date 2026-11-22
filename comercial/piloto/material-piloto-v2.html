@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Piloto Keshion para clínicas</title>
+<style>
+@font-face{font-family:"Manrope";src:url("../../branding/kit/fontes/Manrope-variable.ttf") format("truetype");font-weight:200 800}
+@font-face{font-family:"Inter";src:url("../../branding/kit/fontes/Inter-variable.ttf") format("truetype");font-weight:100 900}
+:root{
+  --noite:#0B1126; --gelo:#F7F8F4; --nevoa:#E8EFF9; --intenso:#2459A6; --azul:#4388E8; --verde:#55C96A; --ardosia:#50596A; --prata:#CCD5E6;
+  --wa:#E7F7DC; --wa-out:#FFFFFF;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--noite);font-family:"Inter",Arial,sans-serif;font-size:10.2pt;line-height:1.48;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pagina{width:210mm;height:297mm;padding:14mm 17mm 12mm;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:4.4mm;page-break-after:always;background:#fff}
+.pagina:last-child{page-break-after:auto}
+.arcos{position:absolute;right:-38mm;top:-38mm;width:120mm;opacity:.07;pointer-events:none}
+h1,h2,h3{font-family:"Manrope",Arial,sans-serif;margin:0;color:var(--noite)}
+h1{font-size:21pt;font-weight:800;line-height:1.12;letter-spacing:-.01em}
+h2{font-size:13.5pt;font-weight:700;color:var(--intenso)}
+h3{font-size:10.4pt;font-weight:700}
+p{margin:0}
+.topo{display:flex;justify-content:space-between;align-items:center}
+.topo img{width:46mm}
+.etiqueta{font-size:8pt;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ardosia)}
+.lead{font-size:10.8pt;color:var(--noite);max-width:160mm}
+.sub{color:var(--ardosia)}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:4mm 7mm}
+.col2{display:grid;grid-template-columns:1.15fr .85fr;gap:8mm;align-items:start}
+.item{display:grid;grid-template-columns:7mm 1fr;gap:2.5mm;align-items:start}
+.item svg{width:6mm;height:6mm;stroke:var(--intenso);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:.4mm}
+.item p{color:var(--ardosia);font-size:9.4pt}
+.caixa{background:var(--nevoa);border:1px solid var(--prata);border-radius:3mm;padding:4.5mm 6mm;display:grid;gap:2.2mm}
+.lista{margin:0;padding-left:4.5mm;display:grid;gap:1.4mm}
+.lista li::marker{color:var(--intenso)}
+.passos{counter-reset:p;list-style:none;margin:0;padding:0;display:grid;gap:2.2mm}
+.passos li{counter-increment:p;display:grid;grid-template-columns:7mm 1fr;gap:2.5mm;align-items:start}
+.passos li::before{content:counter(p);font-family:"Manrope";font-weight:800;color:#fff;background:var(--intenso);border-radius:50%;width:6mm;height:6mm;display:grid;place-items:center;font-size:8.5pt;margin-top:.2mm}
+.wa{background:#EFEAE2;border-radius:4mm;padding:4mm;display:grid;gap:2mm;border:1px solid var(--prata)}
+.wa-top{display:flex;align-items:center;gap:2.5mm;font-size:8.6pt;font-weight:600;padding-bottom:2mm;border-bottom:1px solid #DDD5C8}
+.wa-top span.av{width:6.5mm;height:6.5mm;border-radius:50%;background:var(--nevoa);display:grid;place-items:center;font-family:"Manrope";font-weight:800;color:var(--intenso);font-size:8pt}
+.wa-top small{display:block;font-weight:400;color:var(--ardosia);font-size:7.4pt}
+.msg{max-width:84%;padding:1.8mm 2.6mm 1.4mm;border-radius:2.4mm;font-size:8.6pt;line-height:1.38;box-shadow:0 .2mm .4mm rgba(11,17,38,.12)}
+.msg.pac{background:var(--wa-out);justify-self:start}
+.msg.ass{background:var(--wa);justify-self:end}
+.msg time{display:block;text-align:right;font-size:6.8pt;color:var(--ardosia);margin-top:.6mm}
+.legenda{font-size:7.8pt;color:var(--ardosia);text-align:center}
+.rodape{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:8pt;color:var(--ardosia);border-top:1px solid var(--prata);padding-top:3mm}
+.rodape b{color:var(--noite);font-weight:600}
+.destaque{font-family:"Manrope";font-weight:700;color:var(--intenso)}
+.nao li{color:var(--ardosia)}
+/* linha do tempo */
+.tempo{display:grid;gap:0;border-left:2px solid var(--prata);margin-left:3mm}
+.etapa{position:relative;padding:0 0 3.4mm 7mm}
+.etapa:last-child{padding-bottom:0}
+.etapa::before{content:"";position:absolute;left:-2.1mm;top:1mm;width:3.4mm;height:3.4mm;border-radius:50%;background:#fff;border:2px solid var(--intenso)}
+.etapa.agora::before{background:var(--intenso)}
+.etapa .quando{font-size:7.8pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--intenso)}
+.etapa p{color:var(--ardosia);font-size:9.3pt}
+.etapa .voce{color:var(--noite);font-size:9pt;margin-top:.6mm}
+.emojis{display:grid;grid-template-columns:1fr 1fr;gap:2.4mm 6mm}
+.emojis div{display:grid;grid-template-columns:7mm 1fr;align-items:start;gap:2mm;font-size:9.3pt}
+.emojis span{font-size:12pt;line-height:1}
+.emojis p{color:var(--ardosia)}
+.tag{display:inline-block;font-size:7.4pt;font-weight:600;padding:.4mm 2mm;border-radius:2mm;background:var(--nevoa);color:var(--intenso);border:1px solid var(--prata);margin-left:1.5mm;vertical-align:1px}
+.tres{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm}
+.tres .caixa{align-content:start}
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1: convite, o problema e o que é -->
+<section class="pagina">
+  <svg class="arcos" viewBox="0 0 100 100"><path d="M50 8a42 42 0 0 1 0 84" stroke="#4388E8" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M50 92a42 42 0 0 1 0-84" stroke="#55C96A" stroke-width="9" fill="none" stroke-linecap="round"/></svg>
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Convite para clínica piloto</span></div>
+
+  <h1>Queremos construir a assistente de WhatsApp da clínica junto com quem vive a rotina.</h1>
+  <p class="lead">Por isso estamos convidando poucas clínicas, de pessoas que conhecemos e em quem confiamos, para testar com a gente. Sem custo. O que pedimos em troca é o seu olhar de dentista: dizer o que funciona, o que está errado e o que falta.</p>
+
+  <div class="col2">
+    <div style="display:grid;gap:3.6mm">
+      <h2>O dia a dia que a gente quer aliviar</h2>
+      <ul class="lista">
+        <li>Mensagem chegando enquanto você está com paciente na cadeira, e a resposta saindo só no intervalo.</li>
+        <li>Paciente que escreve à noite ou no domingo querendo marcar uma limpeza.</li>
+        <li>Remarcação, confirmação e "vocês atendem sábado?" tomando o tempo da secretária ou o seu.</li>
+        <li>Paciente que falta sem avisar, e horário vazio na agenda.</li>
+        <li>Paciente que fez o orçamento da obturação ou do canal e sumiu.</li>
+      </ul>
+      <h2>O que é</h2>
+      <p>Uma assistente no WhatsApp que a clínica já usa, com o nome que você escolher. Ela responde a qualquer hora, tira as dúvidas que você já respondeu por escrito, marca na sua agenda do Google e chama você quando o caso pede a sua atenção.</p>
+      <p class="sub">Ela não substitui você nem a secretária: cuida do que é repetido, para vocês ficarem com o que precisa de gente.</p>
+    </div>
+    <div>
+      <div class="wa">
+        <div class="wa-top"><span class="av">C</span><div>Clara · assistente da clínica<small>exemplo de conversa</small></div></div>
+        <div class="msg pac">Boa noite! Queria marcar uma limpeza, vocês atendem sábado?<time>21:12</time></div>
+        <div class="msg ass">Boa noite! Atendemos sim, aos sábados das 8h às 12h. Para a limpeza, tenho sábado, 28/11, às 9h ou às 10h30. Qual fica melhor?<time>21:12</time></div>
+        <div class="msg pac">9h ótimo<time>21:13</time></div>
+        <div class="msg ass">Perfeito! Para confirmar, me passa o seu nome completo?<time>21:13</time></div>
+        <div class="msg pac">Mariana Souza. Ah, e um dente tá doendo um pouco quando tomo gelado<time>21:13</time></div>
+        <div class="msg ass">Anotado, Mariana. Sobre o dente, vou avisar a doutora agora, para ela ver isso com você. Sua limpeza ficou marcada para sábado, 28/11, às 9h.<time>21:14</time></div>
+      </div>
+      <p class="legenda" style="margin-top:2mm">Conversa ilustrativa, na clínica de demonstração.</p>
+    </div>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>1 de 5</span></div>
+</section>
+
+<!-- PÁGINA 2: o que faz e você no controle -->
+<section class="pagina">
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">O que ela faz</span></div>
+
+  <h2>Desde o primeiro dia</h2>
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><h3>Responde a qualquer hora</h3><p>De dia, à noite e no fim de semana, no tempo de uma pessoa digitando e no jeito de falar da clínica.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg><div><h3>Tira as dúvidas da clínica</h3><p>Tratamentos, horários, endereço, convênio e formas de pagamento. Preço só do jeito que você autorizar.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><h3>Marca na sua agenda</h3><p>Oferece horários livres de verdade. Marca, remarca e cancela sem criar horário em dobro.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg><div><h3>Entende áudio e foto</h3><p>Ouve o áudio do paciente e vê a foto enviada, sem dar diagnóstico pela imagem.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><div><h3>Chama você quando precisa</h3><p>Dor, urgência, remédio, reclamação, desconto ou pedido para falar com você. Sempre com o motivo.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><div><h3>Lembra de quem já falou com ela</h3><p>Reconhece o paciente pelo número e retoma de onde a conversa parou.</p></div></div>
+  </div>
+
+  <h2>Você no controle</h2>
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><div><h3>Você aprova antes</h3><p>Antes do primeiro paciente, você aprova por escrito o que ela pode dizer e o jeito de falar.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0v4l-2 3h16l-2-3z"/><path d="M3 3l18 18"/></svg><div><h3>Você assume quando quiser</h3><p>Quando você ou a secretária respondem um paciente pelo celular, ela fica em silêncio naquela conversa.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg><div><h3>Transparente com o paciente</h3><p>Ela se apresenta como assistente da clínica e diz que é virtual quando perguntam.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 12h16"/><circle cx="12" cy="12" r="9"/></svg><div><h3>Sem insistência</h3><p>Oferece uma vez, não promete resultado e para de insistir depois de um não.</p></div></div>
+  </div>
+
+  <div class="col2">
+    <div class="caixa">
+      <h3>O que ela não faz</h3>
+      <ul class="lista nao">
+        <li>Orientação clínica, diagnóstico ou indicação de tratamento. Assunto de tratamento em andamento vai direto para você.</li>
+        <li>Preço ou condição que a clínica não autorizou por escrito.</li>
+        <li>Propaganda ou mensagem em massa.</li>
+      </ul>
+    </div>
+    <div class="caixa">
+      <h3>Dados e privacidade</h3>
+      <ul class="lista nao">
+        <li>Nenhum prontuário entra no sistema.</li>
+        <li>Cada clínica tem o seu banco de dados, separado, com cópia de segurança diária.</li>
+        <li>Os dados são da clínica. Você pode pedir para apagar tudo a qualquer momento.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>2 de 5</span></div>
+</section>
+
+<!-- PÁGINA 3: linha do tempo e papel do dentista -->
+<section class="pagina">
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Como o piloto acontece</span></div>
+
+  <h1 style="font-size:18pt">Começa pelo básico e cresce aos poucos, no seu ritmo.</h1>
+  <p class="lead">Cada etapa só começa quando a anterior está boa para você. Se algo não estiver certo, a gente para, corrige e segue.</p>
+
+  <div class="col2">
+    <div class="tempo">
+      <div class="etapa agora">
+        <div class="quando">Semana 0 · preparação</div>
+        <h3>A assistente aprende a sua clínica</h3>
+        <p>Conversa de 1 hora, questionário e alguns prints de conversa. Montamos tudo e você testa num número de teste, fingindo ser paciente, antes de ligar no seu.</p>
+      </div>
+      <div class="etapa">
+        <div class="quando">Semana 1 · WhatsApp com aprovação</div>
+        <h3>Ela escreve, você aprova</h3>
+        <p>A assistente prepara a resposta e a clínica aprova antes de sair. Você vê como ela pensa, sem risco para o paciente.</p>
+      </div>
+      <div class="etapa">
+        <div class="quando">Semana 2 · WhatsApp sozinha</div>
+        <h3>Ela responde no horário combinado</h3>
+        <p>Começa à noite e no fim de semana. Se estiver bom, passa para o dia todo. Marca na agenda e chama você quando precisa.</p>
+      </div>
+      <div class="etapa">
+        <div class="quando">Semana 3 · pacientes da clínica e app</div>
+        <h3>Confirmação, lembrete e app no celular</h3>
+        <p>Lembrete e confirmação de consulta. App com as conversas, a agenda do dia e o que precisa de você.</p>
+      </div>
+      <div class="etapa">
+        <div class="quando">Semana 4 · orçamento e balanço</div>
+        <h3>Quem fez orçamento e sumiu, e o resultado do mês</h3>
+        <p>Lembrete gentil para quem fez orçamento e não marcou. Relatório do mês e uma conversa franca: continuou valendo a pena?</p>
+      </div>
+    </div>
+
+    <div style="display:grid;gap:4mm">
+      <div class="caixa">
+        <h3>Como você nos ajuda</h3>
+        <ul class="lista">
+          <li>Conta como a clínica atende hoje e o que mais perguntam.</li>
+          <li>Ensina a assistente: o que ela pode dizer e o que nunca dizer.</li>
+          <li>Testa antes de ligar, inclusive os casos difíceis.</li>
+          <li>Aponta tudo o que achar, do erro ao que ficou bom.</li>
+          <li>Separa 20 minutos por semana para conversar com a gente.</li>
+          <li>No fim, diz com franqueza se continuaria.</li>
+        </ul>
+      </div>
+      <div class="caixa">
+        <h3>Por que isso importa</h3>
+        <p class="sub">Até aqui, a assistente foi testada numa clínica de demonstração. Com você, ela vai conhecer o dia a dia de verdade: o paciente que manda áudio de 2 minutos, a remarcação de última hora, a pergunta que ninguém previu. É isso que vai fazer ela ficar boa.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>3 de 5</span></div>
+</section>
+
+<!-- PÁGINA 4: feedback e implantação -->
+<section class="pagina">
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Feedback e implantação</span></div>
+
+  <h2>Como apontar o que você viu</h2>
+  <p>Criamos um grupo de WhatsApp só com você (e a secretária, se quiser) e a equipe da Keshion. Viu algo? Mande o print da conversa (pode cortar o nome do paciente) com um destes sinais:</p>
+  <div class="emojis">
+    <div><span>🔴</span><p><b style="color:var(--noite)">Erro.</b> Disse algo errado, prometeu o que não devia ou marcou errado. Corrigimos no mesmo dia.</p></div>
+    <div><span>🟡</span><p><b style="color:var(--noite)">Estranho.</b> Tom esquisito, repetiu, demorou, resposta sem sentido ou português errado.</p></div>
+    <div><span>🟢</span><p><b style="color:var(--noite)">Bom.</b> Faz sentido, era assim que eu responderia. Isso também ajuda muito.</p></div>
+    <div><span>💡</span><p><b style="color:var(--noite)">Faltou.</b> Queria que ela soubesse ou fizesse isso.</p></div>
+  </div>
+  <div class="caixa">
+    <h3>Toda semana, 20 minutos e sempre as mesmas 4 perguntas</h3>
+    <ul class="lista">
+      <li>O que ela fez que você não faria?</li>
+      <li>O que ela fez melhor do que você esperava?</li>
+      <li>Algum paciente reclamou ou estranhou?</li>
+      <li>O que você quer que ela faça na semana que vem?</li>
+    </ul>
+    <p class="sub">Na primeira semana, a equipe da Keshion também lê todas as conversas, todo dia.</p>
+  </div>
+
+  <h2>Passo a passo da implantação</h2>
+  <div class="grade">
+    <ol class="passos">
+      <li><div><h3>Conversa de 1 hora</h3><p class="sub">Rotina, tratamentos e jeito de atender.</p></div></li>
+      <li><div><h3>Questionário da clínica</h3><p class="sub">Serviços, preços e condições que ela pode dizer, horários, convênios e pagamento. Cerca de 40 minutos.</p></div></li>
+      <li><div><h3>De 10 a 20 prints de conversa</h3><p class="sub">Sem o nome dos pacientes: as que você gosta e as que não gosta.</p></div></li>
+      <li><div><h3>Nome da assistente e agenda</h3><p class="sub">Acesso à agenda do Google usada para as consultas.</p></div></li>
+      <li><div><h3>Montamos a assistente</h3><p class="sub">Em 1 ou 2 dias, com o jeito de falar da clínica.</p></div></li>
+    </ol>
+    <ol class="passos" start="6" style="counter-reset:p 5">
+      <li><div><h3>Você lê e aprova</h3><p class="sub">Por escrito, o que ela pode dizer.</p></div></li>
+      <li><div><h3>Teste fingindo ser paciente</h3><p class="sub">Num número de teste, por uns 30 minutos.</p></div></li>
+      <li><div><h3>Termo de parceria</h3><p class="sub">Simples, com saída a qualquer momento.</p></div></li>
+      <li><div><h3>Conexão do WhatsApp</h3><p class="sub">Pelo QR code, como o WhatsApp Web. O celular continua funcionando normalmente e a Keshion nunca recebe a sua senha.</p></div></li>
+      <li><div><h3>No ar, com aprovação</h3><p class="sub">Do primeiro contato até aqui, cerca de uma semana.</p></div></li>
+    </ol>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>4 de 5</span></div>
+</section>
+
+<!-- PÁGINA 5: pacientes da clínica, combinado e próximo passo -->
+<section class="pagina">
+  <svg class="arcos" viewBox="0 0 100 100" style="top:auto;bottom:-46mm"><path d="M50 8a42 42 0 0 1 0 84" stroke="#4388E8" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M50 92a42 42 0 0 1 0-84" stroke="#55C96A" stroke-width="9" fill="none" stroke-linecap="round"/></svg>
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Pacientes da clínica e o combinado</span></div>
+
+  <h2>Para quem já é paciente da clínica</h2>
+  <p>A maior parte das mensagens de uma clínica vem de quem já é paciente. Por isso o piloto também cuida deles:</p>
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><h3>Marcar retorno e limpeza</h3><p>Limpeza, manutenção e retorno marcados direto na agenda, a qualquer hora.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg><div><h3>Remarcar e cancelar</h3><p>Sem a secretária parar o que está fazendo. O horário livre volta para a agenda.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><div><h3>Lembrar e confirmar <span class="tag">semana 3</span></h3><p>Lembrete antes da consulta, com "confirmar" ou "remarcar". Menos falta e menos horário vazio.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><div><h3>Tratamento em andamento</h3><p>Dor depois de um procedimento, dúvida sobre remédio ou sobre o tratamento: ela chama você na hora.</p></div></div>
+  </div>
+  <p class="sub" style="font-size:9pt">Para ela reconhecer quem já é paciente desde o primeiro dia, combinamos com você como trazer a lista de pacientes (nome e telefone). Ela continua sem mandar mensagem em massa: só fala com quem escreve ou tem consulta marcada.</p>
+
+  <div class="tres">
+    <div class="caixa">
+      <h3>Sem custo</h3>
+      <p class="sub">Você não paga nada pelo piloto. Em troca, avalia, aponta falhas e diz o que falta.</p>
+    </div>
+    <div class="caixa">
+      <h3>30 dias juntos</h3>
+      <p class="sub">Acompanhamento de perto, com conversa semanal. Ao fim, decidimos juntos como seguir.</p>
+    </div>
+    <div class="caixa">
+      <h3>Sem amarra</h3>
+      <p class="sub">Qualquer um pode encerrar quando quiser, com devolução de todos os acessos.</p>
+    </div>
+  </div>
+
+  <div class="caixa">
+    <h3>O que você ganha</h3>
+    <ul class="lista">
+      <li>Nenhum paciente esperando resposta enquanto você atende.</li>
+      <li>Uma assistente feita do jeito da sua clínica, com a sua participação.</li>
+      <li>Tudo o que for construído no piloto entra primeiro na sua clínica: confirmação, app e relatório.</li>
+      <li>Atenção direta da equipe da Keshion durante o mês.</li>
+      <li>Se quiser, o resultado vira um caso, com ou sem o nome da clínica.</li>
+    </ul>
+  </div>
+
+  <div style="display:grid;gap:1.6mm">
+    <h2>Quer ver funcionando?</h2>
+    <p>Mostramos a assistente atendendo ao vivo, numa clínica de demonstração, numa conversa de 30 minutos. É só responder a mensagem em que você recebeu este material.</p>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes · keshion.com</span><span>5 de 5</span></div>
+</section>
+
+</body>
+</html>

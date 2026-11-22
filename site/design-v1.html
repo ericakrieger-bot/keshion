@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keshion AI</title>
+<link rel="stylesheet" href="../branding/kit/digital/keshion.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--keshion-ice);color:var(--keshion-night);font-family:var(--keshion-font-body);font-size:16px;line-height:1.55}
+h1,h2,h3,p{margin:0}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ===== ABERTURA ===== */
+.hero{position:relative;overflow:hidden;background:var(--keshion-ice);color:var(--keshion-night);padding:20px 16px 150px;isolation:isolate}
+
+/* Espaço da foto: trocar o background-image quando a imagem existir.
+   Foto prevista: ambiente de clínica sem rosto, desfocado, em tons de azul. */
+.photo{position:absolute;inset:0;z-index:-3;
+  background-color:var(--keshion-night);
+  background-image:var(--hero-foto,none);
+  background-size:cover;background-position:center}
+/* Degradê claro por cima da foto: esquerda em branco-gelo (texto), foto livre à direita */
+.photo:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(247,248,244,.97) 0%,rgba(247,248,244,.9) 36%,rgba(247,248,244,.3) 66%,rgba(247,248,244,0) 100%)}
+.veu{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(247,248,244,0) 55%,rgba(247,248,244,1) 100%)}
+@media(max-width:899px){.photo:before{background:linear-gradient(180deg,rgba(247,248,244,.93) 0%,rgba(247,248,244,.78) 100%)}}
+.arc{position:absolute;z-index:-1;pointer-events:none;opacity:.16}
+.arc svg{display:block;width:100%;height:auto}
+.arc.a1{width:560px;right:-230px;top:-150px}
+.arc.a2{width:420px;left:-200px;bottom:-60px;opacity:.12}
+
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;max-width:1160px;margin:0 auto 44px}
+.nav img{height:30px;width:auto;display:block}
+.nav ul{display:none;list-style:none;margin:0;padding:0;gap:30px}
+.nav ul a{color:var(--keshion-slate);text-decoration:none;font-size:15px;font-weight:500}
+.nav ul a:hover{color:var(--keshion-night)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--keshion-blue-strong);color:var(--keshion-ice);font-weight:600;font-size:16px;padding:14px 24px;border-radius:10px;text-decoration:none}
+.btn:focus-visible,.nav a:focus-visible{outline:3px solid var(--keshion-green);outline-offset:3px}
+.btn.small{padding:10px 16px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--keshion-blue-strong);border:1px solid var(--keshion-blue-strong)}
+
+.inner{max-width:1160px;margin:0 auto;display:grid;gap:44px;align-items:center}
+h1.t{font-family:var(--keshion-font-heading);font-weight:700;font-size:clamp(36px,9vw,60px);line-height:1.07;letter-spacing:-.015em}
+.sub{margin-top:20px;color:var(--keshion-slate);max-width:52ch;font-size:17px}
+.cta{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta .sec{display:none}
+.micro{margin-top:16px;font-size:14px;color:var(--keshion-slate);max-width:46ch}
+
+/* celulares */
+.duo{position:relative;height:560px;display:flex;justify-content:center}
+.phone{color:var(--keshion-ice);position:absolute;top:0;width:min(250px,60vw);background:rgba(4,7,15,.85);border:1px solid rgba(204,213,230,.22);border-radius:34px;padding:9px;box-shadow:0 30px 60px -22px rgba(11,17,38,.45)}
+.p1{left:50%;transform:translateX(-92%) rotate(-3deg)}
+.p2{left:50%;transform:translateX(-8%) translateY(40px) rotate(2deg)}
+.screen{background:var(--keshion-night);border-radius:26px;overflow:hidden;min-height:430px;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--keshion-navy);border-bottom:1px solid #26365c}
+.av{width:32px;height:32px;border-radius:50%;background:var(--keshion-night);display:grid;place-items:center;flex:none}
+.av img{width:20px;height:20px}
+.bar b{display:block;font-size:14px;font-weight:600;line-height:1.2}
+.bar small{font-size:11px;color:var(--keshion-silver)}
+.msgs{padding:14px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.m{max-width:86%;padding:8px 11px;border-radius:12px;font-size:13px;line-height:1.4}
+.in{background:var(--keshion-navy);align-self:flex-start;border-bottom-left-radius:4px}
+.out{background:var(--keshion-blue-strong);color:var(--keshion-ice);align-self:flex-end;border-bottom-right-radius:4px}
+.day{align-self:center;font-size:11px;color:var(--keshion-silver);padding:2px 10px;border-radius:999px;background:var(--keshion-navy)}
+.apphead{padding:14px 14px 10px;border-bottom:1px solid #26365c}
+.apphead small{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--keshion-silver)}
+.apphead b{display:block;font-family:var(--keshion-font-heading);font-size:18px;margin-top:2px}
+.list{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.row{background:var(--keshion-navy);border:1px solid #26365c;border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;font-size:13px}
+.row .ic{width:30px;height:30px;border-radius:8px;background:var(--keshion-night);display:grid;place-items:center;color:var(--keshion-green);flex:none}
+.row .ic svg{width:16px;height:16px}
+.row small{display:block;color:var(--keshion-silver);font-size:11px}
+.tag{margin-left:auto;font-size:11px;font-weight:600;color:var(--keshion-green);white-space:nowrap}
+.tabs{display:flex;justify-content:space-around;border-top:1px solid #26365c;background:var(--keshion-navy);padding:8px 4px;font-size:10px;color:var(--keshion-silver)}
+.tabs span{display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabs .on{color:var(--keshion-blue)}
+.tabs svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* curva de transição para a próxima seção (fundo claro) */
+.curva{position:absolute;left:0;right:0;bottom:-2px;height:90px;display:block;width:100%}
+.curva path{fill:var(--keshion-ice)}
+
+/* próxima seção (apenas espaço reservado até a seção 2) */
+.proxima{background:var(--keshion-ice);padding:48px 16px 96px;text-align:center;color:var(--keshion-slate);font-size:14px}
+
+/* ===== seções claras ===== */
+.sec{background:var(--keshion-ice);color:var(--keshion-night);padding:24px 16px 72px}
+.wrap{max-width:1160px;margin:0 auto}
+.rot{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--keshion-slate);margin-bottom:14px}
+.sec h2{font-family:var(--keshion-font-heading);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.12;letter-spacing:-.01em;max-width:22ch}
+.sec .lead{margin-top:16px;color:var(--keshion-slate);font-size:18px;max-width:56ch}
+.sec .ico{width:48px;height:48px;border-radius:12px;background:var(--keshion-fog);color:var(--keshion-blue-strong);display:grid;place-items:center;flex:none}
+.sec .ico svg{width:24px;height:24px}
+.sec h3{font-family:var(--keshion-font-heading);font-weight:700;font-size:20px;line-height:1.25}
+.sec h4{font-family:var(--keshion-font-heading);font-weight:700;font-size:16px;margin:0 0 4px}
+
+/* trilha de três pontos, ligados por uma linha */
+.trilha{position:relative;margin-top:40px;display:grid;gap:16px}
+.pt{position:relative;background:#fff;border:1px solid #dce3ee;border-radius:12px;padding:24px}
+.pt h3{margin:18px 0 8px}
+.pt p{color:var(--keshion-slate);font-size:16px}
+.causa{margin:36px 0 0;padding-left:18px;border-left:3px solid var(--keshion-blue-strong);font-family:var(--keshion-font-heading);font-weight:700;font-size:clamp(20px,3.4vw,26px);line-height:1.3;max-width:34ch}
+
+.preco{margin-top:72px;padding-top:56px;border-top:1px solid #dce3ee;display:grid;gap:36px}
+.preco-txt h3{font-size:clamp(22px,4vw,28px);max-width:20ch}
+.preco-txt p{margin-top:16px;color:var(--keshion-slate);max-width:52ch}
+.preco-lista{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.preco-lista li{display:flex;gap:16px;align-items:flex-start;background:var(--keshion-fog);border-radius:12px;padding:18px}
+.preco-lista li .ico{background:#fff}
+.preco-lista p{color:var(--keshion-slate);font-size:15px}
+
+@media(min-width:900px){
+  .sec{padding:40px 40px 112px}
+  .trilha{grid-template-columns:repeat(3,1fr);gap:20px}
+  .trilha:before{content:"";position:absolute;left:24px;right:24px;top:48px;border-top:2px dashed #CCD5E6;z-index:0}
+  .pt{z-index:1}
+  .preco{grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+}
+@media(min-width:900px){
+  .hero{padding:28px 40px 170px;min-height:min(100vh,860px)}
+  .nav ul{display:flex}
+  .inner{grid-template-columns:.95fr 1.05fr;gap:48px}
+  .duo{height:640px}
+  .phone{width:270px}
+  .screen{min-height:470px}
+  .curva{height:130px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero" data-keshion-theme="light" style="--hero-foto:url(img/hero-b.jpg)">
+  <div class="photo" aria-hidden="true"></div>
+  <div class="veu" aria-hidden="true"></div>
+  <div class="arc a1" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M80.8367 11.9198 A49 49 0 0 0 11.9198 80.8367 L28.2399 67.6210 A28 28 0 0 1 67.6210 28.2399 Z" fill="#4388E8"/></svg></div>
+  <div class="arc a2" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M19.1633 88.0802 A49 49 0 0 0 88.0802 19.1633 L71.7601 32.3790 A28 28 0 0 1 32.3790 71.7601 Z" fill="#55C96A"/></svg></div>
+
+  <nav class="nav" aria-label="Principal">
+    <a href="#"><img src="../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"></a>
+    <ul>
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#app">O app</a></li>
+      <li><a href="#perguntas">Perguntas</a></li>
+    </ul>
+    <a class="btn small" href="#diagnostico">Agendar diagnóstico grátis</a>
+  </nav>
+
+  <div class="inner">
+    <div>
+      <h1 class="t">Foque nos seus pacientes. Deixe a IA cuidar do resto.</h1>
+      <p class="sub">Uma assistente de IA atende o WhatsApp da clínica, tira as dúvidas dos pacientes, mostra os horários livres e marca a avaliação na agenda. Quando a conversa pede uma pessoa, chama a equipe.</p>
+      <div class="cta">
+        <a class="btn" href="#diagnostico">Agendar diagnóstico grátis
+          <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <!-- Aparece só quando a demonstração ao vivo existir: remover o atributo hidden -->
+        <a class="btn ghost sec" href="#demo" hidden>Conversar com a assistente</a>
+      </div>
+      <p class="micro">30 minutos. Você sai com um retrato de como o WhatsApp da clínica atende hoje.</p>
+    </div>
+
+    <div class="duo">
+      <div class="phone p1"><div class="screen">
+        <div class="bar"><div class="av"><img src="../branding/kit/logos/simbolo.svg" alt=""></div><div><b>Clínica Dra. Suzana</b><small>assistente virtual</small></div></div>
+        <div class="msgs">
+          <div class="day">Terça, 21h07</div>
+          <div class="m in">Pode ser quinta à tarde?</div>
+          <div class="m out">Quinta às 15h está livre. Posso marcar a avaliação?</div>
+          <div class="m in">Pode.</div>
+          <div class="m out">Marcado para quinta, às 15h, com a Dra. Suzana.</div>
+        </div>
+      </div></div>
+      <div class="phone p2"><div class="screen">
+        <div class="apphead"><small>Agenda do dia</small><b>Quinta</b></div>
+        <div class="list">
+          <div class="row"><span class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div>Avaliação, lentes<small>15h · Dra. Suzana</small></div><span class="tag">Marcada</span></div>
+          <div class="row"><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div>Precisa de você<small>Conversa encaminhada</small></div><span class="tag" style="color:var(--keshion-blue)">Abrir</span></div>
+          <div class="row"><span class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><div>Confirmação<small>Paciente confirmou</small></div></div>
+        </div>
+        <div class="tabs">
+          <span><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Conversas</span>
+          <span class="on"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</span>
+          <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Pacientes</span>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <svg class="curva" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10 L0 9 C20 2 80 2 100 9 L100 10 Z"/></svg>
+</header>
+
+<!-- ===== 2. PROBLEMA ===== -->
+<section class="sec problema" id="problema">
+  <div class="wrap">
+    <p class="rot">Problema</p>
+    <h2>O caminho entre a primeira mensagem e a avaliação marcada</h2>
+    <p class="lead">Entre a primeira mensagem de um paciente e a avaliação na agenda, a conversa costuma parar em três pontos.</p>
+
+    <div class="trilha">
+      <article class="pt">
+        <span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>
+        <h3>Fora do horário</h3>
+        <p>O paciente escreve à noite ou no fim de semana, quando está decidindo. A clínica responde no dia seguinte, e até lá ele pode já ter conversado com outra.</p>
+      </article>
+      <article class="pt">
+        <span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <h3>Durante o expediente</h3>
+        <p>Entre o balcão, o telefone e o paciente na cadeira, o WhatsApp espera a vez. Perguntas simples, como horário e endereço, ocupam o tempo da recepção.</p>
+      </article>
+      <article class="pt">
+        <span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+        <h3>Depois do orçamento</h3>
+        <p>O paciente recebeu o valor do tratamento e disse que ia pensar. Ninguém tem a tarefa de voltar a falar com ele, e a conversa simplesmente termina.</p>
+      </article>
+    </div>
+
+    <p class="causa">Esses pontos têm uma causa em comum: a mesma pessoa cuida de muita coisa ao mesmo tempo.</p>
+
+    <div class="preco">
+      <div class="preco-txt">
+        <h3>O paciente que pergunta o preço também pergunta a outras clínicas</h3>
+        <p>Quem pesquisa lentes de contato dental, facetas ou implantes costuma enviar a mesma mensagem para várias clínicas e comparar as respostas. A primeira pergunta quase sempre é o valor. Responder só com um número leva a conversa para a comparação de preço. Explicar que o valor depende de uma avaliação, e já oferecer um horário, leva o paciente para dentro da clínica.</p>
+      </div>
+      <ul class="preco-lista">
+        <li><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><div><h4>Rapidez e retorno</h4><p>Quem responde primeiro, e quem volta a falar depois, costuma ser lembrado.</p></div></li>
+        <li><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></span><div><h4>Clareza</h4><p>Uma resposta que explica o caminho transmite mais segurança que um valor solto.</p></div></li>
+        <li><span class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><div><h4>Próximo passo</h4><p>Uma sugestão de horário concreta tira a decisão do campo das ideias.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="proxima">Espaço da seção 3 (Como funciona)</div>
+
+</body>
+</html>

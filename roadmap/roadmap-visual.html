@@ -1,0 +1,584 @@
+<title>Roadmap Keshion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@700&display=swap">
+<style>
+/* Conceito: um quadro por fase (Agora, até o piloto, janeiro, depois), cada item numa linha que abre para os detalhes.
+   Trilhas por cor discreta, status por forma e texto. Marca Keshion AI: Manrope nos títulos, Inter no texto. */
+:root {
+  --bg: #F7F8F4;
+  --surface: #E8EFF9;
+  --card: #FFFFFF;
+  --fg: #0B1126;
+  --fg2: #50596A;
+  --line: #D3DCEA;
+  --accent: #2459A6;
+  --accent-fg: #F7F8F4;
+  --t-clara: #2459A6;
+  --t-app: #0B7F78;
+  --t-srv: #6A5FB0;
+  --t-com: #B8457A;
+  --ok-bg: #DCEFE2;
+  --ok-fg: #165A31;
+  --wip-bg: #FBE6C2;
+  --wip-fg: #7A4700;
+  --late-bg: #F7D9D4;
+  --late-fg: #8A2418;
+  --font-title: "Manrope", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1126;
+    --surface: #17233E;
+    --card: #101A33;
+    --fg: #F7F8F4;
+    --fg2: #CCD5E6;
+    --line: #2B3B5E;
+    --accent: #4388E8;
+    --accent-fg: #0B1126;
+    --t-clara: #4388E8;
+    --t-app: #3FC1B8;
+    --t-srv: #A79DE6;
+    --t-com: #E87AA8;
+    --ok-bg: #12341F;
+    --ok-fg: #86DFA2;
+    --wip-bg: #3D2C0A;
+    --wip-fg: #F0C26B;
+    --late-bg: #3E1612;
+    --late-fg: #F4A59B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1126;
+  --surface: #17233E;
+  --card: #101A33;
+  --fg: #F7F8F4;
+  --fg2: #CCD5E6;
+  --line: #2B3B5E;
+  --accent: #4388E8;
+  --accent-fg: #0B1126;
+  --t-clara: #4388E8;
+  --t-app: #3FC1B8;
+  --t-srv: #A79DE6;
+  --t-com: #E87AA8;
+  --ok-bg: #12341F;
+  --ok-fg: #86DFA2;
+  --wip-bg: #3D2C0A;
+  --wip-fg: #F0C26B;
+  --late-bg: #3E1612;
+  --late-fg: #F4A59B;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+h1, h2, h3 { font-family: var(--font-title); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.1; }
+h2 { font-size: 22px; line-height: 1.2; }
+h3 { font-size: 16px; }
+p { margin: 0; }
+.eyebrow { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg2); }
+.lead { color: var(--fg2); max-width: 62ch; font-size: 16px; }
+header { display: flex; flex-direction: column; gap: 10px; }
+
+/* Resumo */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile .n { font-family: var(--font-title); font-weight: 700; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .l { color: var(--fg2); font-size: 13px; }
+
+/* Filtros */
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.bar .eyebrow { margin-right: 4px; }
+.chipbtn {
+  font: 600 13px var(--font-body); color: var(--fg); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chipbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.chipbtn:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tdot { width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--c, var(--fg2)); }
+.tdot.clara { --c: var(--t-clara); } .tdot.app { --c: var(--t-app); } .tdot.srv { --c: var(--t-srv); } .tdot.com { --c: var(--t-com); }
+
+/* Quadro */
+.board { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; align-items: start; }
+.col { background: var(--surface); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.col.now { outline: 2px solid var(--accent); outline-offset: -2px; }
+.col-h { display: flex; flex-direction: column; gap: 2px; padding: 2px 4px 6px; }
+.col-h .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.col-h .count { font-size: 12px; color: var(--fg2); font-variant-numeric: tabular-nums; }
+.col-h .when { font-size: 13px; color: var(--fg2); }
+.items { display: flex; flex-direction: column; gap: 8px; }
+.empty { color: var(--fg2); font-size: 13px; padding: 6px 4px; }
+
+details.item { background: var(--card); border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+details.item > summary {
+  list-style: none; cursor: pointer; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px;
+}
+details.item > summary::-webkit-details-marker { display: none; }
+.ititle { font-weight: 600; font-size: 14.5px; line-height: 1.35; display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.ititle .chev { flex: none; width: 8px; height: 8px; margin-top: 6px; border-right: 2px solid var(--fg2); border-bottom: 2px solid var(--fg2); transform: rotate(45deg); transition: transform .15s; }
+details[open] .chev { transform: rotate(-135deg); margin-top: 9px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.track { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--fg2); }
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 2px 9px 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--fg); }
+.st::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; flex: none; }
+.st.done { background: var(--ok-bg); color: var(--ok-fg); border-color: transparent; }
+.st.done::before { background: currentColor; }
+.st.doing { background: var(--wip-bg); color: var(--wip-fg); border-color: transparent; }
+.st.doing::before { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.st.todo::before { background: transparent; }
+.st.plan { color: var(--fg2); }
+.st.plan::before { background: transparent; opacity: .7; }
+.st.decide { border-style: dashed; }
+.st.decide::before { border-style: dashed; }
+.st.late { background: var(--late-bg); color: var(--late-fg); border-color: transparent; }
+.st.late::before { display: none; }
+.body { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.body dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
+.body dt { color: var(--fg2); font-weight: 600; }
+.body dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+
+/* Dependências */
+.chains { display: flex; flex-direction: column; gap: 14px; }
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chain .lab { flex: 0 0 100%; font-size: 13px; color: var(--fg2); font-weight: 600; }
+.node { background: var(--surface); border-radius: 8px; padding: 6px 11px; font-size: 13.5px; font-weight: 600; min-width: 0; }
+.node.go { background: var(--accent); color: var(--accent-fg); }
+.arr { color: var(--fg2); font-weight: 600; }
+
+/* Decisões */
+.decs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.dec { border: 1px dashed var(--fg2); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dec .who { font-size: 12px; color: var(--fg2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.dec p { font-size: 14px; color: var(--fg2); }
+
+/* Sprint comercial */
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.sc { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.sc .row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.sc .v { font-family: var(--font-title); font-weight: 700; font-size: 26px; font-variant-numeric: tabular-nums; }
+.sc .m { font-size: 12px; color: var(--fg2); font-variant-numeric: tabular-nums; }
+.sc .l { font-size: 13px; }
+.meter { height: 6px; background: var(--surface); border-radius: 99px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--t-com); border-radius: 99px; }
+.sprint { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.sp { display: grid; grid-template-columns: 84px 1fr auto; gap: 6px 14px; padding: 10px 14px; align-items: center; border-top: 1px solid var(--line); }
+.sp:first-child { border-top: 0; }
+.sp .d { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--fg2); font-size: 13px; }
+.sp .t { min-width: 0; font-size: 14px; }
+.sp .t small { color: var(--fg2); font-size: 12.5px; display: block; }
+.note { color: var(--fg2); font-size: 13px; max-width: 80ch; }
+.sec { display: flex; flex-direction: column; gap: 14px; }
+.sec-h { display: flex; flex-direction: column; gap: 4px; }
+
+footer { color: var(--fg2); font-size: 12.5px; display: flex; flex-direction: column; gap: 4px; }
+
+@media (max-width: 560px) {
+  .sp { grid-template-columns: 1fr; }
+  .body dl { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .chev { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Keshion AI · estado em 18/11/2026</div>
+    <h1>Roadmap Keshion</h1>
+    <p class="lead">Onde estamos, o que falta até o piloto da Dra. Vivian em 01/12 e o que vem depois. Toque em um item para ver o detalhe.</p>
+  </header>
+
+  <section class="tiles" id="tiles" aria-label="Resumo"></section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>Quadro por fase</h2>
+      <p class="note">Cada item tem uma trilha (a cor do ponto) e um status (o texto e a forma). Itens "a decidir" esperam uma resposta sua.</p>
+    </div>
+    <div class="bar" id="filters" role="group" aria-label="Filtrar por trilha"></div>
+    <div class="board" id="board"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>O que depende de quê</h2>
+      <p class="note">A ordem importa: cada cadeia mostra o que precisa ficar pronto antes do próximo passo.</p>
+    </div>
+    <div class="chains" id="chains"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>Decisões abertas</h2>
+      <p class="note">O que está parado esperando uma resposta.</p>
+    </div>
+    <div class="decs" id="decs"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>Sprint comercial</h2>
+      <p class="note">Meta: pelo menos 1 clínica pagante até 18/12/2026, com meta de 2. O placar está zerado. As datas abaixo são as do plano original (28/10 a 18/12); as que já passaram precisam ser replanejadas.</p>
+    </div>
+    <div class="score" id="score"></div>
+    <div class="sprint" id="sprint"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h">
+      <h2>Já feito</h2>
+    </div>
+    <div class="board" id="done"></div>
+  </section>
+
+  <footer>
+    <span>Fontes: <code>tecnico/RETOMAR-AQUI.md</code>, <code>app-crm-painel/LEIA-PRIMEIRO.md</code>, <code>quadro/tarefas.json</code> e <code>tecnico/n8n/plano-pos-revisao-codex.md</code>.</span>
+    <span>Fora do roadmap: o CRM em Google Planilhas saiu, porque o CRM agora é o app.</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var AS_OF = new Date(2026, 10, 18);
+  var PILOT = new Date(2026, 11, 1);
+
+  var TRACKS = [
+    { id: "clara", name: "Clara (automação)" },
+    { id: "app", name: "App" },
+    { id: "srv", name: "Servidor e segurança" },
+    { id: "com", name: "Comercial e site" }
+  ];
+  var TRACK_NAME = {};
+  TRACKS.forEach(function (t) { TRACK_NAME[t.id] = t.name; });
+
+  var STATUS = { done: "Feito", doing: "Em andamento", todo: "Pendente", plan: "Planejado", decide: "A decidir" };
+
+  var PHASES = [
+    { id: "agora", name: "Agora", when: "18 a 24/11", now: true },
+    { id: "piloto", name: "Até o piloto", when: "até 01/12" },
+    { id: "janeiro", name: "Janeiro", when: "2027" },
+    { id: "depois", name: "Depois", when: "sem data" }
+  ];
+
+  var ITEMS = [
+    /* Agora */
+    { phase: "agora", track: "clara", status: "doing", title: "Teste das correções de 18/11 (Codex rodando)",
+      note: "Cobre o aviso de complemento, o idioma, o fim do \"encaixe\" com a clínica fechada e a data em inglês. Quando terminar, trazer o resultado para consertar.",
+      file: "tecnico/teste-ab/PROMPT-TESTE-18-11-avisos-idioma-hora.md" },
+    { phase: "agora", track: "clara", status: "todo", title: "Consertar o que o teste achar",
+      note: "Só depois disso começa a conexão Clara e app, para o desenho partir de uma base sem erros pendentes.", dep: "Resultado do teste" },
+    { phase: "agora", track: "clara", status: "decide", owner: "Erica", title: "Frases fixas no idioma da paciente",
+      note: "Hoje \"Esse horário não está disponível\" e \"Só para confirmar\" saem em português para quem escreve em inglês. Falta também avisar a equipe quando o mesmo horário é recusado duas vezes seguidas." },
+    { phase: "agora", track: "clara", status: "todo", title: "Apagar o evento de teste da agenda da demo",
+      note: "Sobrou o evento do Henrique, 19/11 às 14h." },
+    { phase: "agora", track: "srv", status: "todo", title: "Passar demo e clínica de teste para o usuário _app do banco",
+      note: "Dá menos poder ao n8n: ele lê e grava linhas, mas não muda tabelas. Precisa do seu OK.", dep: "Seu OK" },
+    { phase: "agora", track: "srv", status: "todo", title: "Conferir o backup das 03h de 19/11",
+      note: "É a primeira rodada automática.", file: "/opt/keshion/backups/STATUS-BACKUP.txt (no servidor)" },
+    { phase: "agora", track: "srv", status: "todo", title: "Reconectar o Google Agenda no n8n",
+      note: "O app do Google está em modo Teste e a autorização expira 7 dias depois de dada. Vence entre 19 e 24/11. Sai desse ciclo quando o app for publicado (ver abaixo)." },
+    { phase: "agora", track: "app", status: "decide", owner: "Erica", title: "Quem registra que o orçamento saiu",
+      note: "Sugestão: o app, na aba Orçamentos. Sem esse registro, os lembretes dos dias 3, 10, 17 e 30 não têm de onde partir." },
+    { phase: "agora", track: "app", status: "todo", title: "Desenhar a conexão Clara e app",
+      note: "Contrato de eventos entre os dois lados: quais avisos, formato, autenticação, o que acontece se um lado cair e isolamento por clínica.",
+      dep: "Consertos do teste", file: "tecnico/PROMPT-CONEXAO-CLARA-APP.md" },
+
+    /* Até o piloto */
+    { phase: "piloto", track: "app", status: "plan", title: "Conexão Clara e app: primeiro pedaço",
+      note: "A Clara grava no app as conversas e os avisos \"Precisa de você\". Os botões \"Assumir conversa\" e \"Devolver para a IA\" pausam e retomam a Clara.", dep: "Desenho da conexão" },
+    { phase: "piloto", track: "clara", status: "plan", title: "Confirmações de consulta",
+      note: "48 horas antes, na véspera às 18h e 2 horas antes. Lê o Google Agenda, então não depende do app." },
+    { phase: "piloto", track: "clara", status: "decide", owner: "Erica e Dra. Vivian", title: "Modo copiloto",
+      note: "A clínica aprova cada resposta antes de enviar, na primeira semana. Ainda não existe. Sugestão: começar pelo WhatsApp de quem aprova e depois ganhar tela no app." },
+    { phase: "piloto", track: "clara", status: "plan", title: "Base, voz e número da Dra. Vivian",
+      note: "Instruções, nome da assistente escolhido por ela, conexão no número dela e ficha da clínica preenchida. Depende dos dados dela.",
+      dep: "Dados da Dra. Vivian", file: "clientes/dra-vivian/clinica.json e tecnico/n8n/CLINICA-NOVA.md" },
+    { phase: "piloto", track: "app", status: "plan", title: "Telas de dezembro do app",
+      note: "Conversas (com \"Precisa de você\" no topo), Agenda do dia e Pacientes, a tempo do piloto." },
+    { phase: "piloto", track: "srv", status: "plan", title: "Alerta de falha fora do WhatsApp",
+      note: "E-mail ou Telegram. Cobre as falhas de envio da Clara e as do backup, que hoje só ficam registradas." },
+    { phase: "piloto", track: "srv", status: "plan", title: "Publicar o app do Google",
+      note: "Para a autorização da agenda parar de expirar a cada 7 dias. Precisa de página inicial e política de privacidade no domínio keshion.com." },
+    { phase: "piloto", track: "srv", status: "plan", title: "Usuário de manutenção no servidor",
+      note: "Um usuário com sudo para o dia a dia, no lugar do root." },
+    { phase: "piloto", track: "srv", status: "plan", title: "Revisão do Codex do backup",
+      note: "Script, permissões e restauração.", file: "tecnico/n8n/PROMPT-CODEX-REVISAO.md" },
+
+    /* Janeiro */
+    { phase: "janeiro", track: "app", status: "plan", title: "Aba Orçamentos",
+      note: "PDF com a marca da clínica, textos padrão por tratamento, envio pelo WhatsApp, aceito ou recusado com motivo, validade de 30 dias." },
+    { phase: "janeiro", track: "clara", status: "plan", title: "Lembretes do orçamento nos dias 3, 10, 17 e 30",
+      note: "A Clara dispara os lembretes. Só vale para quem já conversou com a clínica e para na hora se a pessoa pedir.", dep: "Aba Orçamentos e conexão Clara e app" },
+    { phase: "janeiro", track: "app", status: "plan", title: "Aba Reativar",
+      note: "Lista de pacientes parados, como \"limpeza vencida há 7 meses\", com prévia da mensagem e aprovação do envio." },
+    { phase: "janeiro", track: "clara", status: "plan", title: "Reativação de pacientes parados",
+      note: "Regras: autorização escrita da clínica, no máximo 1 mensagem a cada 90 dias, opção SAIR e lotes pequenos.", dep: "Aba Reativar" },
+    { phase: "janeiro", track: "app", status: "plan", title: "Aba Painel",
+      note: "Valor fechado no mês, do contato ao tratamento, de onde vieram, e os reais recuperados pela assistente." },
+    { phase: "janeiro", track: "com", status: "plan", title: "Calculadora de perdas e ROI no site",
+      note: "Em segundo plano. As respostas dela viram o \"antes\" no Painel." },
+
+    /* Depois */
+    { phase: "depois", track: "srv", status: "plan", title: "Fila de envio persistente (ordem garantida)",
+      note: "Hoje duas respostas próximas podem sair fora de ordem. A solução grava o que vai ser enviado e manda uma por vez, mesmo se o n8n reiniciar. Ganha prioridade quando a Clara passar a puxar conversa, com confirmações e lembretes." },
+    { phase: "depois", track: "clara", status: "plan", title: "Reservas de horário no banco",
+      note: "Evita duas pessoas marcarem a mesma vaga ao mesmo tempo. É raro com uma clínica só." },
+    { phase: "depois", track: "clara", status: "plan", title: "Resumo do histórico longo",
+      note: "Hoje conversa muito longa perde o começo, porque o histórico é cortado." },
+    { phase: "depois", track: "clara", status: "plan", title: "Sonnet nas mensagens clínicas",
+      note: "Hoje a Clara responde com o Haiku." },
+    { phase: "depois", track: "srv", status: "plan", title: "Postgres 17",
+      note: "Atualizar o banco. Ensaiar antes numa cópia." },
+    { phase: "depois", track: "clara", status: "plan", title: "Jev (classificador de intenção)",
+      note: "Está na lista do roadmap, sem detalhe registrado ainda." },
+
+    /* Feito */
+    { phase: "feito", track: "clara", status: "done", title: "Clara rodando no n8n próprio",
+      note: "12/11. O Make está desligado. Desde 17/11 cada clínica tem banco e fluxos próprios, e o teste de isolamento passou.", file: "tecnico/RETOMAR-AQUI.md" },
+    { phase: "feito", track: "clara", status: "done", title: "Correções da revisão do Codex",
+      note: "12 e 17/11. Webhook secreto, mensagens repetidas ignoradas, avisos antes da resposta ao paciente, e falhas de agenda ou de IA viram \"chamar uma pessoa\"." },
+    { phase: "feito", track: "clara", status: "done", title: "Correções de 18/11 publicadas",
+      note: "Aviso de complemento, lembrete de idioma, sem \"encaixe\" com a clínica fechada e conferência de horário que entende data em inglês e espanhol. Em teste (primeiro item de Agora)." },
+    { phase: "feito", track: "srv", status: "done", title: "Servidor protegido",
+      note: "12/11. Firewall, bloqueio de tentativas de invasão, acesso só por chave e versões fixas.", file: "tecnico/servidor-n8n.md" },
+    { phase: "feito", track: "srv", status: "done", title: "Backup diário fora do servidor",
+      note: "18/11. Cópia criptografada no Google Drive todos os dias às 03h, restauração testada, chave guardada no Bitwarden." },
+    { phase: "feito", track: "app", status: "done", title: "Protótipo do app, versão 7",
+      note: "17/11. Seis abas com a marca Keshion: Conversas, Agenda do dia, Pacientes, Orçamentos, Reativar e Painel.", file: "app-crm-painel/LEIA-PRIMEIRO.md" },
+    { phase: "feito", track: "app", status: "done", title: "Banco do app no Supabase",
+      note: "18/11. Projeto em São Paulo, cada clínica vê só os próprios dados, testado.", file: "app/supabase/schema.sql" },
+    { phase: "feito", track: "app", status: "done", title: "Calendário dos lembretes do orçamento",
+      note: "Decidido em 18/11: dias 3, 10, 17 e 30, com validade de 30 dias." },
+    { phase: "feito", track: "com", status: "done", title: "Texto do site, versão 3",
+      note: "18/11. Descreve só o que o roadmap entrega até janeiro.", file: "site/copy-v3.html" },
+    { phase: "feito", track: "com", status: "done", title: "Domínio keshion.com registrado",
+      note: "O app fica em app.keshion.com." }
+  ];
+
+  var CHAINS = [
+    { label: "Do teste ao app conectado", nodes: ["Teste das correções", "Consertos", "Desenho da conexão", "Primeiro pedaço", "Lembretes do orçamento (jan)"], go: 2 },
+    { label: "Do orçamento ao lembrete", nodes: ["Quem registra o orçamento", "Aba Orçamentos (jan)", "Lembretes 3, 10, 17 e 30"], go: 0 },
+    { label: "Do piloto", nodes: ["Dados da Dra. Vivian", "Base e voz", "Modo copiloto", "Piloto em 01/12"], go: 0 }
+  ];
+
+  var SCORE = [
+    { l: "Clínicas listadas", v: 0, m: 100 },
+    { l: "Clientes ocultos feitos", v: 0, m: 30 },
+    { l: "Diagnósticos enviados", v: 0, m: 30 },
+    { l: "Reuniões realizadas", v: 0, m: 20, mt: "15 a 20" },
+    { l: "Cliente piloto no ar", v: 0, m: 1 },
+    { l: "Clínicas pagantes", v: 0, m: 2, mt: "1 (meta 2)" }
+  ];
+
+  var SPRINT = [
+    { d: new Date(2026, 10, 10), t: "Lista de 100 clínicas", w: "Sérgio" },
+    { d: new Date(2026, 10, 14), t: "Roteiro da reunião e calculadora de prejuízo", w: "Erica" },
+    { d: new Date(2026, 10, 17), t: "10 clientes ocultos e 10 diagnósticos enviados", w: "Sérgio e Erica" },
+    { d: new Date(2026, 10, 19), t: "Decisão: oferta de usuário fundador e papel da Dra. Vivian", w: "Juntos", decide: true, sub: "O plano recomenda a opção B: a Dra. Vivian fica como parceira do piloto e as 3 vagas de fundador vão para clínicas novas e pagantes." },
+    { d: new Date(2026, 10, 20), t: "Página de proposta e preço de usuário fundador", w: "Juntos" },
+    { d: new Date(2026, 10, 21), t: "Contrato-base enviado ao advogado, com anexo de proteção de dados", w: "Sérgio" },
+    { d: new Date(2026, 10, 24), t: "Primeiras 5 reuniões com donos de clínica", w: "Sérgio" },
+    { d: new Date(2026, 10, 24), t: "Conversa com o contador sobre CNPJ e tributação", w: "Sérgio", sub: "Os dois sócios moram em Israel, então há pontos específicos a resolver." },
+    { d: new Date(2026, 11, 1), t: "30 diagnósticos enviados e 10 a 15 reuniões", w: "Sérgio e Erica" },
+    { d: new Date(2026, 11, 18), t: "Avaliar o sprint e decidir o próximo passo", w: "Juntos" }
+  ];
+
+  var filter = "all";
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function fmt(d) {
+    return String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+  function chip(status, label) {
+    var s = el("span", "st " + status, label || STATUS[status]);
+    return s;
+  }
+  function trackLabel(id) {
+    var t = el("span", "track");
+    t.appendChild(el("span", "tdot " + id));
+    t.appendChild(document.createTextNode(TRACK_NAME[id]));
+    return t;
+  }
+
+  function itemNode(it) {
+    var d = el("details", "item");
+    var s = el("summary");
+    var title = el("div", "ititle");
+    title.appendChild(el("span", null, it.title));
+    title.appendChild(el("span", "chev"));
+    s.appendChild(title);
+    var meta = el("div", "meta");
+    meta.appendChild(chip(it.status));
+    meta.appendChild(trackLabel(it.track));
+    s.appendChild(meta);
+    d.appendChild(s);
+    var b = el("div", "body");
+    b.appendChild(el("p", null, it.note));
+    if (it.dep || it.file || it.owner) {
+      var dl = el("dl");
+      if (it.owner) { dl.appendChild(el("dt", null, "Quem decide")); dl.appendChild(el("dd", null, it.owner)); }
+      if (it.dep) { dl.appendChild(el("dt", null, "Depende de")); dl.appendChild(el("dd", null, it.dep)); }
+      if (it.file) {
+        dl.appendChild(el("dt", null, "Arquivo"));
+        var dd = el("dd"); dd.appendChild(el("code", null, it.file)); dl.appendChild(dd);
+      }
+      b.appendChild(dl);
+    }
+    d.appendChild(b);
+    return d;
+  }
+
+  function visible(it) { return filter === "all" || it.track === filter; }
+
+  function renderTiles() {
+    var wrap = document.getElementById("tiles");
+    wrap.textContent = "";
+    var days = Math.round((PILOT - AS_OF) / 86400000);
+    var done = ITEMS.filter(function (i) { return i.status === "done"; }).length;
+    var now = ITEMS.filter(function (i) { return i.phase === "agora" && (i.status === "todo" || i.status === "doing"); }).length;
+    var dec = ITEMS.filter(function (i) { return i.status === "decide"; }).length + SPRINT.filter(function (s) { return s.decide; }).length;
+    [
+      [String(days), "dias de 18/11 até o piloto da Dra. Vivian (01/12)"],
+      [String(done), "entregas concluídas"],
+      [String(now), "itens pendentes ou em andamento agora"],
+      [String(dec), "decisões abertas"]
+    ].forEach(function (x) {
+      var t = el("div", "tile");
+      t.appendChild(el("div", "n", x[0]));
+      t.appendChild(el("div", "l", x[1]));
+      wrap.appendChild(t);
+    });
+  }
+
+  function renderFilters() {
+    var bar = document.getElementById("filters");
+    bar.textContent = "";
+    bar.appendChild(el("span", "eyebrow", "Trilha"));
+    [{ id: "all", name: "Todas" }].concat(TRACKS).forEach(function (t) {
+      var b = el("button", "chipbtn");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(filter === t.id));
+      if (t.id !== "all") b.appendChild(el("span", "tdot " + t.id));
+      b.appendChild(document.createTextNode(t.name));
+      b.addEventListener("click", function () { filter = t.id; renderFilters(); renderBoard(); renderDone(); });
+      bar.appendChild(b);
+    });
+  }
+
+  function renderBoard() {
+    var board = document.getElementById("board");
+    board.textContent = "";
+    PHASES.forEach(function (p) {
+      var items = ITEMS.filter(function (i) { return i.phase === p.id && visible(i); });
+      var col = el("div", "col" + (p.now ? " now" : ""));
+      var h = el("div", "col-h");
+      var top = el("div", "top");
+      top.appendChild(el("h3", null, p.name));
+      top.appendChild(el("span", "count", items.length + (items.length === 1 ? " item" : " itens")));
+      h.appendChild(top);
+      h.appendChild(el("span", "when", p.when));
+      col.appendChild(h);
+      var list = el("div", "items");
+      if (!items.length) list.appendChild(el("div", "empty", "Nada nesta trilha."));
+      items.forEach(function (it) { list.appendChild(itemNode(it)); });
+      col.appendChild(list);
+      board.appendChild(col);
+    });
+  }
+
+  function renderDone() {
+    var box = document.getElementById("done");
+    box.textContent = "";
+    var items = ITEMS.filter(function (i) { return i.phase === "feito" && visible(i); });
+    var half = Math.ceil(items.length / 2);
+    [items.slice(0, half), items.slice(half)].forEach(function (grp) {
+      if (!grp.length) return;
+      var col = el("div", "items");
+      grp.forEach(function (it) { col.appendChild(itemNode(it)); });
+      box.appendChild(col);
+    });
+    if (!items.length) box.appendChild(el("div", "empty", "Nada nesta trilha."));
+  }
+
+  function renderChains() {
+    var box = document.getElementById("chains");
+    CHAINS.forEach(function (c) {
+      var row = el("div", "chain");
+      row.appendChild(el("div", "lab", c.label));
+      c.nodes.forEach(function (n, i) {
+        if (i) row.appendChild(el("span", "arr", "→"));
+        row.appendChild(el("span", "node" + (i === c.go ? " go" : ""), n));
+      });
+      box.appendChild(row);
+    });
+  }
+
+  function renderDecisions() {
+    var box = document.getElementById("decs");
+    var list = ITEMS.filter(function (i) { return i.status === "decide"; }).map(function (i) {
+      return { t: i.title, n: i.note, w: i.owner };
+    }).concat(SPRINT.filter(function (s) { return s.decide; }).map(function (s) {
+      return { t: "Oferta de usuário fundador e papel da Dra. Vivian", n: s.sub, w: "Erica e Sérgio" };
+    }));
+    list.forEach(function (d) {
+      var c = el("div", "dec");
+      c.appendChild(el("span", "who", d.w));
+      c.appendChild(el("h3", null, d.t));
+      c.appendChild(el("p", null, d.n));
+      box.appendChild(c);
+    });
+  }
+
+  function renderSprint() {
+    var sc = document.getElementById("score");
+    SCORE.forEach(function (s) {
+      var c = el("div", "sc");
+      var row = el("div", "row");
+      row.appendChild(el("span", "v", String(s.v)));
+      row.appendChild(el("span", "m", "meta " + (s.mt || s.m)));
+      c.appendChild(row);
+      c.appendChild(el("div", "l", s.l));
+      var m = el("div", "meter");
+      var i = el("i"); i.style.width = Math.round((s.v / s.m) * 100) + "%";
+      m.appendChild(i);
+      c.appendChild(m);
+      sc.appendChild(c);
+    });
+    var box = document.getElementById("sprint");
+    SPRINT.forEach(function (s) {
+      var r = el("div", "sp");
+      r.appendChild(el("span", "d", fmt(s.d)));
+      var t = el("div", "t");
+      t.appendChild(document.createTextNode(s.t + " · " + s.w));
+      if (s.sub) t.appendChild(el("small", null, s.sub));
+      r.appendChild(t);
+      r.appendChild(s.decide ? chip("decide") : (s.d < AS_OF ? chip("late", "Prazo original passou") : chip("todo", "Não iniciado")));
+      box.appendChild(r);
+    });
+  }
+
+  renderTiles();
+  renderFilters();
+  renderBoard();
+  renderChains();
+  renderDecisions();
+  renderSprint();
+  renderDone();
+})();
+</script>

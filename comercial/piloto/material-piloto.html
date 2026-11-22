@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Assistente da clínica no WhatsApp · Piloto Keshion AI</title>
+<style>
+@font-face{font-family:"Manrope";src:url("../../branding/kit/fontes/Manrope-variable.ttf") format("truetype");font-weight:200 800}
+@font-face{font-family:"Inter";src:url("../../branding/kit/fontes/Inter-variable.ttf") format("truetype");font-weight:100 900}
+:root{
+  --noite:#0B1126; --gelo:#F7F8F4; --nevoa:#E8EFF9; --intenso:#2459A6; --azul:#4388E8; --verde:#55C96A; --ardosia:#50596A; --prata:#CCD5E6;
+  --wa:#E7F7DC; --wa-out:#FFFFFF;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--noite);font-family:"Inter",Arial,sans-serif;font-size:10.4pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pagina{width:210mm;height:297mm;padding:14mm 17mm 12mm;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:4.6mm;page-break-after:always;background:#fff}
+.pagina:last-child{page-break-after:auto}
+.arcos{position:absolute;right:-38mm;top:-38mm;width:120mm;opacity:.07;pointer-events:none}
+h1,h2,h3{font-family:"Manrope",Arial,sans-serif;margin:0;color:var(--noite)}
+h1{font-size:22pt;font-weight:800;line-height:1.12;letter-spacing:-.01em}
+h2{font-size:13.5pt;font-weight:700;color:var(--intenso)}
+h3{font-size:10.6pt;font-weight:700}
+p{margin:0}
+.topo{display:flex;justify-content:space-between;align-items:center}
+.topo img{width:46mm}
+.etiqueta{font-size:8pt;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ardosia)}
+.lead{font-size:11pt;color:var(--noite);max-width:150mm}
+.sub{color:var(--ardosia)}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:4.5mm 7mm}
+.col2{display:grid;grid-template-columns:1.15fr .85fr;gap:8mm;align-items:start}
+.item{display:grid;grid-template-columns:7mm 1fr;gap:2.5mm;align-items:start}
+.item svg{width:6mm;height:6mm;stroke:var(--intenso);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:.4mm}
+.item p{color:var(--ardosia);font-size:9.6pt}
+.caixa{background:var(--nevoa);border:1px solid var(--prata);border-radius:3mm;padding:5mm 6mm;display:grid;gap:2.5mm}
+.lista{margin:0;padding-left:4.5mm;display:grid;gap:1.6mm}
+.lista li::marker{color:var(--intenso)}
+.passos{counter-reset:p;list-style:none;margin:0;padding:0;display:grid;gap:2.6mm}
+.passos li{counter-increment:p;display:grid;grid-template-columns:7mm 1fr;gap:2.5mm;align-items:start}
+.passos li::before{content:counter(p);font-family:"Manrope";font-weight:800;color:#fff;background:var(--intenso);border-radius:50%;width:6mm;height:6mm;display:grid;place-items:center;font-size:8.5pt;margin-top:.2mm}
+/* Mockup de WhatsApp (direção visual aprovada: conversa no lugar de foto de pessoa) */
+.wa{background:#EFEAE2;border-radius:4mm;padding:4mm;display:grid;gap:2mm;border:1px solid var(--prata)}
+.wa-top{display:flex;align-items:center;gap:2.5mm;font-size:8.6pt;font-weight:600;padding-bottom:2mm;border-bottom:1px solid #DDD5C8}
+.wa-top span.av{width:6.5mm;height:6.5mm;border-radius:50%;background:var(--nevoa);display:grid;place-items:center;font-family:"Manrope";font-weight:800;color:var(--intenso);font-size:8pt}
+.wa-top small{display:block;font-weight:400;color:var(--ardosia);font-size:7.4pt}
+.msg{max-width:84%;padding:1.8mm 2.6mm 1.4mm;border-radius:2.4mm;font-size:8.6pt;line-height:1.38;box-shadow:0 .2mm .4mm rgba(11,17,38,.12)}
+.msg.pac{background:var(--wa-out);justify-self:start}
+.msg.ass{background:var(--wa);justify-self:end}
+.msg time{display:block;text-align:right;font-size:6.8pt;color:var(--ardosia);margin-top:.6mm}
+.legenda{font-size:7.8pt;color:var(--ardosia);text-align:center}
+.rodape{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:8pt;color:var(--ardosia);border-top:1px solid var(--prata);padding-top:3mm}
+.rodape b{color:var(--noite);font-weight:600}
+.destaque{font-family:"Manrope";font-weight:700;color:var(--intenso)}
+.nao{display:grid;gap:1.6mm}
+.nao li{color:var(--ardosia)}
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1: o problema, o que é e o que faz -->
+<section class="pagina">
+  <svg class="arcos" viewBox="0 0 100 100"><path d="M50 8a42 42 0 0 1 0 84" stroke="#4388E8" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M50 92a42 42 0 0 1 0-84" stroke="#55C96A" stroke-width="9" fill="none" stroke-linecap="round"/></svg>
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Programa de clínicas piloto</span></div>
+
+  <div style="display:grid;gap:3mm;margin-top:1mm">
+    <h1>A sua clínica responde no WhatsApp na hora, mesmo enquanto você atende.</h1>
+    <p class="lead">Quem procura dentista costuma escrever para mais de uma clínica ao mesmo tempo e marca com quem responde primeiro. A resposta que sai duas horas depois, no intervalo entre dois pacientes, muitas vezes chega quando a pessoa já decidiu.</p>
+  </div>
+
+  <div class="col2">
+    <div style="display:grid;gap:4mm">
+      <h2>O que é</h2>
+      <p>Uma assistente de WhatsApp, com o nome que você escolher, que responde no número da clínica a qualquer hora. Ela tira as dúvidas que você já respondeu por escrito, marca na sua agenda do Google e chama você quando o caso pede a sua atenção.</p>
+      <p class="sub">O objetivo é simples: nenhum contato fica esperando enquanto você atende, e você entra só nas conversas que precisam de você.</p>
+    </div>
+    <div>
+      <div class="wa">
+        <div class="wa-top"><span class="av">C</span><div>Clara · assistente da clínica<small>exemplo de conversa</small></div></div>
+        <div class="msg pac">Oi! Vocês fazem lente de contato dental? Quanto custa mais ou menos?<time>21:47</time></div>
+        <div class="msg ass">Boa noite! Fazemos sim. O valor depende do seu caso, por isso a doutora começa com uma avaliação. Quer que eu veja um horário?<time>21:47</time></div>
+        <div class="msg pac">Quero, pode ser de manhã<time>21:48</time></div>
+        <div class="msg ass">Tenho quinta, 26/11, às 9h ou às 10h30, e sexta, 27/11, às 9h. Qual fica melhor?<time>21:48</time></div>
+      </div>
+      <p class="legenda" style="margin-top:1.5mm">Conversa ilustrativa, na clínica de demonstração.</p>
+    </div>
+  </div>
+
+  <h2>O que ela faz desde o primeiro dia</h2>
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><h3>Responde a qualquer hora</h3><p>De dia, à noite e no fim de semana, no tempo de uma pessoa digitando e no tom da clínica.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg><div><h3>Tira as dúvidas da clínica</h3><p>Tratamentos, como funciona a avaliação, endereço, horários e formas de pagamento. Preço só do jeito que você autorizar.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><h3>Marca na sua agenda</h3><p>Oferece até 3 horários livres de verdade. Marca, remarca e cancela sem criar horário em dobro.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg><div><h3>Entende áudio e foto</h3><p>Ouve o áudio do paciente e vê a foto enviada, sem dar diagnóstico pela imagem.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><div><h3>Chama você quando precisa</h3><p>Dor, reclamação, desconto, dúvida fora do que ela sabe ou pedido para falar com você. Sempre com o motivo.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><div><h3>Fala três idiomas</h3><p>Responde em português, inglês ou espanhol, no idioma em que o paciente escreveu.</p></div></div>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>1 de 3</span></div>
+</section>
+
+<!-- PÁGINA 2: controle, conexão e dados -->
+<section class="pagina">
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">Como funciona na sua clínica</span></div>
+
+  <h2>Você no controle</h2>
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><div><h3>Você aprova antes</h3><p>Antes do primeiro paciente, você aprova por escrito o que a assistente pode dizer e o jeito de falar.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0v4l-2 3h16l-2-3z"/><path d="M3 3l18 18"/></svg><div><h3>Você assume quando quiser</h3><p>Quando você responde um paciente pelo celular, a assistente fica em silêncio naquela conversa.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><div><h3>Transparente com o paciente</h3><p>Ela se apresenta como assistente da clínica e diz que é virtual quando perguntam.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 12h16"/><circle cx="12" cy="12" r="9"/></svg><div><h3>Sem insistência</h3><p>Oferece a avaliação uma vez, não promete resultado e para de insistir depois de um não.</p></div></div>
+  </div>
+
+  <div class="caixa">
+    <h3>O que ela não faz</h3>
+    <ul class="lista nao">
+      <li>Orientação clínica, diagnóstico ou indicação de tratamento. Assunto de tratamento em andamento vai direto para você.</li>
+      <li>Preço que a clínica não autorizou por escrito.</li>
+      <li>Envio de propaganda ou mensagem em massa.</li>
+    </ul>
+  </div>
+
+  <h2>Como o WhatsApp é conectado</h2>
+  <p>Ela funciona no número que a clínica já usa. É como deixar o WhatsApp aberto num computador: o celular continua funcionando normalmente e você vê todas as conversas. A Keshion nunca recebe a sua senha.</p>
+  <p class="sub">Essa conexão não é a oficial da Meta, por isso seguimos três regras: só responder quem escreveu para a clínica, nenhuma propaganda e nenhum envio em massa. Com esse uso, o risco de bloqueio do número é baixo, mas não é zero. Se um dia você preferir, migramos para a conexão oficial.</p>
+
+  <h2>Dados e privacidade</h2>
+  <ul class="lista">
+    <li>Os dados são da clínica. A Keshion atua em nome da clínica, como operadora.</li>
+    <li>Nenhum prontuário entra no sistema. Guardamos só o necessário para atender e agendar.</li>
+    <li>Cada clínica tem o seu próprio banco de dados, separado das outras, com cópia de segurança diária e criptografada.</li>
+    <li>As mensagens passam pelo servidor da Keshion e por serviços de inteligência artificial da Anthropic e da OpenAI, nos Estados Unidos.</li>
+    <li>Você pode pedir a exclusão do histórico e a devolução dos acessos a qualquer momento.</li>
+  </ul>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes</span><span>2 de 3</span></div>
+</section>
+
+<!-- PÁGINA 3: o combinado e os próximos passos -->
+<section class="pagina">
+  <svg class="arcos" viewBox="0 0 100 100" style="top:auto;bottom:-46mm"><path d="M50 8a42 42 0 0 1 0 84" stroke="#4388E8" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M50 92a42 42 0 0 1 0-84" stroke="#55C96A" stroke-width="9" fill="none" stroke-linecap="round"/></svg>
+  <div class="topo"><img src="../../branding/kit/logos/keshion-ai-fundo-claro.svg" alt="Keshion AI"><span class="etiqueta">O combinado do piloto</span></div>
+
+  <div style="display:grid;gap:3mm">
+    <h1 style="font-size:21pt">Clínica piloto: sem custo, em troca do seu olhar de dentista.</h1>
+    <p class="lead">Estamos escolhendo poucas clínicas para construir a assistente junto com quem vive a rotina. Você não paga pelo piloto. Em troca, avalia, aponta falhas e diz o que falta.</p>
+  </div>
+
+  <div class="grade">
+    <div class="item"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><h3>30 dias de acompanhamento</h3><p>Contados a partir da entrada no ar, com uma conversa de 20 minutos ao fim de cada semana. Depois disso, a assistente continua funcionando na clínica.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><div><h3>Passe livre para criticar</h3><p>Qualquer erro vale: português, tom, demora, uma resposta estranha. É isso que nos ajuda.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.1l1.4-7L2 9.3l7-.8z"/></svg><div><h3>Seu resultado vira caso</h3><p>Você autoriza o uso do resultado como caso, com ou sem o nome da clínica.</p></div></div>
+    <div class="item"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg><div><h3>Sem amarra</h3><p>Qualquer uma das partes pode encerrar o piloto, com devolução de todos os acessos.</p></div></div>
+  </div>
+
+  <div class="caixa">
+    <h3>O que entra na sua clínica nas próximas etapas, sem custo no piloto</h3>
+    <ul class="lista">
+      <li>Confirmação e lembrete de consulta.</li>
+      <li>Lembretes para quem fez orçamento e ainda não fechou.</li>
+      <li>Aplicativo no celular com as conversas, os pacientes, a agenda e o que precisa de você.</li>
+      <li>Relatório com os contatos recebidos, o tempo de resposta e as avaliações marcadas.</li>
+    </ul>
+  </div>
+
+  <div class="caixa">
+    <h2 style="font-size:12pt">O que precisamos da clínica</h2>
+    <ol class="passos">
+      <li><div><b>Uma conversa de 60 minutos</b> para entender a clínica, os tratamentos e o jeito de atender.</div></li>
+      <li><div><b>O questionário da clínica</b>, com os preços e as condições que a assistente pode dizer.</div></li>
+      <li><div><b>De 10 a 20 prints de conversas</b>, sem o nome dos pacientes: as que você gosta e as que não gosta.</div></li>
+      <li><div><b>Acesso à agenda do Google</b> usada para as avaliações e o nome da assistente.</div></li>
+      <li><div><b>O termo de parceria</b> assinado. Com tudo pronto, a assistente entra no ar.</div></li>
+    </ol>
+  </div>
+
+  <div style="display:grid;gap:2mm">
+    <h2>Quer ver funcionando?</h2>
+    <p>Mostramos a assistente atendendo ao vivo, numa clínica de demonstração, numa conversa de 30 minutos por vídeo. Responda a mensagem em que recebeu este material ou escreva para <span class="destaque">contato@keshion.com</span>.</p>
+  </div>
+
+  <div class="rodape"><span><b>Keshion AI</b> · automações inteligentes · keshion.com</span><span>3 de 3</span></div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,713 @@
+<title>Startup Canvas Keshion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@700&display=swap">
+<style>
+/* Layout: documento de estratégia com navegação fixa por seção; tabelas largas rolam dentro do próprio quadro. Cores do kit oficial Keshion. */
+:root{
+  --bg:#F7F8F4; --surface:#E8EFF9; --fg:#0B1126; --muted:#50596A; --accent:#2459A6;
+  --accent-soft:rgba(36,89,166,.10); --line:#CCD5E6; --arc-blue:#4388E8; --arc-green:#55C96A;
+  --ok:#1F6B34; --ok-bg:rgba(31,107,52,.10); --warn:#7A4E00; --warn-bg:rgba(184,122,0,.12);
+  --todo:#2459A6; --todo-bg:rgba(36,89,166,.10); --later:#50596A; --later-bg:rgba(80,89,106,.10);
+  --nav-bg:rgba(247,248,244,.92); --j2:#2E8A44;
+  --display:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1126; --surface:#17233E; --fg:#F7F8F4; --muted:#CCD5E6; --accent:#4388E8;
+  --accent-soft:rgba(67,136,232,.14); --line:#2A3858; --ok:#55C96A; --ok-bg:rgba(85,201,106,.14);
+  --warn:#F0C060; --warn-bg:rgba(240,192,96,.14); --todo:#7FAEF0; --todo-bg:rgba(67,136,232,.16);
+  --later:#CCD5E6; --later-bg:rgba(204,213,230,.10); --nav-bg:rgba(11,17,38,.92); --j2:#55C96A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1126; --surface:#17233E; --fg:#F7F8F4; --muted:#CCD5E6; --accent:#4388E8;
+  --accent-soft:rgba(67,136,232,.14); --line:#2A3858; --ok:#55C96A; --ok-bg:rgba(85,201,106,.14);
+  --warn:#F0C060; --warn-bg:rgba(240,192,96,.14); --todo:#7FAEF0; --todo-bg:rgba(67,136,232,.16);
+  --later:#CCD5E6; --later-bg:rgba(204,213,230,.10); --nav-bg:rgba(11,17,38,.92); --j2:#55C96A; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--nav-bg)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:700;text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(32px,5vw,50px);letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.2vw,32px)}
+h3{font-size:19px}
+p{margin:0;max-width:68ch}
+a{color:var(--accent)}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* Cabeçalho */
+header.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+header.hero .wrap{padding-block:28px 40px;display:grid;gap:22px;position:relative;z-index:1}
+.logo{height:32px;width:auto;display:block}
+.logo-dark{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo-light{display:none}:root:not([data-theme="light"]) .logo-dark{display:block}}
+:root[data-theme="dark"] .logo-light{display:none}
+:root[data-theme="dark"] .logo-dark{display:block}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.hero .lede{font-size:18px;color:var(--muted);max-width:62ch}
+.arcs{position:absolute;right:-90px;top:-70px;width:360px;height:360px;opacity:.22;z-index:0;pointer-events:none}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;max-width:720px}
+.note svg{flex:none;margin-top:2px;color:var(--accent)}
+
+/* Navegação */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+nav.toc a{flex:none;font:600 14px/1 var(--body);color:var(--muted);text-decoration:none;padding:9px 12px;border-radius:8px;white-space:nowrap}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-soft);color:var(--fg);outline:none}
+
+main section{padding-block:48px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.sec-head{display:grid;gap:10px;margin-bottom:24px}
+.stack{display:grid;gap:18px}
+
+/* Tabelas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font:600 12px/1.3 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface)}
+tr:last-child td{border-bottom:0}
+td strong{font-weight:600}
+.wide table{min-width:860px}
+.mid table{min-width:640px}
+
+/* Valores */
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.values div{border-top:2px solid var(--accent);padding-top:12px;display:grid;gap:4px}
+.values b{font-family:var(--display);font-size:17px}
+.big-quote{font-family:var(--display);font-size:clamp(24px,3.4vw,34px);line-height:1.25;max-width:24ch}
+
+/* Gráfico de tíquete */
+.chart{border:1px solid var(--line);border-radius:10px;padding:18px 16px 12px;overflow-x:auto}
+.chart-inner{min-width:620px;display:grid;gap:7px}
+.crow{display:grid;grid-template-columns:200px 1fr;align-items:center;gap:12px;font-size:13.5px}
+.crow .lbl{text-align:right;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{position:relative;height:16px}
+.track .grid{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--line)}
+.bar{position:absolute;top:3px;height:10px;border-radius:5px;background:var(--accent)}
+.bar.j2{background:var(--j2)}
+.bar.j3{background:var(--fg);opacity:.75}
+.axis{display:grid;grid-template-columns:200px 1fr;gap:12px;margin-top:4px}
+.axis .ticks{position:relative;height:18px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.axis .ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:4px;margin-right:6px;vertical-align:middle}
+
+/* Jornadas e perfis */
+.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:8px;align-content:start;min-width:0}
+.card .tag{font:600 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.card ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14.5px}
+
+/* Pacotes */
+.tiers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch}
+.tier.later-tier{border-style:dashed}
+.tier .vp{font-size:14px;font-style:italic;color:var(--fg);border-left:2px solid var(--line);padding-left:10px}
+.track .dot{position:absolute;top:2px;width:12px;height:12px;border-radius:50%;transform:translateX(-50%);background:var(--fg);opacity:.75}
+.track .dot.k{background:var(--accent);opacity:1;width:14px;height:14px;top:1px}
+.track .val{position:absolute;top:50%;transform:translateY(-50%);font-size:12.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.crow .klbl{font-weight:600;color:var(--accent)}
+@media (max-width:1020px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tier{border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;align-content:start;background:var(--bg);min-width:0}
+.tier.featured{border:2px solid var(--accent);background:var(--surface)}
+.tier .price{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.tier .price small{font:400 13px var(--body);color:var(--muted)}
+.tier ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:14.5px}
+.tier li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.tier li.off{color:var(--muted)}
+.tier li svg{margin-top:4px}
+.chip{display:inline-block;font:600 12px/1 var(--body);padding:5px 8px;border-radius:999px;white-space:nowrap}
+.chip.ok{color:var(--ok);background:var(--ok-bg)}
+.chip.warn{color:var(--warn);background:var(--warn-bg)}
+.chip.todo{color:var(--todo);background:var(--todo-bg)}
+.chip.later{color:var(--later);background:var(--later-bg)}
+
+.recommend{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.pick{border-left:3px solid var(--accent);padding:4px 0 4px 14px;display:grid;gap:6px}
+
+/* Roadmap */
+.road{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.road-grid{display:grid;grid-template-columns:120px repeat(6,minmax(150px,1fr));min-width:1040px}
+.road-grid > div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:10px;font-size:13.5px;line-height:1.45}
+.road-grid > div:nth-child(7n){border-right:0}
+.road-grid .rh{background:var(--surface);font:600 12px/1.3 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.road-grid .lane{font-family:var(--display);font-size:15px;background:var(--surface)}
+.road-grid .lane small{display:block;font:400 12px var(--body);color:var(--muted);margin-top:2px}
+.road-grid ul{margin:0;padding-left:16px;display:grid;gap:5px}
+.road-grid .gate{display:block;margin-top:8px;font-weight:600;color:var(--accent);font-size:12.5px}
+.road-grid > div.last{border-bottom:0}
+
+/* Hipóteses */
+.hyp{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.hyp .card{background:var(--bg)}
+.hyp .num{font:600 12px/1 var(--body);color:var(--accent);letter-spacing:.06em}
+.hyp dl{margin:0;display:grid;gap:6px;font-size:14px}
+.hyp dt{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.hyp dd{margin:0}
+.first{background:var(--accent-soft);border-radius:10px;padding:14px 16px}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
+
+@media (max-width:820px){
+  .values,.cards3,.tiers,.recommend,.two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="hero">
+  <svg class="arcs" viewBox="0 0 100 100" aria-hidden="true"><path d="M80.8367 11.9198 A49 49 0 0 0 11.9198 80.8367 L28.2399 67.6210 A28 28 0 0 1 67.6210 28.2399 Z" fill="#4388E8"/><path d="M19.1633 88.0802 A49 49 0 0 0 88.0802 19.1633 L71.7601 32.3790 A28 28 0 0 1 32.3790 71.7601 Z" fill="#55C96A"/></svg>
+  <div class="wrap">
+    <div class="topline">
+      <img class="logo logo-light" src="logo-fundo-claro.svg" alt="Keshion AI">
+      <img class="logo logo-dark" src="logo-fundo-escuro.svg" alt="Keshion AI">
+      <span class="eyebrow">Versão 2 · 22/11/2026</span>
+    </div>
+    <div class="stack">
+      <span class="eyebrow">Startup Canvas · estratégia e modelo de negócio</span>
+      <h1>O plano da Keshion em uma página</h1>
+      <p class="lede">O cliente é o dentista. O nicho é a odontologia inteira, com um rol de pacotes e funções para cada tipo de clínica. O piloto começa pela clínica geral, a mais fácil de trabalhar, sem descartar a clínica de alto valor.</p>
+    </div>
+    <div class="note">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span>Valores marcados como <strong>estimativa</strong> (tíquetes, custos por clínica e preços dos pacotes) são para discutir e testar nos pilotos, não para decidir. Datas e metas vêm do plano estratégico.</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Seções">
+  <div class="wrap">
+    <a href="#visao">Visão</a>
+    <a href="#mercado">Mercado</a>
+    <a href="#pacotes">Planos</a>
+    <a href="#preco">Preço</a>
+    <a href="#pacientes">Pacientes antigos</a>
+    <a href="#estrategia">Estratégia</a>
+    <a href="#negocio">Custos e receita</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#equipe">Quem faz o quê</a>
+    <a href="#hipoteses">Hipóteses</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="visao"><div class="wrap stack">
+  <span class="eyebrow">1 · Visão</span>
+  <p class="big-quote">Nenhum paciente sem resposta, nenhum dentista respondendo WhatsApp de madrugada.</p>
+  <p class="muted">Ser a referência em automações e agentes de IA para pequenos e médios negócios, começando pela odontologia no Brasil.</p>
+  <div class="values">
+    <div><b>O dentista no controle</b><span class="small muted">Ele aprova o que a assistente pode dizer e assume a conversa quando quiser.</span></div>
+    <div><b>Transparência com o paciente</b><span class="small muted">A assistente diz que é virtual, não dá diagnóstico e não fala preço sem autorização.</span></div>
+    <div><b>Resultado medido</b><span class="small muted">Tempo de resposta, consultas marcadas, faltas e orçamentos fechados, em números.</span></div>
+  </div>
+</div></section>
+
+<section id="mercado"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">2 · Mercado</span>
+    <h2>A odontologia e suas especialidades</h2>
+    <p class="muted">Cada especialidade tem um tíquete, uma rotina de agenda e um jeito de o paciente chegar. Isso define qual pacote e quais funções fazem sentido. A segmentação serve para montar o rol de produtos, não para excluir clínicas.</p>
+  </div>
+
+  <div class="stack">
+    <h3>Tíquete por procedimento (estimativa)</h3>
+    <div class="chart" role="img" aria-label="Faixa de preço por procedimento, em escala logarítmica de 100 a 40 mil reais">
+      <div class="chart-inner" id="chart"></div>
+      <div class="legend">
+        <span><i style="background:var(--accent)"></i>Rotina e retorno</span>
+        <span><i style="background:var(--j2)"></i>Urgência e etapas</span>
+        <span><i style="background:var(--fg);opacity:.75"></i>Orçamento alto</span>
+        <span>Escala logarítmica: cada marca multiplica o valor</span>
+      </div>
+    </div>
+
+    <h3 style="margin-top:12px">Mapa das especialidades</h3>
+    <div class="tbl wide"><table>
+      <thead><tr><th>Especialidade</th><th>Procedimentos típicos</th><th>Como é a agenda</th><th>Como o paciente chega</th><th>O que mais dói para o dentista</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Clínica geral</strong></td><td>Limpeza, obturação, extração simples, avaliação</td><td>Consultas curtas, muitas por dia; limpeza a cada 6 meses</td><td>Paciente antigo, indicação, Google, WhatsApp</td><td>Volume de mensagens enquanto atende; paciente que não volta para a limpeza</td></tr>
+        <tr><td><strong>Endodontia</strong></td><td>Canal, retratamento</td><td>1 a 3 sessões, encaixe de urgência</td><td>Dor e encaminhamento de outro dentista</td><td>Paciente com dor que precisa de horário hoje; sessões seguintes esquecidas</td></tr>
+        <tr><td><strong>Ortodontia</strong></td><td>Aparelho fixo, alinhadores, manutenção</td><td>Manutenção mensal por 18 a 30 meses</td><td>Indicação, Instagram, pais</td><td>Falta e remarcação em volume; inadimplência</td></tr>
+        <tr><td><strong>Implantodontia</strong></td><td>Implante unitário, protocolo, enxerto</td><td>Etapas longas: cirurgia, 3 a 6 meses de espera, prótese</td><td>Anúncio, indicação, avaliação gratuita</td><td>Orçamento alto que esfria; medo antes de decidir</td></tr>
+        <tr><td><strong>Prótese</strong></td><td>Coroa, prótese fixa e removível</td><td>Várias sessões de ajuste</td><td>Encaminhamento, paciente antigo</td><td>Sequência de consultas e retornos</td></tr>
+        <tr><td><strong>Periodontia</strong></td><td>Raspagem, gengiva, manutenção</td><td>Manutenção a cada 3 ou 4 meses</td><td>Encaminhamento</td><td>Paciente que abandona a manutenção</td></tr>
+        <tr><td><strong>Odontopediatria</strong></td><td>Consulta, prevenção, restauração</td><td>Retorno a cada 6 meses</td><td>Pais, indicação</td><td>Quem conversa é o responsável</td></tr>
+        <tr><td><strong>Estética</strong></td><td>Clareamento, lentes e facetas, resina</td><td>Avaliação, planejamento, sessões</td><td>Instagram e anúncio</td><td>Muitos curiosos, orçamento que esfria</td></tr>
+        <tr><td><strong>Cirurgia oral</strong></td><td>Siso, cirurgias menores</td><td>Cirurgia e pós-operatório em 7 dias</td><td>Encaminhamento, dor</td><td>Dúvidas depois da cirurgia</td></tr>
+        <tr><td><strong>Harmonização orofacial</strong></td><td>Toxina, preenchimento</td><td>Retorno a cada 4 a 6 meses</td><td>Instagram</td><td>Regras do conselho e do anúncio mudam: entrar com cuidado</td></tr>
+        <tr><td><strong>DTM e dor orofacial</strong></td><td>Placa, tratamento de dor</td><td>Sessões e retorno</td><td>Encaminhamento, dor</td><td>Paciente ansioso, muitas dúvidas</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted">A maioria das clínicas mistura especialidades. Por isso a assistente trabalha com uma <strong>tabela de procedimentos da clínica</strong>: nome, duração, se aceita encaixe, faixa de preço que pode ser dita e retorno programado.</p>
+
+    <h3 style="margin-top:12px">As três jornadas que o produto cobre</h3>
+    <div class="cards3">
+      <div class="card"><span class="tag">Rotina e retorno</span><p class="small muted">Clínica geral, periodontia, odontopediatria, manutenção de ortodontia</p><p class="small">Responder rápido, marcar, confirmar e lembrar do retorno no prazo certo (6 meses, 3 meses, mensal).</p></div>
+      <div class="card"><span class="tag">Urgência e etapas</span><p class="small muted">Endodontia, cirurgia oral, prótese, DTM</p><p class="small">Reconhecer dor e chamar o dentista, oferecer encaixe, marcar a próxima sessão, acompanhar o pós-operatório.</p></div>
+      <div class="card"><span class="tag">Orçamento alto</span><p class="small muted">Implante, protocolo, alinhador, estética</p><p class="small">Tirar dúvidas com o texto aprovado, acompanhar o orçamento nos dias 3, 10, 17 e 30, mostrar o valor recuperado.</p></div>
+    </div>
+
+    <h3 style="margin-top:12px">Por onde começar</h3>
+    <div class="tbl mid"><table>
+      <thead><tr><th>Perfil de clínica</th><th>Quando</th><th>Por quê</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Clínica geral multidisciplinar</strong><br><span class="small muted">limpeza, obturação, extração, algum canal</span></td><td><span class="chip ok">Piloto 1, agora</span></td><td>Mais fácil de trabalhar e mais comum; usa as três jornadas em escala pequena; a Erica e o Sérgio conhecem dentistas assim</td></tr>
+        <tr><td><strong>Clínica de especialista</strong><br><span class="small muted">ortodontia, endodontia, implante</span></td><td><span class="chip todo">Pilotos 2 e 3, até 15/12</span></td><td>Testa rotina em volume (ortodontia) ou urgência e orçamento (endodontia, implante)</td></tr>
+        <tr><td><strong>Clínica de alto valor</strong><br><span class="small muted">implante, protocolo, estética</span></td><td><span class="chip todo">Em venda desde já</span></td><td>Paga mais, com o pacote completo e o módulo de orçamento (pronto até 31/12/2026)</td></tr>
+        <tr><td><strong>Franquias e redes</strong></td><td><span class="chip later">Fora por enquanto</span></td><td>Decisão centralizada, compra lenta, exige integração com sistema próprio</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted"><strong>Para conferir:</strong> no endodontista que só faz canal, grande parte dos pacientes chega encaminhada. O valor pode estar em marcar a urgência no mesmo dia e avisar o dentista que encaminhou.</p>
+  </div>
+</div></section>
+
+<section id="pacotes"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">3 · Custos relativos e pacotes</span>
+    <h2>Serviço sob medida, em quatro planos</h2>
+    <p class="muted">A Keshion não vende uma assinatura genérica de R$ 180. Vende a base da clínica montada com o dentista, a tabela de procedimentos, a voz da clínica e o acompanhamento. Por dentro, o custo fica baixo: servidor próprio, IA barata e uma estrutura única que lê a configuração de cada clínica. Preços são estimativa para testar nos pilotos.</p>
+  </div>
+  <div class="tiers">
+    <div class="tier later-tier">
+      <span class="eyebrow">Start · a partir de abr/2027</span>
+      <div class="price">R$ 349 <small>por mês</small></div>
+      <p class="small muted">Implantação R$ 490 · se paga com <strong>2 limpezas por mês</strong></p>
+      <p class="small"><strong>Para:</strong> consultório pequeno que quer começar barato. Base pronta da especialidade, ajustada por questionário.</p>
+      <p class="vp">"Seu WhatsApp respondendo à noite e no fim de semana, por R$ 349 por mês."</p>
+      <ul id="t0"></ul>
+    </div>
+    <div class="tier">
+      <span class="eyebrow">Essencial</span>
+      <div class="price">R$ 590 <small>por mês</small></div>
+      <p class="small muted">Implantação R$ 1.500 · se paga com <strong>1 canal por mês</strong></p>
+      <p class="small"><strong>Para:</strong> dentista que atende sozinho e quer que a assistente fale como ele, só com o que ele aprovou.</p>
+      <p class="vp">"Uma assistente que fala como a sua clínica, atendendo quando você não pode."</p>
+      <ul id="t1"></ul>
+    </div>
+    <div class="tier featured">
+      <span class="eyebrow">Completo · o mais indicado</span>
+      <div class="price">R$ 1.190 <small>por mês</small></div>
+      <p class="small muted">Implantação R$ 2.500 · <strong>menos da metade de uma secretária</strong></p>
+      <p class="small"><strong>Para:</strong> clínica com secretária ou volume. A equipe deixa de digitar e passa a aprovar.</p>
+      <p class="vp">"Agenda cheia e confirmada, com a sua equipe no controle."</p>
+      <ul id="t2"></ul>
+    </div>
+    <div class="tier">
+      <span class="eyebrow">Completo com app</span>
+      <div class="price">R$ 1.690 <small>por mês</small></div>
+      <p class="small muted">Implantação R$ 3.500 · se paga com <strong>1 implante a cada 2 meses</strong></p>
+      <p class="small"><strong>Para:</strong> clínica de alto valor ou dono que quer ver e medir o atendimento pelo celular.</p>
+      <p class="vp">"Sua clínica no seu celular: conversas, agenda e resultado com o nome da sua clínica."</p>
+      <ul id="t3"></ul>
+    </div>
+  </div>
+  <div class="tbl mid" style="margin-top:20px"><table>
+    <thead><tr><th>Módulo (somado ao plano)</th><th>Mensalidade (estimativa)</th><th>Planos</th></tr></thead>
+    <tbody>
+      <tr><td>Acompanhamento de orçamento (dias 3, 10, 17 e 30)</td><td>R$ 290</td><td>Essencial em diante</td></tr>
+      <tr><td>Pós-operatório com orientação aprovada</td><td>R$ 149</td><td>Completo em diante</td></tr>
+      <tr><td>Pedido de avaliação no Google</td><td>R$ 99</td><td>Todos</td></tr>
+      <tr><td>Reativação de pacientes antigos</td><td>R$ 290</td><td>Completo em diante, só com a conexão oficial</td></tr>
+      <tr><td>Número de WhatsApp extra</td><td>50% da mensalidade</td><td>Todos</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted" style="margin-top:12px">Anual pago adiantado: 2 meses grátis. Ou 12 meses com a implantação em 3 vezes. Proposta de valor completa de cada plano em <code>comercial/proposta-de-valor-planos.md</code>.</p>
+
+  <div class="recommend" style="margin-top:28px">
+    <div class="pick">
+      <span class="eyebrow">Nome do app · recomendação</span>
+      <h3>"Aplicativo exclusivo da sua clínica"</h3>
+      <p class="small">O dentista pensa no celular: "aplicativo" diz que é fácil e está no bolso. "Software" lembra sistema de gestão, cria expectativa de prontuário e financeiro e põe a Keshion na comparação com Clinicorp e Simples Dental. "Exclusivo" funciona melhor com o nome e o logo da clínica no app.</p>
+    </div>
+    <div class="pick">
+      <span class="eyebrow">Como testar</span>
+      <h3>Perguntar e alternar</h3>
+      <p class="small">Nas demonstrações dos pilotos, mostrar o app e perguntar "como você chamaria isso?". Nos convites para quem não é conhecido, alternar as duas palavras e ver qual gera mais resposta.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="preco"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Estratégia de preço</span>
+    <h2>Plano barato agora ou alto valor?</h2>
+    <p class="muted">Modelo: planos por nível de serviço, com implantação e módulos. Cobrança por número de WhatsApp da clínica; só o Start tem limite de conversas.</p>
+  </div>
+  <div class="cards3">
+    <div class="card"><span class="tag">Agora: alto valor</span><p class="small">Hoje cada clínica é montada sob medida e consome horas da Erica. Um plano de R$ 299 teria o mesmo trabalho com metade da receita e colocaria a Keshion ao lado do software genérico e da IA grátis da Meta.</p></div>
+    <div class="card"><span class="tag">Abril de 2027: Start</span><p class="small">O plano de R$ 349 entra quando houver bases prontas por especialidade e implantação por questionário, sem reunião. Antes disso, testar a demanda com uma página de lista de espera.</p></div>
+    <div class="card"><span class="tag">Sempre</span><p class="small"><strong>A clínica só paga pelo que está no ar.</strong> Hoje o que funciona é o Essencial. O Completo fica pronto em 15/12 e o Completo com app em 31/12, se o roadmap for cumprido.</p></div>
+  </div>
+
+  <h3 style="margin-top:28px">Onde a Keshion fica na prateleira</h3>
+  <div class="chart" role="img" aria-label="Mensalidade por mês de cada alternativa, de zero a 3.500 reais">
+    <div class="chart-inner" id="ladder"></div>
+  </div>
+  <p class="small muted" style="margin-top:8px">Acima do software, abaixo da secretária. O espaço livre é "feito sob medida, com acompanhamento, por menos da metade de uma secretária". Concorrentes: pesquisa de 11/10/2026.</p>
+
+  <h3 style="margin-top:28px">Custo e margem por plano (estimativa)</h3>
+  <div class="tbl mid"><table>
+    <thead><tr><th>Plano</th><th>Mensalidade</th><th>Ferramentas</th><th>Teto de horas por mês</th><th>Margem só ferramentas</th><th>Margem com horas</th></tr></thead>
+    <tbody>
+      <tr><td>Start</td><td>R$ 349</td><td>R$ 110</td><td>0,5 h</td><td>68%</td><td>54%</td></tr>
+      <tr><td>Essencial</td><td>R$ 590</td><td>R$ 130</td><td>1,5 h</td><td>78%</td><td>53%</td></tr>
+      <tr><td>Completo</td><td>R$ 1.190</td><td>R$ 180</td><td>4 h</td><td>85%</td><td>51%</td></tr>
+      <tr><td>Completo com app</td><td>R$ 1.690</td><td>R$ 200</td><td>5 h</td><td>88%</td><td>59%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted" style="margin-top:8px">Hora da Keshion a R$ 100 (custo de oportunidade hoje). <strong>Horas são o custo que decide:</strong> a meta de menos de 3 h por semana só cabe no primeiro mês; depois, cada plano precisa caber no seu teto. A implantação paga as horas do começo.</p>
+
+  <div class="two" style="margin-top:28px">
+    <div class="stack">
+      <h3>Pilotos e fundadores</h3>
+      <div class="tbl"><table><tbody>
+        <tr><td><strong>Piloto</strong></td><td>Sem custo por 30 dias, pode estender, em troca de feedback, depoimento e case</td></tr>
+        <tr><td><strong>Fundador</strong> (3 vagas, jan a mar/2027)</td><td>R$ 3.000 de implantação e R$ 1.500 por mês congelados por 12 meses: o Completo com app com 11% de desconto</td></tr>
+        <tr><td><strong>Escada do fundador</strong> (sugestão)</td><td>Começa em R$ 790 enquanto só o Essencial estiver no ar e sobe para R$ 1.500 quando confirmação e app estiverem rodando</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="stack">
+      <h3>Como testar os preços</h3>
+      <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:6px">
+        <li><strong>Conversa final dos pilotos:</strong> as 4 perguntas de preço (barato demais, bom negócio, caro, caro demais) e oferta real do mês 2 pago</li>
+        <li><strong>Âncora:</strong> mostrar sempre 3 planos com o Completo destacado e anotar qual cada clínica escolhe</li>
+        <li><strong>Escada x preço fixo:</strong> metade dos fundadores com cada oferta</li>
+        <li><strong>Start antes de construir:</strong> página "a partir de R$ 349" com lista de espera, alternando 299, 349 e 399</li>
+        <li><strong>Anual:</strong> oferecer 2 meses grátis em toda proposta</li>
+      </ul>
+    </div>
+  </div>
+  <div class="first" style="margin-top:18px">
+    <p class="small"><strong>Maior risco do Start:</strong> puxar clientes do Essencial e marcar a Keshion como "mais um robô". Por isso ele só aparece quando o Essencial não cabe no orçamento, e só depois de 3 cases.</p>
+  </div>
+</div></section>
+
+<section id="pacientes"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">4 · Base de pacientes da clínica</span>
+    <h2>O paciente que a clínica já tem</h2>
+    <p class="muted">O paciente novo nunca fica esperando: isso já está resolvido. O trabalho agora é quem já é da clínica. Exemplo: "minha obturação caiu, tem horário?" A assistente precisa reconhecer o paciente, entender o procedimento, saber quanto tempo ele leva, perguntar se tem dor e oferecer o horário do tipo certo.</p>
+  </div>
+  <div class="tbl wide"><table>
+    <thead><tr><th>Função</th><th>Clínica geral</th><th>Ortodontia</th><th>Endodontia</th><th>Implante</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td>Reconhecer quem já conversou (pelo telefone)</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td><span class="chip ok">Já funciona</span></td></tr>
+      <tr><td>Marcar, remarcar e cancelar sem horário em dobro</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td><span class="chip ok">Já funciona</span></td></tr>
+      <tr><td>Regra para paciente antigo (oferecer marcar, faixa de preço da limpeza)</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td><span class="chip warn">Ajustar: testes deram 5 a 6 de 10</span></td></tr>
+      <tr><td>Tabela de procedimentos com duração e encaixe</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td><span class="chip todo">Até 30/11</span></td></tr>
+      <tr><td>Confirmação e lembrete de consulta</td><td>Sim</td><td>Essencial</td><td>Sim</td><td>Sim</td><td><span class="chip todo">Até 15/12</span></td></tr>
+      <tr><td>Aviso de falta e oferta de remarcar</td><td>Sim</td><td>Essencial</td><td>Sim</td><td>Sim</td><td><span class="chip todo">Com o app, até 31/12</span></td></tr>
+      <tr><td>Acompanhamento de orçamento</td><td>Às vezes</td><td>Alinhador</td><td>Coroa depois do canal</td><td>Sim</td><td><span class="chip todo">Até 31/12</span></td></tr>
+      <tr><td>Lista de pacientes da clínica (nome, telefone, último atendimento)</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td><span class="chip later">Janeiro de 2027</span></td></tr>
+      <tr><td>Retorno programado</td><td>Limpeza a cada 6 meses</td><td>Manutenção mensal</td><td>Próxima sessão</td><td>Controle anual</td><td><span class="chip later">Janeiro de 2027</span></td></tr>
+      <tr><td>Pós-operatório com orientação aprovada</td><td>Extração</td><td>Não</td><td>Sim</td><td>Sim</td><td><span class="chip later">1º tri de 2027</span></td></tr>
+      <tr><td>Reativação (mais de 6 meses sem vir)</td><td>Sim</td><td>Abandono</td><td>Não</td><td>Sim</td><td><span class="chip later">Só com a conexão oficial</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted" style="margin-top:12px">A lista de pacientes fica no sistema da clínica, nunca em arquivo da Keshion. Sem mensagem em massa nem propaganda.</p>
+</div></section>
+
+<section id="estrategia"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">5 a 10 · Estratégia</span>
+    <h2>Proposta de valor, escolhas e defesa</h2>
+  </div>
+  <div class="stack">
+    <div class="cards3">
+      <div class="card"><span class="tag">Antes</span><p class="small">O paciente escreve enquanto o dentista atende e espera horas. Mensagem das 22h fica para o dia seguinte. O dentista responde no intervalo e à noite. Parte desiste e marca em outro lugar.</p></div>
+      <div class="card"><span class="tag">Como</span><p class="small">Assistente no WhatsApp da própria clínica, com nome escolhido pela clínica e base montada com o dentista. Responde a qualquer hora, marca no Google Agenda sem horário em dobro, chama o dentista quando precisa.</p></div>
+      <div class="card"><span class="tag">Depois</span><p class="small">Nenhum paciente sem resposta, agenda preenchida sem parar o atendimento, noites livres, orçamentos acompanhados.</p></div>
+    </div>
+
+    <h3 style="margin-top:12px">Alternativas e onde a Keshion ganha</h3>
+    <div class="tbl mid"><table>
+      <thead><tr><th>Alternativa</th><th>Preço</th><th>O que não entrega</th></tr></thead>
+      <tbody>
+        <tr><td>Dentista responde sozinho</td><td>Grátis em dinheiro, caro em tempo</td><td>Resposta rápida, noite e fim de semana</td></tr>
+        <tr><td>Secretária</td><td>R$ 2.500 a 3.500 por mês (estimativa, com encargos)</td><td>Atendimento 24 h; em consultório pequeno nem existe</td></tr>
+        <tr><td>Business AI da Meta</td><td>Grátis hoje</td><td>Agenda integrada, voz da clínica, confirmação, retorno</td></tr>
+        <tr><td>Secretária IA da Simples Dental</td><td>Cerca de R$ 180 por mês</td><td>Ajuste por clínica e acompanhamento humano</td></tr>
+        <tr><td>Cloudia e novatos</td><td>R$ 259 a 997 por mês</td><td>Configuração feita para a clínica</td></tr>
+        <tr><td>Odonto Results</td><td>Agência: tráfego, IA e central humana</td><td>Preço acessível; o foco deles é anúncio</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="two" style="margin-top:12px">
+      <div class="stack">
+        <h3>O que a Keshion não faz</h3>
+        <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:6px">
+          <li>Outras áreas além da odontologia, até 10 pagantes e 2 cases</li>
+          <li>Franquias e redes, por enquanto</li>
+          <li>Integração com sistema de gestão: só Google Agenda por enquanto</li>
+          <li>Prontuário e financeiro</li>
+          <li>Mensagem em massa e propaganda pelo WhatsApp</li>
+          <li>Tráfego pago para a clínica: a Keshion não é agência</li>
+          <li>Software para a clínica configurar sozinha</li>
+          <li>Anúncio da Keshion antes de 3 cases</li>
+          <li>Função nova sem pedido de cliente</li>
+          <li>Diagnóstico, preço sem autorização ou fingir ser humana</li>
+        </ul>
+      </div>
+      <div class="stack">
+        <h3>Métricas</h3>
+        <div class="card"><span class="tag">North Star</span><p class="small">Consultas marcadas ou confirmadas pela assistente por mês, somando todas as clínicas.</p></div>
+        <div class="card"><span class="tag">Foco até 31/03/2027</span><p class="small">Clínicas piloto que aceitam pagar ao fim do período sem custo: 1 até 31/01 e 3 até 31/03.</p></div>
+        <p class="small muted">Toda semana, por clínica: tempo de primeira resposta, % resolvida sem o dentista, % do copiloto aprovada sem edição, erros 🔴, faltas, retornos marcados e horas da Keshion.</p>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:12px">
+      <div class="stack">
+        <h3>Crescimento</h3>
+        <p class="small">Venda conduzida pelos fundadores agora, indicação depois. O dentista precisa ver a assistente funcionando e confiar em quem montou.</p>
+        <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:6px">
+          <li><strong>Até março de 2027:</strong> rede de conhecidos, convite pessoal, demonstração de 30 min</li>
+          <li><strong>2027:</strong> indicação de dentista para dentista; diagnóstico grátis para quem não é conhecido</li>
+          <li><strong>Desde dezembro de 2026:</strong> conteúdo da Erica no LinkedIn e no Instagram</li>
+          <li><strong>2028:</strong> agências de marketing odontológico, consultores e contadores de clínica como parceiros</li>
+        </ul>
+      </div>
+      <div class="stack">
+        <h3>Por que é difícil copiar</h3>
+        <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:6px">
+          <li><strong>Simples Dental não quer:</strong> ajustar cada clínica quebra o modelo de R$ 180 para 19 mil clínicas</li>
+          <li><strong>Meta não quer:</strong> a IA grátis é genérica para qualquer negócio</li>
+          <li><strong>Cloudia não quer:</strong> atende saúde em geral, especializar diminui a escala</li>
+          <li><strong>Odonto Results não consegue no mesmo preço:</strong> o custo dela é central humana e tráfego</li>
+          <li><strong>Novatos não conseguem rápido:</strong> falta prova e bases por especialidade</li>
+        </ul>
+        <p class="small muted">Hoje a defesa é fraca. O que protege é o conjunto (base sob medida, copiloto, acompanhamento, relatório e bases por especialidade), que só existe depois dos pilotos. A velocidade dos pilotos é a defesa de agora.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:12px">Capacidades</h3>
+    <div class="tbl mid"><table>
+      <thead><tr><th>Capacidade</th><th>Hoje</th><th>Construir ou parceiro</th></tr></thead>
+      <tbody>
+        <tr><td>Assistente, fluxos no n8n, servidor próprio</td><td><span class="chip ok">Tem (Erica)</span></td><td>Construir</td></tr>
+        <tr><td>Venda e relacionamento</td><td><span class="chip ok">Tem (Sérgio)</span></td><td>Construir</td></tr>
+        <tr><td>Copiloto, confirmações, retornos, tabela de procedimentos, app, relatório</td><td><span class="chip todo">Em construção</span></td><td>Construir, puxado pelos pilotos</td></tr>
+        <tr><td>Bases prontas por especialidade</td><td><span class="chip later">Não tem</span></td><td>Construir a partir dos pilotos</td></tr>
+        <tr><td>Conexão oficial do WhatsApp</td><td><span class="chip later">Não tem</span></td><td>Parceiro (provedor oficial da Meta)</td></tr>
+        <tr><td>Integração com sistemas de gestão</td><td><span class="chip later">Não tem</span></td><td>Parceiro, só quando clientes pedirem</td></tr>
+        <tr><td>Contrato e LGPD; CNPJ com sócios em Israel</td><td><span class="chip later">Não tem</span></td><td>Advogado e contador</td></tr>
+        <tr><td>Implantação sem a Erica</td><td><span class="chip later">Não tem</span></td><td>Manual; pessoa por projeto a partir de 5 clínicas</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div></section>
+
+<section id="negocio"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">11 e 12 · Modelo de negócio</span>
+    <h2>Custos e receita</h2>
+  </div>
+  <div class="two">
+    <div class="stack">
+      <h3>Custos fixos</h3>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>Ferramentas (servidor, IA, Whapi, número)</td><td>R$ 250 a 400 por mês</td></tr>
+          <tr><td>Domínio e e-mail</td><td>Cerca de R$ 40 por ano mais o e-mail</td></tr>
+          <tr><td>Contador, depois do CNPJ</td><td>R$ 100 a 300 por mês</td></tr>
+          <tr><td>Abertura do CNPJ</td><td>Até R$ 1.000, uma vez</td></tr>
+          <tr><td>Contrato com advogado</td><td>R$ 1.000 a 3.000, uma vez</td></tr>
+          <tr><td>Marketing</td><td>R$ 0 até 3 cases</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Custo por clínica (estimativa)</h3>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>Número de WhatsApp</td><td>R$ 70 a 150 por mês</td></tr>
+          <tr><td>IA, áudio e foto</td><td>R$ 30 a 100 por mês</td></tr>
+          <tr><td><strong>Horas da Keshion</strong></td><td><strong>O maior custo real.</strong> Meta: até 7 dias de implantação e menos de 3 h por semana</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="stack">
+      <h3>Receita</h3>
+      <div class="tbl"><table>
+        <tbody>
+          <tr><td>Implantação por pacote</td><td>R$ 1.500 a 4.000 (estimativa)</td></tr>
+          <tr><td>Mensalidade por pacote</td><td>R$ 490 a 1.890 (estimativa)</td></tr>
+          <tr><td>Módulos</td><td>Valor fixo por mês, a definir com os pilotos</td></tr>
+          <tr><td>Fundador (3 vagas, jan a mar/2027)</td><td>R$ 3.000 e R$ 1.500 por mês por 12 meses</td></tr>
+          <tr><td>Preço cheio do plano (abr/2027)</td><td>Até R$ 6.000 e R$ 2.200 a 2.800: o teto, com app e módulos</td></tr>
+        </tbody>
+      </table></div>
+      <div class="card">
+        <span class="tag">A conta dos R$ 100 mil por mês</span>
+        <p class="small">Com tíquete médio de R$ 1.200 (estimativa de mistura entre pacotes), são cerca de <strong>85 clínicas</strong>, contra 40 no preço único de R$ 2.500. Os módulos e a subida de pacote aproximam esse número de 40.</p>
+        <p class="small muted">Margem: o Essencial fica perto de 70%, os outros passam de 80%. O que pode derrubar a margem são as horas, não as ferramentas.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">13 a 15 · Execução</span>
+    <h2>Roadmap de produto, vendas e marketing</h2>
+    <p class="muted">Cada linha tem um dono e um especialista do PM acompanhando. Em azul, o marco que libera a próxima fase.</p>
+  </div>
+  <div class="road" tabindex="0" aria-label="Roadmap, role para o lado">
+    <div class="road-grid">
+      <div class="rh">Área</div><div class="rh">23 a 30/11/2026</div><div class="rh">Dezembro de 2026</div><div class="rh">Janeiro de 2027</div><div class="rh">Fevereiro e março</div><div class="rh">Abril a setembro</div><div class="rh">Out/2027 a jun/2028</div>
+
+      <div class="lane">Produto<small>Erica · técnico</small></div>
+      <div><ul><li>Piloto 1 no ar fora do horário</li><li>Regra para paciente antigo</li><li>Tabela de procedimentos</li></ul></div>
+      <div><ul><li>Copiloto até 07/12</li><li>Confirmação e lembrete até 15/12</li><li>App v1, lembrete de orçamento e relatório até 31/12</li></ul></div>
+      <div><ul><li>Lista de pacientes</li><li>Retorno programado</li><li>Liga e desliga por pacote</li></ul></div>
+      <div><ul><li>Conexão oficial nas pagantes</li><li>Pós-operatório</li><li>Aviso de falta no app</li></ul></div>
+      <div><ul><li>Bases por especialidade</li><li>Implantação em até 2 semanas</li><li>Relatório de valor recuperado</li></ul></div>
+      <div><ul><li>Módulos: reativação, voz, Instagram (2028)</li></ul></div>
+
+      <div class="lane">Vendas<small>Sérgio · vendas</small></div>
+      <div><ul><li>Convite e demonstração do piloto 1</li><li>Implantação</li></ul><span class="gate">Piloto 1 no ar</span></div>
+      <div><ul><li>Pilotos 2 e 3 até 15/12, um de especialidade</li><li>16 a 19/12: pacotes e preços; contador</li></ul><span class="gate">Tabela de pacotes aprovada</span></div>
+      <div><ul><li>Conversa final do piloto 1</li><li>Oferta de fundador</li><li>Contrato com advogado</li></ul><span class="gate">1º pagante até 31/01</span></div>
+      <div><ul><li>Fim dos pilotos 2 e 3</li><li>Prospecção fora da rede volta</li></ul><span class="gate">3 pagantes até 31/03</span></div>
+      <div><ul><li>Preço cheio por pacote</li><li>Programa de indicação</li><li>1 a 2 clínicas novas por mês</li></ul><span class="gate">10 clientes</span></div>
+      <div><ul><li>Vendedor comissionado</li><li>Primeiros parceiros</li></ul><span class="gate">40 clientes, R$ 100 mil por mês</span></div>
+
+      <div class="lane last">Marketing<small>Erica · marketing</small></div>
+      <div class="last"><ul><li>Site, Instagram, LinkedIn e WhatsApp comercial (o que faltar)</li></ul></div>
+      <div class="last"><ul><li>PDF do piloto (fundo claro)</li><li>2 publicações por semana</li></ul></div>
+      <div class="last"><ul><li>Material de venda por pacote</li><li>Página de proposta</li></ul></div>
+      <div class="last"><ul><li>Calculadora de prejuízo</li><li>Primeiro depoimento</li></ul></div>
+      <div class="last"><ul><li>Primeiro case com números</li><li>Conteúdo por especialidade</li><li>Estudo do WhatsApp das clínicas (2º semestre)</li></ul></div>
+      <div class="last"><ul><li>Congressos e podcasts</li><li>Anúncio só depois de 3 cases, até R$ 1.000 por mês</li></ul></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="equipe"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">16 · Equipe</span>
+    <h2>Quem faz o quê, com duas pessoas</h2>
+  </div>
+  <div class="tbl wide"><table>
+    <thead><tr><th>Área</th><th>Erica</th><th>Sérgio</th><th>Juntos</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Produto</strong></td><td>Monta a base de cada clínica, constrói as funções, corrige 🔴 no mesmo dia, cuida do servidor</td><td>Leva as objeções e os pedidos dos dentistas</td><td>Prioridade da semana</td></tr>
+      <tr><td><strong>Pilotos</strong></td><td>Implantação técnica, testes, leitura das conversas na semana 1</td><td>Convite (quando conhece), grupo de feedback, conversa semanal de 20 min</td><td>Conversa final e pergunta de preço</td></tr>
+      <tr><td><strong>Vendas</strong></td><td>Entra na demonstração ao vivo</td><td>Lista, convites, follow-up, propostas, objeções registradas</td><td>Oferta de fundador e tabela de pacotes</td></tr>
+      <tr><td><strong>Marketing</strong></td><td>Site, conteúdo 2 vezes por semana, materiais</td><td>Pede depoimentos e indicações</td><td>Aprovam cases antes de publicar</td></tr>
+      <tr><td><strong>Empresa</strong></td><td>Redação de contrato e termos</td><td>Contador, advogado, CNPJ</td><td>Acordo de sócios, teto de gasto</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cards3" style="margin-top:16px">
+    <div class="card"><span class="tag">Todo dia</span><p class="small">Daily do PM às 9h. Executor às 14h faz o que os especialistas resolvem sozinhos.</p></div>
+    <div class="card"><span class="tag">Toda semana</span><p class="small">45 min com os 5 números: diagnósticos, reuniões, propostas em aberto, pagantes e receita, horas por clínica.</p></div>
+    <div class="card"><span class="tag">Tempo da Erica</span><p class="small">Meio a meio entre produto e venda. Reuniões com dentistas entre 9h e 13h de Brasília.</p></div>
+  </div>
+</div></section>
+
+<section id="hipoteses"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Testar antes de investir</span>
+    <h2>Hipóteses e experimentos</h2>
+    <p class="muted">Cada hipótese tem um teste barato. O critério de sucesso diz quando acreditar.</p>
+  </div>
+  <div class="hyp" id="hyp"></div>
+  <div class="first" style="margin-top:18px">
+    <p class="small"><strong>Primeiro a rodar:</strong> H5 (custa uma mensagem e responde em dias) e H4 (já cabe no piloto 1). <strong>Mais importante do trimestre:</strong> H1, que decide pacotes e preços.</p>
+  </div>
+  <div class="stack" style="margin-top:28px">
+    <h3>Ainda não fecham</h3>
+    <ul class="small" style="margin:0;padding-left:18px;display:grid;gap:6px">
+      <li><strong>Preço do Essencial x horas:</strong> se a implantação do Essencial consumir tanto quanto a do Completo, a margem some. Ele precisa de base mais padronizada.</li>
+      <li><strong>Meta grátis:</strong> no Essencial, o valor precisa estar em marcar na agenda e chamar o dentista, não em responder dúvida.</li>
+      <li><strong>Conexão não oficial:</strong> serve para pilotar; cliente pagante pede a conexão oficial no 1º trimestre de 2027.</li>
+    </ul>
+  </div>
+</div></section>
+
+</main>
+<footer><div class="wrap">Keshion · automações inteligentes · keshion.com · Fonte: startup-canvas-keshion.md e plano estratégico (10/11/2026).</div></footer>
+
+<script>
+(function(){
+  // Faixas de tíquete (estimativa). j: 1 rotina, 2 urgência e etapas, 3 orçamento alto
+  var data=[
+    ["Limpeza",150,300,1],["Manutenção ortodôntica (mês)",150,300,1],["Obturação",150,400,1],["Extração simples",150,400,1],
+    ["Consulta odontopediatria",150,400,1],["Raspagem periodontal",300,1000,1],["Siso",400,1500,2],["Placa para DTM",500,1500,2],
+    ["Canal",600,1500,2],["Clareamento",600,1500,3],["Instalação de aparelho",800,2500,1],["Harmonização",800,2500,3],
+    ["Coroa e prótese",1000,4000,2],["Lente de contato (por dente)",1500,3500,3],["Implante unitário",2500,5000,3],
+    ["Alinhador",6000,15000,3],["Protocolo",15000,35000,3]
+  ];
+  var lo=Math.log10(100),hi=Math.log10(40000);
+  function pos(v){return (Math.log10(v)-lo)/(hi-lo)*100}
+  var ticks=[100,300,1000,3000,10000,30000];
+  function fmt(v){return v>=1000?"R$ "+(v/1000)+" mil":"R$ "+v}
+  var c=document.getElementById("chart"),h="";
+  data.forEach(function(d){
+    var g=ticks.map(function(t){return '<span class="grid" style="left:'+pos(t)+'%"></span>'}).join("");
+    h+='<div class="crow"><span class="lbl" title="'+d[0]+'">'+d[0]+'</span><div class="track">'+g+
+       '<span class="bar'+(d[3]>1?' j'+d[3]:'')+'" style="left:'+pos(d[1])+'%;width:'+(pos(d[2])-pos(d[1]))+'%" title="'+fmt(d[1])+' a '+fmt(d[2])+'"></span></div></div>';
+  });
+  h+='<div class="axis"><span></span><div class="ticks">'+ticks.map(function(t){return '<span style="left:'+pos(t)+'%">'+fmt(t)+'</span>'}).join("")+'</div></div>';
+  c.innerHTML=h;
+
+  // Pacotes
+  var feats=[
+    ["Responde, marca, remarca e cancela",[1,1,1,1]],
+    ["Chama o dentista em dor e tratamento em andamento",[1,1,1,1]],
+    ["Horário: fora do expediente (noite, almoço, fim de semana)",[1,1,0,0]],
+    ["Horário: 24 horas",[0,0,1,1]],
+    ["Base montada com o dentista (voz da clínica)",[0,1,1,1]],
+    ["Copiloto: a equipe aprova antes de enviar",[0,0,1,1]],
+    ["Confirmação e lembrete de consulta",[0,0,1,1]],
+    ["Retorno programado (limpeza, manutenção, próxima sessão)",[0,0,1,1]],
+    ["Reunião mensal de resultado",[0,0,1,1]],
+    ["Aplicativo exclusivo da clínica",[0,0,0,1]],
+    ["Relatório com valor recuperado",[0,0,0,1]]
+  ];
+  var yes='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)" aria-label="Inclui"><path d="M20 6 9 17l-5-5"/></svg>';
+  var no='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-label="Não inclui"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  [0,1,2,3].forEach(function(i){
+    var ul=document.getElementById("t"+i);
+    ul.innerHTML=feats.filter(function(f){return !(i>1&&f[0].indexOf("fora do expediente")>-1)&&!(i<2&&f[0].indexOf("24 horas")>-1)})
+      .map(function(f){var on=f[1][i];return '<li class="'+(on?'':'off')+'">'+(on?yes:no)+'<span>'+f[0]+'</span></li>'}).join("");
+  });
+
+  // Prateleira de preço (escala linear, R$ 0 a 3.500)
+  var lad=[
+    ["Business AI da Meta",0,0,"o"],["Secretária IA Simples Dental",180,180,"o"],["Cloudia e novatos",259,997,"o"],
+    ["Keshion Start",349,349,"k"],["Keshion Essencial",590,590,"k"],["Keshion Completo",1190,1190,"k"],["Keshion Completo com app",1690,1690,"k"],
+    ["Secretária (com encargos)",2500,3500,"o"]
+  ];
+  var max=3500;function lp(v){return v/max*100}
+  var lt=[0,500,1000,1500,2000,2500,3000,3500],lh="";
+  lad.forEach(function(d){
+    var g=lt.map(function(t){return '<span class="grid" style="left:'+lp(t)+'%"></span>'}).join("");
+    var w=Math.max(lp(d[2])-lp(d[1]),0);
+    var mark=w>0?'<span class="bar'+(d[3]==="k"?'':' j3')+'" style="left:'+lp(d[1])+'%;width:'+w+'%"></span>'
+      :'<span class="dot'+(d[3]==="k"?' k':'')+'" style="left:'+lp(d[1])+'%"></span>';
+    var val=d[1]===d[2]?fmtR(d[1]):fmtR(d[1])+" a "+fmtR(d[2]);
+    lh+='<div class="crow"><span class="lbl'+(d[3]==="k"?' klbl':'')+'">'+d[0]+'</span><div class="track">'+g+mark+(lp(d[2])>80?'<span class="val" style="left:calc('+lp(d[1])+'% - 10px);transform:translate(-100%,-50%)">':'<span class="val" style="left:calc('+lp(d[2])+'% + 10px)">')+val+'</span></div></div>';
+  });
+  lh+='<div class="axis"><span></span><div class="ticks">'+lt.map(function(t){return '<span style="left:'+lp(t)+'%">'+fmtR(t)+'</span>'}).join("")+'</div></div>';
+  document.getElementById("ladder").innerHTML=lh;
+  function fmtR(v){return "R$ "+v.toLocaleString("pt-BR")}
+
+  // Hipóteses
+  var hyp=[
+    ["H1","Cada perfil de clínica paga pelo pacote certo para ele","Na conversa final de cada piloto, mostrar os 3 pacotes, fazer as 4 perguntas de preço e oferecer o mês 2 pago","2 de 3 pilotos aceitam pagar"],
+    ["H2","Depois de 2 semanas, 80% das respostas do copiloto saem sem edição","Contar aprovadas sem edição, editadas e reescritas, por semana","80% sem edição na semana 2"],
+    ["H3","O valor está em agenda, confirmação, retorno e falta, não em responder dúvida","Pergunta da semana 4: se desligássemos amanhã, do que você sentiria mais falta?","Resposta cita agenda, confirmação, retorno ou noite livre"],
+    ["H4","Implantação em 7 dias e acompanhamento em menos de 3 h por semana","Cronometrar cada passo da implantação e as horas do piloto 1","Até 7 dias e menos de 3 h por semana"],
+    ["H5","A maioria das clínicas conhecidas usa Google Agenda ou aceita usar","Mensagem para 10 a 15 dentistas conhecidos: onde fica sua agenda hoje?","60% no Google Agenda, papel ou aceitam migrar"],
+    ["H6","O dentista topa conectar o número atual","Contar quantos convidados aceitam conectar na hora do sim","2 de 3 aceitam"],
+    ["H7","Cada piloto satisfeito indica pelo menos 1 colega","Pedir indicação no fim, com benefício claro (ex.: 1 mês grátis)","1 indicação por piloto satisfeito"],
+    ["H8","\"Aplicativo exclusivo\" atrai mais que \"software exclusivo\"","Perguntar nas demonstrações; alternar as palavras nos convites frios","Uma palavra gera claramente mais resposta"],
+    ["H9","No endodontista, o valor é a urgência do dia e o aviso a quem encaminhou","Conversa de 30 min com um endodontista conhecido","Confirmar ou descartar"]
+  ];
+  document.getElementById("hyp").innerHTML=hyp.map(function(x){
+    return '<div class="card"><span class="num">'+x[0]+'</span><h3 style="font-size:16px">'+x[1]+'</h3><dl><dt>Experimento</dt><dd>'+x[2]+'</dd><dt>Sucesso</dt><dd>'+x[3]+'</dd></dl></div>';
+  }).join("");
+})();
+</script>

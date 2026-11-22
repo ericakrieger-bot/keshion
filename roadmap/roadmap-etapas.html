@@ -1,0 +1,307 @@
+<title>Roadmap Keshion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@700&display=swap">
+<style>
+/* Conceito: cinco etapas em setas coloridas, lidas da esquerda para a direita, com linhas fixas
+   (objetivos, marcos, entregas, a decidir, comercial). No celular as etapas empilham.
+   Marca Keshion AI: Manrope nos títulos, Inter no texto. */
+:root {
+  --bg: #F7F8F4;
+  --card: #FFFFFF;
+  --surface: #E8EFF9;
+  --fg: #0B1126;
+  --fg2: #50596A;
+  --line: #D3DCEA;
+  --s1: #23763F;
+  --s2: #2459A6;
+  --s3: #0B7F78;
+  --s4: #6A5FB0;
+  --s5: #50596A;
+  --on-stage: #FFFFFF;
+  --icon-bg: #6B7587;
+  --ok: #23763F;
+  --font-title: "Manrope", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1126;
+    --card: #131E3A;
+    --surface: #17233E;
+    --fg: #F7F8F4;
+    --fg2: #CCD5E6;
+    --line: #2B3B5E;
+    --s1: #23763F;
+    --s2: #2F6DC4;
+    --s3: #0B8A82;
+    --s4: #7468C4;
+    --s5: #5E6B85;
+    --icon-bg: #55627C;
+    --ok: #86DFA2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1126;
+  --card: #131E3A;
+  --surface: #17233E;
+  --fg: #F7F8F4;
+  --fg2: #CCD5E6;
+  --line: #2B3B5E;
+  --s1: #23763F;
+  --s2: #2F6DC4;
+  --s3: #0B8A82;
+  --s4: #7468C4;
+  --s5: #5E6B85;
+  --icon-bg: #55627C;
+  --ok: #86DFA2;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+h1, h2 { font-family: var(--font-title); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(28px, 4.5vw, 42px); line-height: 1.1; }
+h2 { font-size: 20px; }
+p { margin: 0; }
+.eyebrow { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg2); }
+header { display: flex; flex-direction: column; gap: 10px; }
+.lead { color: var(--fg2); max-width: 66ch; font-size: 15px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 12.5px; font-weight: 600; background: var(--surface); border-radius: 999px; padding: 4px 12px; }
+
+/* Grade de etapas */
+.grid {
+  display: grid;
+  grid-template-columns: 150px repeat(5, minmax(0, 1fr));
+  column-gap: 8px;
+  row-gap: 10px;
+  margin-top: 34px;
+}
+.corner {
+  background: var(--card); display: flex; align-items: center; justify-content: center;
+  font-weight: 600; color: var(--fg2); font-size: 14px; min-height: 66px;
+}
+.head { position: relative; min-height: 66px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8px 26px; color: var(--on-stage); }
+.head::before {
+  content: ""; position: absolute; inset: 0; background: var(--c);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
+}
+.head > * { position: relative; }
+.head .t { font-family: var(--font-title); font-weight: 700; font-size: 16px; line-height: 1.2; }
+.head .w { font-size: 12px; opacity: .92; }
+.head .here { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; background: rgba(255,255,255,.22); border-radius: 99px; padding: 1px 8px; margin-top: 3px; }
+.num {
+  position: absolute !important; top: -30px; left: 50%; transform: translateX(-50%);
+  width: 46px; height: 46px; border-radius: 50%; background: var(--c); color: var(--on-stage);
+  border: 4px solid var(--bg); display: grid; place-items: center;
+  font-family: var(--font-title); font-weight: 700; font-size: 20px; z-index: 2;
+}
+.rowlabel {
+  background: var(--card); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 12px 8px; text-align: center; font-weight: 600; color: var(--fg2); font-size: 13.5px;
+}
+.ico { width: 48px; height: 48px; border-radius: 50%; background: var(--icon-bg); display: grid; place-items: center; }
+.ico svg { width: 26px; height: 26px; }
+.cell { background: var(--card); padding: 12px 14px; min-width: 0; }
+.cell.decide { background: transparent; border: 1px dashed var(--fg2); }
+.cell::before { display: none; }
+.cell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.cell li { position: relative; padding-left: 16px; overflow-wrap: anywhere; }
+.cell li::before { content: ""; position: absolute; left: 2px; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: var(--fg2); }
+.cell.done li::before { content: "✓"; width: auto; height: auto; background: none; border-radius: 0; top: 0; left: 0; color: var(--ok); font-weight: 700; font-size: 12px; }
+.cell .none { color: var(--fg2); }
+.cell .none::before { display: none; }
+.cell .none { padding-left: 0; }
+
+/* Placar */
+.sec { display: flex; flex-direction: column; gap: 14px; }
+.note { color: var(--fg2); font-size: 13px; max-width: 80ch; }
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.sc { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.sc .row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.sc .v { font-family: var(--font-title); font-weight: 700; font-size: 26px; font-variant-numeric: tabular-nums; }
+.sc .m { font-size: 12px; color: var(--fg2); font-variant-numeric: tabular-nums; }
+.sc .l { font-size: 13px; }
+.meter { height: 6px; background: var(--surface); border-radius: 99px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--s4); border-radius: 99px; }
+footer { color: var(--fg2); font-size: 12.5px; display: flex; flex-direction: column; gap: 4px; }
+code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+
+@media (max-width: 860px) {
+  .grid { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .grid > * { order: calc(var(--s, 0) * 10 + var(--r, 0)); }
+  .corner, .rowlabel { display: none; }
+  .head { align-items: flex-start; text-align: left; padding: 12px 16px 12px 70px; border-radius: 10px; background: var(--c); margin-top: 14px; min-height: 64px; }
+  .head::before { display: none; }
+  .num { top: 50%; left: 12px; transform: translateY(-50%); border-color: transparent; background: rgba(255,255,255,.2); }
+  .cell::before {
+    display: block; content: attr(data-row); font-weight: 600; font-size: 11px; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--fg2); margin-bottom: 6px;
+  }
+  .cell { border-radius: 8px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Keshion AI · estado em 18/11/2026</div>
+    <h1>Roadmap Keshion</h1>
+    <p class="lead">Cinco etapas, da base que já está pronta até a escala. Leia da esquerda para a direita; cada linha mostra o que muda de uma etapa para a outra.</p>
+    <div class="pills">
+      <span class="pill">13 dias até o piloto da Dra. Vivian (01/12)</span>
+      <span class="pill">Meta do sprint: 1 clínica pagante até 18/12</span>
+    </div>
+  </header>
+
+  <section aria-label="Roadmap em etapas">
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="sec">
+    <h2>Placar do sprint comercial</h2>
+    <p class="note">Zerado em 18/11. As datas do plano original (28/10 a 18/12) para lista, clientes ocultos e diagnósticos já passaram e precisam ser replanejadas.</p>
+    <div class="score" id="score"></div>
+  </section>
+
+  <footer>
+    <span>Fontes: <code>tecnico/RETOMAR-AQUI.md</code>, <code>app-crm-painel/LEIA-PRIMEIRO.md</code>, <code>quadro/tarefas.json</code> e <code>tecnico/n8n/plano-pos-revisao-codex.md</code>.</span>
+    <span>O CRM em Google Planilhas saiu do roadmap: o CRM agora é o app.</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var ICON = {
+    target: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="#fff"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4"/><path d="M6 5h11l-2.5 4L17 13H6"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>',
+    ask: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><circle cx="12" cy="16.8" r=".9" fill="#fff"/></svg>',
+    bars: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20v-8"/><path d="M12 20V5"/><path d="M19 20v-5"/></svg>'
+  };
+
+  var STAGES = [
+    { t: "Base pronta", w: "até 18/11" },
+    { t: "Agora", w: "18 a 24/11", here: true },
+    { t: "Piloto", w: "até 01/12" },
+    { t: "Dezembro e janeiro", w: "depois do piloto" },
+    { t: "Depois", w: "escala e robustez" }
+  ];
+
+  var ROWS = [
+    { id: "obj", label: "Objetivos", icon: "target", cells: [
+      ["Clara no ar com segurança", "Uma clínica não enxerga a outra", "Dados protegidos fora do servidor"],
+      ["Confirmar que as correções de 18/11 funcionam", "Deixar a base limpa para a conexão", "Manter servidor e acessos em dia"],
+      ["Colocar a Dra. Vivian no ar com a Clara", "Conectar a Clara ao app", "Ter mais recursos para mostrar aos primeiros clientes"],
+      ["Recuperar orçamentos parados", "Reativar pacientes antigos", "Mostrar o resultado no Painel"],
+      ["Aguentar mais clínicas e mais mensagens", "Evitar falhas raras", "Reduzir custo e risco"]
+    ] },
+    { id: "mar", label: "Marcos", icon: "flag", cells: [
+      ["12/11: Clara no n8n próprio", "17/11: um banco e fluxos por clínica", "18/11: backup com restauração testada"],
+      ["Resultado do teste do Codex", "Backup automático de 19/11 conferido", "Google Agenda reconectado (vence entre 19 e 24/11)"],
+      ["Desenho da conexão Clara e app aprovado", "Dados e voz da Dra. Vivian prontos", "01/12: Clara na clínica dela"],
+      ["Telas Orçamentos, Reativar e Painel no app", "Lembretes nos dias 3, 10, 17 e 30", "Reativação com regras: 1 mensagem a cada 90 dias, opção SAIR"],
+      ["Fila de envio com ordem garantida", "Reservas de horário no banco", "Postgres 17"]
+    ] },
+    { id: "ent", label: "Entregas", icon: "check", cells: [
+      ["Clara com agenda, áudio e foto", "Isolamento por clínica testado", "Protótipo v7 e banco do app no Supabase"],
+      ["Consertos do que o teste achar", "Agenda da demo limpa", "Banco da demo e da clínica de teste no usuário _app"],
+      ["Confirmações: 48 h, véspera e 2 h antes", "Modo copiloto e alerta fora do WhatsApp", "Telas de dezembro: Conversas, Agenda do dia e Pacientes", "Primeiro pedaço da conexão Clara e app"],
+      ["Orçamento em PDF com a marca da clínica", "Painel com reais recuperados", "Calculadora de perdas e ROI no site"],
+      ["Resumo do histórico longo", "Sonnet nas mensagens clínicas", "Jev (classificador de intenção)"]
+    ] },
+    { id: "dec", label: "A decidir", icon: "ask", decide: true, cells: [
+      ["Calendário dos lembretes do orçamento: 3, 10, 17 e 30 (decidido em 18/11)"],
+      ["Frases fixas no idioma da paciente", "Quem registra que o orçamento saiu", "Oferta de usuário fundador (prevista para 19/11)"],
+      ["Modo copiloto com a Dra. Vivian: aprovar antes de enviar na 1ª semana?"],
+      null,
+      null
+    ] },
+    { id: "com", label: "Comercial", icon: "bars", cells: [
+      ["Domínio keshion.com registrado", "Texto do site, versão 3, pronto", "Placar do sprint zerado"],
+      ["Prazos de 10 a 17/11 do plano passaram: replanejar", "Proposta e contrato com o advogado (20 e 21/11)", "5 primeiras reuniões e contador (24/11)"],
+      ["30 diagnósticos e 10 a 15 reuniões (01/12)", "Cliente piloto no ar"],
+      ["18/12: avaliar o sprint, com meta de 1 clínica pagante (meta 2)"],
+      null
+    ] }
+  ];
+
+  var SCORE = [
+    { l: "Clínicas listadas", v: 0, m: 100 },
+    { l: "Clientes ocultos feitos", v: 0, m: 30 },
+    { l: "Diagnósticos enviados", v: 0, m: 30 },
+    { l: "Reuniões realizadas", v: 0, m: 20, mt: "15 a 20" },
+    { l: "Cliente piloto no ar", v: 0, m: 1 },
+    { l: "Clínicas pagantes", v: 0, m: 2, mt: "1 (meta 2)" }
+  ];
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  var grid = document.getElementById("grid");
+
+  grid.appendChild(el("div", "corner", "Etapa"));
+  STAGES.forEach(function (s, i) {
+    var h = el("div", "head");
+    h.style.setProperty("--c", "var(--s" + (i + 1) + ")");
+    h.style.setProperty("--s", String(i + 1));
+    h.style.setProperty("--r", "0");
+    h.appendChild(el("span", "num", String(i + 1)));
+    h.appendChild(el("span", "t", s.t));
+    h.appendChild(el("span", "w", s.w));
+    if (s.here) h.appendChild(el("span", "here", "Você está aqui"));
+    grid.appendChild(h);
+  });
+
+  ROWS.forEach(function (row, ri) {
+    var lab = el("div", "rowlabel");
+    var ico = el("div", "ico");
+    ico.innerHTML = ICON[row.icon];
+    lab.appendChild(ico);
+    lab.appendChild(document.createTextNode(row.label));
+    grid.appendChild(lab);
+    row.cells.forEach(function (items, si) {
+      var c = el("div", "cell" + (row.decide ? " decide" : "") + (si === 0 ? " done" : ""));
+      c.setAttribute("data-row", row.label);
+      c.style.setProperty("--s", String(si + 1));
+      c.style.setProperty("--r", String(ri + 1));
+      var ul = el("ul");
+      if (!items) {
+        ul.appendChild(el("li", "none", "Nada aberto"));
+      } else {
+        items.forEach(function (t) { ul.appendChild(el("li", null, t)); });
+      }
+      c.appendChild(ul);
+      grid.appendChild(c);
+    });
+  });
+
+  var sc = document.getElementById("score");
+  SCORE.forEach(function (s) {
+    var c = el("div", "sc");
+    var r = el("div", "row");
+    r.appendChild(el("span", "v", String(s.v)));
+    r.appendChild(el("span", "m", "meta " + (s.mt || s.m)));
+    c.appendChild(r);
+    c.appendChild(el("div", "l", s.l));
+    var m = el("div", "meter");
+    var i = el("i"); i.style.width = Math.round((s.v / s.m) * 100) + "%";
+    m.appendChild(i);
+    c.appendChild(m);
+    sc.appendChild(c);
+  });
+})();
+</script>

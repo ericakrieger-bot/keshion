@@ -9,7 +9,13 @@ Atualizado em 17/11/2026. Estrutura e copy em `site/proposta-estrutura-e-copy.ht
 - **Conexão oficial do WhatsApp:** mudar mais para frente. Até lá o site não promete "API oficial" nem "sem bloqueio".
 - **Clínicas parceiras de lançamento:** ainda não. A Erica quer pensar melhor na abordagem. Fora do site.
 
+- **Headline da abertura (18/11/2026):** "Foque nos seus pacientes. Deixe a IA cuidar do resto." Molde da Arini, escolhido pela Erica. Motivo principal do dentista: recuperar orçamentos altos que esfriam e recepção que não dá conta do WhatsApp (os dois juntos). O ângulo do horário (21h e 8h) ficou de lado porque a Odonto Results já usa "enquanto você dorme". A subheadline precisa dizer o que a IA faz de verdade, porque "o resto" é amplo.
+
+- **Copy v3 (18/11/2026):** `site/copy-v3.html` vale sobre a v2. Só o que o roadmap entrega até janeiro/2027, Sem etiquetas de status e sem datas no site (decisão da Erica, 18/11): a copy descreve o produto como ele precisa ser, e o que ficar de fora da construção é retirado do texto depois. O app da clínica é o diferencial e ganhou seção própria. Subheadline A agora, C quando a retomada de orçamento existir. Cadência de lembretes de orçamento: dias 3, 10, 17 e 30.
+
 ## Em aberto
+
+- App incluído na mensalidade ou com preço à parte (muda a seção de custos).
 
 - Título da abertura (seis opções na v2; recomendada: "O seu paciente decide às 21h. A sua recepção abre às 8h.").
 - Foco: recomendação é só odontologia agora, com o site pronto para virar `keshion.com/odontologia` e uma home geral depois.
