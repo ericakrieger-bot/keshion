@@ -1,6 +1,6 @@
 # Ideia: login e área do cliente
 
-> Anotado em 12/11/2026, a pedido da Erica. **Não fazer agora.** Abrir uma conversa nova sobre isto quando o piloto da Dra. Vivian já estiver rodando (início previsto em 01/12/2026).
+> Anotado em 12/11/2026, a pedido da Erica. **Não fazer agora.** Abrir uma conversa nova sobre isto quando o 1º piloto com clínica conhecida já estiver rodando (a partir de 01/12/2026; o piloto da Dra. Vivian foi suspenso em 20/11).
 
 ## Ponto de partida
 

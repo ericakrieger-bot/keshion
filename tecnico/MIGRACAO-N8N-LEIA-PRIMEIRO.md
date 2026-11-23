@@ -8,7 +8,7 @@ Leia também `negocio-ia-clinicas/CLAUDE.md` (contexto completo do negócio Kesh
 - **Clara** é a assistente de WhatsApp da clínica demo (Dra. Suzana, fictícia). Antes se chamava Sarah.
 - Hoje ela roda no **Make** (cenários 1A, 1B, 1C e 1D) e responde com o **Claude Haiku 5.5** (`claude-haiku-5-5`), escolhido no teste A/B de 11/11/2026.
 - **Decisão de 11/11/2026:** levar a Clara para o **n8n** agora. No Make fica só o cenário `Keshion · Questionário Dra. Vivian (respostas)` (id 8491037).
-- **Piloto com a Dra. Vivian:** previsto para **01/12/2026** (ela está de férias). A Clara precisa estar no n8n, testada, antes disso.
+- **Piloto:** o da Dra. Vivian foi suspenso em 20/11/2026. O 1º piloto com clínica conhecida roda de 01 a 31/12/2026; a Clara precisa estar no n8n, testada, antes disso.
 - A Clara continua no Make até o n8n estar pronto e testado. A virada é trocar o webhook no Whapi. Dá para voltar atrás.
 
 ## 2. O servidor (VPS)

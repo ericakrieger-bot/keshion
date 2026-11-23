@@ -6,7 +6,7 @@
 
 - App web em Next.js que abre no computador e se instala no celular (PWA).
 - Público: dentista solo ou clínica com 2 ou 3 dentistas, sem software de gestão.
-- Piloto: Dra. Vivian, a partir de 01/12/2026.
+- Piloto: era a Dra. Vivian, a partir de 01/12/2026 (suspenso em 20/11). Agora: 1º piloto com clínica conhecida, de 01 a 31/12/2026.
 
 ## O que entra e quando
 
