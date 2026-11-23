@@ -28,7 +28,7 @@ Passos:
 6. Avisar a Claude. Com o seu OK, ela copia essa linha para `/opt/keshion/.env` no servidor (sem mostrar o valor), instala o script novo e confere na tela do Healthchecks que o check ficou verde depois do próximo backup (ou de um backup manual, que também só roda com o seu OK).
 7. Teste do alerta (opcional, recomendado uma vez): no Healthchecks, o botão **Pause** e depois esperar passar do horário mostra que o e-mail chega; ou usar o botão de teste da integração de e-mail.
 
-**Dono e substituto:** anotar quem recebe o alerta (você) e quem confere se você estiver fora (Sérgio?). Decisão sua.
+**Dono e substituto (decidido em 21/11, no Notion):** a Erica recebe o alerta e o Sérgio é o substituto. Até o alerta existir, o executor das 14h confere o backup todo dia e avisa no daily.
 
 **Resposta ao e-mail de alerta:** abrir o status no servidor (`cat /opt/keshion/backups/STATUS-BACKUP.txt`, ou pedir à Claude). `FALHA` mostra a etapa; sem alteração desde ontem significa que o cron ou o servidor não rodou.
 
