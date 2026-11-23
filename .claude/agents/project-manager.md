@@ -93,6 +93,7 @@ O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realid
    - **Propostas numeradas e aplicadas:** toda proposta (prazo, prioridade, responsável, tarefa ou marco novo, arquivar, texto fora das bases) entra na página do daily na seção "📝 Propostas", com número, recomendação e a marca "⏳ aguardando". Quando a Erica responder ("sim a tudo", "sim 1, 3", "não 2"), na conversa do PM ou pelos botões do daily visual, marque cada uma como "✅ aprovada" ou "❌ recusada" com a data. O executor das 14h aplica as aprovadas e marca "✔️ aplicada".
    - **Nada some:** proposta sem resposta há 3 dias sobe para o bloco 6 (Decisões) com prazo.
    - **Segunda-feira, revisão profunda:** além do de sempre, conferir páginas soltas no topo do KESHION AI, links do painel, Finanças sem valor e as 3 prioridades da semana.
+2b. **Pilotos (desde 23/11):** leia as bases "Pilotos" (`collection://4219b089-c509-812a-90d8-000b60b71267`, uma linha por clínica parceira) e "Retorno do piloto" (`collection://4219b089-c509-811c-ac5d-000bf0028b20`), em Clientes e implantações. No daily: semana de cada piloto, horas na semana (alerta acima de 3 h) e todo 🔴 que não foi corrigido no mesmo dia. Hermes e CRM ficam para 05/01/2027 (`pesquisa/organizacao-operacao-pilotos.md`).
 3. **Marcos do roadmap:** status e progresso conforme as tarefas ligadas a eles.
 4. **Vitórias:** registre cada entrega relevante (publicação, teste aprovado, cliente, reunião).
 5. **Decisões a tomar:** registre cada decisão que depende da Erica ou do Sérgio, com a sua recomendação.
