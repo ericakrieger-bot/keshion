@@ -14,7 +14,7 @@ Quando dois documentos discordarem, vale o desta tabela.
 | Plano de longo prazo e metas até 2030 | `plano-estrategico-keshion.md` | |
 | Modelo de negócio em uma página | `startup-canvas-keshion.md` (visual: `estrategia/canvas-page/startup-canvas.html`) | |
 | Pilotos com clínicas conhecidas | `comercial/piloto/estrutura-piloto-conhecidos.md` | Cliente ideal: `cliente-ideal-e-aprendizado.md`. Material para a clínica: `material-piloto-v2.html` e o PDF v2 |
-| Preço e pacotes | `comercial/estrategia-de-preco.md` e `comercial/proposta-de-valor-planos.md` | Preço é hipótese até a semana 4 do piloto |
+| Preço e pacotes | `comercial/estrategia-de-preco.md` e `comercial/proposta-de-valor-planos.md` | Hipótese até os primeiros pagantes. Com as clínicas piloto (parceiras) não se fala de dinheiro (decisão de 22/11) |
 | Pacote de materiais do Sérgio | `comercial/sergio/materiais/` (PDFs 01 a 05, gerados de `fontes/`) | O PDF 02 é cópia do PDF v2 do piloto: ao gerar um novo, copiar para os dois lugares |
 | Marca | `branding/guia-de-marca.md` e `branding/kit/` | Também pela skill `keshion-marca` |
 | App, CRM e painel | `app-crm-painel/LEIA-PRIMEIRO.md` (decisões de 16/11 em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`) | `crm-agenda-painel.md` é o conceito de 01/11: onde ele discordar, vale o LEIA-PRIMEIRO |
@@ -24,7 +24,7 @@ Quando dois documentos discordarem, vale o desta tabela.
 | Testes | `tecnico/testes-checklist.md` | Prompts em uso: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md` e `PROMPT-TESTE-20-11-pacote-c-rodada-completa.md` |
 | Revisão do Codex | `tecnico/n8n/PROMPT-CODEX-REVISAO.md` | Última revisão e plano aberto: `tecnico/n8n/codex-19-11/` |
 | Site | `site/DECISOES.md` e `site/copy-v3.html` | Design: `site/design-v1.html` |
-| Pesquisa de mercado | `pesquisa/` (concorrentes, nichos, análise competitiva de 22/11, red team de 22/11) | `guia-tecnico-e-mercado.html` é de 04/10, só referência |
+| Pesquisa de mercado | `pesquisa/` (concorrentes, nichos, análise competitiva de 22/11, red team de 22/11, organização da operação dos pilotos de 22/11) | `guia-tecnico-e-mercado.html` é de 04/10, só referência |
 | Histórico das decisões | `historico-e-estrategia.md` | Só para consultar o porquê de uma decisão |
 | Roadmap, tarefas, decisões e daily | **Notion** (página KESHION AI), mantido pelo agente `project-manager` | Nada de roadmap em arquivo na pasta |
 | Agentes (PM e especialistas) | `.claude/agents/` | |

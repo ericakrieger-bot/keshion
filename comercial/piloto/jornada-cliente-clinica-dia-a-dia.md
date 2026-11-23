@@ -1,5 +1,7 @@
 # Jornada da clínica do dia a dia com a Keshion (rascunho para a Erica)
 
+> **Atualização de 22/11/2026:** as clínicas piloto passaram a ser clínicas parceiras, sem falar de dinheiro com elas por enquanto. Onde este texto fala em pergunta ou conversa de preço na semana 4, vale a conversa de balanço com pedido de indicações (`comercial/piloto/estrutura-piloto-conhecidos.md`, seção 9, decisão 6).
+
 Rascunho de 22/11/2026, feito com a skill `customer-journey-map` (pm-market-research). Nada aplicado no Notion nem nos materiais.
 
 **Fontes:** `relatorio-mercado-keshion.pdf` (pesquisa de mercado de 13/11/2026: concorrentes, preços, riscos e lacunas), `cliente-ideal-e-aprendizado.md` e `estrutura-piloto-conhecidos.md`.

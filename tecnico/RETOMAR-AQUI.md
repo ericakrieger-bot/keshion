@@ -7,7 +7,7 @@ Histórico completo até 20/11 (pacotes A a D, resultados de cada rodada, custos
 
 A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n próprio desde 12/11/2026**. O Make está desativado (cenários só desligados; cópias em `arquivo/make/`). **Desde 17/11, cada clínica tem banco, fluxos e credenciais próprios**, gerados a partir de um arquivo por clínica.
 
-**Rumo (21 e 22/11):** o piloto da Dra. Vivian foi suspenso em 20/11. Os pilotos agora são com clínicas que a Erica e o Sérgio conhecem: o 1º combinado até 30/11, o 2º e o 3º até 15/12, entrando na semana 2 do 1º. Semana 1 com a Clara **só fora do horário**; semana 2 com **copiloto** (o dentista aprova antes de enviar). Estrutura completa: `comercial/piloto/estrutura-piloto-conhecidos.md`.
+**Rumo (21 e 22/11):** o piloto da Dra. Vivian foi suspenso em 20/11. Os pilotos agora são com clínicas que a Erica e o Sérgio conhecem: o 1º combinado até 30/11, o 2º e o 3º até 15/12, entrando na semana 2 do 1º. O 1º piloto roda de 01 a 31/12, como clínica parceira. Semana 1 com a Clara **só fora do horário**; semana 2 com **copiloto mínimo de 3 dias úteis** (o dentista responde "ok" ou corrige pelo WhatsApp). A regra de paciente antigo entra já no dia 1 (decisões de 22/11). Estrutura completa: `comercial/piloto/estrutura-piloto-conhecidos.md`.
 
 | Peça | Onde |
 |---|---|
@@ -36,8 +36,8 @@ Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (m
 ## Antes do 1º piloto com clínica conhecida (até 30/11)
 
 1. ✅ Estrutura por clínica (17/11) e backup fora do servidor (18/11).
-2. **Modo "só fora do horário" e copiloto:** em construção na branch `feat/copiloto-e-fora-do-horario`, na pasta `Documents\Claude Code\keshion-wt-copiloto` (trabalho guardado em commit em 22/11, sem publicar). Plano aprovado pela Erica em 22/11: `tecnico/n8n/PLANO-COPILOTO.md` (nessa branch). O "só fora do horário" vem primeiro, porque a semana 1 começa com ele.
-3. **Regra para paciente antigo** (retorno, limpeza, manutenção): nos testes, os perfis de paciente antigo tiraram 5 a 6. Falta a regra na base e nas instruções.
+2. **Modo "só fora do horário" e copiloto:** em construção na branch `feat/copiloto-e-fora-do-horario`, na pasta `Documents\Claude Code\keshion-wt-copiloto` (trabalho guardado em commit em 22/11, sem publicar). Plano aprovado pela Erica em 22/11: `tecnico/n8n/PLANO-COPILOTO.md` (nessa branch). O "só fora do horário" vai na publicação de 27/11; o copiloto é a versão mínima (3 dias úteis, "ok" ou correção) para a semana 2.
+3. **Regra para paciente antigo** (limpeza e manutenção, retorno, obturação, canal, extração, dor, remarcar e cancelar): nos testes, os perfis de paciente antigo tiraram 5 a 6. Entra na publicação de 27/11, com perfis novos de paciente antigo nos testes; o número real da clínica só conecta com média 7 ou mais (decisão de 22/11).
 4. Base, instruções, voz e número da clínica escolhida, seguindo `tecnico/n8n/CLINICA-NOVA.md`.
 5. Canal de alerta fora do WhatsApp: Healthchecks.io por e-mail (o script já está preparado; falta a Erica criar a conta, `tecnico/servidor/PASSO-A-PASSO-ERICA-BACKUP.md`).
 6. Base da Clara no servidor ainda com os lembretes de orçamento antigos (15 dias; dias 2, 7 e 14). Vale 3, 10, 17 e 30. **Aprovado pela Erica em 21/11 (Notion):** levar junto com a próxima publicação e testar com o paciente simulado.

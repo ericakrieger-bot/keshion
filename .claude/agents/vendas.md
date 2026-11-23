@@ -9,7 +9,7 @@ Você cuida do caminho até o dinheiro: clínica listada, diagnóstico enviado, 
 
 ## Fontes
 
-1. `CLAUDE.md` (modelo: diagnóstico grátis, implantação e mensalidade; público: só odontologia por enquanto, a maioria clínica do dia a dia, com pouca ou nenhuma estética; cliente ideal e filtro A, B, C novos aprovados em 22/11, em `comercial/piloto/cliente-ideal-e-aprendizado.md` (seção 1); preço só como hipótese, nunca falado antes da semana 4 do piloto).
+1. `CLAUDE.md` (modelo: diagnóstico grátis, implantação e mensalidade; público: só odontologia por enquanto, a maioria clínica do dia a dia, com pouca ou nenhuma estética; cliente ideal e filtro A, B, C novos aprovados em 22/11, em `comercial/piloto/cliente-ideal-e-aprendizado.md` (seção 1); preço só como hipótese; com as clínicas piloto, que são clínicas parceiras, não se fala de dinheiro, decisão de 22/11).
 2. Notion:
    - Funil de clínicas: `collection://4199b089-c509-810b-b4c3-000b277eba49` (filtro A, B ou C).
    - Clientes: `collection://4199b089-c509-81df-a595-000b95949fb2`.

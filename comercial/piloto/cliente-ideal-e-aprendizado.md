@@ -1,5 +1,7 @@
 # Cliente ideal novo e o que aprender nos pilotos (rascunho para a Erica)
 
+> **Atualização de 22/11/2026:** as clínicas piloto passaram a ser clínicas parceiras, sem falar de dinheiro com elas por enquanto. Onde este texto fala em pergunta ou conversa de preço na semana 4, vale a conversa de balanço com pedido de indicações (`comercial/piloto/estrutura-piloto-conhecidos.md`, seção 9, decisão 6).
+
 Rascunho de 21/11/2026. Nada aplicado no Notion, no plano estratégico, no `CLAUDE.md` nem nos agentes. Tudo aqui é hipótese: o piloto existe para confirmar ou derrubar. Feito com os agentes de estratégia e técnico. As skills do `pm-product-strategy` e do `pm-product-discovery` não apareceram nesta sessão, então serviram só de roteiro.
 
 ---
