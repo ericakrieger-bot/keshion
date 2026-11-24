@@ -8,7 +8,7 @@ Detalhe em `RESUMO-HOSPEDAGEM-E-DECISOES-APP.md`. Onde este guia disser outra co
 
 - **O app deixa de ser planilha + AppSheet/Glide + Looker Studio.** Vira app web em Next.js, que abre no computador e se instala no celular (PWA), com Netlify (telas) e Supabase (login, banco e arquivos), na região São Paulo, com backup diário para o Contabo e cada clínica vendo só os próprios dados.
 - **Público:** dentista solo ou clínica com 2 ou 3 dentistas, sem software de gestão.
-- **Pilotos reais:** clínicas que a Erica e o Sérgio conhecem, o 1º combinado até 30/11/2026 e o 2º e o 3º até 15/12 (`comercial/piloto/estrutura-piloto-conhecidos.md`). O piloto da Dra. Vivian foi suspenso em 20/11. A Dra. Suzana continua sendo a clínica fictícia de demonstração.
+- **Pilotos reais:** clínicas que a Erica e o Sérgio conhecem, o 1º combinado até 30/11/2026 e o 2º e o 3º até 15/12 (`comercial/piloto/estrutura-piloto-conhecidos.md`). O piloto da Dra. Vivian foi suspenso em 20/11 e ela retomou o contato em 24/11 (reunião em 25/11). A Dra. Suzana continua sendo a clínica fictícia de demonstração.
 - **Dezembro:** Conversas (com "Precisa de você" no topo), Agenda do dia (nova, com compareceu e faltou) e Pacientes.
 - **Janeiro:** Orçamentos (nova, com PDF e envio pelo WhatsApp), Retornos e Painel.
 - **17/11/2026:** Pendências entrou dentro de Conversas, Resultados virou Painel e os lembretes do orçamento passaram a ser nos dias 3, 10, 17 e 30. Estrutura completa na seção 3.
