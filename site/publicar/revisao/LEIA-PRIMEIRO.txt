@@ -1,0 +1,35 @@
+KESHION AI: VERSÃO COM FOTOS E MOVIMENTO
+24 de novembro de 2026
+
+Abra comparar.html para ver celular e computador lado a lado. Role dentro de cada moldura. Abra index.html para navegar na página principal.
+
+O QUE MUDOU
+Cinco fotos ilustrativas geradas por IA entram na abertura e nas seções Como funciona, Pacientes atuais, Controle e Para quem é. As imagens foram criadas para esta versão e não representam clínicas clientes ou pacientes reais. A origem de cada arquivo está em img/LEIA-ME.md. Os prompts finais estão em prompts-das-fotos.txt.
+
+A abertura tem fotografia de clínica, entrada em sequência do título, texto e botões e flutuação dos celulares. O GIF fornecido pela Erica continua no celular do WhatsApp, com o arquivo original preservado.
+
+As fotos entram com a rolagem e se aproximam levemente quando o mouse passa. O processo de implantação agora tem uma linha vertical que se desenha entre as quatro etapas. A seção Controle usa foto ampla com o texto em um cartão sobreposto. No celular, foto e cartão ficam empilhados. Uma linha discreta no topo acompanha a posição da leitura.
+
+As animações respeitam a opção de reduzir movimentos. O conteúdo continua disponível sem JavaScript. A ferramenta de navegador não oferece simulação da preferência de movimento do sistema, portanto essa parte foi conferida no CSS e no JS, sem alterar a configuração do computador.
+
+CARREGAMENTO
+As fotos estão em WebP, com versões menores para celular. As fotos abaixo da abertura carregam conforme a proximidade da rolagem. A foto da abertura é solicitada com prioridade. As folhas de estilo carregam diretamente, sem uma etapa intermediária de @import. Fontes, ícones e scripts continuam locais. Não há analytics, pixels, cookies ou bibliotecas externas.
+
+CONFERÊNCIAS
+Larguras de 375, 768 e 1280 pixels, sem rolagem lateral na página principal. Verificação visual da abertura, fotos, recortes e texto sobreposto. Os textos e a ordem das 13 seções foram comparados com a versão anterior e preservados. As quatro conversas de exemplo, preços, formulário e links continuam presentes. Nenhum recurso local referenciado está ausente.
+
+O formulário tem três campos obrigatórios, proteção contra spam e aviso de privacidade. Nenhum contato foi enviado nos testes. O recebimento e o redirecionamento do Netlify Forms precisam de um teste após a publicação autorizada.
+
+ANTES DE PUBLICAR
+1. Confirmar a escolha das fotos ilustrativas. Fotos reais podem substituir estas depois.
+2. Confirmar o número do WhatsApp. O atual ainda atende como demonstração. A equipe técnica deve impedir a resposta automática nele, ou a Erica escolhe outro número.
+3. Preencher razão social, CNPJ e endereço na política. Confirmar prazos, fornecedores, transferências internacionais e medidas de segurança. Fazer a revisão jurídica.
+4. Confirmar os nomes Essencial, Avançado e Completo.
+5. Autorizar a publicação e a configuração do domínio em outro momento.
+
+ARQUIVOS PARA PUBLICAÇÃO
+Não enviar comparar.html nem a pasta revisao. O ZIP de publicação já exclui ambos. Obrigado tem noindex. A política fica indexável. Os cabeçalhos usam X-Frame-Options SAMEORIGIN. Nenhuma publicação, alteração de DNS, conta, compra, commit ou push foi feita.
+
+Manutenção: contatos e nomes ficam no topo de js/site.js. Os mesmos valores existem no HTML como alternativa sem JavaScript e devem ser atualizados junto. Para trocar uma foto, atualizar o arquivo principal e a versão -720 correspondente, além do texto alternativo e da origem registrada.
+
+A versão anterior dos três arquivos principais está guardada em antes-do-visual. É uma cópia do código para restauração, não uma segunda prévia completa.

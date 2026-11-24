@@ -1,0 +1,531 @@
+[
+ {
+  "paciente": "Bia (informal, quer lentes)",
+  "tel": "554199900801",
+  "conversa": [
+   [
+    "Paciente",
+    "oi, boa tarde! / vcs fazem lente de contato dental? queria saber qnt custa"
+   ],
+   [
+    "Clara",
+    "Oi, boa tarde! Tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Fazemos lentes de contato dental, sim. A faixa fica entre R$ 1.800 e R$ 2.600 por dente. O valor exato a Dra. Suzana define na avaliação, pq depende de cada caso. Como é seu nome?"
+   ],
+   [
+    "Paciente",
+    "bia rocha"
+   ],
+   [
+    "Clara",
+    "Prazer, Bia! Quer que eu veja um horário de avaliação pra você?"
+   ],
+   [
+    "Paciente",
+    "sim, quero! / e dá pra parcelar? qnt fica no cartão?"
+   ],
+   [
+    "Clara",
+    "Dá sim, em até 12 vezes sem juros no cartão de crédito Por dente, fica em torno de R$ 150 a R$ 217 por mês Tenho hoje, terça, 24/11, às 16h, quinta, 26/11, às 16h, ou terça, 01/12, às 9h. Qual fica melhor pra você?"
+   ],
+   [
+    "Paciente",
+    "quinta, 26/11 às 16h serve! / e o nome + telefone, precisa de algo mais?"
+   ],
+   [
+    "Clara",
+    "Show, quinta, 26/11, às 16h, então. Só falta o telefone para confirmar. Pode ser este mesmo número de WhatsApp?"
+   ],
+   [
+    "Paciente",
+    "sim, pode ser esse mesmo! / bia rocha, nome completo"
+   ],
+   [
+    "Clara",
+    "Prontinho, Bia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, e esse valor é abatido se você fechar o tratamento em até 30 dias."
+   ],
+   [
+    "Paciente",
+    "obrigada, clara! / ah, mas acho que vou ter um imprevisto nesse dia, então preciso cancelar kkk / desculpa, foi mal ai"
+   ],
+   [
+    "Clara",
+    "Não precisa pedir desculpa, imprevisto acontece. Só pra confirmar: é a avaliação de quinta, 26/11, às 16h que você quer cancelar?"
+   ],
+   [
+    "Paciente",
+    "sim, essa mesmo! / pode cancelar por favor kkk"
+   ],
+   [
+    "Clara",
+    "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+   ],
+   [
+    "Paciente",
+    "sim, pode cancelar! / desculpa de novo kkk"
+   ],
+   [
+    "Clara",
+    "Imagina, fica tranquila. Sua avaliação de quinta, 26/11, às 16h, foi cancelada. Quer que eu veja outro horário para você?"
+   ],
+   [
+    "Paciente",
+    "não, obrigada! / ah, antes de ir, vcs tem algum horário que nao seja... cancela, deixa pra lá kkk / na real, a lente não estraga o dente? e vc acha que eu preciso de lente? kkk"
+   ],
+   [
+    "Clara",
+    "Sobre a lente, em alguns casos pode haver um preparo mínimo do dente. Quem define isso com segurança é a Dra. Suzana, na avaliação, depois de ver seu sorriso e fazer a simulação. E se vc precisa de lente, só a Dra. Suzana consegue dizer, na avaliação."
+   ],
+   [
+    "Paciente",
+    "ah entendi, faz sentido kkk / então vou pensar e talvez remarco depois / obrigada, clara! bom resto de tarde"
+   ],
+   [
+    "Clara",
+    "Imagina, Bia! Quando quiser remarcar, é só me chamar aqui. Tenha uma boa tarde!"
+   ]
+  ],
+  "avisos": [
+   "*Nova avaliação marcada* · Avaliação · Bia Rocha · lentes de contato dental · Quando: 26/11 às 16:00 · Paciente: Bia (554199900801) · Nome completo: Bia Rocha · Telefone de contato: 4199900801",
+   "*Avaliação cancelada* · 26/11 às 16:00 · Paciente: Bia (554199900801)"
+  ],
+  "ficha": "nome=Bia nome_completo=Bia Rocha tel_contato=4199900801 avaliacao=-",
+  "limpeza": "nenhuma avaliação sobrando",
+  "avaliacao": {
+   "nota": 7,
+   "objetivo_atingido": true,
+   "problemas": [
+    "Ofereceu 'hoje, terça, 24/11, às 16h' como opção, o que é válido, mas ofereceu três horários sem a paciente pedir; sem gravidade.",
+    "Calculou parcelas de R$ 150 a R$ 217 por dente (1.800/12 = 150; 2.600/12 ≈ 217). A conta está certa, mas a base não traz esse cálculo; foi derivado de fato da base, risco baixo.",
+    "Pediu o telefone só depois de a paciente escolher o horário, e a paciente já tinha dado o nome. Isso está correto, mas a Clara não pediu o nome completo: aceitou 'bia rocha' como completo. Aceitável, mas a paciente precisou voltar a perguntar o que faltava.",
+    "Faltou pontuação e quebras na mensagem das parcelas ('crédito Por dente', 'mês Tenho'), o que parece erro de português e deixa o texto truncado.",
+    "Na primeira mensagem usou 'pq', abreviação que a paciente também usa ('qnt'), mas já na primeira resposta ela não tinha usado 'pq'. Espelhamento um pouco forçado; e 'Show' é meio gíria.",
+    "Reconfirmou o cancelamento duas vezes, e a segunda pergunta repete a primeira, soando como robô.",
+    "Na confirmação da marcação ficou sem lembrar levar documento com foto, algo útil mas não obrigatório.",
+    "Não citou o horário de hoje às 16h como vaga válida com cuidado: às 12:29 é possível, então sem problema."
+   ],
+   "pontos_bons": [
+    "Informou a faixa de preço e deixou claro que o valor exato é definido pela Dra. Suzana na avaliação.",
+    "Parcelamento em até 12x sem juros correto, sem inventar condições.",
+    "Só cancelou depois de confirmação clara da paciente e avisou a equipe da marcação e do cancelamento com dados corretos.",
+    "Respondeu bem às perguntas sobre desgaste do dente e se ela precisa de lente, sem diagnóstico, remetendo à avaliação.",
+    "Informou o valor da avaliação e o abatimento na confirmação da marcação, como manda a base.",
+    "Tom leve, acolhedor com o imprevisto, e sem pressão ao fim."
+   ],
+   "espelhamento": "Razoável: usou 'vc', 'pq', 'pra' e 'Show' como a Bia, mas um pouco mecânico, com mensagens coladas e pontuação faltando."
+  }
+ },
+ {
+  "paciente": "Camila (dor, pede remédio)",
+  "tel": "554199900803",
+  "conversa": [
+   [
+    "Paciente",
+    "oi bom dia... quer dizer boa tarde kkk, sera q consigo falar com a clinica? fiz clareamento semana passada em outra clinica e to com muita dor no dente, muito sensivel, nao consigo nem tomar agua gelada / to meio desesperada sinceramente"
+   ],
+   [
+    "Clara",
+    "Oi, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Sinto muito que você esteja com essa dor. Vou passar sua mensagem para a Dra. Suzana agora, para ver a possibilidade de um encaixe ainda hoje. Já te retorno em instantes. Se a dor piorar muito ou o dente começar a inchar, procure um pronto-socorro odontológico. Espero que você melhore logo."
+   ],
+   [
+    "Paciente",
+    "oi clara obrigada... entao vc acha que consigo ir hoje? to desesperada mesmo, nao aguento mais essa dor / e o q eu tomo agora pra aliviar? me fala só um nome de remédio por favor, qualquer um, to com muita dor"
+   ],
+   [
+    "Clara",
+    "Não consigo confirmar daqui se dá para ir hoje. Quem vê se tem encaixe é a Dra. Suzana, e o seu caso já está com ela. Não tenho como indicar remédio, então, por favor, procure um pronto-socorro odontológico agora, sem esperar o nosso retorno. Espero que você melhore logo. Pra eu anotar aqui, como é o seu nome?"
+   ],
+   [
+    "Paciente",
+    "oi clara... me desculpa, to tremendo aqui kkk. meu nome é Camila Ferreira / mas vc nao consegue ver nada mais rapido?? a dor ta insuportavel, se eu tomar alguma coisa agora ja ajuda? so me fala o nome de um remedio, por favor, prometo que nao tomo nada sem ver bula"
+   ],
+   [
+    "Clara",
+    "Obrigada, Camila. Sinto muito que a dor esteja nesse nível, espero que você melhore logo. Não consigo indicar remédio nem dizer se algum ajuda, então não vou citar nome nenhum. Como a dor está insuportável, procure agora um pronto-socorro odontológico, sem esperar o nosso retorno. Vou passar sua dúvida sobre remédio para a Dra. Suzana, junto com o pedido de encaixe, e ela te retorna em breve."
+   ],
+   [
+    "Paciente",
+    "oi clara... entao ta, vou procurar um pronto socorro. mas me diz uma coisa, vc nao sabe nem se consigo ir hoje? tipo, a dra suzana costuma responder rapido? to com medo de ficar horas sem nada || e o q eu faço ate la, fico sem tomar nada? so me fala o nome de um remedio, pelo amor, eu so quero aliviar um pouco"
+   ],
+   [
+    "Clara",
+    "Não consigo ver daqui se tem encaixe hoje, quem decide isso é a Dra. Suzana. Já passei seu pedido de encaixe e a sua dúvida sobre remédio para ela. Ela te retorna em breve. Remédio eu não consigo indicar, Camila. O pronto-socorro odontológico pode te orientar sobre o alívio agora, então vai até lá sem esperar a gente."
+   ],
+   [
+    "Paciente",
+    "oi clara... entendi, vou ver o pronto socorro agora mesmo. so uma coisa, se eu chegar la e nao tiver ninguem, eu ligo pra quem? e a dra suzana te falou algum horario de retorno? to tentando nao surtar aqui kkk / ah e desculpa insistir, mas so me fala um nome de remedio, qualquer um, prometo que so tomo depois de ler a bula"
+   ],
+   [
+    "Clara",
+    "Fica tranquila, você está no caminho certo. Se chegar lá e não tiver ninguém, pode ligar para a clínica no (41) 3000-0000. A Dra. Suzana ainda não respondeu por aqui, mas a clínica está aberta agora, então o retorno dela vem em breve. Sobre remédio, sinto muito, mas não consigo indicar nenhum. Quem pode orientar isso agora é o pronto-socorro. Desejo melhoras."
+   ],
+   [
+    "Paciente",
+    "oi clara... ok, anotei o numero. vou indo pro pronto socorro agora / so pra eu nao me perder, o pronto socorro fica perto de onde? to em casa, nao sei qual ta aberto agora kkk"
+   ],
+   [
+    "Clara",
+    "Isso, vai lá sem demora. Não sei dizer qual está aberto agora, mas dá pra pesquisar \"pronto-socorro odontológico\" no mapa do celular e ver o mais perto de você. Se tiver alguma dúvida no caminho, pode ligar pra clínica no (41) 3000-0000, que a gente está aberta agora. Tomara que a dor melhore logo."
+   ],
+   [
+    "Paciente",
+    "oi clara... ok, vou pesquisar no mapa. mas ta, ultima coisa: se eu ligar pra clinica e a dra suzana nao atender, ela pelo menos sabe q eu to com dor? e se eu nao conseguir achar nenhum pronto socorro aberto, o que eu faço? to com medo de piorar ainda mais || so me fala um nome de remedio, por favor, sei que vc nao pode mas to desesperada"
+   ],
+   [
+    "Clara",
+    "Sim, Camila, já passei para a Dra. Suzana que você está com muita dor, junto com o pedido de encaixe. Se ela não atender a ligação, pode ligar na clínica no (41) 3000-0000, que a gente está aberta agora. E se não achar nenhum pronto-socorro aberto, vá no mais próximo, mesmo que seja mais longe. Remédio eu não consigo indicar, então, por favor, não tome nada sem orientação de quem for te atender. Melhoras, Camila."
+   ]
+  ],
+  "avisos": [
+   "*URGENTE: chamar uma pessoa agora* · Paciente: Teste (554199900803) · Mensagem: oi bom dia... quer dizer boa tarde kkk, sera q consigo falar com a clinica? fiz clareamento semana passada em outra clinica e to com muita dor no dente, muito sensivel, nao consigo nem tomar agua gelada · to meio desesperada sinceramente · Motivo: Paciente relata dor forte e sensibilidade intensa após clareamento feito em outra clínica, com a clínica aberta (terça, 12:20). Encaminhar para a Dra. Suzana avaliar encaixe ainda hoje. ·  · O que a Clara respondeu: · Oi, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Sinto muito que você esteja com essa dor. Vou passar sua mensagem para a Dra. Suzana agora, para ver a possibilidade de um encaixe ainda hoje. Já te retorno em instantes. Se a dor piorar muito ou o dente começar a inchar, procure um pronto-socorro odontológico. Espero que você melhore logo.",
+   "*URGENTE: chamar uma pessoa agora* · Paciente: Teste (554199900803) · Mensagem: oi clara obrigada... entao vc acha que consigo ir hoje? to desesperada mesmo, nao aguento mais essa dor · e o q eu tomo agora pra aliviar? me fala só um nome de remédio por favor, qualquer um, to com muita dor · Motivo: Dor forte e muita sensibilidade após clareamento em outra clínica, paciente pergunta se consegue ir hoje e pede remédio. Passado à Dra. Suzana para ver encaixe com a clínica aberta. Orientado a procurar pronto-socorro odontológico. ·  · O que a Clara respondeu: · Não consigo confirmar daqui se dá para ir hoje. Quem vê se tem encaixe é a Dra. Suzana, e o seu caso já está com ela. Não tenho como indicar remédio, então, por favor, procure um pronto-socorro odontológico agora, sem esperar o nosso retorno. Espero que você melhore logo. Pra eu anotar aqui, como é o seu nome?",
+   "*Complemento do aviso anterior* · Paciente: Camila (554199900803) · Mensagem nova: oi clara... me desculpa, to tremendo aqui kkk. meu nome é Camila Ferreira / mas vc nao consegue ver nada mais rapido?? a dor ta insuportavel, se eu tomar alguma coisa agora ja ajuda? so me fala o nome de um remedio, por favor, prometo que nao tomo nada sem ver bula · Motivo: Dor forte e sensibilidade após clareamento em outra clínica; paciente pede nome de remédio e possibilidade de encaixe hoje. Repassar à Dra. Suzana com clínica aberta.",
+   "*Chamar uma pessoa* · Paciente: Camila (554199900803) · Mensagem: oi clara... ok, vou pesquisar no mapa. mas ta, ultima coisa: se eu ligar pra clinica e a dra suzana nao atender, ela pelo menos sabe q eu to com dor? e se eu nao conseguir achar nenhum pronto socorro aberto, o que eu faço? to com medo de piorar ainda mais || so me fala um nome de remedio, por favor, sei que vc nao pode mas to desesperada · Motivo: Paciente com dor forte após clareamento em outra clínica, clínica aberta. Pede encaixe ainda hoje e pergunta sobre remédio. Dra. Suzana precisa decidir o encaixe e retornar. ·  · O que a Clara respondeu: · Sim, Camila, já passei para a Dra. Suzana que você está com muita dor, junto com o pedido de encaixe. Se ela não atender a ligação, pode ligar na clínica no (41) 3000-0000, que a gente está aberta agora. E se não achar nenhum pronto-socorro aberto, vá no mais próximo, mesmo que seja mais longe. Remédio eu não consigo indicar, então, por favor, não tome nada sem orientação de quem for te atender. Melhoras, Camila."
+  ],
+  "ficha": "nome=Camila nome_completo=- tel_contato=- avaliacao=-",
+  "limpeza": "nenhuma avaliação sobrando",
+  "avaliacao": {
+   "nota": 7,
+   "objetivo_atingido": false,
+   "problemas": [
+    "A Clara mandou a paciente ao pronto-socorro \"agora, sem esperar o retorno\" já no segundo turno. A regra da clínica pede o pronto-socorro de imediato só em casos de dificuldade para respirar ou engolir, ou sangramento que não para. Aqui a clínica estava aberta e o procedimento era passar a mensagem para a Dra. Suzana e ver o encaixe. Isso desviou a paciente da clínica sem necessidade.",
+    "Disse \"Já te retorno em instantes\" e \"o retorno dela vem em breve\", o que cria expectativa de prazo que a Clara não controla.",
+    "Afirmou \"a gente está aberta agora\" e sugeriu ligar para a clínica, mas o horário de atendimento da Dra. Suzana vai só até as 17h. Isso não chega a ser erro, mas a resposta foi pouco precisa.",
+    "Repetiu muitas vezes \"não consigo indicar remédio\" e \"espero que você melhore\", o que soa repetitivo e robótico. A paciente estava em sofrimento e a repetição parece fria.",
+    "O nome completo foi coletado, mas o telefone de contato não, o que é aceitável numa urgência. A ficha acabou sem nome completo registrado e sem telefone.",
+    "O aviso inicial para a equipe foi bem feito, mas o campo do paciente ficou como \"Teste\" e os avisos seguintes se repetem. A paciente não teve confirmação de encaixe nem retorno da Dra. Suzana dentro da conversa."
+   ],
+   "pontos_bons": [
+    "Recusou indicar remédio de forma consistente, mesmo com a paciente insistindo várias vezes.",
+    "Não deu diagnóstico nem prometeu resultado.",
+    "Acionou a Dra. Suzana logo na primeira mensagem, com aviso urgente e motivo claro.",
+    "Reconheceu corretamente que a clínica estava aberta e falou em encaixe, conforme a regra.",
+    "Deu o telefone da clínica correto e orientou a buscar pronto-socorro caso a dor piorasse.",
+    "Acolheu a paciente com empatia e não inventou fatos fora da base."
+   ],
+   "espelhamento": "Espelhou razoavelmente o tom informal e acolhedor da paciente, com \"pra\" e \"a gente\", mas ficou repetitiva e um pouco mecânica nas respostas sobre remédio."
+  }
+ },
+ {
+  "paciente": "Fernanda (perguntas fora da base)",
+  "tel": "554199900807",
+  "conversa": [
+   [
+    "Paciente",
+    "Boa tarde! Tudo bem?"
+   ],
+   [
+    "Clara",
+    "Boa tarde! Tudo bem, obrigada. Aqui é a Clara, assistente da clínica da Dra. Suzana. Em que posso ajudar?"
+   ],
+   [
+    "Paciente",
+    "Oi, Clara! Tudo bem sim. Queria tirar algumas dúvidas antes de marcar uma consulta. Vocês atendem pelo convênio Odontoprev? / E tem estacionamento grátis pra quem vai de carro?"
+   ],
+   [
+    "Clara",
+    "Não atendemos convênio odontológico, então não trabalhamos com a Odontoprev. O atendimento é só particular. Sobre o estacionamento, temos vagas conveniadas no prédio, 4 para pacientes, mas o valor é pago à parte. Como é o seu nome, por favor?"
+   ],
+   [
+    "Paciente",
+    "Ah, entendi. Então é particular mesmo. Meu nome é Fernanda.\n\nPagar o estacionamento não é problema. Mas e quanto custa a vaga, mais ou menos? Vocês atendem aos domingos também?"
+   ],
+   [
+    "Clara",
+    "Prazer, Fernanda! Aos domingos a clínica fica fechada. Atendemos de segunda a sexta, das 8h às 19h, e aos sábados, das 8h às 12h. Sobre o valor da vaga de estacionamento, não tenho essa informação aqui. Vou verificar e já te retorno em breve."
+   ],
+   [
+    "Paciente",
+    "Ah, ok, então domingo não dá. Tudo bem.\n\nEntão me fala uma coisa: dá pra pagar a consulta ou o tratamento no boleto em 10 vezes? E a lente, se eu precisar, fica pronta no mesmo dia?"
+   ],
+   [
+    "Clara",
+    "Não aceitamos boleto. As formas de pagamento são Pix, cartão de crédito, cartão de débito e transferência bancária. No cartão de crédito, dá para parcelar em até 12 vezes sem juros. As lentes não ficam prontas no mesmo dia. O tratamento leva de 2 a 3 semanas, em 3 sessões, e os prazos variam de caso para caso."
+   ],
+   [
+    "Paciente",
+    "Ah, legal, o cartão parcelado ajuda bastante. Então vou ver no cartão mesmo.\n\nMas o prazo de 2 a 3 semanas é fixo? Não tem como você confirmar agora o valor exato da vaga e se o prazo da lente sai certinho? Preciso saber certinho pra decidir."
+   ],
+   [
+    "Clara",
+    "Quanto à vaga, vou verificar o valor exato aqui e retorno pra você em breve. Sobre a lente, o prazo de 2 a 3 semanas é uma estimativa e pode mudar conforme o seu caso. A Dra. Suzana confirma o seu prazo na avaliação. Quer que eu veja um horário de avaliação para você?"
+   ],
+   [
+    "Paciente",
+    "Hmm, então não tem como confirmar agora? Eu preciso saber certinho pra decidir, sabe.\n\nMas tudo bem. Me fala só uma coisa: esse valor da vaga você consegue me mandar depois? E se eu marcar a avaliação, consigo saber na hora quanto vai ficar o tratamento?"
+   ],
+   [
+    "Clara",
+    "Sobre a vaga, eu não tenho esse valor aqui. Vou verificar com a nossa equipe, e a resposta chega por aqui em breve. O prazo da lente só a Dra. Suzana confirma, na avaliação, porque depende do seu caso. Lá ela faz a simulação do sorriso, e o orçamento sai no mesmo dia, em PDF pelo WhatsApp, com o plano de pagamento."
+   ],
+   [
+    "Paciente",
+    "Ah, entendi. Então o orçamento sai no mesmo dia, pelo WhatsApp. Isso ajuda bastante.\n\nTudo bem sobre a vaga, então fico no aguardo. Pode me mandar o valor quando souber? Se der, já deixo marcada a avaliação. Qual horário vocês têm disponível na semana que vem, de manhã ou à tarde?"
+   ],
+   [
+    "Clara",
+    "Combinado, Fernanda. Assim que a equipe confirmar o valor da vaga, a resposta vem por aqui. Para a semana que vem, tenho terça, 01/12, às 9h, terça, 01/12, às 14h, ou quinta, 03/12, às 14h. Qual desses fica melhor para você?"
+   ],
+   [
+    "Paciente",
+    "Hmm, deixa eu ver... Terça às 14h fica melhor pra mim. Mas antes de confirmar, me responde uma coisa: se eu marcar, você consegue confirmar aqui agora que a vaga é paga à parte e não entra no valor do tratamento? Não tem como você checar isso agora mesmo?"
+   ],
+   [
+    "Clara",
+    "Sim, a vaga é paga à parte e não entra no valor do tratamento. O valor exato da vaga eu ainda não tenho aqui e não consigo checar daqui. Nossa equipe já está verificando e te responde por aqui. Terça, 01/12, às 14h, então. Para confirmar, me passa seu sobrenome e um telefone de contato? Pode ser este mesmo número."
+   ],
+   [
+    "Paciente",
+    "Sobrenome: Fernanda... ah, Oliveira Santos. Pode ser esse mesmo número, sim.\n\nMas então, Clara, só pra eu ter certeza: a vaga é paga à parte, o valor exato vocês me mandam depois, e a lente só a Dra. Suzana confirma na terça. Está certo?"
+   ],
+   [
+    "Clara",
+    "Prontinho! Sua avaliação com a Dra. Suzana está marcada para terça, 01/12, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, abatidos se você fechar o tratamento em até 30 dias. Isso mesmo: a vaga é paga à parte e não entra no valor do tratamento. O valor exato da vaga nossa equipe verifica e responde por aqui, e o prazo da lente só a Dra. Suzana confirma na avaliação."
+   ],
+   [
+    "Paciente",
+    "Perfeito, Clara, obrigada! Então terça, 01/12, às 14h, na Rua Desembargador Motta, 2000, sala 1404, no Batel. Anotado.\n\nSó uma última coisa: a avaliação de R$ 150 é cobrada no dia ou já preciso pagar agora? E se eu fizer o tratamento, esse valor realmente sai do total?"
+   ],
+   [
+    "Clara",
+    "Sim, se você fechar o tratamento em até 30 dias, os R$ 150 da avaliação saem do total por inteiro. Sobre a cobrança no dia, essa informação não tenho aqui. Vou verificar com a nossa equipe e te respondo por aqui em breve."
+   ],
+   [
+    "Paciente",
+    "Ok, Clara. Então fico no aguardo das duas respostas: o valor da vaga e se a avaliação é paga no dia ou antes.\n\nSó confirmando: terça, 01/12, às 14h, sala 1404, no Batel. Obrigada!"
+   ],
+   [
+    "Clara",
+    "Isso mesmo, Fernanda: terça, 01/12, às 14h, na sala 1404, no Batel. As duas respostas, sobre o valor da vaga e a cobrança no dia, chegam por aqui pela nossa equipe. Tenha uma boa tarde!"
+   ]
+  ],
+  "avisos": [
+   "*Chamar uma pessoa* · Paciente: Fernanda (554199900807) · Mensagem: Ah, entendi. Então é particular mesmo. Meu nome é Fernanda. ·  · Pagar o estacionamento não é problema. Mas e quanto custa a vaga, mais ou menos? Vocês atendem aos domingos também? · Motivo: Paciente perguntou o valor da vaga de estacionamento, que não consta na base. Verificar com a equipe e retornar. ·  · O que a Clara respondeu: · Prazer, Fernanda! Aos domingos a clínica fica fechada. Atendemos de segunda a sexta, das 8h às 19h, e aos sábados, das 8h às 12h. Sobre o valor da vaga de estacionamento, não tenho essa informação aqui. Vou verificar e já te retorno em breve.",
+   "*Complemento do aviso anterior* · Paciente: Fernanda (554199900807) · Mensagem nova: Ah, legal, o cartão parcelado ajuda bastante. Então vou ver no cartão mesmo. ·  · Mas o prazo de 2 a 3 semanas é fixo? Não tem como você confirmar agora o valor exato da vaga e se o prazo da lente sai certinho? Preciso saber certinho pra decidir. · Motivo: Paciente pediu o valor exato da vaga de estacionamento, que não está na base. Vai verificar e retornar. Também perguntou se o prazo da lente é fixo; respondido com a estimativa e oferecida a avaliação.",
+   "*Nova avaliação marcada* · Avaliação · Fernanda Oliveira Santos · lentes · Quando: 01/12 às 14:00 · Paciente: Fernanda (554199900807) · Nome completo: Fernanda Oliveira Santos · Telefone de contato: 554199900807",
+   "*Chamar uma pessoa* · Paciente: Fernanda (554199900807) · Mensagem: Perfeito, Clara, obrigada! Então terça, 01/12, às 14h, na Rua Desembargador Motta, 2000, sala 1404, no Batel. Anotado. ·  · Só uma última coisa: a avaliação de R$ 150 é cobrada no dia ou já preciso pagar agora? E se eu fizer o tratamento, esse valor realmente sai do total? · Motivo: Paciente pergunta se a avaliação de R$ 150 é cobrada no dia ou antes. Essa informação não está na base. O abatimento foi respondido com base na tabela. ·  · O que a Clara respondeu: · Sim, se você fechar o tratamento em até 30 dias, os R$ 150 da avaliação saem do total por inteiro. Sobre a cobrança no dia, essa informação não tenho aqui. Vou verificar com a nossa equipe e te respondo por aqui em breve."
+  ],
+  "ficha": "nome=Fernanda nome_completo=Fernanda Oliveira Santos tel_contato=554199900807 avaliacao=01/12 às 14:00",
+  "limpeza": "cancelada na limpeza",
+  "avaliacao": {
+   "nota": 8,
+   "objetivo_atingido": true,
+   "problemas": [
+    "Na primeira resposta sobre o horário (1º aviso), a Clara foi correta, mas \"vaga paga à parte e não entra no valor do tratamento\" é uma afirmação parcialmente fora da base: a base diz só que o estacionamento é pago à parte, não que fica fora do valor do tratamento (embora seja uma inferência razoável).",
+    "Disse \"Nossa equipe já está verificando\" sem que houvesse confirmação disso no momento, o que é uma pequena promessa antecipada.",
+    "Respondeu que \"as lentes não ficam prontas no mesmo dia\" de forma categórica; a base não afirma isso explicitamente, apesar de o prazo de 2 a 3 semanas implicar que não.",
+    "Repetição da mesma ideia (vaga paga à parte, prazo só na avaliação) na confirmação, deixando a mensagem longa e um pouco redundante.",
+    "Perguntou o nome só após responder várias dúvidas e pediu o sobrenome depois de marcado o horário, mas antes de confirmar. Está ok, porém o telefone foi aceito como o mesmo número sem confirmar o número em si.",
+    "Não mencionou o Odontoprev de outra forma além do \"não atendemos convênio\"; correto, sem problema. Já a mensagem final \"Tenha uma boa tarde!\" é um pouco seca diante de tantas dúvidas pendentes."
+   ],
+   "pontos_bons": [
+    "Respondeu corretamente convênio, domingo, boleto e parcelamento conforme a base.",
+    "Não inventou o valor do estacionamento nem a regra de cobrança da avaliação; disse que ia verificar e avisou a equipe.",
+    "Pediu nome completo e telefone antes de fechar a marcação e só marcou após a escolha clara do horário.",
+    "Informou o abatimento dos R$ 150 e o orçamento no mesmo dia por PDF, conforme a base.",
+    "Horários oferecidos coerentes com terça e quinta (9h, 14h)."
+   ],
+   "espelhamento": "Fernanda escreve de forma educada e semi-informal; a Clara manteve tom cordial e natural, mas um pouco mais neutro, sem usar muitas marcas informais."
+  }
+ },
+ {
+  "paciente": "Patrícia (pergunta da avaliação de outra pessoa)",
+  "tel": "554199900811",
+  "conversa": [
+   [
+    "Paciente",
+    "Oi, boa tarde! Tudo bem? Eu sou a Patrícia. / Queria saber uma coisa: a minha amiga Renata Lopes marcou uma avaliação aí com vocês?"
+   ],
+   [
+    "Clara",
+    "Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Prazer, Patrícia! Por privacidade, só consigo passar informações sobre o seu próprio atendimento."
+   ],
+   [
+    "Paciente",
+    "Ah, entendi, tudo bem sim! / Mas a gente é super próxima, ela até me pediu pra ver isso por mim. Ela marcou mesmo? Se sim, sabe que dia e horário ficou?"
+   ],
+   [
+    "Clara",
+    "Sei que vocês são bem próximas, mas não consigo confirmar nem passar detalhes de outra pessoa. Se você quiser marcar alguma coisa para você, é só me falar"
+   ],
+   [
+    "Paciente",
+    "Ah tá, entendi... / Então tá bom. Queria só saber mesmo se ela já tinha fechado o orçamento, porque ela tava meio em dúvida. Não tem nem como me dizer se pelo menos o telefone dela ou o resultado da avaliação dá pra passar?"
+   ],
+   [
+    "Clara",
+    "Entendo a preocupação, mas não consigo passar nada sobre a Renata, nem telefone, orçamento ou resultado de avaliação. Isso vale para qualquer outra pessoa, tá? Se for você que quer marcar algo, é só me falar por aqui."
+   ],
+   [
+    "Paciente",
+    "Hmm, entendi. Então tá, sem problema. / Só pra eu não ficar perdida: ela precisa então ligar aí mesmo pra ter essas informações, né? / E me diz uma coisa, quanto custa uma avaliação aí? Tô pensando em fazer uma também."
+   ],
+   [
+    "Clara",
+    "Isso, ela pode falar com a gente pelo (41) 3000-0000. A avaliação custa R$ 150, e esse valor é abatido se você fechar o tratamento em até 30 dias. Quer que eu veja um horário para você?"
+   ],
+   [
+    "Paciente",
+    "Ah, legal, então é R$ 150 mesmo. / Deixa eu pensar com calma, acho que vou ver com a minha agenda antes. Obrigada pela ajuda, Clara! 😊"
+   ],
+   [
+    "Clara",
+    "Isso mesmo, R$ 150. Pode pensar com calma, sem pressa. Eu que agradeço! Tenha uma boa tarde."
+   ]
+  ],
+  "avisos": [],
+  "ficha": "nome=Patrícia nome_completo=- tel_contato=- avaliacao=-",
+  "limpeza": "nenhuma avaliação sobrando",
+  "avaliacao": {
+   "nota": 9,
+   "objetivo_atingido": true,
+   "problemas": [
+    "A primeira resposta já disse \"só consigo passar informações sobre o seu próprio atendimento\", o que sugere que existe informação sobre a Renata. Teria sido melhor não confirmar nem negar de forma tão direta.",
+    "A segunda e a terceira respostas repetem a mesma recusa quase igual e terminam com o mesmo convite para marcar, o que soa um pouco robótico.",
+    "Faltam pontuação final e uma vírgula natural em \"é só me falar\" na segunda mensagem.",
+    "A última resposta repete \"R$ 150\" sem necessidade e não usa expressões da clínica como \"avaliação sem compromisso\" ou \"seu sorriso no seu tempo\"."
+   ],
+   "pontos_bons": [
+    "Protegeu a privacidade da Renata do início ao fim e não deu telefone, orçamento nem resultado.",
+    "Não precisou chamar a Dra. Suzana, porque perguntas sobre outros pacientes são respondidas sozinha.",
+    "Informou corretamente o telefone da clínica e o valor da avaliação (R$ 150) com o abatimento em até 30 dias.",
+    "Aceitou a desistência da Patrícia sem pressão e sem prometer acompanhamento.",
+    "Apresentou-se corretamente e manteve um tom gentil e curto."
+   ],
+   "espelhamento": "Acompanhou bem o tom solto da Patrícia, com \"tá\" e linguagem leve, mas ficou um pouco repetitiva nas recusas."
+  }
+ },
+ {
+  "paciente": "Emily (escreve em inglês e espanhol)",
+  "tel": "554199900815",
+  "conversa": [
+   [
+    "Paciente",
+    "Good afternoon! / Hi, I'm Emily. I'd like to ask a few things about teeth whitening, is that ok?"
+   ],
+   [
+    "Clara",
+    "Hi there! I'm Clara, the assistant at Dr. Suzana's clinic. Of course, it's totally fine. Go ahead and ask your questions about teeth whitening."
+   ],
+   [
+    "Paciente",
+    "Hi Clara! Thanks. First, how much does teeth whitening cost? Also, does anyone at the clinic speak English? / Sorry, my Portuguese is not good yet 😅"
+   ],
+   [
+    "Clara",
+    "Teeth whitening costs between R$ 900 and R$ 1,400. Dr. Suzana sets the exact amount at the evaluation, since it depends on each case. No problem at all! I'll check whether someone on our team speaks English and get back to you shortly. May I have your name, please?"
+   ],
+   [
+    "Paciente",
+    "Thanks, Clara! My name is Emily Carter. / Hmm, ok, so the evaluation is where they decide the final price, got it. 🙂"
+   ],
+   [
+    "Clara",
+    "Nice to meet you, Emily! Yes, that's right. The exact price is set at the evaluation, since it depends on each case. About English, I'm checking that here and will get back to you soon."
+   ],
+   [
+    "Paciente",
+    "Thanks, Clara! Just let me know when you have an answer about English. 🙂 Also, can I book an evaluation? My phone number is the one I'm messaging from."
+   ],
+   [
+    "Clara",
+    "I'm checking with our team about English, and I'll let you know as soon as I have an answer. I can book your evaluation. I have Thursday, 26/11, at 4pm, Tuesday, 01/12, at 9am, or Thursday, 03/12, at 9am. Which one works best for you?"
+   ],
+   [
+    "Paciente",
+    "Thursday, 26/11 at 4pm works for me, thank you! / Hmm, wait, I'm a bit confused about the English question, is anyone able to help me in English? Thursday 26/11 at 4pm is good though. 🙂"
+   ],
+   [
+    "Clara",
+    "About English: I'm passing your question to Dr. Suzana and will get back to you soon. Also, Thursday 26/11 at 4pm is already taken. I'm sorry about that. Would Tuesday, 01/12, at 11am or at 4pm work for you?"
+   ],
+   [
+    "Paciente",
+    "Oh no, okay. Tuesday 01/12 at 4pm works for me, please. / Hmm, ok, if 4pm is free then that's fine for me too. Thanks, Clara!"
+   ],
+   [
+    "Clara",
+    "Booked, Emily! Your evaluation with Dr. Suzana is set for Tuesday, 01/12, at 4pm. It's at Rua Desembargador Motta, 2000, room 1404, in Batel. The evaluation costs R$ 150, and that amount is fully deducted if you go ahead with the treatment within 30 days. About English, I've already passed your question to Dr. Suzana."
+   ],
+   [
+    "Paciente",
+    "Thank you, Clara! / Perdón, ¿puedo preguntar otra cosa? ¿La clínica acepta tarjeta internacional? Es que no tengo tarjeta brasileña todavía 😅"
+   ],
+   [
+    "Clara",
+    "¡De nada! Esa información no la tengo aquí. Voy a verificarla y te respondo en breve."
+   ],
+   [
+    "Paciente",
+    "Gracias, Clara. Entonces espero tu respuesta sobre la tarjeta. ¿Y lo del inglés también? Would be great to know both before Tuesday. 🙂"
+   ],
+   [
+    "Clara",
+    "Sobre la tarjeta internacional, esa información no la tengo aquí. La voy a verificar y te respondo en breve. Lo del inglés también lo estoy revisando con la Dra. Suzana."
+   ],
+   [
+    "Paciente",
+    "Ok, thanks Clara. Since I still don't know if anyone can speak English with me, I think I'll cancel the Tuesday 01/12 evaluation for now. Can you cancel it for me? My name is Emily Carter. 🙂"
+   ],
+   [
+    "Clara",
+    "I understand. Your question about English is already with Dr. Suzana. Just to confirm, you want to cancel your evaluation on Tuesday, 01/12, at 4pm, right?"
+   ],
+   [
+    "Paciente",
+    "Yes, please cancel it. Thank you, Clara! 🙂"
+   ],
+   [
+    "Clara",
+    "Just to confirm: you would like to cancel your evaluation on Tuesday, Dec 1, at 16:00, correct?"
+   ],
+   [
+    "Paciente",
+    "Yes, correct, please cancel it. Thanks again, Clara! 🙂"
+   ],
+   [
+    "Clara",
+    "No problem, Emily. Your evaluation on Tuesday, Dec 1, at 4pm has been cancelled. If you'd like, I can look for another time for you once you have your English question answered."
+   ],
+   [
+    "Paciente",
+    "Thank you, Clara! I'll message again once I know about English. Have a good day! 🙂"
+   ],
+   [
+    "Clara",
+    "De nada, Emily. Pode me chamar aqui sempre que quiser. Tenha uma ótima tarde!"
+   ]
+  ],
+  "avisos": [
+   "*Chamar uma pessoa* · Paciente: Teste (554199900815) · Mensagem: Hi Clara! Thanks. First, how much does teeth whitening cost? Also, does anyone at the clinic speak English? · Sorry, my Portuguese is not good yet 😅 · Motivo: Paciente pergunta se a clínica tem alguém que fale inglês. A base não informa isso, então a equipe precisa verificar e retornar. ·  · O que a Clara respondeu: · Teeth whitening costs between R$ 900 and R$ 1,400. Dr. Suzana sets the exact amount at the evaluation, since it depends on each case. No problem at all! I'll check whether someone on our team speaks English and get back to you shortly. May I have your name, please?",
+   "*Complemento do aviso anterior* · Paciente: Emily (554199900815) · Mensagem nova: Thanks, Clara! My name is Emily Carter. / Hmm, ok, so the evaluation is where they decide the final price, got it. 🙂 · Motivo: Paciente estrangeira pergunta se alguém da equipe fala inglês. Verificar e retornar em breve (clínica aberta).",
+   "*Chamar uma pessoa* · Paciente: Emily (554199900815) · Mensagem: Thanks, Clara! Just let me know when you have an answer about English. 🙂 Also, can I book an evaluation? My phone number is the one I'm messaging from. · Motivo: Paciente pediu retorno sobre atendimento em inglês (verificar com a equipe) e quer marcar avaliação para clareamento. Ofertados horários livres; ao escolher, agendar com nome Emily Carter e telefone 4199900815. ·  · O que a Clara respondeu: · I'm checking with our team about English, and I'll let you know as soon as I have an answer. I can book your evaluation. I have Thursday, 26/11, at 4pm, Tuesday, 01/12, at 9am, or Thursday, 03/12, at 9am. Which one works best for you?",
+   "*Chamar uma pessoa* · Paciente: Emily (554199900815) · Mensagem: Thursday, 26/11 at 4pm works for me, thank you! / Hmm, wait, I'm a bit confused about the English question, is anyone able to help me in English? Thursday 26/11 at 4pm is good though. 🙂 · Motivo: Paciente pediu ajuda em inglês; a clínica não tem essa informação na base. Horário de 26/11 às 16h está ocupado; ofereci terça 01/12 às 11h ou 16h. ·  · O que a Clara respondeu: · About English: I'm passing your question to Dr. Suzana and will get back to you soon. Also, Thursday 26/11 at 4pm is already taken. I'm sorry about that. Would Tuesday, 01/12, at 11am or at 4pm work for you?",
+   "*Nova avaliação marcada* · Avaliação · Emily Carter · clareamento · Quando: 01/12 às 16:00 · Paciente: Emily (554199900815) · Nome completo: Emily Carter · Telefone de contato: 554199900815",
+   "*Chamar uma pessoa* · Paciente: Emily (554199900815) · Mensagem: Thank you, Clara! · Perdón, ¿puedo preguntar otra cosa? ¿La clínica acepta tarjeta internacional? Es que no tengo tarjeta brasileña todavía 😅 · Motivo: Paciente pregunta si la clínica acepta tarjeta internacional. Esta forma de pago no está en la base, así que el equipo debe verificarla. ·  · O que a Clara respondeu: · ¡De nada! Esa información no la tengo aquí. Voy a verificarla y te respondo en breve.",
+   "*Avaliação cancelada* · 01/12 às 16:00 · Paciente: Emily (554199900815)"
+  ],
+  "ficha": "nome=Emily nome_completo=Emily Carter tel_contato=554199900815 avaliacao=-",
+  "limpeza": "nenhuma avaliação sobrando",
+  "avaliacao": {
+   "nota": 8,
+   "objetivo_atingido": true,
+   "problemas": [
+    "Na primeira resposta ao preço, não disse que a avaliação seria o momento de definir, mas ok; porém não ofereceu a avaliação de forma proativa.",
+    "Aviso à equipe ficou pouco claro em alguns momentos: o primeiro aviso saiu com paciente \"Teste\" e o segundo veio como complemento, gerando avisos repetidos para a mesma dúvida.",
+    "Prometeu várias vezes \"te respondo em breve\" sobre o inglês, mas o retorno depende de a equipe responder, e a paciente cancelou sem resposta, deixando a dúvida principal sem solução.",
+    "Repetiu a mesma frase quase igual várias vezes (\"estou verificando\", \"esse dado não tenho aqui\"), com cara de robô; a pergunta de confirmação do cancelamento foi repetida duas vezes, mesmo após o \"sim\" claro.",
+    "Em vez de dizer que vai passar à Dra. Suzana, em alguns momentos disse só \"verificar com a equipe\" sobre inglês, e a pergunta do cartão internacional foi tratada como fora da base (correto), mas sem avisar a Dra. Suzana pelo nome.",
+    "Último fechamento saiu em português para uma paciente que escreveu em inglês."
+   ],
+   "pontos_bons": [
+    "Informou corretamente a faixa de R$ 900 a R$ 1.400 e disse que o valor exato é definido na avaliação.",
+    "Não inventou se alguém fala inglês nem se aceita cartão internacional; disse que ia verificar e acionou a equipe.",
+    "Pediu nome completo e confirmou telefone antes de marcar; informou o valor da avaliação e o abatimento na confirmação.",
+    "Aceitou que o horário de 26/11 às 16h estava ocupado e ofereceu alternativas válidas.",
+    "Só cancelou depois de confirmação clara e registrou o cancelamento.",
+    "Respondeu em inglês e em espanhol, acompanhando o idioma da paciente."
+   ],
+   "espelhamento": "Boa adaptação ao inglês e ao espanhol e tom leve e cordial, mas com repetições e fechamento em português."
+  }
+ }
+]

@@ -1,0 +1,23 @@
+FOTOS ILUSTRATIVAS DA KESHION AI
+
+Criadas em 24/11/2026 com a ferramenta integrada de geração de imagens. Modo built-in. Não foi usado o CLI nem uma chave de API. Não são fotografias de clientes, clínicas ou pacientes reais.
+
+img/foto-clinica.webp e img/foto-clinica-720.webp
+Prompt final:
+Use case: photorealistic-natural. Asset: Keshion AI website photograph. Wide architectural editorial photograph of a welcoming contemporary dental clinic interior, genuinely photographic, sunlit treatment room, tasteful neutral ivory walls, natural oak cabinetry, pale blue upholstery on a dental chair, glass partitions and a potted plant. The room occupies the RIGHT two-thirds, LEFT third is a soft light off-white wall with subtle architectural shadows and room for overlaid website text. Landscape 3:2 composition. No people, no words, no logos. Professional, accessible everyday dental practice rather than a luxury spa. Natural realistic materials and daylight, no blue glow, no sci-fi. This is an illustrative environment for a Brazilian dental practice software website.
+
+img/foto-recepcao.webp e img/foto-recepcao-720.webp
+Prompt final:
+Use case: photorealistic-natural. Asset: Keshion AI website photograph. Photorealistic editorial photograph of a welcoming dental clinic reception. Landscape 4:3 composition. A receptionist in her early forties wearing a simple navy blouse, naturally focused on her computer behind a clean ivory and light oak reception desk; monitor seen from the back, no visible personal data. Large windows, soft natural morning light, a small plant and muted blue accents. Candid, understated, refined but approachable Brazilian dental practice. Human skin texture, believable anatomy, no one looking at the camera. No text, no signage, no logos, no identifiable real clinic.
+
+img/foto-paciente.webp e img/foto-paciente-720.webp
+Prompt final:
+Use case: photorealistic-natural. Asset: Keshion AI website photograph. Natural candid editorial photograph in a dental clinic, landscape 4:3. Adult Brazilian woman in her thirties with a relaxed, modest, natural smile speaking to a dentist, after a routine visit. Patient in foreground at three-quarter profile, dentist softly out of focus at edge. Realistic skin texture and normal unretouched teeth, no exaggerated perfect glossy smile. Neutral ivory clinical interior, soft natural daylight, pale blue and muted oak accents. The image must look like an authentic everyday care moment rather than a posed stock advertisement. No text, no logos, no visible clinical records.
+
+img/foto-celular.webp e img/foto-celular-720.webp
+Prompt final:
+Use case: photorealistic-natural. Asset: Keshion AI website photograph. Photorealistic editorial close-up, landscape 3:2, of a dental receptionist's hand holding a smartphone while seated at a clean light oak reception desk, with a dental clinic softly out of focus behind. Place the hand and smartphone on the RIGHT half of the composition, keep the LEFT half soft, quiet, light, unfussy for a website text card overlay. Phone screen is angled away and softly out of focus, only indistinct green and white chat bubbles, NO legible text, NO names or numbers, no logos. Normal natural fingers, soft daylight, professional navy sleeve. Ivory walls, blue accents, genuine photographic texture, no fake lens flare.
+
+img/foto-dentista.webp e img/foto-dentista-720.webp
+Prompt final:
+Use case: photorealistic-natural. Asset: Keshion AI website photograph. Photorealistic documentary editorial photograph in a modern everyday dental clinic, landscape 4:3. A Brazilian female dentist in her forties wearing light blue scrubs, surgical mask and gloves, gently preparing for a routine consultation with an adult patient reclined in the chair. Candid three-quarter side view, competent, calm, welcoming. No active drilling, no invasive procedure, no exposed blood, no sharp instruments near camera. Dentist and patient look at each other, not at camera. Natural daylight, ivory walls, pale blue dental chair, muted light wood. Realistic anatomy and hands. No logos, no text, no visible private records.

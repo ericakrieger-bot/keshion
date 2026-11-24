@@ -116,6 +116,13 @@ Usar direto `branding/kit/digital/keshion.css` (variáveis `--keshion-*`) e `kes
 - **Frase de marca (aprovada em 17/11/2026):** "Keshion · automações inteligentes" (ideia da Erica, escrita em minúsculas depois do nome). O descritor do manual, "Agentes de IA para atendimento no WhatsApp", fica como subtítulo do produto atual.
 - **Assinatura de e-mail:** modelo em `branding/modelos/assinatura-email.html` (sem nome por enquanto: logo, frase, e-mail e site).
 
+## Nome do produto (decidido pela Erica em 24/11/2026)
+
+- **Assistente Inteligente** é o nome do produto: o atendente de IA no WhatsApp da clínica, mais o app. Em frase corrente, "o assistente inteligente da Keshion".
+- **Clara** deixa de ser nome público. Pode seguir como nome interno da demo e dos fluxos técnicos, mas não aparece em site, redes, propostas nem materiais da clínica.
+- **Keshion AI** continua sendo a marca (sempre pelo logo, nunca digitada no lugar dele). No site, o nome do produto fica em um ponto único de troca (`NOME_PRODUTO` em `site/copy-v4.html`).
+- O paciente da clínica vê o nome da clínica no WhatsApp, não o nome do produto.
+
 ## Os SVGs do kit são os arquivos editáveis
 
 Os logos e ícones em `kit/logos` e `kit/icones` são vetoriais (SVG): abrem e editam no Figma, Canva, Illustrator ou Inkscape. As letras do logo já são curvas, então não precisam de fonte. Não existe arquivo-fonte original nem logo vertical: para os dois, usar o símbolo isolado ou pedir ao designer.

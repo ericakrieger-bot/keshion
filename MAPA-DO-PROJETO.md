@@ -1,6 +1,6 @@
 # Mapa do projeto Keshion
 
-Atualizado em 22/11/2026. Substitui o `INVENTARIO-MATERIAIS.md`, o `conflitos-e-duplicatas.md` e o `DIAGNOSTICO-ORGANIZACAO-2026-11-22.md` (os três estão em `arquivo/organizacao/`).
+Atualizado em 24/11/2026. Substitui o `INVENTARIO-MATERIAIS.md`, o `conflitos-e-duplicatas.md` e o `DIAGNOSTICO-ORGANIZACAO-2026-11-22.md` (os três estão em `arquivo/organizacao/`).
 Para que serve: saber onde está cada coisa, qual arquivo vale quando dois falam do mesmo assunto, e o que ainda está para decidir.
 
 ## 1. Fonte oficial de cada assunto
@@ -55,12 +55,14 @@ Também registradas no Notion, em "Decisões a tomar".
 | Conexão oficial do WhatsApp | O plano estratégico pede a API oficial no 1º trimestre de 2027. Pilotos começam na conexão não oficial | Erica, antes do 1º pagante |
 | Prazo de retorno e parcelamento da avaliação | A base da demo diz "retornamos em instantes" e "12x" genérico; o real de cada clínica sai do questionário | Cada clínica piloto |
 | Voz em áudio (Ester x OpenAI) | O roteiro de comparação (`tecnico/teste-voz/`) está sem resultado. As frases do roteiro não batem com a demo (40 min x 60 min; sexta 14h30 x avaliação só terça e quinta): corrigir antes de gerar os áudios | Erica |
-| Oferta de fundador final, app na mensalidade ou à parte, quem paga cada ferramenta até o CNPJ, e-mail profissional | Detalhes e prazos no Notion | Erica e Sérgio |
+| Oferta de fundador final, app na mensalidade ou à parte, quem paga cada ferramenta até o CNPJ, e-mail profissional (a Erica vai ver o que a Hostinger oferece; alternativa: Google Workspace) | Detalhes e prazos no Notion | Erica e Sérgio |
 | Custo por clínica | Estimativas antigas variavam de R$ 180 a 590 por mês, sem fonte confiável | Medir no 1º piloto |
 
 **Decididas no Notion em 21/11 (valem sobre os arquivos):** lembretes de orçamento nos dias 3, 10, 17 e 30 vão para a base do servidor junto com a próxima publicação, testados com o paciente simulado (ainda não publicado); quem confere o backup é a Erica, com o Sérgio de substituto, e o executor das 14h confere todo dia até o alerta por e-mail existir; a migração para o usuário `_app` (B7) é depois do teste do Pacote C e antes da 1ª clínica piloto entrar no ar. Copiloto: decidido em 21 e 22/11 (ver `tecnico/RETOMAR-AQUI.md`).
 
-**Resolvidas na organização de 22/11:** primeiro pagante até 31/01/2027 (era 18/12 em planos antigos); metas de crescimento seguem o plano estratégico (os planos de negócio de outubro foram apagados em 19/11); a Mamãe Planejada só aparecia em material de outubro, hoje arquivado; piloto da Dra. Vivian suspenso em 20/11 e retirado de todos os documentos ativos.
+**Resolvidas na organização de 22/11:** primeiro pagante até 31/01/2027 (era 18/12 em planos antigos); metas de crescimento seguem o plano estratégico (os planos de negócio de outubro foram apagados em 19/11); a Mamãe Planejada só aparecia em material de outubro, hoje arquivado; piloto da Dra. Vivian suspenso em 20/11.
+
+**Mudou em 24/11:** a Dra. Vivian retomou o contato e tem reunião em 25/11 com ela e o Dr. Eduardo (sócio); o piloto dela voltou a ser possível. O Dr. William recusou o piloto, mas se ofereceu para ajudar na parte odontológica. Convidado: Dr. Victor. Em espera até a reunião da Vivian: Dra. Sibelly, Dra. Gabrielli e Dra. Helka. **Nome do pacote decidido:** "Assistente Inteligente" (a Clara continua sendo o nome da assistente); sem registro no INPI por enquanto. O Google Agenda precisa ser reconectado em 25/11 (a conexão vence por volta de 26/11) até o app do Google ser publicado.
 
 ## 4. Regras de organização
 

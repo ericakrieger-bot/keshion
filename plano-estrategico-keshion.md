@@ -5,7 +5,7 @@
 
 ---
 
-> **Mudança de 21/11/2026 (decisão da Erica):** os pilotos passam a ser com clínicas que a Erica e o Sérgio conhecem (1 até 30/11, mais 1 ou 2 até 15/12), só odontologia e, na maioria, clínica do dia a dia (limpeza, extração, obturação, canal, manutenção), com pouca ou nenhuma estética. O piloto da Dra. Vivian está suspenso. Onde este plano fala em "alto valor" ou "alto padrão", vale o público novo; cliente ideal, proposta de valor e preço estão sendo revistos (`comercial/piloto/`).
+> **Mudança de 21/11/2026 (decisão da Erica):** os pilotos passam a ser com clínicas que a Erica e o Sérgio conhecem (1 até 30/11, mais 1 ou 2 até 15/12), só odontologia e, na maioria, clínica do dia a dia (limpeza, extração, obturação, canal, manutenção), com pouca ou nenhuma estética. O piloto da Dra. Vivian foi suspenso em 20/11 e ela retomou o contato em 24/11 (reunião em 25/11). Onde este plano fala em "alto valor" ou "alto padrão", vale o público novo; cliente ideal, proposta de valor e preço estão sendo revistos (`comercial/piloto/`).
 
 ## 1. Destino
 
@@ -20,7 +20,7 @@
 ## 2. Ponto de partida (10/11/2026)
 
 - **Produto:** a Sarah funciona na clínica de demonstração (responde, marca, remarca, cancela). Faltam histórico do paciente, confirmações, lembretes de orçamento e relatório.
-- **Clientes:** nenhum pagante. O piloto da Dra. Vivian foi suspenso em 20/11/2026; os pilotos passam a ser com clínicas conhecidas (nenhum no ar ainda).
+- **Clientes:** nenhum pagante. O piloto da Dra. Vivian foi suspenso em 20/11/2026 e ela retomou o contato em 24/11 (reunião em 25/11); os pilotos passam a ser com clínicas conhecidas (nenhum no ar ainda).
 - **Vendas:** nada começou (lista, diagnósticos, reuniões, site, domínio, perfis).
 - **Empresa:** sem CNPJ e sem acordo escrito entre os sócios.
 - **Caixa:** investimento perto de zero, só ferramentas.

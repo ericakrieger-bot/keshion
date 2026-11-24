@@ -102,7 +102,7 @@ td strong{font-weight:600}
 .card ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14.5px}
 
 /* Pacotes */
-.tiers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch}
 .tier.later-tier{border-style:dashed}
 .tier .vp{font-size:14px;font-style:italic;color:var(--fg);border-left:2px solid var(--line);padding-left:10px}
 .track .dot{position:absolute;top:2px;width:12px;height:12px;border-radius:50%;transform:translateX(-50%);background:var(--fg);opacity:.75}
@@ -267,20 +267,20 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
 <section id="pacotes"><div class="wrap">
   <div class="sec-head">
     <span class="eyebrow">3 · Custos relativos e pacotes</span>
-    <h2>Serviço sob medida, em quatro planos</h2>
-    <p class="muted">A Keshion não vende uma assinatura genérica de R$ 180. Vende a base da clínica montada com o dentista, a tabela de procedimentos, a voz da clínica e o acompanhamento. Por dentro, o custo fica baixo: servidor próprio, IA barata e uma estrutura única que lê a configuração de cada clínica. Preços são estimativa para testar nos pilotos.</p>
+    <h2>Serviço sob medida, em três níveis</h2>
+    <p class="muted">A Keshion não vende uma assinatura genérica de R$ 180. Vende a base da clínica montada com o dentista, a tabela de procedimentos, a voz da clínica e o acompanhamento. Por dentro, o custo fica baixo: servidor próprio, IA barata e uma estrutura única que lê a configuração de cada clínica. Os três níveis são os que o site publica desde 24/11; os nomes ainda podem mudar. Preços são estimativa para testar nos pilotos.</p>
   </div>
   <div class="tiers">
-    <div class="tier later-tier">
-      <span class="eyebrow">Start · a partir de abr/2027</span>
+    <div class="tier">
+      <span class="eyebrow">Essencial</span>
       <div class="price">R$ 349 <small>por mês</small></div>
       <p class="small muted">Implantação R$ 490 · se paga com <strong>2 limpezas por mês</strong></p>
-      <p class="small"><strong>Para:</strong> consultório pequeno que quer começar barato. Base pronta da especialidade, ajustada por questionário.</p>
+      <p class="small"><strong>Para:</strong> consultório pequeno que quer começar. Base pronta da especialidade, ajustada por questionário, com limite de conversas por mês.</p>
       <p class="vp">"Seu WhatsApp respondendo à noite e no fim de semana, por R$ 349 por mês."</p>
       <ul id="t0"></ul>
     </div>
     <div class="tier">
-      <span class="eyebrow">Essencial</span>
+      <span class="eyebrow">Avançado</span>
       <div class="price">R$ 590 <small>por mês</small></div>
       <p class="small muted">Implantação R$ 1.500 · se paga com <strong>1 canal por mês</strong></p>
       <p class="small"><strong>Para:</strong> dentista que atende sozinho e quer que a assistente fale como ele, só com o que ele aprovou.</p>
@@ -288,29 +288,21 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
       <ul id="t1"></ul>
     </div>
     <div class="tier featured">
-      <span class="eyebrow">Completo · o mais indicado</span>
-      <div class="price">R$ 1.190 <small>por mês</small></div>
-      <p class="small muted">Implantação R$ 2.500 · <strong>menos da metade de uma secretária</strong></p>
-      <p class="small"><strong>Para:</strong> clínica com secretária ou volume. A equipe deixa de digitar e passa a aprovar.</p>
-      <p class="vp">"Agenda cheia e confirmada, com a sua equipe no controle."</p>
+      <span class="eyebrow">Completo · o mais indicado · app incluído</span>
+      <div class="price">R$ 1.290 <small>por mês</small></div>
+      <p class="small muted">Implantação R$ 3.000 · <strong>menos da metade de uma secretária</strong></p>
+      <p class="small"><strong>Para:</strong> clínica com secretária ou volume, ou dono que quer ver e medir o atendimento pelo celular. A equipe deixa de digitar e passa a aprovar.</p>
+      <p class="vp">"Agenda cheia e confirmada, com a sua equipe no controle e a sua clínica no seu celular."</p>
       <ul id="t2"></ul>
-    </div>
-    <div class="tier">
-      <span class="eyebrow">Completo com app</span>
-      <div class="price">R$ 1.690 <small>por mês</small></div>
-      <p class="small muted">Implantação R$ 3.500 · se paga com <strong>1 implante a cada 2 meses</strong></p>
-      <p class="small"><strong>Para:</strong> clínica de alto valor ou dono que quer ver e medir o atendimento pelo celular.</p>
-      <p class="vp">"Sua clínica no seu celular: conversas, agenda e resultado com o nome da sua clínica."</p>
-      <ul id="t3"></ul>
     </div>
   </div>
   <div class="tbl mid" style="margin-top:20px"><table>
     <thead><tr><th>Módulo (somado ao plano)</th><th>Mensalidade (estimativa)</th><th>Planos</th></tr></thead>
     <tbody>
-      <tr><td>Acompanhamento de orçamento (dias 3, 10, 17 e 30)</td><td>R$ 290</td><td>Essencial em diante</td></tr>
-      <tr><td>Pós-operatório com orientação aprovada</td><td>R$ 149</td><td>Completo em diante</td></tr>
+      <tr><td>Acompanhamento de orçamento (dias 3, 10, 17 e 30)</td><td>R$ 290</td><td>Avançado em diante</td></tr>
+      <tr><td>Pós-operatório com orientação aprovada</td><td>R$ 149</td><td>Completo</td></tr>
       <tr><td>Pedido de avaliação no Google</td><td>R$ 99</td><td>Todos</td></tr>
-      <tr><td>Reativação de pacientes antigos</td><td>R$ 290</td><td>Completo em diante, só com a conexão oficial</td></tr>
+      <tr><td>Reativação de pacientes antigos</td><td>R$ 290</td><td>Completo, só com a conexão oficial</td></tr>
       <tr><td>Número de WhatsApp extra</td><td>50% da mensalidade</td><td>Todos</td></tr>
     </tbody>
   </table></div>
@@ -334,12 +326,12 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
   <div class="sec-head">
     <span class="eyebrow">Estratégia de preço</span>
     <h2>Plano barato agora ou alto valor?</h2>
-    <p class="muted">Modelo: planos por nível de serviço, com implantação e módulos. Cobrança por número de WhatsApp da clínica; só o Start tem limite de conversas.</p>
+    <p class="muted">Modelo: planos por nível de serviço, com implantação e módulos. Cobrança por número de WhatsApp da clínica; só o Essencial tem limite de conversas.</p>
   </div>
   <div class="cards3">
     <div class="card"><span class="tag">Agora: alto valor</span><p class="small">Hoje cada clínica é montada sob medida e consome horas da Erica. Um plano de R$ 299 teria o mesmo trabalho com metade da receita e colocaria a Keshion ao lado do software genérico e da IA grátis da Meta.</p></div>
-    <div class="card"><span class="tag">Abril de 2027: Start</span><p class="small">O plano de R$ 349 entra quando houver bases prontas por especialidade e implantação por questionário, sem reunião. Antes disso, testar a demanda com uma página de lista de espera.</p></div>
-    <div class="card"><span class="tag">Sempre</span><p class="small"><strong>A clínica só paga pelo que está no ar.</strong> Hoje o que funciona é o Essencial. O Completo fica pronto em 15/12 e o Completo com app em 31/12, se o roadmap for cumprido.</p></div>
+    <div class="card"><span class="tag">24/11: Essencial no site</span><p class="small">O plano de R$ 349 já está no site, com implantação por questionário, sem reunião. A entrega sem reunião depende de bases prontas por especialidade: conferir nos pilotos.</p></div>
+    <div class="card"><span class="tag">Sempre</span><p class="small"><strong>A clínica só paga pelo que está no ar.</strong> Hoje o que funciona é o que o Essencial e o Avançado entregam. O Completo, que inclui o app, fica pronto por partes: copiloto até 07/12, confirmação até 15/12 e app até 31/12, se o roadmap for cumprido.</p></div>
   </div>
 
   <h3 style="margin-top:28px">Onde a Keshion fica na prateleira</h3>
@@ -352,10 +344,9 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
   <div class="tbl mid"><table>
     <thead><tr><th>Plano</th><th>Mensalidade</th><th>Ferramentas</th><th>Teto de horas por mês</th><th>Margem só ferramentas</th><th>Margem com horas</th></tr></thead>
     <tbody>
-      <tr><td>Start</td><td>R$ 349</td><td>R$ 110</td><td>0,5 h</td><td>68%</td><td>54%</td></tr>
-      <tr><td>Essencial</td><td>R$ 590</td><td>R$ 130</td><td>1,5 h</td><td>78%</td><td>53%</td></tr>
-      <tr><td>Completo</td><td>R$ 1.190</td><td>R$ 180</td><td>4 h</td><td>85%</td><td>51%</td></tr>
-      <tr><td>Completo com app</td><td>R$ 1.690</td><td>R$ 200</td><td>5 h</td><td>88%</td><td>59%</td></tr>
+      <tr><td>Essencial</td><td>R$ 349</td><td>R$ 110</td><td>0,5 h</td><td>68%</td><td>54%</td></tr>
+      <tr><td>Avançado</td><td>R$ 590</td><td>R$ 130</td><td>1,5 h</td><td>78%</td><td>53%</td></tr>
+      <tr><td>Completo (com app)</td><td>R$ 1.290</td><td>R$ 200</td><td>5 h</td><td>85%</td><td>46%</td></tr>
     </tbody>
   </table></div>
   <p class="small muted" style="margin-top:8px">Hora da Keshion a R$ 100 (custo de oportunidade hoje). <strong>Horas são o custo que decide:</strong> a meta de menos de 3 h por semana só cabe no primeiro mês; depois, cada plano precisa caber no seu teto. A implantação paga as horas do começo.</p>
@@ -365,8 +356,8 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
       <h3>Pilotos e fundadores</h3>
       <div class="tbl"><table><tbody>
         <tr><td><strong>Piloto</strong></td><td>Sem custo por 30 dias, pode estender, em troca de feedback, depoimento e case</td></tr>
-        <tr><td><strong>Fundador</strong> (3 vagas, jan a mar/2027)</td><td>R$ 3.000 de implantação e R$ 1.500 por mês congelados por 12 meses: o Completo com app com 11% de desconto</td></tr>
-        <tr><td><strong>Escada do fundador</strong> (sugestão)</td><td>Começa em R$ 790 enquanto só o Essencial estiver no ar e sobe para R$ 1.500 quando confirmação e app estiverem rodando</td></tr>
+        <tr><td><strong>Fundador</strong> (3 vagas, jan a mar/2027)</td><td>R$ 3.000 de implantação e R$ 1.500 por mês congelados por 12 meses. <strong>A rever (24/11):</strong> o Completo agora custa R$ 1.290, menos que os R$ 1.500; decisão aberta da Erica e do Sérgio</td></tr>
+        <tr><td><strong>Escada do fundador</strong> (sugestão)</td><td>Começa em R$ 790 enquanto só o Avançado estiver no ar e sobe para o valor do Completo quando confirmação e app estiverem rodando (valor final depende da decisão acima)</td></tr>
       </tbody></table></div>
     </div>
     <div class="stack">
@@ -375,13 +366,13 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
         <li><strong>Conversa final dos pilotos:</strong> as 4 perguntas de preço (barato demais, bom negócio, caro, caro demais) e oferta real do mês 2 pago</li>
         <li><strong>Âncora:</strong> mostrar sempre 3 planos com o Completo destacado e anotar qual cada clínica escolhe</li>
         <li><strong>Escada x preço fixo:</strong> metade dos fundadores com cada oferta</li>
-        <li><strong>Start antes de construir:</strong> página "a partir de R$ 349" com lista de espera, alternando 299, 349 e 399</li>
+        <li><strong>Demanda do Essencial:</strong> acompanhar no site quantos pedidos de diagnóstico chegam e qual nível cada clínica escolhe; se preciso, alternar 299, 349 e 399 em página de teste</li>
         <li><strong>Anual:</strong> oferecer 2 meses grátis em toda proposta</li>
       </ul>
     </div>
   </div>
   <div class="first" style="margin-top:18px">
-    <p class="small"><strong>Maior risco do Start:</strong> puxar clientes do Essencial e marcar a Keshion como "mais um robô". Por isso ele só aparece quando o Essencial não cabe no orçamento, e só depois de 3 cases.</p>
+    <p class="small"><strong>Maior risco do Essencial (R$ 349):</strong> puxar clientes do Avançado e marcar a Keshion como "mais um robô". Por isso a indicação dele é para quem o Avançado não cabe no orçamento, e a mensagem da marca segue "feito para a sua clínica".</p>
   </div>
 </div></section>
 
@@ -654,21 +645,21 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
 
   // Pacotes
   var feats=[
-    ["Responde, marca, remarca e cancela",[1,1,1,1]],
-    ["Chama o dentista em dor e tratamento em andamento",[1,1,1,1]],
-    ["Horário: fora do expediente (noite, almoço, fim de semana)",[1,1,0,0]],
-    ["Horário: 24 horas",[0,0,1,1]],
-    ["Base montada com o dentista (voz da clínica)",[0,1,1,1]],
-    ["Copiloto: a equipe aprova antes de enviar",[0,0,1,1]],
-    ["Confirmação e lembrete de consulta",[0,0,1,1]],
-    ["Retorno programado (limpeza, manutenção, próxima sessão)",[0,0,1,1]],
-    ["Reunião mensal de resultado",[0,0,1,1]],
-    ["Aplicativo exclusivo da clínica",[0,0,0,1]],
-    ["Relatório com valor recuperado",[0,0,0,1]]
+    ["Responde, marca, remarca e cancela",[1,1,1]],
+    ["Chama o dentista em dor e tratamento em andamento",[1,1,1]],
+    ["Horário: fora do expediente (noite, almoço, fim de semana)",[1,1,0]],
+    ["Horário: 24 horas",[0,0,1]],
+    ["Base montada com o dentista (voz da clínica)",[0,1,1]],
+    ["Copiloto: a equipe aprova antes de enviar",[0,0,1]],
+    ["Confirmação e lembrete de consulta",[0,0,1]],
+    ["Retorno programado (limpeza, manutenção, próxima sessão)",[0,0,1]],
+    ["Reunião mensal de resultado",[0,0,1]],
+    ["Aplicativo exclusivo da clínica (incluído)",[0,0,1]],
+    ["Relatório com valor recuperado",[0,0,1]]
   ];
   var yes='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ok)" aria-label="Inclui"><path d="M20 6 9 17l-5-5"/></svg>';
   var no='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-label="Não inclui"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-  [0,1,2,3].forEach(function(i){
+  [0,1,2].forEach(function(i){
     var ul=document.getElementById("t"+i);
     ul.innerHTML=feats.filter(function(f){return !(i>1&&f[0].indexOf("fora do expediente")>-1)&&!(i<2&&f[0].indexOf("24 horas")>-1)})
       .map(function(f){var on=f[1][i];return '<li class="'+(on?'':'off')+'">'+(on?yes:no)+'<span>'+f[0]+'</span></li>'}).join("");
@@ -677,7 +668,7 @@ footer{padding-block:32px 48px;color:var(--muted);font-size:14px}
   // Prateleira de preço (escala linear, R$ 0 a 3.500)
   var lad=[
     ["Business AI da Meta",0,0,"o"],["Secretária IA Simples Dental",180,180,"o"],["Cloudia e novatos",259,997,"o"],
-    ["Keshion Start",349,349,"k"],["Keshion Essencial",590,590,"k"],["Keshion Completo",1190,1190,"k"],["Keshion Completo com app",1690,1690,"k"],
+    ["Keshion Essencial",349,349,"k"],["Keshion Avançado",590,590,"k"],["Keshion Completo (com app)",1290,1290,"k"],
     ["Secretária (com encargos)",2500,3500,"o"]
   ];
   var max=3500;function lp(v){return v/max*100}

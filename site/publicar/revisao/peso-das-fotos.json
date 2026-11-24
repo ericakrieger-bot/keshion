@@ -1,0 +1,52 @@
+[
+  {
+    "foto": "clinica",
+    "original": 2078192,
+    "webp": 124878,
+    "celular": 35602,
+    "dimensoes": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "foto": "recepcao",
+    "original": 1915830,
+    "webp": 114336,
+    "celular": 37712,
+    "dimensoes": [
+      1448,
+      1086
+    ]
+  },
+  {
+    "foto": "paciente",
+    "original": 2136897,
+    "webp": 132234,
+    "celular": 37222,
+    "dimensoes": [
+      1448,
+      1086
+    ]
+  },
+  {
+    "foto": "celular",
+    "original": 1741585,
+    "webp": 62650,
+    "celular": 17990,
+    "dimensoes": [
+      1536,
+      1024
+    ]
+  },
+  {
+    "foto": "dentista",
+    "original": 2211792,
+    "webp": 144738,
+    "celular": 39682,
+    "dimensoes": [
+      1448,
+      1086
+    ]
+  }
+]

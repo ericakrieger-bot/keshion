@@ -66,27 +66,29 @@ O custo fica baixo por dentro: n8n no servidor próprio, IA barata (Claude Haiku
 
 #### 3.1 Pacotes de serviço (proposta para discutir com o Sérgio)
 
-O dentista escolhe o pacote. Os preços abaixo são **estimativa** para testar nos pilotos.
+O dentista escolhe o pacote. Desde 24/11 o site publica **três níveis** (`site/DECISOES.md`); os nomes ainda podem mudar. Os valores são **estimativa** para testar nos pilotos. O antigo "Completo com app" foi fundido ao Completo, e o antigo "Start" virou o Essencial.
 
-| | **Essencial** | **Completo** | **Completo com app** |
+| | **Essencial** (antigo Start) | **Avançado** (antigo Essencial) | **Completo** (com app incluído) |
 |---|---|---|---|
-| Para quem | Consultório pequeno, dentista que atende sozinho | Clínica com secretária ou com muito volume | Clínica que quer ver tudo no celular e medir resultado |
-| Horário da assistente | Fora do horário: noite, almoço, fim de semana e feriado | 24 horas | 24 horas |
+| Para quem | Consultório pequeno que quer começar | Dentista que atende sozinho | Clínica com secretária ou muito volume, ou que quer ver tudo no celular e medir resultado |
+| Horário da assistente | Fora do horário: noite, almoço, fim de semana e feriado | Fora do horário | 24 horas |
+| Base da clínica | Pronta por especialidade, ajustada por questionário, sem reunião | Montada com o dentista, aprovada por escrito | Montada com o dentista, aprovada por escrito |
 | Responde, marca, remarca e cancela | Sim | Sim | Sim |
 | Chama o dentista em dor, remédio e tratamento em andamento | Sim | Sim | Sim |
-| Copiloto (o dentista aprova antes de enviar, no horário de atendimento) | Não | Sim | Sim |
-| Confirmação e lembrete de consulta | Não | Sim | Sim |
-| Retorno programado (limpeza, manutenção, próxima sessão) | Não | Sim | Sim |
+| Copiloto (o dentista aprova antes de enviar, no horário de atendimento) | Não | Não | Sim |
+| Confirmação e lembrete de consulta | Não | Não | Sim |
+| Retorno programado (limpeza, manutenção, próxima sessão) | Não | Não | Sim |
 | Aplicativo exclusivo da clínica (conversas, agenda do dia, "Precisa de você", pacientes) | Não | Não | Sim |
 | Relatório mensal | Simples | Simples | Completo, com valor recuperado |
-| Mensalidade (estimativa) | R$ 590 | R$ 1.190 | R$ 1.690 |
-| Implantação (estimativa) | R$ 1.500 | R$ 2.500 | R$ 3.500 |
+| Limite de conversas por mês | Sim (estimativa: 300) | Não | Não |
+| Mensalidade | R$ 349 | R$ 590 | R$ 1.290 |
+| Implantação | R$ 490 | R$ 1.500 | R$ 3.000 |
 
-**Plano Start (a partir de abril de 2027):** R$ 349 por mês (testar 299 e 399), implantação de R$ 490, base pronta por especialidade ajustada por questionário, só fora do horário, até 300 conversas por mês, sem reunião. Só entra quando houver bases prontas e implantação sem reunião. Estratégia completa de preço em `comercial/estrategia-de-preco.md`; proposta de valor de cada plano em `comercial/proposta-de-valor-planos.md`.
+**Essencial (R$ 349 por mês, implantação de R$ 490):** base pronta por especialidade ajustada por questionário, só fora do horário, com limite de conversas por mês (estimativa de 300) e suporte por WhatsApp em horário comercial. O site já o publica desde 24/11; a entrega sem reunião depende de bases prontas por especialidade (a conferir nos pilotos). Estratégia completa de preço em `comercial/estrategia-de-preco.md`; proposta de valor de cada plano em `comercial/proposta-de-valor-planos.md`.
 
 **Módulos que podem ser somados a qualquer pacote:** acompanhamento de orçamento (dias 3, 10, 17 e 30), reativação de pacientes antigos (só com a conexão oficial ou em pequena escala), pós-operatório e orientações aprovadas, pedido de avaliação no Google. Depois: agente de voz e Instagram.
 
-A oferta de fundador do plano (implantação de R$ 3.000 e mensalidade de R$ 1.500 congelada por 12 meses) equivale ao pacote **Completo com app**.
+A oferta de fundador do plano (implantação de R$ 3.000 e mensalidade de R$ 1.500 congelada por 12 meses) foi pensada sobre o antigo "Completo com app" (R$ 1.690). **A rever (24/11):** o Completo agora custa R$ 1.290, menos que os R$ 1.500 do fundador. É decisão aberta da Erica e do Sérgio (Notion: "oferta de fundador").
 
 #### 3.2 "Software exclusivo" ou "aplicativo exclusivo"?
 
@@ -149,8 +151,8 @@ O paciente novo nunca fica esperando: isso já está resolvido. O trabalho agora
 | Regra para paciente antigo (oferecer marcar, faixa de preço da limpeza) | Sim | Sim | Sim | Sim | Ajustar antes do piloto (testes deram 5 a 6 de 10) |
 | Tabela de procedimentos com duração e encaixe ("a obturação caiu") | Sim | Sim | Sim | Sim | Construir até 30/11 |
 | Lista de pacientes da clínica (nome, telefone, último atendimento) | Sim | Sim | Sim | Sim | Construir em janeiro (dado no sistema da clínica, nunca em arquivo da Keshion) |
-| Confirmação e lembrete de consulta | Sim | Essencial | Sim | Sim | Construir até 15/12 |
-| Aviso de falta e oferta de remarcar | Sim | Essencial | Sim | Sim | Com o app, até 31/12 |
+| Confirmação e lembrete de consulta | Sim | Sim (Avançado) | Sim | Sim | Construir até 15/12 |
+| Aviso de falta e oferta de remarcar | Sim | Sim (Avançado) | Sim | Sim | Com o app, até 31/12 |
 | Retorno programado | Limpeza a cada 6 meses | Manutenção mensal | Próxima sessão do canal | Controle anual do implante | Janeiro de 2027 |
 | Pós-operatório com orientação aprovada | Extração | Não | Sim | Sim | 1º trimestre de 2027 |
 | Acompanhamento de orçamento | Às vezes | Alinhador | Coroa depois do canal | Sim | Até 31/12/2026 |
@@ -231,13 +233,13 @@ O paciente novo nunca fica esperando: isso já está resolvido. O trabalho agora
 
 | Fonte | Como cobra |
 |---|---|
-| Implantação | Por pacote, uma vez (estimativa: R$ 490 no Start, R$ 1.500 a 3.500 nos outros) |
-| Mensalidade | Por pacote (estimativa: R$ 349, 590, 1.190 e 1.690) |
+| Implantação | Por pacote, uma vez (R$ 490 no Essencial, R$ 1.500 no Avançado, R$ 3.000 no Completo; publicado no site em 24/11) |
+| Mensalidade | Por pacote (R$ 349, 590 e 1.290) |
 | Módulos | Valor fixo por mês por módulo (a definir com os pilotos) |
 | Fundador (3 vagas, jan a mar/2027) | R$ 3.000 de implantação e R$ 1.500 por mês congelados por 12 meses, em troca de depoimento e case |
-| Preço cheio do plano (a partir de abr/2027) | Implantação de R$ 6.000 e mensalidade de R$ 2.200 a 2.800: vira o teto, para o Completo com app mais módulos |
+| Preço cheio do plano (a partir de abr/2027) | Implantação de R$ 6.000 e mensalidade de R$ 2.200 a 2.800: vira o teto, para o Completo mais módulos |
 
-**Margem:** com custo variável de R$ 100 a 250 por clínica (estimativa), o Essencial fica perto de 70% e os outros pacotes passam de 80%, como o plano já previa. O que pode derrubar a margem são as horas, não as ferramentas.
+**Margem:** com custo variável de R$ 100 a 250 por clínica (estimativa), o Essencial fica perto de 70% e os outros pacotes passam de 80% só nas ferramentas, como o plano já previa. Com as horas, o Completo (que agora inclui o app) cai para perto de 46% (`comercial/estrategia-de-preco.md`). O que pode derrubar a margem são as horas, não as ferramentas.
 
 **Como os pacotes mudam a conta do plano:** com tíquete médio de R$ 1.200 por mês (estimativa de mistura entre pacotes), R$ 100 mil por mês pedem cerca de 85 clínicas, contra 40 no preço único de R$ 2.500. Os módulos e a subida de pacote são o caminho para aproximar esse número de 40.
 
@@ -254,7 +256,7 @@ O paciente novo nunca fica esperando: isso já está resolvido. O trabalho agora
 | Até 30/11/2026 | Piloto 1 no ar fora do horário; regra para paciente antigo; tabela de procedimentos com duração e encaixe | Todos |
 | Até 07/12/2026 | Copiloto: o dentista aprova antes de enviar (semana 2 do piloto 1) | Completo |
 | Até 15/12/2026 | Confirmação e lembrete de consulta; pilotos 2 e 3 no ar | Completo |
-| Até 31/12/2026 | App v1 (Conversas, Agenda do dia, Precisa de você, Pacientes); lembrete de orçamento; relatório mensal | Completo com app; módulo de orçamento |
+| Até 31/12/2026 | App v1 (Conversas, Agenda do dia, Precisa de você, Pacientes); lembrete de orçamento; relatório mensal | Completo (o app vem incluído); módulo de orçamento |
 | Janeiro de 2027 | Lista de pacientes da clínica; retorno programado por procedimento; liga e desliga de funções por pacote | Completo |
 | 1º trimestre de 2027 | Conexão oficial do WhatsApp nas clínicas pagantes; pós-operatório; aviso de falta no app | Todos |
 | 2º e 3º trimestres de 2027 | Bases prontas por especialidade; implantação em até 2 semanas; relatório de valor recuperado | Todos |
@@ -301,20 +303,20 @@ O paciente novo nunca fica esperando: isso já está resolvido. O trabalho agora
 
 **Reforçam:**
 - Serviço sob medida, copiloto e "dentista no controle" combinam com a venda pela rede de confiança.
-- Os pacotes deixam o consultório pequeno entrar pelo Essencial e a clínica de alto valor comprar o Completo com app e o módulo de orçamento, sem trocar de nicho.
+- Os pacotes deixam o consultório pequeno entrar pelo Essencial (ou pelo Avançado) e a clínica com orçamentos altos comprar o Completo, que já inclui o app, e o módulo de orçamento, sem trocar de nicho.
 - A tabela de procedimentos é a mesma peça para todas as especialidades; só muda o conteúdo.
 - O acompanhamento semanal gera os números que viram case, que alimentam a indicação.
 
 **Ainda não fecham:**
-- **Preço do Essencial x horas:** se a implantação do Essencial consumir tantas horas quanto a do Completo, a margem some. O Essencial precisa de base mais padronizada.
-- **Defesa x Meta grátis:** no Essencial, o valor precisa estar em marcar na agenda e chamar o dentista, não em responder dúvida.
+- **Preço do Essencial x horas:** se a implantação do Essencial (R$ 490) consumir tantas horas quanto a do Completo, a margem some. O Essencial precisa de base padronizada, por questionário.
+- **Defesa x Meta grátis:** no Essencial e no Avançado, o valor precisa estar em marcar na agenda e chamar o dentista, não em responder dúvida.
 - **Conexão não oficial x crescimento:** dá para pilotar; cliente pagante pede a conexão oficial (1º trimestre de 2027).
 
 ## Hipóteses que precisam ser verdade
 
 | # | Hipótese | Risco se for falsa |
 |---|---|---|
-| H1 | Cada perfil de clínica paga pelo pacote certo para ele (consultório pequeno o Essencial; clínica com volume o Completo) | Muda os pacotes ou os preços |
+| H1 | Cada perfil de clínica paga pelo pacote certo para ele (consultório pequeno o Essencial ou o Avançado; clínica com volume o Completo) | Muda os pacotes ou os preços |
 | H2 | Depois de 2 semanas, 80% das respostas do copiloto saem sem edição | O produto não se sustenta sem a Erica lendo tudo |
 | H3 | O valor percebido está em agenda, confirmação, retorno e falta, não em responder dúvida | A Meta grátis basta |
 | H4 | A implantação cabe em 7 dias e o acompanhamento em menos de 3 h por semana por clínica | A margem some nas horas |
