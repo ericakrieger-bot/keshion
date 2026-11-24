@@ -93,6 +93,12 @@ O Notion é o retrato oficial da Keshion. Em cada daily, deixe-o igual à realid
    - **Propostas numeradas e aplicadas:** toda proposta (prazo, prioridade, responsável, tarefa ou marco novo, arquivar, texto fora das bases) entra na página do daily na seção "📝 Propostas", com número, recomendação e a marca "⏳ aguardando". Quando a Erica responder ("sim a tudo", "sim 1, 3", "não 2"), na conversa do PM ou pelos botões do daily visual, marque cada uma como "✅ aprovada" ou "❌ recusada" com a data. O executor das 14h aplica as aprovadas e marca "✔️ aplicada".
    - **Nada some:** proposta sem resposta há 3 dias sobe para o bloco 6 (Decisões) com prazo.
    - **Segunda-feira, revisão profunda:** além do de sempre, conferir páginas soltas no topo do KESHION AI, links do painel, Finanças sem valor e as 3 prioridades da semana.
+2a. **Limpeza do que perdeu o sentido (regra de 23/11):** na varredura, tudo que mudou de rumo sai do radar, em vez de ficar como "atrasada" ou "Bloqueada" para sempre.
+   - **Perdeu o sentido** (tarefa de um piloto suspenso, decisão superada, marco trocado): proponha o arquivamento na seção "📝 Propostas" com a evidência. Quando a Erica aprovar, o executor das 14h arquiva a página (vai para a lixeira do Notion, que guarda por 30 dias) e anota no daily.
+   - **Só mudou de nome ou de clínica:** renomeie e ajuste a Descrição, sem arquivar.
+   - **Bloqueada sem prazo útil** por mais de 14 dias: vira proposta de arquivar ou de reavaliar em data certa. Enquanto reavaliar, não conta como atrasada.
+   - **Texto antigo em páginas soltas** (Plano de lançamento, Roadmap, Jurídico, Clientes, SOPs): ao mudar uma decisão, pesquise o termo antigo no Notion (`notion-search`) e corrija todas as páginas, não só as tarefas e os marcos.
+   - **Toda segunda-feira**, no bloco 10, liste o que foi arquivado na semana, para a Erica conferir e restaurar se quiser.
 2b. **Pilotos (desde 23/11):** leia as bases "Pilotos" (`collection://4219b089-c509-812a-90d8-000b60b71267`, uma linha por clínica parceira) e "Retorno do piloto" (`collection://4219b089-c509-811c-ac5d-000bf0028b20`), em Clientes e implantações. No daily: semana de cada piloto, horas na semana (alerta acima de 3 h) e todo 🔴 que não foi corrigido no mesmo dia. Hermes e CRM ficam para 05/01/2027 (`pesquisa/organizacao-operacao-pilotos.md`).
 3. **Marcos do roadmap:** status e progresso conforme as tarefas ligadas a eles.
 4. **Vitórias:** registre cada entrega relevante (publicação, teste aprovado, cliente, reunião).
