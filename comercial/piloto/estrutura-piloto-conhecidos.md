@@ -53,18 +53,18 @@ Datas são sugestão, contando que o convite sai em 23 ou 24/11.
 | Quando | Etapa | O que liga | O que a clínica faz |
 |---|---|---|---|
 | Semana 0 (23 a 29/11) | Preparação | Nada no número real ainda | Conversa de 60 min, questionário, prints, nome da assistente, agenda. O dentista conversa com a assistente num número de teste, fingindo ser paciente, e aponta o que estranhou |
-| Semana 1 | WhatsApp **só fora do horário de atendimento** (decisão de 21/11) | A assistente responde à noite e no fim de semana; no horário, a clínica responde como sempre | Olha as conversas da noite e aponta o que achou; a Keshion lê tudo todo dia |
-| Semana 2 | **Copiloto mínimo, 3 dias úteis**, no horário de atendimento (decisões de 22/11) | A assistente escreve e manda primeiro ao WhatsApp do dentista; ele responde "ok" ou corrige, e só então ela envia; nesses dias não marca agenda sozinha. Depois dos 3 dias, ela responde no horário também | Responde "ok" ou corrige. Cada correção vira ajuste |
-| Semana 3 | Pacientes antigos e app | Confirmação e lembrete de consulta. App no celular com conversas, agenda do dia e "Precisa de você" | Testa o app, diz o que usa e o que sobra |
-| Semana 4 | Orçamento e balanço do 1º mês | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa de balanço: o que funcionou, o que faltou, o que testar a seguir. Pedir indicações. Sem falar de preço |
+| Semana 1 | **WhatsApp com aprovação** (decisão de 24/11; antes: só fora do horário na semana 1 e copiloto na 2) | Fora do horário, a assistente atende sozinha. No horário, **copiloto mínimo**: ela escreve e manda primeiro ao WhatsApp do dentista; ele responde "ok" ou corrige, e só então ela envia; nesses dias não marca agenda sozinha. No fim da semana, ela já atende os pacientes também no horário | Olha as conversas da noite, responde "ok" ou corrige. Cada correção vira ajuste. A Keshion lê tudo todo dia |
+| Semana 2 | Pacientes da clínica (decisão de 24/11; antes: semana 3) | Retorno marcado na agenda, confirmação e lembrete de consulta (48 h, véspera, 2 h antes) | Testa e diz o que funcionou e o que faltou |
+| Semana 3 | App (decisão de 24/11) | App no celular com conversas, agenda do dia e "Precisa de você". Reunião para apresentar o app | Testa o app, diz o que usa e o que sobra |
+| Semana 4 | App no dia a dia e balanço do 1º mês | Lembrete para quem fez orçamento e não fechou (dias 3, 10, 17 e 30). Relatório do mês | Conversa de balanço: o que funcionou, o que faltou, o que testar a seguir. Pedir indicações. Sem falar de preço |
 | Mês 2 em diante | Piloto contínuo (sem prazo fixo) | Cada função nova entra primeiro aqui, em ritmo combinado. Relatório todo mês | Testa a função nova, aponta erros, diz se usaria. Conversa de 20 min por semana ou a cada 15 dias |
 
 Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos já corrigidos).
 
 **Atenção, coisas que ainda não existem e precisam estar prontas antes da etapa:**
 - **Só fora do horário de atendimento:** não existe. Precisa estar pronto para a semana 1.
-- **Copiloto (aprovar antes de enviar):** não existe. Versão mínima (3 dias úteis, "ok" ou correção pelo WhatsApp), pronta para a semana 2.
-- **Confirmação e lembrete de consulta:** não existem (estão no roadmap para depois do piloto). Precisam estar prontos até a semana 3.
+- **Copiloto (aprovar antes de enviar):** não existe. Versão mínima ("ok" ou correção pelo WhatsApp), agora **pronta para a semana 1** (era semana 2).
+- **Confirmação e lembrete de consulta:** não existem. Agora precisam estar prontos **até a semana 2** (era semana 3).
 - **App:** em construção (Conversas, Agenda do dia e Pacientes previstos para dezembro).
 - **Lembrete de orçamento:** decidido, não construído.
 
@@ -74,7 +74,7 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 - Ensinar a assistente: preços e condições que podem ser ditos, o jeito de falar, o que nunca dizer.
 - Testar antes de ligar, fingindo ser paciente (inclusive casos difíceis: dor, reclamação, pedido de desconto).
 - Apontar tudo o que achar: erro, coisa estranha, o que ficou bom.
-- 20 minutos por semana de conversa.
+- Uma vez por semana, responder às 4 perguntas (10 minutos).
 - No fim do primeiro mês, dizer com franqueza o que funcionou e indicar colegas, se gostar.
 - Depois, seguir como clínica piloto: testar primeiro cada função nova e dizer se ela serve antes de ir para outras clínicas.
 - Se gostar, autorizar o uso do resultado como caso e indicar um colega.
@@ -93,7 +93,7 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 - 🔴 corrigido no mesmo dia (ou a assistente pausa naquele assunto até corrigir). 🟡 e 💡 entram na lista da semana.
 - Tudo anotado numa lista única (Notion), com o que foi feito.
 
-**Conversa semanal (20 min), sempre as mesmas 4 perguntas:**
+**Retorno semanal (10 min, decidido em 24/11; basta responder), sempre as mesmas 4 perguntas:**
 1. O que ela fez que você não faria?
 2. O que ela fez melhor do que você esperava?
 3. Teve paciente que reclamou ou estranhou?
@@ -115,7 +115,7 @@ Pilotos 2 e 3 entram quando o piloto 1 chega na semana 2 (os erros mais básicos
 | 8 | Ajustes do teste | Keshion | 1 dia |
 | 9 | Termo de parceria assinado | Dentista | 5 min |
 | 10 | Conectar o WhatsApp da clínica (QR code, igual ao WhatsApp Web; o celular continua normal) | Dentista + Keshion | 10 min |
-| 11 | Entrar no ar só fora do horário de atendimento (copiloto entra na semana 2) | Keshion | |
+| 11 | Entrar no ar: fora do horário sozinha e, no horário, com a aprovação do dentista (copiloto na semana 1) | Keshion | |
 | 12 | Acompanhamento diário na semana 1, semanal depois | Keshion | |
 
 Do passo 1 ao 11: cerca de 5 a 7 dias (estimativa).
@@ -178,4 +178,5 @@ Exemplo de tom (a ajustar com a Erica e o Sérgio):
 4. ✅ **Quem manda o convite (decidido em 21/11):** quem conhece a pessoa (Erica ou Sérgio), sempre em nome próprio.
 5. ✅ **Pilotos 2 e 3 (decidido em 21/11):** entram na semana 2 do piloto 1.
 6. ✅ **Clínica parceira e calendário (decidido em 22/11, depois do red team):** os pilotos (1, até 3) são clínicas parceiras: entram no mercado com a gente, testam primeiro cada função nova e servem de referência. Não falamos de dinheiro com elas por enquanto; a pergunta de preço da semana 4 saiu. O piloto 1 roda de 01 a 31/12, recesso incluído. Dezembro prepara a prospecção (manual revisado e lista de indicações); a prospecção volta com força em 07/01/2027, e o primeiro pagante vem de fora dos pilotos: combinado até 31/01, instalação no início de fevereiro. Os números dos pilotos 2 e 3 só conectam quando o piloto 1 estiver estável.
+8. ✅ **Cronograma do material (24/11):** copiloto na semana 1 (no fim dela a assistente já atende no horário), confirmação e lembrete na semana 2, app e reunião do app na semana 3, app no dia a dia, lembrete de orçamento e balanço na semana 4. Retorno semanal de 10 minutos. Sem falar de preço: "você não paga nada pelo serviço, em troca da boa vontade". Nome público: "assistente inteligente da Keshion" (feminino). Material personalizado para a Dra. Vivian Ramina e o Dr. Eduardo Ramina (Dra. Vivian retomou o contato). Exige adiantar o copiloto e a confirmação no técnico.
 7. ✅ **Paciente antigo no dia 1 (22/11):** regra de paciente antigo (limpeza e manutenção, retorno, obturação, canal, extração, dor, remarcar e cancelar) entra na publicação de 27/11, junto com o "só fora do horário", com perfis novos de paciente antigo nos testes. O número real da clínica só conecta com média 7 ou mais nesses testes.

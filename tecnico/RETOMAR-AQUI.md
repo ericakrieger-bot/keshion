@@ -7,7 +7,7 @@ Histórico completo até 20/11 (pacotes A a D, resultados de cada rodada, custos
 
 A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n próprio desde 12/11/2026**. O Make está desativado (cenários só desligados; cópias em `arquivo/make/`). **Desde 17/11, cada clínica tem banco, fluxos e credenciais próprios**, gerados a partir de um arquivo por clínica.
 
-**Rumo (21 e 22/11):** o piloto da Dra. Vivian foi suspenso em 20/11. Os pilotos agora são com clínicas que a Erica e o Sérgio conhecem: o 1º combinado até 30/11, o 2º e o 3º até 15/12, entrando na semana 2 do 1º. O 1º piloto roda de 01 a 31/12, como clínica parceira. Semana 1 com a Clara **só fora do horário**; semana 2 com **copiloto mínimo de 3 dias úteis** (o dentista responde "ok" ou corrige pelo WhatsApp). A regra de paciente antigo entra já no dia 1 (decisões de 22/11). Estrutura completa: `comercial/piloto/estrutura-piloto-conhecidos.md`.
+**Rumo (21 e 22/11):** o piloto da Dra. Vivian foi suspenso em 20/11, mas ela **retomou o contato (24/11)** e o material do piloto é para ela e o Dr. Eduardo Ramina. **Cronograma de 24/11:** copiloto na semana 1, confirmação e lembrete na semana 2, app na semana 3 (abaixo ainda aparece o plano antigo: semana 2 e 3). Os pilotos agora são com clínicas que a Erica e o Sérgio conhecem: o 1º combinado até 30/11, o 2º e o 3º até 15/12, entrando na semana 2 do 1º. O 1º piloto roda de 01 a 31/12, como clínica parceira. Semana 1 com a Clara **só fora do horário**; semana 2 com **copiloto mínimo de 3 dias úteis** (o dentista responde "ok" ou corrige pelo WhatsApp). A regra de paciente antigo entra já no dia 1 (decisões de 22/11). Estrutura completa: `comercial/piloto/estrutura-piloto-conhecidos.md`.
 
 | Peça | Onde |
 |---|---|
@@ -43,9 +43,9 @@ Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (m
 6. Base da Clara no servidor ainda com os lembretes de orçamento antigos (15 dias; dias 2, 7 e 14). Vale 3, 10, 17 e 30. **Aprovado pela Erica em 21/11 (Notion):** levar junto com a próxima publicação e testar com o paciente simulado.
 7. Até o alerta por e-mail existir: a Erica confere o backup (Sérgio de substituto), e o executor das 14h confere o `STATUS-BACKUP.txt` todo dia (decidido em 21/11).
 
-## Durante o piloto (semanas 3 e 4)
+## Durante o piloto (semanas 2 a 4, cronograma de 24/11)
 
-Confirmação e lembrete de consulta (48 h, véspera, 2 h antes), lembrete de orçamento (dias 3, 10, 17 e 30) e o app com Conversas, Agenda do dia e "Precisa de você" (`app-crm-painel/LEIA-PRIMEIRO.md`).
+Confirmação e lembrete de consulta (48 h, véspera, 2 h antes) até a semana 2 (adiantado, era semana 3), o copiloto já na semana 1, lembrete de orçamento (dias 3, 10, 17 e 30) e o app (semana 3) com Conversas, Agenda do dia e "Precisa de você" (`app-crm-painel/LEIA-PRIMEIRO.md`).
 
 ## Depois
 
