@@ -94,3 +94,18 @@ Também em 22/11:
 | `INVENTARIO-MATERIAIS.md` | `arquivo/organizacao/INVENTARIO-MATERIAIS.md` |
 | `conflitos-e-duplicatas.md` | `arquivo/organizacao/conflitos-e-duplicatas.md` |
 | `DIAGNOSTICO-ORGANIZACAO-2026-11-22.md` | `arquivo/organizacao/DIAGNOSTICO-ORGANIZACAO-2026-11-22.md` |
+
+## 24/11/2026 (limpeza pedida pela Erica)
+
+- `comercial/apresentacao-clara-dr-william.html` e `.pdf` (versão de 23/11) → `arquivo/comercial-2026-11-24/` (vale a `v-final-para-aprovar`).
+- `site/politica-de-privacidade-RASCUNHO.html` e `site/copy-v3.html` → `arquivo/site-versoes-antigas/` (vale a `copy-v4`). O `design-v1-visualizar.html` ficou: o `PROMPT-CODEX-SITE.md` o usa como design aprovado.
+- `tecnico/teste-ab/paciente-simulado-20261124-171957` (.md e .json) → `arquivo/testes-2026-11/` (rodada anterior do dia).
+- `site/politica-de-privacidade.html` (base de 24/11, 5 KB) → `arquivo/site-versoes-antigas/politica-de-privacidade-base-24-11.html` (vale `site/publicar/privacidade.html`, a versão construída em 24/11, com Netlify Forms, sem cookies e campos a confirmar).
+- `site/PROMPT-DESIGN.md` → `arquivo/site-versoes-antigas/PROMPT-DESIGN.md` (mandava usar a copy-v3 e falava em Clara, alto padrão e site escuro; vale `PROMPT-CODEX-SITE.md`).
+
+## 24/11/2026 (limpeza técnica, PM Técnico)
+
+- `tecnico/teste-ab/` (teste de modelos de 11 a 17/11: `teste_ab.py`, `montar_planilha.py`, `linhas-planilha.json`, `escolhas-claude-rodada2.json`, `gabarito.json`, `gabarito-rodada2.json`) → `arquivo/tecnico/teste-ab-modelos-2026-11/`. Ficaram em uso: `comparar_n8n.py` e `comparar_antes_depois.py` (citados no `PROMPT-CODEX-REVISAO.md` e no `testes-checklist.md`), `teste_n8n.py`, `paciente_simulado.py`, `teste_isolamento.py`.
+- `tecnico/feature-requests.md` (18/11) → `arquivo/tecnico/feature-requests-2026-11-18.md`. A ideia viva (recontato de quem faltou e de quem está sem voltar) passou para a seção "Depois" do `tecnico/RETOMAR-AQUI.md`.
+- `tecnico/PROMPT-CONEXAO-CLARA-APP.md` ficou: a conexão Clara e app ainda é feature futura (app na semana 3).
+- `pesquisa/concorrentes-odonto.html` e `pesquisa/comparacao-nichos.html` (11/10, voltados à estética) → `arquivo/pesquisa-2026-10/` (valem `pesquisa/analise-competitiva-dia-a-dia.md` e o PDF 03). Referências corrigidas em `cliente-ideal-e-aprendizado`, `conversa-piloto-dr-william`, `historico-e-estrategia` e na própria análise. Dados brutos ficam em `pesquisa/dados/`.

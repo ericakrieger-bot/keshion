@@ -49,6 +49,8 @@ Confirmação e lembrete de consulta (48 h, véspera, 2 h antes) até a semana 2
 
 ## Depois
 
+Recontato ativo (pedido de 18/11, ficou em `arquivo/tecnico/feature-requests-2026-11-18.md`): a Clara chamar sozinha quem faltou (disparo quando o app marcar "faltou") e quem está sem voltar (prazo configurável em `clinica.json`). Antes de construir: mensagem ativa fora da janela de 24 h do WhatsApp pode exigir modelo aprovado pela Meta, limite de envios por dia e volta da conversa para "Precisa de você" no app. Decisão pendente da Erica; sem ela, o site perde os cartões "Quem faltou" e "Quem está sem voltar".
+
 Ordem de envio garantida entre respostas próximas, idempotência no Google, Sonnet nas mensagens clínicas, resumo do histórico longo, Postgres 17, usuário de manutenção com sudo no lugar do root, conexão oficial do WhatsApp (plano estratégico: 1º trimestre de 2027).
 
 ## Regras de sempre

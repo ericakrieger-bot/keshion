@@ -25,7 +25,7 @@ Atualizado em 24/11/2026. Estrutura e copy: vale `site/copy-v4.html` (24/11, 13 
 - **Nomes dos níveis:** ficam Essencial, Avançado e Completo para publicar logo; a Erica quer discutir os nomes depois.
 - **Conexão oficial da Meta:** a Erica pretende usar a API oficial com os clientes. O site só passa a citar "API oficial" quando ela existir e funcionar (hoje está prevista para o 1º trimestre de 2027).
 - **Número (41) 3790-0181 no site (24/11/2026):** só para falar com a equipe da Keshion, como um contato. Nada de demonstração nele. Pendência técnica: hoje ele roda o assistente da clínica demo, que responderia o visitante. Antes de publicar, a sessão técnica precisa impedir isso (por exemplo, desligar a resposta automática nesse número ou mudar o contato do site), com OK da Erica.
-- **Dados da empresa:** a Erica avisa quando tiver o CNPJ. Aí entram na política de privacidade (`site/politica-de-privacidade.html`, rascunho com campos a preencher) e no rodapé.
+- **Dados da empresa:** a Erica avisa quando tiver o CNPJ. Aí entram na política de privacidade (`site/publicar/privacidade.html`, a versão vigente, com campos a preencher) e no rodapé.
 - **Política de privacidade:** rascunho criado em 24/11/2026, precisa de revisão jurídica e de campos preenchidos antes de ir ao ar.
 - **Oferta de fundador:** os documentos de preço foram alinhados aos 3 níveis em 24/11, mas a oferta de fundador (implantação R$ 3.000 e mensalidade R$ 1.500 por 12 meses) ficou acima do Completo (R$ 1.290). Decisão aberta da Erica e do Sérgio.
 

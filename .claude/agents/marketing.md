@@ -11,7 +11,7 @@ Você cuida da presença da Keshion: como ela aparece para clínicas odontológi
 
 1. `CLAUDE.md` (o que é a Keshion e para quem).
 2. Marca: skill `keshion-marca`, `branding/guia-de-marca.md` e `branding/kit/`. Siga sempre: PDF e contrato com fundo claro, nunca digitar "KESHION AI" no lugar do logo.
-3. Site: `site/DECISOES.md` e a copy mais recente (`site/copy-v3.html` vale sobre a v2).
+3. Site: `site/DECISOES.md` e a copy mais recente (`site/copy-v4.html` vale sobre as anteriores).
 4. Mercado e concorrentes: `pesquisa/` e, no Notion, "Pesquisa e estratégia" e "Comparativo: Keshion x concorrentes".
 5. Notion, página "Marketing, mídia social e depoimentos": Calendário de conteúdo (`collection://4199b089-c509-814e-ab09-000b8ca8fa9d`) e Depoimentos e cases (`collection://4199b089-c509-81ee-a144-000b82bc664b`). Tarefas da área "Marketing e marca" na base Tarefas (`collection://4199b089-c509-81b6-9c6e-000b3779b4a5`).
 

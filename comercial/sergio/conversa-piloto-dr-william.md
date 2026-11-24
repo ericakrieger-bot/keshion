@@ -58,6 +58,6 @@ Se ele topar: combinar dia e hora, mandar o PDF do piloto (`comercial/piloto/kes
 
 1. **Startup Canvas** (`startup-canvas-keshion.md` ou a página em `estrategia/canvas-page/`): a visão geral do negócio.
 2. **PDF do piloto** (`comercial/piloto/keshion-piloto-clinicas-v2.pdf`): o que se manda para a clínica.
-3. **Relatório de concorrentes** (`pesquisa/concorrentes-odonto.html`): para não ser pego de surpresa se ele citar outro sistema.
+3. **Relatório de concorrentes** (`comercial/sergio/materiais/03-concorrentes-e-mercado.pdf`): para não ser pego de surpresa se ele citar outro sistema.
 4. **Mensagens de convite e respostas a perguntas** (`comercial/piloto/mensagens-abordagem-piloto.md`).
 5. **Cliente ideal (rascunho)** (`comercial/piloto/cliente-ideal-e-aprendizado.md`, seção 1): que tipo de clínica a gente procura agora.

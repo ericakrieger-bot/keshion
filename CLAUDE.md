@@ -7,10 +7,11 @@
 
 Keshion IA (sócio: Sérgio; domínio keshion.com, e-mail contato@keshion.com, app em app.keshion.com). Serviço B2B: implantação e operação de atendente de IA no WhatsApp para clínicas odontológicas (por enquanto só odontologia; a maioria clínica do dia a dia: limpeza, extração, obturação, canal, manutenção, com pouca ou nenhuma estética), vendido como resultado (lead sem resposta, falta e paciente que não volta). Modelo: diagnóstico grátis, implantação e mensalidade. Pilotos com clínicas que a Erica e o Sérgio conhecem, como **clínicas parceiras** (sem falar de dinheiro com elas por enquanto): o 1º combinado até 30/11/2026 e rodando de 01 a 31/12, o 2º e o 3º até 15/12, entrando na semana 2 do 1º (`comercial/piloto/estrutura-piloto-conhecidos.md`). O primeiro pagante (até 31/01/2027) vem de indicações e de clínicas novas; a prospecção volta em 07/01/2027. Piloto da Dra. Vivian suspenso em 20/11/2026; ela retomou o contato em 24/11, e o material do piloto (`comercial/piloto/material-piloto-v2.html`) é para ela e o Dr. Eduardo Ramina. Cronograma do piloto desde 24/11: copiloto na semana 1, confirmação na semana 2, app na semana 3.
 
-## Estado técnico (22/11/2026)
+## Estado técnico (24/11/2026)
 
 - **Começar por `tecnico/RETOMAR-AQUI.md`**: onde está cada peça, o que foi feito, roadmap e próxima feature.
 - A Clara (assistente da clínica demo da Dra. Suzana) roda no **n8n próprio** (Contabo 169.58.41.107, `/opt/keshion`). Fluxos gerados por `tecnico/n8n/gerar_fluxos.py`; instruções e base em `clientes/clinica-demo/` e na tabela `config` do Postgres `clara`. Make desativado.
+- Pacotes A, B e C publicados na demo; a correção do "cancelar" de 23/11 está no ar, e uma segunda correção do "cancelar" está pendente. O teste ao vivo do Pacote C rodou em 24/11 (média dos 22 perfis 6,64; o número real da clínica só conecta com média 7 ou mais). Copiloto e modo "só fora do horário" estão na branch `feat/copiloto-e-fora-do-horario`, sem publicar. Pendências em ordem: `tecnico/RETOMAR-AQUI.md`.
 - IA das respostas: Claude Haiku 5.5. Áudio e foto: OpenAI. WhatsApp: Whapi (canal GRNLTR-4K8ZF, pago até 12/12/2026). Conta Google da demo: keshion.ai.2026@gmail.com.
 - App, CRM e painel: `app-crm-painel/LEIA-PRIMEIRO.md` (Next.js + Netlify + Supabase).
 

@@ -44,7 +44,7 @@ Movido do CLAUDE.md em 17/11/2026 para economizar contexto. Nada foi apagado. Pa
 | `comercial/` | Oferta, proposta, contrato, roteiros de conversa, calculadora |
 | `clientes/` | Uma subpasta por clínica (questionário, manual da clínica, métricas). Sem dados de pacientes. |
 | `guia-tecnico-e-mercado.html` | Guia visual da parte técnica + pesquisa de odontologia estética e estética |
-| `pesquisa/concorrentes-odonto.html` | Mapa de 9 concorrentes (11/10/2026). Publicado em https://claude.ai/artifact/HN1F5p8XKExVSE6edRW9Mc. Dados brutos em `pesquisa/dados/` |
+| `arquivo/pesquisa-2026-10/concorrentes-odonto.html` (hoje vale `pesquisa/analise-competitiva-dia-a-dia.md`) | Mapa de 9 concorrentes (11/10/2026). Publicado em https://claude.ai/artifact/HN1F5p8XKExVSE6edRW9Mc. Dados brutos em `pesquisa/dados/` |
 | `app-crm-painel/` | **Tudo do dashboard, CRM e app da clínica.** Começar por `app-crm-painel/LEIA-PRIMEIRO.md` (atualizado em 17/11/2026). Decisões de 16/11/2026 (app web Next.js + Netlify + Supabase, piloto Dra. Vivian em 01/12, suspenso em 20/11) em `app-crm-painel/RESUMO-HOSPEDAGEM-E-DECISOES-APP.md` |
 | `arquivo/sessoes/2026-11-01-resumo-sessao.md` | **Histórico (substituído pelo `CLAUDE.md` e pelo `tecnico/RETOMAR-AQUI.md`).** Estado do projeto em 01/11/2026: decisões, o que está montado no Make (ids, webhooks, links de credenciais), próximos passos da automação, protótipo do app (estilo Oliva aprovado), concorrentes |
 | `plano-estrategico-keshion.md` | **Plano de longo prazo (10/11/2026).** Visão: referência em automações e agentes de IA para pequenos e médios negócios, Brasil e depois Estados Unidos. Empresa enxuta, sem investidores. Metas: R$ 100 mil/mês até jun/2028 e R$ 1 milhão/mês até dez/2030. Fases com datas, plano por área e os próximos 40 dias. Primeiro pagante até 31/01/2027. Não citar a Mamãe Planejada nos planos da Keshion (pedido da Erica). Publicado como documento editável em https://claude.ai/artifact/FoYkJBHnu5EPS65aLYZKNB |
@@ -54,7 +54,7 @@ Movido do CLAUDE.md em 17/11/2026 para economizar contexto. Nada foi apagado. Pa
 | `app-crm-painel/crm-agenda-painel.md` + `app-crm-painel/modelo-crm-keshion.xlsx` | Desenho do CRM (Google Planilhas), painel (Looker Studio), cenários de Agenda e Confirmações e ajuste no 1B (01/11/2026). A Erica quer agenda e CRM já na primeira versão. Superado em 16/11/2026 pelo app próprio com Supabase; serve só de referência de campos |
 | `app-crm-painel/prototipo-crm-mobile.html` | Protótipo do CRM versão 3 (Pendências, Conversas, Pacientes, Retornos, Resultados), publicado em https://claude.ai/artifact/5VeB6X6CdH4xaNmsg7a7Sr. Prévia do painel em https://claude.ai/artifact/PTMcbDMS6ZhU4CibshYiGS. App real: Next.js + Netlify + Supabase (decidido em 16/11/2026) |
 | `arquivo/make/comparacao-make-n8n-vps.md` | Make x n8n Cloud x n8n em VPS, e Hostinger x Contabo (29/10/2026). Recomendação: Make no piloto, n8n na Hostinger a partir de 3 clínicas ou US$ 50/mês no Make |
-| `pesquisa/comparacao-nichos.html` | Odontologia x estética x energia solar: placar, raio-x, concorrentes de estética e solar, recomendação (11/10/2026). Publicado em https://claude.ai/artifact/Bz25YzNk66cizhSYzeY1vh |
+| `arquivo/pesquisa-2026-10/comparacao-nichos.html` | Odontologia x estética x energia solar: placar, raio-x, concorrentes de estética e solar, recomendação (11/10/2026). Publicado em https://claude.ai/artifact/Bz25YzNk66cizhSYzeY1vh |
 
 ## Concorrentes (resumo de 11/10/2026)
 

@@ -2,7 +2,7 @@
 
 Rascunho de 22/11/2026, feito com a skill `competitive-analysis` (pm-market-research). Nada aplicado no Notion nem nos materiais.
 
-**Fontes:** `relatorio-mercado-keshion.pdf` (pesquisa de 13/11/2026, 24 fornecedores no Brasil, EUA e Portugal) e `pesquisa/concorrentes-odonto.html` (pesquisa de 11/10/2026). Não fiz pesquisa nova na internet: os preços valem o que valiam nessas datas.
+**Fontes:** `relatorio-mercado-keshion.pdf` (pesquisa de 13/11/2026, 24 fornecedores no Brasil, EUA e Portugal) e `arquivo/pesquisa-2026-10/concorrentes-odonto.html` (arquivado em 24/11; pesquisa de 11/10/2026). Não fiz pesquisa nova na internet: os preços valem o que valiam nessas datas.
 **Por que refazer:** o mapa de outubro foi feito para o sorriso estético (lente, faceta, alinhador) e concluiu que "ninguém é do sorriso". Com o novo público (clínica do dia a dia: limpeza, obturação, extração, canal, manutenção, convênio), a Keshion sai do espaço vazio e entra **no espaço mais disputado do mercado**. A análise abaixo parte disso.
 
 ---
@@ -125,5 +125,5 @@ O canto de cima à direita tem só a Avie, que custa R$ 18.900 no primeiro ano e
 ## Próximos passos possíveis
 
 - Battlecard curto contra Secretária Odonto e We Ramp, para o Sérgio usar quando o dentista disser "achei uma por R$ 297".
-- Atualizar `pesquisa/concorrentes-odonto.html` (ainda fala só de sorriso estético) com esta leitura.
+- ~~Atualizar `concorrentes-odonto.html`~~ Feito de outro jeito em 24/11: o arquivo foi para `arquivo/pesquisa-2026-10/` e vale esta análise.
 - Pesquisa nova na internet em fevereiro de 2027: o mercado mudou muito entre outubro e novembro.

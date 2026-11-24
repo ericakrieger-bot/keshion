@@ -26,7 +26,7 @@ Leia antes de escrever código, nesta ordem:
 | `site/DECISOES.md` | Todas as decisões do site (preço, níveis, contato, demonstração, o que nunca pode aparecer). |
 | `site/design-v1-visualizar.html` | **O design aprovado pela Erica.** Tem a abertura (hero) e a seção 2 prontas. Siga este visual em todo o site. O arquivo tem imagens em base64, então leia só o CSS e o HTML. |
 | `site/design-v1.html` | A mesma coisa, sem base64 (mais fácil de ler). |
-| `site/PROMPT-DESIGN.md` | Direção visual original (tom sóbrio, arcos, ícones Lucide). Atenção, três pontos estão velhos: fala em "Clara", em "estética de alto padrão" e em site inteiro em tema escuro. Hoje vale `DECISOES.md` e, no visual, o `design-v1-visualizar.html` (abertura clara; só as seções 6, 9 e 13 são escuras). |
+| `arquivo/site-versoes-antigas/PROMPT-DESIGN.md` | Só histórico (arquivado em 24/11). Estava velho em três pontos: falava em "Clara", em "estética de alto padrão" e em site inteiro em tema escuro. Não use. Vale `DECISOES.md` e, no visual, o `design-v1-visualizar.html` (abertura clara; só as seções 6, 9 e 13 são escuras). |
 | `branding/guia-de-marca.md` | Marca: logo, cores, contraste medido, fontes, tom de voz. |
 | `branding/kit/LEIA-ME.md` | Como usar os arquivos oficiais do kit no site. |
 | `branding/kit/digital/keshion.css` e `keshion-tokens.json` | Variáveis de cor e fontes. Não recrie a paleta à mão. |
@@ -34,7 +34,7 @@ Leia antes de escrever código, nesta ordem:
 | `branding/kit/icones/` | `favicon.svg`, `favicon.ico`, `apple-touch-icon-180.png`. |
 | `branding/kit/midias/compartilhamento-1200x630.png` | Imagem do Open Graph. |
 | `branding/kit/fontes/` | Manrope e Inter variáveis, licença OFL (pode embutir no site). |
-| `site/politica-de-privacidade.html` | Rascunho da política de privacidade, com campos a preencher. Use como base de `privacidade.html`. |
+| `arquivo/site-versoes-antigas/politica-de-privacidade-base-24-11.html` | Rascunho da política de privacidade, com campos a preencher. Use como base de `privacidade.html`. |
 | `app-crm-painel/LEIA-PRIMEIRO.md`, `app-crm-painel/prototipo-crm-mobile.html`, `app-crm-painel/previa-painel.html` | O que o app mostra de verdade, para desenhar a tela do app coerente. |
 | `site/COMPARATIVO-HOSPEDAGEM.md` | Por que Netlify (Free, com Netlify Forms). |
 
@@ -43,7 +43,7 @@ Leia antes de escrever código, nesta ordem:
 ## 3. O que entregar (tudo em `site/publicar/`)
 
 1. `index.html`: página única, responsiva, celular primeiro, com as 13 seções da copy na mesma ordem.
-2. `privacidade.html`: política de privacidade simples, adequada à LGPD, baseada em `site/politica-de-privacidade.html`. Contato: contato@keshion.com. Dados coletados pelo formulário: nome, WhatsApp e nome da clínica. Razão social, CNPJ e endereço como `[a preencher]`, bem visíveis para não esquecer.
+2. `privacidade.html`: política de privacidade simples, adequada à LGPD, baseada em `arquivo/site-versoes-antigas/politica-de-privacidade-base-24-11.html`. Contato: contato@keshion.com. Dados coletados pelo formulário: nome, WhatsApp e nome da clínica. Razão social, CNPJ e endereço como `[a preencher]`, bem visíveis para não esquecer.
 3. `obrigado.html`: página de agradecimento depois do formulário, com um botão que leva ao WhatsApp.
 4. `comparar.html`: página só de pré-visualização (não vai para o menu do site). Mostra o **mesmo** `index.html` lado a lado em dois iframes: moldura de celular com 375 px de largura e moldura de computador com 1280 px (pode reduzir com `transform: scale` para caber na tela). Serve para a Erica comparar.
 5. `img/`: imagens do site.
@@ -406,5 +406,5 @@ Logo · Keshion · automações inteligentes · WhatsApp (41) 3790-0181 · conta
 - `X-Frame-Options` do Netlify em `SAMEORIGIN`, para o `comparar.html` funcionar; `comparar.html` fora do ar.
 - Sem cookies, analytics ou pixel (sem aviso de cookies).
 - Passo 1 não trava mais esperando resposta, por causa do prazo de 26/11.
-- Aviso de que o `PROMPT-DESIGN.md` também está velho no tema escuro do site inteiro.
+- Aviso de que o `PROMPT-DESIGN.md` (hoje arquivado) também estava velho no tema escuro do site inteiro.
 - Copy da seção 9 conferida frase por frase contra `site/copy-v4.html` (24/11): sem diferença.
