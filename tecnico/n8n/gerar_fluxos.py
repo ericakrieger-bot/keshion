@@ -251,7 +251,7 @@ for (const it of pedidos) {
   if (!phone) continue;   // proteção: sem telefone não envia nada
   const ms = [j.m1, j.m2, j.m3].map(x => (x == null ? '' : String(x)).trim()).filter(Boolean);
   ms.forEach((body, i) => {
-    const typing = j.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(body.length / 5)));
+    const typing = j.sem_digitar ? 1 : Math.min(50, Math.max(4, Math.round(body.length / 4)));
     saida.push({ json: { to: phone, body, typing_time: typing,
       espera: i < ms.length - 1 ? typing + 1 : 1, teste } });
   });
@@ -459,7 +459,8 @@ const f = $input.first().json;
 const cmd = (msg.texto || '').trim().toLowerCase();
 const keshion = String(f.numeros_keshion || '').split(',').map(s => s.trim());
 let caminho;
-if (cmd === '#reiniciar' && keshion.includes(msg.telefone)) caminho = 'reiniciar';  // só números da Keshion
+// 24/11: aceita '#reiniciar', '# reiniciar' e 'reiniciar' (o corretor do celular às vezes separa ou tira o #)
+if (/^#?\s*reiniciar[.!]?$/.test(cmd) && keshion.includes(msg.telefone)) caminho = 'reiniciar';  // só números da Keshion
 else if (f.pausado) caminho = 'pausado';
 else caminho = msg.midia;   // texto, audio, imagem ou outro
 return [{ json: { ...msg, caminho } }];
@@ -471,7 +472,9 @@ pg(A, "Apagar a conversa de teste", r"""
 INSERT INTO pacientes (telefone, nome) VALUES ($1::text, $2::text)
 ON CONFLICT (telefone) DO UPDATE SET nome = EXCLUDED.nome, conversa = '', pendente = '', ultimo_id = NULL,
   nome_paciente = NULL, tratamento = NULL, avaliacao_texto = NULL, avaliacao_evento = NULL,
-  avaliacao_inicio = NULL, pausado_ate = NULL, recusas_agenda = 0, ultimo_complemento = NULL, atualizado = now();
+  avaliacao_inicio = NULL, pausado_ate = NULL, recusas_agenda = 0, ultimo_complemento = NULL,
+  nome_completo = NULL, telefone_contato = NULL, ultimo_aviso_humano = NULL, ultimo_motivo_humano = NULL,
+  envio_ate = NULL, atualizado = now();   -- 24/11: apaga a ficha inteira (antes o nome completo e o telefone ficavam)
 """, "[ $json.telefone, $json.nome ]", (1340, -500))
 code(A, "Aviso de reinício", r"""
 return [{ json: { phone: $('Decidir caminho').first().json.telefone, sem_digitar: true,
@@ -554,7 +557,7 @@ if (msg.caminho === 'audio') {
 return [{ json: { telefone: msg.telefone, nome: msg.nome, id: msg.id, tipo: msg.midia, texto: texto.trim() } }];
 """, (1820, 100))
 
-# fila de 7 s
+# fila de 20 s (24/11: 7 s era pouco, a paciente ainda estava escrevendo)
 pg(A, "Guardar na fila (ignora repetida)", r"""
 WITH novo AS (   -- id já recebido antes (reenvio do Whapi, mesmo horas depois): para aqui
   INSERT INTO mensagens_recebidas (id, telefone) VALUES ($4::text, $1::text)
@@ -571,10 +574,10 @@ ON CONFLICT (telefone) DO UPDATE SET
 WHERE pacientes.ultimo_id IS DISTINCT FROM EXCLUDED.ultimo_id
 RETURNING telefone, ultimo_id, nome, $5::text AS tipo;
 """, "[ $json.telefone, $json.nome, $json.texto, $json.id, $json.tipo ]", (2060, 100))
-espera(A, "Esperar 7 s (a pessoa pode mandar mais)", 7, (2300, 100))
+espera(A, "Esperar 20 s (a pessoa pode mandar mais)", 20, (2300, 100))
 pg(A, "Ver se o envio anterior terminou", r"""
--- As mensagens do turno anterior ainda estão saindo (digitando)? Espera, no máximo 60 s, para não misturar a ordem.
-SELECT coalesce((SELECT least(60, greatest(0, ceil(extract(epoch FROM (envio_ate - now())))))
+-- As mensagens do turno anterior ainda estão saindo (digitando)? Espera, no máximo 180 s, para não misturar a ordem.
+SELECT coalesce((SELECT least(180, greatest(0, ceil(extract(epoch FROM (envio_ate - now())))))
                  FROM pacientes WHERE telefone = $1::text), 0)::int AS falta;
 """, "[ $json.telefone ]", (2420, 300))
 espera(A, "Esperar o envio anterior terminar", "={{ $json.falta }}", (2480, 300))
@@ -1128,10 +1131,10 @@ const envios = avisos.map(a => ({ phone: f.aprovador, m1: a, sem_digitar: true }
   .concat([{ phone: tel, m1: m[0], m2: m[1], m3: m[2] }]);
 // Quanto tempo as mensagens deste turno levam para sair (o próximo turno espera, para a ordem não se misturar).
 const envio_seg = envios.reduce((t, e) => t + [e.m1, e.m2, e.m3].filter(Boolean)
-  .reduce((u, b) => u + (e.sem_digitar ? 1 : Math.min(30, Math.max(3, Math.round(String(b).length / 5)))) + 1, 0), 0);
+  .reduce((u, b) => u + (e.sem_digitar ? 1 : Math.min(50, Math.max(4, Math.round(String(b).length / 4)))) + 1, 0), 0);
 return [{ json: {
   telefone: tel, pend, pend_bruto: f.pendente || '', texto: m.filter(Boolean).join(' '), id_msg: f.ultimo_id,
-  envio_seg: Math.min(120, envio_seg), motivo_humano, recusas, complemento,
+  envio_seg: Math.min(180, envio_seg), motivo_humano, recusas, complemento,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
   aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
   fechamento, envios: JSON.stringify(envios)
@@ -1162,6 +1165,7 @@ UPDATE pacientes SET
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
   atualizado = now()
 WHERE telefone = $1::text
+  AND ultimo_id IS NOT NULL   -- 24/11: #reiniciar no meio da resposta (ultimo_id vira NULL): descarta, não traz a conversa velha de volta
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
      "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano, "
@@ -1208,8 +1212,8 @@ L("Ler a foto (OpenAI)", "Texto final da mensagem")
 L("Tipo de mensagem", "Texto final da mensagem", out=4)
 L("Tipo de mensagem", "Texto final da mensagem", out=5)
 L("Texto final da mensagem", "Guardar na fila (ignora repetida)")
-L("Guardar na fila (ignora repetida)", "Esperar 7 s (a pessoa pode mandar mais)")
-L("Esperar 7 s (a pessoa pode mandar mais)", "Ver se o envio anterior terminou")
+L("Guardar na fila (ignora repetida)", "Esperar 20 s (a pessoa pode mandar mais)")
+L("Esperar 20 s (a pessoa pode mandar mais)", "Ver se o envio anterior terminou")
 L("Ver se o envio anterior terminou", "Esperar o envio anterior terminar")
 L("Esperar o envio anterior terminar", "Ler ficha e instruções (só a última responde)")
 L("Ler ficha e instruções (só a última responde)", "Ver horários ocupados (90 dias)")

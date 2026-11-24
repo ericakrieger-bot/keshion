@@ -101,7 +101,7 @@ def rodar(k, nome, msgs, saida):
             enviar(tel, mid, p)
             time.sleep(1)
         resposta, f = None, {}
-        while time.time() - t0 < 150:
+        while time.time() - t0 < 300:   # 24/11: espera de 20 s e "digitando" até 50 s por mensagem
             time.sleep(4)
             f = ficha(tel)   # se a leitura falhar, levanta ErroTeste: não vira "sem resposta"
             c = f.get("conversa") or ""
@@ -109,7 +109,7 @@ def rodar(k, nome, msgs, saida):
                 resposta = c.rsplit("\nClara: ", 1)[-1] if "\nClara: " in c else c.rsplit("Clara: ", 1)[-1]
                 break
         saida.append({"conversa": nome, "ordem": i, "paciente": " | ".join(partes),
-                      "resposta": resposta if resposta is not None else "(SEM RESPOSTA EM 150 s)",
+                      "resposta": resposta if resposta is not None else "(SEM RESPOSTA EM 300 s)",
                       "segundos": round(time.time() - t0), "nome_ficha": f.get("nome_paciente"),
                       "tratamento": f.get("tratamento"), "avaliacao": f.get("avaliacao_texto"),
                       "evento": f.get("avaliacao_evento")})

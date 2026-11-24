@@ -214,7 +214,7 @@ def enviar(tel, mid, texto):
 
 
 def resposta_da_clara(tel, mid):
-    for _ in range(40):
+    for _ in range(75):   # 24/11: até 300 s (espera de 20 s e "digitando" até 50 s por mensagem)
         time.sleep(4)
         if db(f"select (ultimo_id='{mid}' and pendente='') from pacientes where telefone='{tel}';") == "t":
             conversa = db(f"select conversa from pacientes where telefone='{tel}';")
@@ -308,7 +308,7 @@ def rodar(p):
                 time.sleep(1.5)   # rajada: a próxima chega antes de a Clara responder
         fala = " / ".join(partes)
         historico.append(("Paciente", fala))
-        historico.append(("Clara", resposta_da_clara(tel, mid) or "(SEM RESPOSTA EM 160 s)"))
+        historico.append(("Clara", resposta_da_clara(tel, mid) or "(SEM RESPOSTA EM 300 s)"))
         print(f"{p['nome'][:20]:20} turno {n + 1}", flush=True)
     # Avalia ANTES da limpeza: o cancelamento automático não pode contar contra a Clara.
     time.sleep(5)

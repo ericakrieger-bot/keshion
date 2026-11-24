@@ -1,7 +1,7 @@
 # Erros do teste da demo (Erica, 24/11/2026)
 
 Teste feito pela Erica no WhatsApp dela, com a Clara da Dra. Suzana. Sem dados de pacientes.
-Status: itens 1, 2 e 5 aprovados pela Erica e aplicados no `gerar_fluxos.py` em 24/11 (testes locais: Pacote C 75/75, Pacote A 48/48, data e hora 61/61 e 32/32). Ainda não publicados. Itens 3 e 4 esperam a resposta da Erica sobre o valor dos retornos.
+Status: itens 1, 2 e 5 aprovados pela Erica e aplicados no `gerar_fluxos.py` em 24/11 (testes locais: Pacote C 75/75, Pacote A 48/48, data e hora 61/61 e 32/32). Publicados na demo em 24/11 às 07h20 (servidor), com cópia anterior em `/opt/keshion/versoes/clinica-demo/*-20261124-0719.json`; publicado conferido igual ao gerado. Prompt de teste: `tecnico/teste-ab/PROMPT-TESTE-24-11-erros-demo.md`. Limite de espera dos scripts de teste subiu para 300 s. Itens 3 e 4 esperam a resposta da Erica sobre o valor dos retornos.
 
 Detalhe aplicado: o reinício também aceita `# reiniciar` e `reiniciar` sem o #; a espera do envio anterior subiu de 60 s para 180 s, para acompanhar o "digitando" mais longo.
 

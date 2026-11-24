@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
   nome             text,                 -- nome do perfil do WhatsApp
   nome_paciente    text,                 -- nome que a pessoa disse
   conversa         text NOT NULL DEFAULT '',
-  pendente         text NOT NULL DEFAULT '',  -- mensagens ainda sem resposta (fila de 7 s)
+  pendente         text NOT NULL DEFAULT '',  -- mensagens ainda sem resposta (fila de 20 s)
   ultimo_id        text,
   atualizado       timestamptz NOT NULL DEFAULT now(),
   tratamento       text,
