@@ -26,7 +26,7 @@ def com_css(src, tmpname, dst):
     finally: tmp.unlink()
 com_css(K/"estrategia/canvas-page/startup-canvas.html", "_print-canvas.html", OUT/"01-startup-canvas-keshion.pdf")
 shutil.copy(K/"comercial/piloto/keshion-piloto-clinicas-v2.pdf", OUT/"02-piloto-keshion-para-clinicas.pdf")
-com_css(K/"pesquisa/concorrentes-odonto.html", "_print-conc.html", OUT/"03-concorrentes-odonto.pdf")
+pdf(OUT/"fontes/03-concorrentes-e-mercado.html", OUT/"03-concorrentes-e-mercado.pdf")
 pdf(OUT/"fontes/04-mensagens-abordagem.html", OUT/"04-mensagens-de-convite-e-respostas.pdf")
 pdf(OUT/"fontes/05-cliente-ideal-e-jornada.html", OUT/"05-cliente-ideal-e-jornada.pdf")
 for f in sorted(OUT.glob("*.pdf")): print(f.name, f.stat().st_size//1024, "KB")
