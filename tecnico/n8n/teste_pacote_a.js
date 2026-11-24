@@ -90,24 +90,24 @@ for (const [ultima, pend, esperado, desc] of casosCanc) {
 d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.', idioma: 'pt' }, fichaCanc('A sua avaliação de quinta, 19/11, às 11h, certo?', 'Não, quero manter'));
 t('A5 negativa recebe "continua marcada"', /continua marcada/.test(d.mensagem1), d.mensagem1);
 d = decidir({ acao: 'cancelar', mensagem1: 'Cancelled.', idioma: 'en' }, fichaCanc('Sure!', 'I want to cancel'));
-t('A5 pergunta de confirmação em inglês', /Just to confirm/.test(d.mensagem1) && /Nov 19/.test(d.mensagem1) && d.rota === 'responder', d.mensagem1);
+t('A5 pergunta de confirmação em inglês', /Só para confirmar/.test(d.mensagem1) && /19\/11/.test(d.mensagem1) && d.rota === 'responder', d.mensagem1);
 
 // ---------- A6: idioma das frases fixas ----------
 r = resultado('invalido', { ...iaAg, idioma: 'en' }, { pendente: 'tomorrow at 11', recusas_agenda: 0 }, { passo: 'invalido', motivo: 'dia da semana sem avaliação' });
-t('A6 recusa em inglês', /That time is not available/.test(paraPaciente(r)), paraPaciente(r));
+t('A6 recusa em inglês', /não está disponível/.test(paraPaciente(r)), paraPaciente(r));
 r = resultado('invalido', { ...iaAg, idioma: 'es' }, { pendente: 'mañana a las 11', recusas_agenda: 1 }, { passo: 'invalido', motivo: 'x' });
-t('A6 2ª recusa em espanhol', /equipo/.test(paraPaciente(r)), paraPaciente(r));
+t('A6 2ª recusa em espanhol, responde em português', /equipe/.test(paraPaciente(r)), paraPaciente(r));
 r = resultado('ocupado', { ...iaAg, idioma: '' }, { pendente: 'Hi, can I book Nov 19 at 11am please?', recusas_agenda: 0 }, { passo: 'ocupado' });
-t('A6 sem campo idioma, adivinha inglês pela mensagem', /just been taken/.test(paraPaciente(r)), paraPaciente(r));
+t('A6 sem campo idioma, adivinha inglês pela mensagem', /acabou de ser preenchido/.test(paraPaciente(r)), paraPaciente(r));
 r = resultado('dados', { ...iaAg, idioma: 'es' }, { pendente: 'quiero el jueves' }, { passo: 'dados' });
-t('A6 pedido de dados em espanhol', /nombre completo/.test(paraPaciente(r)));
+t('A6 pedido de dados em espanhol', /nome completo/.test(paraPaciente(r)));
 r = resultado('falha', { ...iaAg, idioma: 'en' }, { pendente: 'Nov 19 at 11am' }, {});
-t('A6 falha em inglês', /Just a moment/.test(paraPaciente(r)) && /Falha ao marcar/.test(avisos(r)[0] || ''));
+t('A6 falha em inglês', /Só um instante/.test(paraPaciente(r)) && /Falha ao marcar/.test(avisos(r)[0] || ''));
 r = resultado('ja_marcada', { acao: 'agendar', idioma: 'es', mensagem1: 'x' }, { pendente: 'quiero agendar', avaliacao_texto: '19/11 às 11:00', avaliacao_inicio: '2026-11-19T14:00:00.000Z' }, {});
-t('A6 avaliação já marcada em espanhol', /Veo que ya tienes/.test(paraPaciente(r)) && /noviembre/.test(paraPaciente(r)), paraPaciente(r));
+t('A6 avaliação já marcada em espanhol', /Vi aqui que você já tem/.test(paraPaciente(r)), paraPaciente(r));
 const falha = rodar('Falha técnica: avisar', { erro: 'x' }, { 'Ler ficha e instruções (só a última responde)': { ...FICHA, pendente: 'Hola, quiero una cita para mañana por favor' } });
-t('A6 falha técnica em espanhol', falha[1].json.m1.startsWith('Un momento'), falha[1].json.m1);
-t('A6 a IA é pedida a informar o idioma', /"idioma"/.test(nos['Montar o pedido para a IA'].parameters.jsCode) && /idioma/.test(nos['Ler as mensagens e a ação'].parameters.jsCode));
+t('A6 falha técnica em espanhol', falha[1].json.m1.startsWith('Só um instante'), falha[1].json.m1);
+t('A6 a IA é pedida a responder sempre em português', /sempre em português/.test(nos['Montar o pedido para a IA'].parameters.jsCode));
 
 // ---------- A7: promessa de encaminhar ----------
 for (const [txt, esperado] of [["I'll forward your message to the doctor.", 'humano'], ["Let me check with the team and get back to you.", 'humano'],

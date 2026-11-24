@@ -316,6 +316,7 @@ function ehUrgente(texto) {
 }
 // Idioma quando a IA não informou: conta palavras típicas; empate ou nada = português.
 function detectaIdioma(t) {
+  return 'pt';   // 24/11: a assistente fala só português; o resto abaixo fica sem uso até a limpeza do código
   const s = ' ' + norm(t) + ' ';
   const n = re => (s.match(re) || []).length;
   const en = n(/\b(the|you|your|my|is|are|can|could|would|please|thanks|thank|yes|hello|hi|appointment|what|how|when|tomorrow|today|want|need|have|i'?m|it'?s|book|cancel)\b/g);
@@ -624,7 +625,7 @@ const conteudo =
   'Tipo da última mensagem: ' + (fila.tipo || 'texto') + '\n\n' +
   'Conversa até agora:\n' + (f.conversa || '(primeiro contato)') + '\n\n' +
   'Mensagens novas do paciente, ainda sem resposta (responda a todas juntas):\n' + (f.pendente || '').trim() + '\n\n' +
-  '(Responda no idioma em que o paciente está escrevendo, inclusive ao oferecer horários. No JSON, inclua também o campo "idioma" com o código do idioma da sua resposta: pt, en ou es.)';
+  '(Responda sempre em português do Brasil, mesmo que o paciente escreva em outro idioma.)';
 return [{ json: { agenda_ok: agendaOk, pedido: {
   model: f.modelo, max_tokens: 6000,   // o pensamento interno do Haiku gasta parte disso; 2000 cortava o JSON
   system: (f.instrucoes || '') + '\n\nBASE DA CLÍNICA:\n' + (f.base || ''),
@@ -708,7 +709,7 @@ const futura = !!f.avaliacao_inicio && new Date(f.avaliacao_inicio) > new Date()
 const agendaOk = $('Montar o pedido para a IA').first().json.agenda_ok;
 const pend = String(f.pendente || '');
 // Idioma da paciente (campo "idioma" da IA; se faltar, adivinha pelas mensagens novas). Usado nas frases fixas.
-ia.idioma = ['pt', 'en', 'es'].includes(ia.idioma) ? ia.idioma : detectaIdioma(pend);
+ia.idioma = 'pt';   // 24/11: só português
 const F = FRASES[ia.idioma];
 // Cancelar só quando (1) a última fala da assistente foi uma pergunta de confirmação e (2) a paciente respondeu que sim.
 // Senão, pergunta de novo no idioma dela; se ela disse que quer manter, confirma que a avaliação continua (Pacote A, item A5).
@@ -1021,7 +1022,7 @@ const tel = f.telefone;
 const nome = ia.nome_paciente || f.nome_paciente || f.nome || '';
 const pend = (f.pendente || '').trim();
 const quem = 'Paciente: ' + nome + ' (' + tel + ')';
-const lg = ['pt', 'en', 'es'].includes(ia.idioma) ? ia.idioma : detectaIdioma(pend);
+const lg = 'pt';   // 24/11: só português
 const F = FRASES[lg];
 const espera = F.espera;
 function quando(iso) {
