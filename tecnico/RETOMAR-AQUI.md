@@ -1,6 +1,6 @@
 # Retomar aqui (Keshion · automações da Clara)
 
-Atualizado em 22/11/2026. Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
+Atualizado em 24/11/2026. Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
 Histórico completo até 20/11 (pacotes A a D, resultados de cada rodada, custos): `arquivo/tecnico/RETOMAR-AQUI-ate-2026-11-20.md`.
 
 ## Onde estamos
@@ -28,8 +28,8 @@ Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (m
 ## Pendente agora, nesta ordem
 
 1. **Antes de 26/11 (operação):** publicar o app do Google (`tecnico/servidor/PASSO-A-PASSO-ERICA-GOOGLE-OAUTH.md`) ou reconectar o Google Agenda no n8n. A autorização atual, dada em 19/11, vence por volta de 26/11.
-2. **Teste ao vivo do Pacote C** na conversa de testes: `tecnico/teste-ab/PROMPT-TESTE-20-11-pacote-c-rodada-completa.md`. Depois, revisão do Codex.
-3. **Correção do "cancelar" (20/11, 17h30):** a segunda pergunta de cancelamento não se repete quando a paciente responde "sim". Está na `main` desde 22/11, com 5 testes locais (`node tecnico/n8n/teste_pacote_c.js`), **ainda não publicada**. Publicar com OK (import e publish, sem reiniciar o n8n) e testar junto com o item 2.
+2. **Teste ao vivo do Pacote C: rodado em 24/11** (registro em `tecnico/testes-checklist.md`). Passou: urgência, horário negado, pausa humana, espera de 20 s, ordem, alinhador R$ 150, 56 de 56 mensagens. **Falta o caso 11 (áudio WAV e Ogg)**: precisa do arquivo de áudio do Codex hospedado no Whapi. Média dos 22 perfis **6,64** (abaixo de 7,05 a 7,32 das rodadas anteriores).
+3. **URGENTE, nova correção do "cancelar":** a correção de 23/11 não cobre o caso em que a pergunta da IA ("é a avaliação de ..., certo?") não tem a palavra "cancelar": o fluxo pergunta de novo e, em alguns perfis, fica em loop (Bia e Sandra com nota 2, nunca cancelaram; Thiago, Júlia e Emily repetiram). Corrigir, publicar sem reiniciar o n8n e repetir os perfis Bia, Sandra, Thiago, Júlia e Emily. Também no radar: caso 8 (dúvida geral de clareamento e gengiva vai para a equipe), Diego (não oferece horário para remarcar) e Dona Lourdes (não diz que a clínica não faz implante nem dentadura; promete retorno depois das 17h). Revisão do Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`) sobre o Pacote C, o cancelar e as correções de 24/11.
 4. **Com OK:** instalar no servidor o `backup-postgres.sh` novo (Pacote D1). Teste: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md`.
 5. **Com OK, antes do 1º piloto:** passar a demo e a clínica de teste para o usuário `_app` do banco (B7).
 
