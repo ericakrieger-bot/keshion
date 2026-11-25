@@ -69,6 +69,26 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 - **Caso 15, 56 mensagens (17h31 a 17h43, servidor):** 56 de 56 respondidas, 0 sem resposta, 0 "só um instante", menor tempo 27 s, maior 84 s, 8 avisos para a equipe. As 3 mensagens seguidas do C6 geraram uma resposta só (30 s). Resultado em `teste-n8n-resultado-20261124-pacote-c.json`.
 - **Caso 16, limpeza:** banco com 0 fichas, saídas, mensagens recebidas e reservas `554199900%`. Google: a Erica apagou à mão os eventos de 26/11 11h e 14h (perfis 807 e 815 da 1ª tentativa) e de 26/11 11h e 01/12 11h (perfis 801 e 805 da rodada interrompida dos 22 perfis). **Agenda do Google da demo não conferida por mim** (esta sessão não enxerga a conta); conferir à mão os eventos de 26/11 em diante. Não mexi no evento antigo do Henrique (final 810).
 
+**25/11/2026 (Curitiba, 18h23 a 19h30), Pacote E parte 1 (cancelar, urgência, só português): NÃO PASSOU no cancelar.**
+
+- Antes: saldo US$ 11,45; chave do `.env` = "Keshion-apenas-testes"; nenhuma ficha de teste no banco.
+- **Parte 1, casos manuais (18h23 a 18h54, clínica aberta; Dra. já fora desde as 17h).** Conversas: `tecnico/teste-ab/pacote-e-parte1-20261125-casos-manuais.md`.
+  - 1 "Valeu!": **FALHOU.** Perguntou 3 vezes e não cancelou; só cancelou com "sim, pode cancelar".
+  - 2 confirmação longa: OK (1 pergunta, evento apagado).
+  - 3 multa no meio: OK (respondeu, perguntou de novo com dia e hora, "sim" cancelou; 2 perguntas).
+  - 4 "é da Laura": OK (não cancelou, "isso, pode cancelar" cancelou; 2 perguntas). A pergunta do fluxo disse "a sua avaliação", e era da filha.
+  - 5 manter: OK (1 pergunta, "continua marcada", evento mantido).
+  - 6 três sem decisão: **FALHOU.** Não passou para a equipe, nenhum aviso. Evento mantido.
+  - Fichas: `cancelar_evento` vazio e `cancelar_tentativas` 0 ao fim de todos os casos (nos casos 1, 2, 3, 5 e 6 a pendência nunca chegou a ser gravada).
+- **Parte 2, urgência:** 3 de 3 com aviso URGENTE. A resposta fixa não apareceu em nenhuma (a IA escreveu o próprio texto, mandou ao pronto-socorro e prometeu encaixe hoje, às 18h55, com a Dra. já fora). Controles: nenhum virou URGENTE; "dói pra engolir depois da extração?" (18h59) gerou "Chamar uma pessoa" e indicou pronto-socorro.
+- **Parte 3, 6 perfis (19h11 a 19h28, clínica FECHADA; 24/11 foi com ela aberta), válida, US$ 0,16:** Bia 4 (era 2), Camila 8 (7), Sandra 7 (2), Júlia **2** (6), Larissa 6 (nova), Thiago 4 (5). Relatório: `paciente-simulado-20261126-001039.md` (nome com o relógio do PC). A 1ª tentativa foi morta por um limite de tempo posto pelo Claude; apagada e refeita.
+  - Bia, Sandra e Thiago sem loop. **Júlia em loop:** confirmou várias vezes e não cancelou; depois de passar para a equipe, o fluxo voltou a perguntar.
+  - Larissa: uma resposta só para as mensagens picadas, sem frase repetida. Nenhum inglês ou espanhol.
+  - Thiago: a limpeza do script não conseguiu cancelar pela conversa (causa não apurada).
+- **Causas (lidas em `gerar_fluxos.py`, "Decidir a ação"):** (a) a pendência só é gravada quando a IA devolve a ação `cancelar`; quando ela mesma pergunta ("certo?") com ação `responder`, nada é gravado (casos 1 e 6); (b) "sim" com outra pergunta junto, ou começando por "isso"/"já falei", não conta (Júlia); (c) depois da 3ª tentativa a pendência é apagada e o ciclo recomeça (Júlia).
+- **Fora do escopo, visto na rodada:** horário cancelado ou disputado fica reservado por 5 minutos: a Clara oferece, recusa ("acabou de ser preenchido") e depois diz que está livre. `#reiniciar` só vale para os números de `numeros_keshion`, não para `554199900`.
+- **Limpeza:** 0 fichas e reservas de teste. Eventos apagados da agenda: Júlia 26/11 16h e Thiago 01/12 14h (rodada interrompida), Elisa 03/12 14h e Fabia 03/12 16h (casos 5 e 6), Thiago 26/11 16h (parte 3). Já existiam antes e ficaram: Luciana 26/11 9h, Bia 26/11 11h, Paula 01/12 11h.
+
 ## Melhorias nos scripts
 
 1. Criar `teste_rapido.py` (1.1).

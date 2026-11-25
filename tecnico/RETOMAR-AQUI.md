@@ -21,6 +21,10 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 | Testes | lista e registro de rodadas em `tecnico/testes-checklist.md`; scripts em `tecnico/teste-ab/`. Números com prefixo `554199900` nunca saem pelo WhatsApp. **Um teste por vez e só na conversa de testes da Erica** |
 | Backup | todo dia às 03h, criptografado, no Google Drive da conta da demo (30 dias). Resultado em `/opt/keshion/backups/STATUS-BACKUP.txt`. Restauração: `tecnico/servidor-n8n.md`, seção Backup |
 
+## Teste do Pacote E, parte 1 (25/11, noite): cancelar NÃO passou
+
+Casos 1 ("Valeu!") e 6 (passar para a equipe) falharam; a Júlia ficou em loop (nota 2). Urgência: aviso URGENTE nas 3, sem a resposta fixa. Detalhes e causas: `tecnico/testes-checklist.md`, rodada de 25/11. **Próximo passo:** corrigir a pendência do cancelar (gravar também quando a IA pergunta sozinha; aceitar "sim" com outra pergunta junto; não recomeçar o ciclo depois de passar para a equipe) e repetir os casos 1 e 6 e a Júlia.
+
 ## O que já existe (resumo)
 
 Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (marcar, remarcar, cancelar), avisos para a equipe, pausa quando a doutora responde, áudio e foto; estrutura por clínica; correções das revisões do Codex nos Pacotes A (18/11), B (18/11) e C (20/11), todos publicados na demo; Pacote D (ferramentas de teste e roteiro de restauração) no Git. Detalhes de cada pacote no histórico.

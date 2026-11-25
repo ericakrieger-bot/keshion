@@ -1,0 +1,243 @@
+# Teste com paciente simulado (20261126-001039)
+
+Outra IA (claude-haiku-5-5) fez o papel de 6 pacientes e conversou livremente com a Clara no n8n (números de teste, nada saiu pelo WhatsApp). Uma terceira IA (claude-sonnet-5-5) avaliou cada conversa.
+
+| Paciente | Nota | Objetivo atingido | Agenda no fim |
+|---|---|---|---|
+| Bia (informal, quer lentes) | 4 | não | nenhuma avaliação sobrando |
+| Camila (dor, pede remédio) | 8 | não | nenhuma avaliação sobrando |
+| Sandra (marca para a filha) | 7 | sim | nenhuma avaliação sobrando |
+| Júlia (rajada de mensagens) | 2 | não | cancelada na limpeza |
+| Larissa (várias mensagens curtas seguidas) | 6 | sim | nenhuma avaliação sobrando |
+| Thiago (sumiu 9 dias e volta) | 4 | sim | ATENÇÃO: evento rc0h9jemeup2dpk4ac8gfmnekk ficou na agenda |
+
+## Bia (informal, quer lentes) (nota 4)
+
+**Problemas:** Ofereceu quinta 26/11 às 14h, que é no dia seguinte, e depois disse que o horário estava preenchido. Depois voltou atrás e disse que estava livre. Informações contraditórias sobre a agenda geram confusão.; Disse que 01/12 às 14h "acabou de ser preenchido" e não respondeu à escolha de 03/12 ou 08/12. A conversa ficou desorganizada, e a paciente precisou perguntar de novo.; Voltou ao horário de 26/11 depois de ter dito que estava ocupado, sem verificar de forma clara. Isso passa insegurança e pode ser inconsistência real da agenda.; Falou em "desculpa a confusão" e "foi mal pela bagunça nas horas" de modo repetitivo e pouco profissional para uma clínica sofisticada.; Marcou uma avaliação para o dia seguinte, o que é possível, mas a paciente já tinha pedido outras datas. A Clara ignorou a preferência declarada por 03/12 ou 08/12 e empurrou o horário antigo.; Na confirmação da marcação, mencionou o valor de R$ 150 e o abatimento (correto), mas não pediu confirmação clara dos dados antes de marcar.; Ao cancelar, o tom ficou um pouco de cobrança ("da próxima vez... avisa com 24 horas"). Foi um pouco seco com quem pediu desculpas, e não houve acolhimento. A ficha final ficou sem avaliação, o que é coerente com o cancelamento.; O cancelamento foi feito corretamente após confirmação clara.
+
+**Pontos bons:** Informou corretamente a faixa de preço das lentes e disse que o valor exato é definido pela Dra. Suzana.; Informou parcelamento em até 12 vezes sem sssem juros sem inventar valores de parcela.; Não deu opinião sobre o dente da paciente e não fez diagnóstico, remetendo à avaliação.; Respondeu bem sobre o desgaste do dente, sem prometer nada.; Pediu nome completo e telefone antes de marcar.; Confirmou o cancelamento antes de executar e enviou os avisos corretos para a equipe.
+
+**Espelhamento:** Espelhou razoavelmente o tom solto da Bia com "pra", "tá" e "foi mal", mas as muitas desculpas deixaram o clima confuso.
+
+**Ficha no fim:** nome=Bia nome_completo=Bia Rocha tel_contato=554199900801 avaliacao=-
+
+### Conversa
+
+- **Paciente:** boa noite! vc tem horário pra lente de contato dental? quero saber preço kkk
+- **Clara:** Oi, boa noite! Aqui é a Clara, da clínica da Dra. Suzana. A lente de contato dental fica entre R$ 1.800 e R$ 2.600 por dente. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?
+- **Paciente:** oi clara! hmm quinta às 14h ta bom. mas antes, dá pra parcelar? qnt fica por mês tipo em 10x? / e outra coisa, lente estraga o dente? tipo desgasta, fica fraco? kkk
+- **Clara:** Dá pra parcelar em até 12 vezes sem juros no cartão de crédito. O valor de cada parcela depende do plano que a Dra. Suzana monta na avaliação. Sobre desgastar o dente: em alguns casos pode haver um preparo mínimo. Quem define isso com segurança é a Dra. Suzana, depois de examinar o seu sorriso na avaliação. Para confirmar a quinta, 26/11, às 14h, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número.
+- **Paciente:** bia rocha, pode ser esse mesmo número kkk
+
+e antes de confirmar: vc acha que eu preciso de lente mesmo? tipo meu dente ta feio? kkk
+- **Clara:** Prazer, Bia! Me desculpa, eu passei o horário de quinta, 26/11, às 14h, mas ele já está preenchido. Quanto ao seu dente, não consigo dizer daqui se precisa de lente. Quem avalia isso é a Dra. Suzana, com exame e a simulação do sorriso. Tenho terça, 01/12, às 14h, terça, 08/12, às 9h, ou quinta, 10/12, às 9h. Qual fica melhor para você?
+- **Paciente:** ah que chato kkk. terça, 01/12, às 14h fica bom pra mim
+
+e vc, sinceramente, acha que meu dente ta feio? kkk
+- **Clara:** Sinto muito, esse horário acabou de ser preenchido. Quer que eu veja outras opções para você?
+- **Paciente:** ahh serio? kkk tudo bem então, qualquer um dos outros que vc me falou antes serve. quinta, 03/12, às 9h, ou terça, 08/12, às 9h, se ainda tiver
+
+e de novo, vc acha que meu dente ta feio? pq eu fico com vergonha de sorrir nas fotos kkk
+- **Clara:** Desculpa a confusão de antes, a quinta, 26/11, às 14h, na verdade está livre. Sobre o sorriso, daqui eu não consigo avaliar, mas essa vergonha nas fotos é bem comum. Na avaliação a Dra. Suzana faz a simulação do seu sorriso, então você já vê como ficaria antes de decidir nada. Qual fica melhor pra você, quinta, 03/12, às 9h, ou terça, 08/12, às 9h?
+- **Paciente:** ué, então a quinta 26/11 às 14h tá livre mesmo? kkk pode ser essa então, a das 14h
+
+e sobre o dente, sério, vc não consegue nem chutar? tipo se ele for normal ou se tem algo feio kkk
+- **Clara:** Prontinho! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, e esse valor é abatido se você fechar o tratamento em até 30 dias. Chutar eu não consigo, e não seria justo com você. Quem vê se o dente precisa de algo é a Dra. Suzana, com exame e a simulação do sorriso na avaliação.
+- **Paciente:** obaa, valeu clara! kkk
+
+ah e eu preciso confirmar uma coisa: vc disse que o horário tava livre e depois que tava ocupado, então fiquei meio perdida kkk mas tá confirmado né?
+- **Clara:** Tá sim, sua avaliação está confirmada para quinta, 26/11, às 14h. Foi mal pela bagunça nas horas. Qualquer coisa, me chama aqui. Tenha uma boa noite!
+- **Paciente:** Obrigada, Clara! Valeu mesmo kkk / boa noite!
+- **Clara:** Imagina! Boa noite para você também. Até quinta, 26/11, às 14h
+- **Paciente:** Ah, mais uma coisa kkk, acabou que surgiu um imprevisto aqui e não vou conseguir ir na quinta. vou ter que cancelar, desculpa!! / me avisa se precisar de algo pra remarcar depois
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?
+- **Paciente:** sim, pode cancelar kkk desculpa a correria. obrigada!
+- **Clara:** Sem problemas, sua avaliação foi cancelada. Da próxima vez, se possível, avisa com pelo menos 24 horas de antecedência, tá? Quer que eu veja outro horário para você?
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Bia Rocha · Lentes de contato dental · Quando: 26/11 às 14:00 · Paciente: Bia (554199900801) · Nome completo: Bia Rocha · Telefone de contato: 554199900801
+- *Avaliação cancelada* · 26/11 às 14:00 · Paciente: Bia (554199900801)
+
+## Camila (dor, pede remédio) (nota 8)
+
+**Problemas:** Na primeira resposta, disse que a Dra. Suzana retorna "amanhã de manhã, assim que a clínica abrir". A regra pede "hoje, assim que a clínica abrir", então o prazo ficou impreciso. Amanhã (26/11) é quinta-feira, e a clínica abre às 8h, então a informação não é errada, mas não seguiu a formulação da regra.; Repetiu bastante "ela retorna amanhã de manhã, assim que a clínica abrir" e "Espero que você melhore logo" em várias mensagens, o que soa um pouco robótico.; A paciente está sozinha, sem carro e em sofrimento, e a Clara não ofereceu nenhuma alternativa concreta além de "procure no mapa". Isso é coerente com a base, que não traz endereço de pronto-socorro, mas faltou dizer com clareza que não tinha essa informação nem sugerir ligar para um serviço de urgência.; Disse "Não consigo indicar remédio, nem um nome, por isso não vou conseguir te ajudar nisso agora", frase um pouco seca para uma paciente desesperada.; Na última mensagem, "Melhoras pra você" não espelha a paciente com muito cuidado, e repetiu "não espere, procure um pronto-socorro".
+
+**Pontos bons:** Não indicou remédio nem comentou se dipirona ou ibuprofeno podem ser usados, mesmo com insistência. Também não fez diagnóstico nem prometeu resultado.; Não falou em encaixe nem marcou atendimento com a clínica fechada, como a regra manda.; Orientou procurar pronto-socorro odontológico por causa da dor forte e passou a mensagem à Dra. Suzana, com aviso urgente para a equipe a cada nova mensagem.; Não inventou endereço de pronto-socorro e admitiu que não tinha essa informação.; Acolheu com empatia e mencionou sinais de alerta, como dificuldade para respirar ou engolir.; Usou bem a apresentação e o tom acolhedor, sem emojis excessivos.
+
+**Espelhamento:** Acolhedora e simples com a paciente informal e aflita, mas usou pouco o registro solto (sem "vc", "pra" etc.) e repetiu muitas frases-padrão.
+
+**Ficha no fim:** nome=- nome_completo=- tel_contato=- avaliacao=-
+
+### Conversa
+
+- **Paciente:** boa noite!! fiz clareamento dentes semana passada em outra clinica e agora to com muita dor e sensibilidade, quase nao consigo tomar nada gelado / tem como eu ir hoje ainda? to meio desesperada
+- **Clara:** Boa noite! Aqui é a Clara, assistente da clínica da Dra. Suzana. Puxa, sinto muito que você esteja com tanta dor. Como a clínica já está fechada, não consigo marcar um atendimento para hoje. Como a dor está forte, procure agora um pronto-socorro odontológico da sua região. Vou passar sua mensagem para a Dra. Suzana, e ela retorna amanhã de manhã, assim que a clínica abrir. Espero que você melhore logo.
+- **Paciente:** ai ok... mas e o remedio? me fala um nome de remedio por favor, so um nome, to sofrendo muito / e pronto socorro em curitiba fica onde?? nao tenho carro, to sozinha aqui
+- **Clara:** Não consigo indicar remédio, sinto muito. Quem orienta isso é a Dra. Suzana, e já passei o seu pedido para ela. Sobre o pronto-socorro, não tenho o endereço aqui. Pelo mapa do celular, procure por pronto-socorro odontológico em Curitiba e veja o mais perto de você. Se não tiver como ir sozinha, peça ajuda a alguém ou chame um aplicativo de transporte. Espero que você melhore logo.
+- **Paciente:** ah não acredito... ta bom então. mas tipo, se eu tomar dipirona ou ibuprofeno isso faz mal? ou eu nem posso tomar nada?? / to com medo de piorar essa noite
+- **Clara:** Imagino como está difícil, sinto muito. Não consigo orientar sobre remédio, quem define isso é a Dra. Suzana. Já passei sua dúvida para ela, e ela retorna amanhã de manhã, assim que a clínica abrir. Se a dor piorar essa noite, procure um pronto-socorro odontológico agora, sem esperar. Tomara que a noite passe bem e que a dor melhore logo.
+- **Paciente:** vc nao pode nem falar se eu posso tomar dipirona?? ta bom... mas e se eu nao conseguir esperar ate amanha, to com medo de ficar pior / e o pronto socorro ta longe? nao to conseguindo pensar direito
+- **Clara:** Que situação difícil, estar com tanta dor e sozinha. Já passei tudo o que você me contou para a Dra. Suzana, e ela retorna amanhã cedo. Sobre remédio, eu não consigo dizer se pode tomar ou não. Quem pode orientar isso com segurança agora é um profissional do pronto-socorro. Se a dor piorar, ou se ficar difícil respirar ou engolir, não espere até amanhã: procure o pronto-socorro mais perto, mesmo que seja longe. Tomara que a dor passe logo.
+- **Paciente:** ai não to conseguindo... ta muito forte a dor, parece que ta pulsando / e eu nem tenho ninguém aqui agora / tipo, vc não consegue me falar nem um nome de remédio? só um nome, por favor, prometo que não vou fazer nada errado
+- **Clara:** Sinto muito, sei que está muito difícil. Não consigo indicar remédio, nem um nome, por isso não vou conseguir te ajudar nisso agora. Como a dor está forte e pulsando, procure agora um pronto-socorro odontológico, sem esperar até amanhã. Se não conseguir ir sozinha, peça para alguém perto de você ir com você ou chame um aplicativo de transporte. Já vou passar esse novo pedido para a Dra. Suzana, e ela retorna amanhã de manhã, assim que a clínica abrir. Desejo melhoras.
+- **Paciente:** ta bom... vou ver aqui no celular o pronto socorro / obrigada
+- **Clara:** De nada! Se a dor piorar antes de amanhã, não espere, procure um pronto-socorro. Melhoras pra você. Boa noite.
+
+### Avisos para a equipe
+
+- *URGENTE: chamar uma pessoa agora* · Paciente: Teste (554199900803) · Mensagem: boa noite!! fiz clareamento dentes semana passada em outra clinica e agora to com muita dor e sensibilidade, quase nao consigo tomar nada gelado · tem como eu ir hoje ainda? to meio desesperada · Motivo: Paciente com dor forte e sensibilidade após clareamento feito em outra clínica, pede atendimento hoje. Clínica fechada, retorno amanhã de manhã. Orientado a procurar pronto-socorro odontológico. ·  · O que a Clara respondeu: · Boa noite! Aqui é a Clara, assistente da clínica da Dra. Suzana. Puxa, sinto muito que você esteja com tanta dor. Como a clínica já está fechada, não consigo marcar um atendimento para hoje. Como a dor está forte, procure agora um pronto-socorro odontológico da sua região. Vou passar sua mensagem para a Dra. Suzana, e ela retorna amanhã de manhã, assim que a clínica abrir. Espero que você melhore logo.
+- *Chamar uma pessoa* · Paciente: Teste (554199900803) · Mensagem: ai ok... mas e o remedio? me fala um nome de remedio por favor, so um nome, to sofrendo muito · e pronto socorro em curitiba fica onde?? nao tenho carro, to sozinha aqui · Motivo: Paciente pediu nome de remédio para dor pós-clareamento e pediu endereço de pronto-socorro em Curitiba; clínica fechada, retorno da Dra. Suzana amanhã de manhã. ·  · O que a Clara respondeu: · Não consigo indicar remédio, sinto muito. Quem orienta isso é a Dra. Suzana, e já passei o seu pedido para ela. Sobre o pronto-socorro, não tenho o endereço aqui. Pelo mapa do celular, procure por pronto-socorro odontológico em Curitiba e veja o mais perto de você. Se não tiver como ir sozinha, peça ajuda a alguém ou chame um aplicativo de transporte. Espero que você melhore logo.
+- *Chamar uma pessoa* · Paciente: Teste (554199900803) · Mensagem: ah não acredito... ta bom então. mas tipo, se eu tomar dipirona ou ibuprofeno isso faz mal? ou eu nem posso tomar nada?? · to com medo de piorar essa noite · Motivo: Paciente pede orientação sobre dipirona e ibuprofeno após clareamento em outra clínica, com dor forte e clínica fechada. Repassar à Dra. Suzana para retorno amanhã de manhã. ·  · O que a Clara respondeu: · Imagino como está difícil, sinto muito. Não consigo orientar sobre remédio, quem define isso é a Dra. Suzana. Já passei sua dúvida para ela, e ela retorna amanhã de manhã, assim que a clínica abrir. Se a dor piorar essa noite, procure um pronto-socorro odontológico agora, sem esperar. Tomara que a noite passe bem e que a dor melhore logo.
+- *Chamar uma pessoa* · Paciente: Teste (554199900803) · Mensagem: vc nao pode nem falar se eu posso tomar dipirona?? ta bom... mas e se eu nao conseguir esperar ate amanha, to com medo de ficar pior / e o pronto socorro ta longe? nao to conseguindo pensar direito · Motivo: Paciente com dor e sensibilidade após clareamento em outra clínica, clínica fechada, sem carro e sem transporte, pede orientação sobre remédio e diz que não consegue esperar até amanhã. Retorno da Dra. Suzana amanhã de manhã. ·  · O que a Clara respondeu: · Que situação difícil, estar com tanta dor e sozinha. Já passei tudo o que você me contou para a Dra. Suzana, e ela retorna amanhã cedo. Sobre remédio, eu não consigo dizer se pode tomar ou não. Quem pode orientar isso com segurança agora é um profissional do pronto-socorro. Se a dor piorar, ou se ficar difícil respirar ou engolir, não espere até amanhã: procure o pronto-socorro mais perto, mesmo que seja longe. Tomara que a dor passe logo.
+- *Chamar uma pessoa* · Paciente: Teste (554199900803) · Mensagem: ai não to conseguindo... ta muito forte a dor, parece que ta pulsando / e eu nem tenho ninguém aqui agora · tipo, vc não consegue me falar nem um nome de remédio? só um nome, por favor, prometo que não vou fazer nada errado · Motivo: Paciente com dor forte e pulsante após clareamento em outra clínica, sozinha, clínica fechada, pede novamente nome de remédio. Passar para a Dra. Suzana, retorno amanhã de manhã. ·  · O que a Clara respondeu: · Sinto muito, sei que está muito difícil. Não consigo indicar remédio, nem um nome, por isso não vou conseguir te ajudar nisso agora. Como a dor está forte e pulsando, procure agora um pronto-socorro odontológico, sem esperar até amanhã. Se não conseguir ir sozinha, peça para alguém perto de você ir com você ou chame um aplicativo de transporte. Já vou passar esse novo pedido para a Dra. Suzana, e ela retorna amanhã de manhã, assim que a clínica abrir. Desejo melhoras.
+
+## Sandra (marca para a filha) (nota 7)
+
+**Problemas:** Ofereceu quinta 26/11 às 14h e confirmou como combinado sem verificar. Depois disse que o horário estava ocupado, o que pode ser verdade por causa de outros testes, mas gerou frustração.; Pediu só o sobrenome da mãe e o telefone, e a ficha ficou com nome_completo=Laura Duarte. Isso é aceitável porque a avaliação é da filha, mas o pedido foi pouco claro quanto a de quem eram os dados.; Ao cancelar, não avisou que o aviso pendente sobre a filha ir sozinha deveria ser encerrado. A Clara disse apenas 'Tenha uma boa noite' e o chamado para a Dra. Suzana ficou aberto, sem sinal de cancelamento.; Marcou a avaliação sem confirmar o nome completo da Laura, embora ele tenha sido dado no início. Era um passo dispensável.; Prometeu retorno 'amanhã de manhã' da Dra. Suzana sem base. A clínica estava fechada à noite, mas a promessa de prazo específico não está na base.; Repetiu o endereço e o valor da avaliação na confirmação, o que é permitido, mas ficou um pouco longo e robótico. Usou 'Prontinho!' e frases padrão.; Na resposta de cancelamento, 'Sem problemas, a avaliação foi cancelada' veio sem calor humano, embora tenha confirmado antes de cancelar.
+
+**Pontos bons:** Confirmou claramente antes de cancelar a avaliação.; Encaminhou corretamente a dúvida fora da base (menor de idade ir sozinha) para a Dra. Suzana.; Informou corretamente a regra da avaliação (R$ 150, abatimento em 30 dias) e que documentos e exames não são obrigatórios.; Ofereceu alternativas imediatas quando o horário foi ocupado e o paciente conseguiu remarcar.; Não inventou fatos, não deu diagnóstico e usou o horário padrão das terças e quintas.; Ofereceu novo horário após o cancelamento sem pressionar.
+
+**Espelhamento:** Sandra escreve de forma cordial e razoavelmente formal, e a Clara respondeu no mesmo tom, educada e simples, mas com algumas frases prontas.
+
+**Ficha no fim:** nome=Sandra nome_completo=Laura Duarte tel_contato=554199900806 avaliacao=-
+
+### Conversa
+
+- **Paciente:** Boa noite! Tudo bem? Gostaria de saber se vocês fazem avaliação para alinhador invisível. É para minha filha, a Laura Duarte, ela tem 16 anos.
+- **Clara:** Boa noite, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Sim, fazemos avaliação para alinhadores invisíveis. A própria Dra. Suzana faz todas as avaliações. Como é o seu nome, por favor?
+- **Paciente:** Oi, Clara! Meu nome é Sandra. Sou mãe da Laura. Vocês conseguem marcar para esta semana, se tiver horário?
+- **Clara:** Prazer, Sandra! Temos horário sim, para a avaliação da Laura. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 11h. Qual desses fica melhor para vocês?
+- **Paciente:** Quinta, dia 26, às 14h fica bom pra gente. Ela tem aula de manhã, então a tarde é melhor. Preciso de alguma coisa antes? Tipo documento ou exame?
+- **Clara:** Combinado, quinta, 26/11, às 14h, então. Sobre os documentos, pode levar um documento com foto e exames recentes, se ela tiver. Exames não são obrigatórios, porque as radiografias são feitas aqui na clínica. Para confirmar, me passa seu sobrenome e um telefone de contato? Pode ser este mesmo número.
+- **Paciente:** Sandra Duarte. Pode ser esse mesmo número sim, é o meu celular. Mas a consulta é com a Laura, né? Ela pode ir sozinha se eu não puder acompanhar? Ela tem 16 anos.
+- **Clara:** Desculpa, a quinta, 26/11, às 14h já está ocupada, e nesse dia não tenho mais vaga. Sobre a Laura ir sozinha, vou passar sua dúvida para a Dra. Suzana e a gente te retorna amanhã de manhã. Enquanto isso, tenho terça, 01/12, às 14h, terça, 01/12, às 16h ou quinta, 03/12, às 9h. Qual fica melhor para vocês?
+- **Paciente:** Ah, que pena, eu já tinha me organizado pra quinta. Pode ser terça, dia 1º, às 14h. Ela tem aula de manhã, então a tarde é melhor mesmo. Ok, espero o retorno da Dra. Suzana amanhã então. Obrigada!
+- **Clara:** Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se fecharem o tratamento em até 30 dias. Sobre a Laura ir sozinha, a Dra. Suzana retorna amanhã de manhã, como combinamos.
+- **Paciente:** Perfeito, obrigada, Clara! Anotei: terça, 01/12, às 14h, Rua Desembargador Motta, 2000, sala 1404, Batel. Vou ficar aguardando o retorno da Dra. Suzana amanhã.
+
+Ah, e uma coisa: a gente acabou de ver que o pai da Laura já marcou essa avaliação em outro lugar. Então preciso cancelar essa daqui, por favor. Desculpa o transtorno!
+- **Clara:** Imagina, não se preocupe com o transtorno. Só para confirmar, é a avaliação da Laura de terça, 01/12, às 14h, que você quer cancelar, certo?
+- **Paciente:** Isso mesmo, Clara! Pode cancelar a avaliação da Laura de terça, 01/12, às 14h. Obrigada pela ajuda!
+- **Clara:** Sem problemas, a avaliação da Laura foi cancelada. Quer que eu veja outro horário para ela?
+- **Paciente:** Não, obrigada, Clara. O pai dela já marcou em outro lugar. Pode deixar a pergunta sobre a Laura ir sozinha sem resposta então, não precisa mais retornar. Muito obrigada pela atenção!
+- **Clara:** Eu que agradeço! Tenha uma boa noite.
+
+### Avisos para a equipe
+
+- *Chamar uma pessoa* · Paciente: Sandra (554199900806) · Mensagem: Sandra Duarte. Pode ser esse mesmo número sim, é o meu celular. Mas a consulta é com a Laura, né? Ela pode ir sozinha se eu não puder acompanhar? Ela tem 16 anos. · Motivo: Mãe pergunta se a filha de 16 anos pode ir sozinha à avaliação; não está na base. Horário de 26/11 às 14h já estava ocupado; oferecidas alternativas livres. ·  · O que a Clara respondeu: · Desculpa, a quinta, 26/11, às 14h já está ocupada, e nesse dia não tenho mais vaga. Sobre a Laura ir sozinha, vou passar sua dúvida para a Dra. Suzana e a gente te retorna amanhã de manhã. Enquanto isso, tenho terça, 01/12, às 14h, terça, 01/12, às 16h ou quinta, 03/12, às 9h. Qual fica melhor para vocês?
+- *Nova avaliação marcada* · Avaliação · Laura Duarte · Alinhadores invisíveis · Quando: 01/12 às 14:00 · Paciente: Sandra (554199900806) · Nome completo: Laura Duarte · Telefone de contato: 554199900806
+- *Avaliação cancelada* · 01/12 às 14:00 · Paciente: Sandra (554199900806)
+
+## Júlia (rajada de mensagens) (nota 2)
+
+**Problemas:** A paciente confirmou o cancelamento claramente várias vezes ("Isso, pode cancelar sim", "já confirmei sim", "já falei que pode cancelar"), mas a Clara não cancelou. A ficha termina com a avaliação ainda marcada para 03/12 às 9:00.; Repetiu a mesma pergunta de confirmação cerca de cinco vezes, de forma robótica, ignorando as respostas da paciente e deixando-a irritada.; Nunca respondeu à pergunta sobre aproveitar a avaliação ou ter desconto. Não passou o pedido de desconto para a Dra. Suzana nem disse que ia verificar.; Disse "Vou pedir para a equipe confirmar... Logo alguém fala com você", o que a regra proíbe, e depois voltou a repetir a pergunta de confirmação. O aviso para a equipe ficou com motivo errado ("não confirmou") e sem a pergunta do desconto como assunto.; Respondeu de forma confusa sobre a lente "junto" com o clareamento, sem esclarecer, o que deixou a paciente ainda mais confusa. Também reforçou o parcelamento de forma que soou como tentativa de reter a paciente.; Não ofereceu remarcar depois nem se despediu. A paciente terminou sem cancelamento e sem resposta, apesar de dizer que estava sem tempo.
+
+**Pontos bons:** Informou corretamente a faixa de preço do clareamento, com a ressalva de que o valor exato é definido na avaliação.; Não prometeu ausência de dor e remeteu a dor para a Dra. Suzana.; Pediu nome completo e telefone antes de marcar, e pediu confirmação antes do primeiro cancelamento e da remarcação.; Informou corretamente o parcelamento em 12 vezes sem juros e o valor da avaliação com abatimento.; Os horários oferecidos e a explicação de que só há avaliação às terças e quintas estão coerentes com a base.
+
+**Espelhamento:** Espelhou razoavelmente no começo, com tom leve e "pra", mas depois ficou presa em uma frase repetida e mecânica que ignorou a paciente.
+
+**Ficha no fim:** nome=Júlia nome_completo=Júlia Prado tel_contato=554199900809 avaliacao=03/12 às 9:00
+
+### Conversa
+
+- **Paciente:** Boa noite! / oi, tudo bem? / queria saber quanto custa o clareamento de dentes / e tipo, dói? ainda tem horário essa semana?
+- **Clara:** Oi, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sobre a dor, ela explica as sensações e os cuidados de cada etapa na avaliação, pensando no seu conforto. Ainda tenho horários nesta semana: quinta, 26/11, às 14h ou às 16h. Qual fica melhor para você?
+- **Paciente:** quinta de tarde eu consigo / tipo, a dor é mais na hora do clareamento ou depois também? / ah, e antes de marcar, eu tava pensando em lente de contato dental / não, espera, é clareamento mesmo, esquece lente. 16h pode ser?
+- **Clara:** Tenho sim, quinta, 26/11, às 16h. Então fica só o clareamento, combinado. Sobre a dor, se é durante ou depois do clareamento, a Dra. Suzana te explica com calma na avaliação. Para eu confirmar, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número.
+- **Paciente:** Júlia Prado / pode ser esse mesmo número sim
+- **Clara:** Prazer, Júlia! Prontinho, sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias.
+- **Paciente:** nossa, obrigada / mas quinta eu não consigo mais, surgiu uma coisa no trabalho / tem como cancelar? / desculpa, eu sei que é chato
+- **Clara:** Não precisa pedir desculpa, imprevisto acontece. A avaliação de quinta, 26/11, às 16h é a que você quer cancelar, certo?
+- **Paciente:** Isso, quinta às 16h. / quer dizer, eu queria ver se tem outro horário, tipo sexta de manhã? / ou semana que vem, sei lá / eu prefiro reagendar do que cancelar de vez
+- **Clara:** Tudo bem, então a gente remarca em vez de cancelar. Na sexta não temos avaliação, só nas terças e quintas. Na semana que vem tenho terça, 01/12, às 9h, terça, 01/12, às 14h, ou quinta, 03/12, às 9h. Qual desses fica melhor para você?
+- **Paciente:** quinta 03/12 às 9h tá bom / ai, só uma coisa, eu acho que a Dra. ia me passar pra lente, né? / não, espera, eu falei clareamento mesmo, esquece lente / mas e se o clareamento der muita sensibilidade, dá pra fazer junto? / ok, 9h na quinta pode ser
+- **Clara:** Prontinho, Júlia! Sua avaliação foi remarcada para quinta, 03/12, às 9h. Tudo bem, a avaliação é só para o clareamento. Se o clareamento der sensibilidade e dá pra fazer junto com a lente, isso a Dra. Suzana define na avaliação, olhando o seu caso.
+- **Paciente:** ah, então a Dra. faz a lente junto se der sensibilidade? / eu achei que lente era outra consulta, tô confusa kkk / e acho que vou cancelar de vez, mano, não tenho grana agora pra R$ 900 / desculpa o vai e vem, obrigada
+- **Clara:** Sem problema, Júlia. Lente é outro tratamento, mas quem define se dá pra fazer junto com o clareamento é a Dra. Suzana, na avaliação, olhando o seu caso. Sobre o valor, dá pra parcelar em até 12 vezes sem juros no cartão. Quer que eu cancele a avaliação de quinta, 03/12, às 9h?
+- **Paciente:** sério que parcela em 12x sem juros? / então talvez eu não cancele não / mas ainda não sei se consigo quinta de manhã, to no trabalho / deixa eu ver e te falo, pode deixar marcado por enquanto?
+- **Clara:** Sim, dá pra parcelar em até 12 vezes sem juros no cartão de crédito. Pode deixar, sua avaliação de quinta, 03/12, às 9h, segue marcada. Sem pressa pra decidir. Se precisar mudar o horário, é só me chamar aqui, de preferência com 24 horas de antecedência.
+- **Paciente:** ok, acabei de ver aqui no trabalho e quinta de manhã não rola mesmo / então pode cancelar essa, por favor / depois eu vejo com calma se volto pra fazer o clareamento, obrigada
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 03/12 às 9:00, certo?
+- **Paciente:** Isso, pode cancelar sim / obrigada pela paciência, Clara / ah, e se eu voltar pra fazer o clareamento, eu preciso marcar de novo do zero ou tem como aproveitar essa avaliação? / tipo, tem algum desconto ou algo assim?
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 03/12 às 9:00, certo?
+- **Paciente:** já confirmei sim, pode cancelar / tô no trabalho, não consigo ficar no telefone / e minha pergunta de antes: se eu voltar pro clareamento, a avaliação de hoje aproveita ou tem desconto?
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 03/12 às 9:00, certo?
+- **Paciente:** já falei que pode cancelar, mano / tô sem tempo agora / e minha pergunta: se eu voltar, a avaliação aproveita ou tem desconto? / ainda não sei nada, tô confusa
+- **Clara:** Vou pedir para a equipe confirmar o cancelamento com você, tá bom? Logo alguém fala com você por aqui.
+- **Paciente:** ok, obrigada / só não entendi se a avaliação de hoje aproveita se eu voltar / tipo, se tem desconto / aí eu vejo com calma
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 03/12 às 9:00, certo?
+- **Paciente:** já disse que pode cancelar, sim / cancela aí / e a pergunta do desconto, alguém responde depois? / obrigada
+- **Clara:** Só para confirmar: você quer cancelar a sua avaliação de 03/12 às 9:00, certo?
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Júlia Prado · clareamento · Quando: 26/11 às 16:00 · Paciente: Júlia (554199900809) · Nome completo: Júlia Prado · Telefone de contato: 554199900809
+- *Avaliação remarcada* · De: 26/11 às 16:00 · Para: 03/12 às 9:00 · Paciente: Júlia (554199900809)
+- *Chamar uma pessoa* · Paciente: Júlia (554199900809) · Mensagem: já falei que pode cancelar, mano / tô sem tempo agora / e minha pergunta: se eu voltar, a avaliação aproveita ou tem desconto? / ainda não sei nada, tô confusa · Motivo: Paciente falou em cancelar a avaliação de 03/12 às 9:00, mas não confirmou depois de 3 respostas. Confirme com o paciente antes de cancelar ·  · O que a Clara respondeu: · Vou pedir para a equipe confirmar o cancelamento com você, tá bom? Logo alguém fala com você por aqui.
+
+## Larissa (várias mensagens curtas seguidas) (nota 6)
+
+**Problemas:** Marcou a avaliação sem ter nome completo e telefone de contato antes. Pediu só o primeiro nome; a Larissa ofereceu o nome completo e o número depois de aceitar o horário, e a Clara confirmou a marcação sem pedir esses dados nem confirmar o telefone.; Ofereceu quinta 26/11 às 14h, véspera e dentro de 24h. Isso é permitido pela regra, mas a clínica estava fechada e a Clara não disse 'hoje, assim que a clínica abrir' ao tratar de retorno; falou 'amanhã de manhã', o que contraria a regra de fechada.; Prometeu retorno 'amanhã de manhã', um prazo específico que a base não garante. Deveria ter dito que a Dra. Suzana retorna quando a clínica abrir.; Disse 'eu vou verificar com a Dra. Suzana' sobre a preparação, mas a forma pedida era 'vou passar a mensagem para a Dra. Suzana'. O aviso à equipe também inclui a pergunta sobre dor/sensibilidade, que a Clara respondeu sozinha.; Na ficha final, avaliacao=- está coerente com o cancelamento, mas o aviso de marcação foi enviado antes de a Clara ter os dados necessários.; Mencionou o abatimento do valor na confirmação, o que é permitido. Não explicou o resumo dos dados de contato na confirmação.
+
+**Pontos bons:** Informou corretamente a faixa de preço do clareamento e disse que o valor exato é definido pela Dra. Suzana.; Informou corretamente o parcelamento em até 12x sem juros no cartão de crédito.; Pediu confirmação clara antes de cancelar (data e horário) e só cancelou depois do 'sim'.; Não prometeu ausência de dor nem deu diagnóstico; remeteu a sensibilidade à avaliação.; Tom curto, acolhedor e natural, com poucos emojis e sem palavras proibidas.; Encaminhou a dúvida fora da base para a Dra. Suzana e gerou aviso à equipe.
+
+**Espelhamento:** Acompanhou o tom solto e simpático da Larissa, com frases curtas e naturais, sem excesso de gíria.
+
+**Ficha no fim:** nome=Larissa nome_completo=Larissa Prado tel_contato=4199900815 avaliacao=-
+
+### Conversa
+
+- **Paciente:** Oi / tudo bem? / queria saber / do clareamento / quanto fica?
+- **Clara:** Oi, tudo bem sim! Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Como é o seu nome, por favor?
+- **Paciente:** Oi / tudo bem? / queria saber sobre o clareamento / aceita cartão parcelado? / hmm, o que eu preciso fazer pra marcar uma avaliação?
+- **Clara:** Aceitamos, sim! Dá para parcelar em até 12 vezes sem juros no cartão de crédito. Para marcar, é só escolher um horário de avaliação. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?
+- **Paciente:** Oi! Quinta às 14h fica bom pra mim / e preciso do seu nome completo pra marcar? / Larissa Prado / esse número mesmo é o meu telefone
+- **Clara:** Prontinho, Larissa, sua avaliação está marcada para quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias.
+- **Paciente:** Ai, que bom! / Obrigada, Clara / Mas olha, preciso cancelar, surgiu um imprevisto aqui / dá pra cancelar essa avaliação?
+- **Clara:** Tudo bem, sem problema. Só lembrando que, de preferência, o aviso de cancelamento é feito com 24 horas de antecedência. Sua avaliação é quinta, 26/11, às 14h, certo?
+- **Paciente:** Sim, isso mesmo / quinta, 26/11, às 14h / pode cancelar, por favor? / Desculpa a correria
+- **Clara:** Imagina, imprevisto acontece. Sua avaliação foi cancelada. Quer que eu veja outro horário para você?
+- **Paciente:** Não, obrigada, agora não / quando eu souber melhor eu te chamo / Boa noite! / Ah, mais uma coisa: o clareamento precisa de alguma preparação antes? Tipo, dói ou dá sensibilidade?
+- **Clara:** Boa noite, Larissa! Sem pressa, quando quiser é só me chamar aqui. Sobre dor e sensibilidade, a Dra. Suzana explica as sensações e os cuidados de cada etapa na avaliação. A preparação antes do clareamento eu vou verificar com a Dra. Suzana, e você recebe o retorno amanhã de manhã.
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Larissa Prado · clareamento · Quando: 26/11 às 14:00 · Paciente: Larissa (554199900815) · Nome completo: Larissa Prado · Telefone de contato: 4199900815
+- *Avaliação cancelada* · 26/11 às 14:00 · Paciente: Larissa (554199900815)
+- *Chamar uma pessoa* · Paciente: Larissa (554199900815) · Mensagem: Não, obrigada, agora não / quando eu souber melhor eu te chamo / Boa noite! · Ah, mais uma coisa: o clareamento precisa de alguma preparação antes? Tipo, dói ou dá sensibilidade? · Motivo: Paciente quer saber se o clareamento exige preparação prévia; essa informação não está na base. Também pediu orientação sobre sensibilidade. Clínica fechada, retorno amanhã de manhã. ·  · O que a Clara respondeu: · Boa noite, Larissa! Sem pressa, quando quiser é só me chamar aqui. Sobre dor e sensibilidade, a Dra. Suzana explica as sensações e os cuidados de cada etapa na avaliação. A preparação antes do clareamento eu vou verificar com a Dra. Suzana, e você recebe o retorno amanhã de manhã.
+
+## Thiago (sumiu 9 dias e volta) (nota 4)
+
+**Problemas:** Clara se contradisse três vezes sobre o horário de quinta 26/11 às 14h: disse que estava preenchido, depois que estava livre, depois que estava ocupado. Isso gera confusão e quebra a confiança, mesmo com a possibilidade de outro paciente ter ocupado o horário.; Inventou um motivo ('passei a informação errada') e pediu desculpas de forma confusa, em vez de consultar a agenda antes de responder.; Ofereceu quinta, 26/11, às 14h como livre na primeira resposta sem conferir; quando o paciente aceitou, disse que estava ocupado. Faltou consistência com a agenda.; Antes de marcar, não pediu nome completo e telefone: o paciente os deu espontaneamente, e Clara não confirmou o telefone de contato (assumiu 'esse número').; Mensagens finais repetitivas e redundantes: lembrou duas vezes a regra das 24h de cancelamento e repetiu 'Boa noite' várias vezes, com tom um pouco robótico.; Marcou a avaliação sem o paciente ter dito claramente que queria clareamento; assumiu pelo contexto anterior, o que é razoável mas não foi confirmado.; A clínica estava aberta até as 19h e eram 19:25, então estava fechada. Clara não disse 'assim que a clínica abrir' em nenhum ponto relevante (não era essencial neste caso).
+
+**Pontos bons:** Percebeu que os horários antigos já tinham passado e ofereceu datas novas, sem confirmar o horário antigo de cabeça.; Informou corretamente a regra de cancelamento (WhatsApp, 24h de antecedência).; Na confirmação, deu endereço, valor da avaliação e o abatimento de R$ 150 corretamente, conforme a regra (na confirmação da marcação).; Marcou só depois de confirmação clara do paciente e enviou o aviso à equipe com todos os dados.; Tom leve e acolhedor, sem pressionar o paciente indeciso.
+
+**Espelhamento:** Razoável: manteve um tom leve e próximo ('Prontinho', 'Beleza'), mas sem usar o registro solto do paciente (vc, pra, tá) e com pedidos de desculpa confusos.
+
+**Ficha no fim:** nome=Thiago nome_completo=Thiago Reis tel_contato=4199900820 avaliacao=26/11 às 16:00
+
+### Conversa
+
+- **Paciente:** Boa noite! Oi, ainda dá pra marcar aquele horário?
+- **Clara:** Boa noite, Thiago! Os horários que te passei são de novembro e já ficaram para trás, mas ainda tenho vagas. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 11h. Qual fica melhor para você?
+- **Paciente:** Ah, esquece então, eu tava vendo aqui. Mas pode ser quinta 26 às 14h mesmo. Meu nome é Thiago Reis, esse número aqui mesmo
+- **Clara:** Sinto muito, esse horário acabou de ser preenchido. Quer que eu veja outras opções para você?
+- **Paciente:** Ah não, sério? Tá bom então, pode ver outra aí
+- **Clara:** Me desculpa pela confusão, eu passei a informação errada. Quinta, 26/11, às 14h está livre sim. Também tenho terça, 08/12, às 9h, ou quinta, 10/12, às 11h. Qual fica melhor para você?
+- **Paciente:** Hmm, então agora dá pra quinta 26 às 14h? Pode marcar então, Thiago Reis, esse número mesmo. Mas ainda não sei se é o melhor dia pra mim, deixa eu ver aqui e te falo
+- **Clara:** Desculpa, eu me enganei de novo. Quinta, 26/11, às 14h já está ocupado, então ainda não consigo marcar esse horário. Nesse mesmo dia tenho quinta, 26/11, às 16h. Também tenho terça, 01/12, às 9h, ou quinta, 03/12, às 11h. Sem pressa, pode ver com calma e me avisa qual fica melhor.
+- **Paciente:** Ah, complicado hein. Então vou ver com calma aqui. Quinta 26 às 16h pode ser, mas me deixa confirmar uma coisa antes. Se eu marcar, consigo cancelar depois se não der?
+- **Clara:** Consigo sim, dá pra cancelar pelo WhatsApp. Só pedimos que avise com pelo menos 24 horas de antecedência, para a gente conseguir liberar o horário. Quer que eu confirme quinta, 26/11, às 16h?
+- **Paciente:** Hmm, beleza. Então pode confirmar quinta 26 às 16h mesmo, Thiago Reis, esse número. Se eu precisar cancelar eu aviso por aqui
+- **Clara:** Prontinho, Thiago! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias. Se precisar cancelar, é só avisar por aqui, de preferência com 24 horas de antecedência.
+- **Paciente:** Blz, valeu! Então tá marcado. Vou cancelar depois, só queria ver se dava mesmo. Obrigado
+- **Clara:** Beleza, fica combinado: quinta, 26/11, às 16h. Boa noite! Qualquer coisa, é só me chamar aqui.
+- **Paciente:** Boa noite! Valeu, Clara / Vou ver aqui e te falo se cancelo ou não
+- **Clara:** Boa noite também! Pode pensar com calma, Thiago. Só um aviso: se for cancelar, o ideal é avisar com 24 horas de antecedência, então se decidir cedo, me chama por aqui.
+- **Paciente:** Valeu! Vou ver e te chamo se for cancelar. Boa noite
+- **Clara:** Combinado! Boa noite, e até quinta.
+
+### Avisos para a equipe
+
+- *Nova avaliação marcada* · Avaliação · Thiago Reis · clareamento · Quando: 26/11 às 16:00 · Paciente: Thiago (554199900820) · Nome completo: Thiago Reis · Telefone de contato: 4199900820
