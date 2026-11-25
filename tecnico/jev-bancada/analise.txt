@@ -1,0 +1,102 @@
+chamadas: 250 ok: 250 modelo: ['jev-1.14.0']
+tempo por chamada (6 perguntas juntas): média 0.46s, mediana 0.41s, p95 0.57s, máx 1.87s
+tokens de entrada por chamada: média 1761 (mín 1260, máx 2748); saída média 204 (grátis)
+custo total do que foi rodado: US$ 0.0185; por mensagem (média): US$ 0.000074; por 1.000 mensagens: US$ 0.074
+
+## URGÊNCIA: 20 casos que SIM, 170 que NÃO
+  limiar 0.3: perdeu 0 de 20 (falso negativo), alarme falso 0 de 170
+  limiar 0.5: perdeu 0 de 20 (falso negativo), alarme falso 0 de 170
+  limiar 0.67: perdeu 2 de 20 (falso negativo), alarme falso 0 de 170
+  limiar 0.7: perdeu 4 de 20 (falso negativo), alarme falso 0 de 170
+  limiar 0.9: perdeu 15 de 20 (falso negativo), alarme falso 0 de 170
+  menor prob. entre os SIM: 0.59; maior entre os NÃO: 0.03
+    perdido(<0,67): conv02-00 p=0.63 'boa tarde, eu fiz clareamento dentes semana passada numa outra clinica e agora t'
+    perdido(<0,67): urgencia-02 p=0.59 'minha gengiva está sangrando muito, é normal?'
+
+## FORA DA LISTA: 6 casos que SIM, 179 que NÃO
+  limiar 0.3: perdeu 0 de 6 (falso negativo), alarme falso 0 de 179
+  limiar 0.5: perdeu 0 de 6 (falso negativo), alarme falso 0 de 179
+  limiar 0.67: perdeu 0 de 6 (falso negativo), alarme falso 0 de 179
+  limiar 0.7: perdeu 0 de 6 (falso negativo), alarme falso 0 de 179
+  limiar 0.9: perdeu 1 de 6 (falso negativo), alarme falso 0 de 179
+  menor prob. entre os SIM: 0.86; maior entre os NÃO: 0.16
+
+## REMARCAR: 2 casos que SIM, 0 que NÃO
+  limiar 0.3: perdeu 0 de 2 (falso negativo), alarme falso 0 de 0
+  limiar 0.5: perdeu 0 de 2 (falso negativo), alarme falso 0 de 0
+  limiar 0.67: perdeu 0 de 2 (falso negativo), alarme falso 0 de 0
+  limiar 0.7: perdeu 0 de 2 (falso negativo), alarme falso 0 de 0
+  limiar 0.9: perdeu 0 de 2 (falso negativo), alarme falso 0 de 0
+
+## DOR x PERGUNTA: 18 certos de 18
+
+## CONFIRMAÇÃO (só quando a Clara perguntou se cancela): 41 casos; 1 rotulados ficaram fora do filtro
+  acertos do rótulo: 37 de 41
+    ERRO cancelar-05 aceito=['duvida', 'outro_assunto', 'nao'] jev=sim_claro 1.00 'sim, mas quanto custa a limpeza?'
+    ERRO cancelar-08 aceito=['nao', 'duvida', 'outro_assunto'] jev=sim_claro 0.56 'sim, mas não cancela ainda'
+    ERRO cancelar-15 aceito=['duvida', 'outro_assunto', 'nao'] jev=sim_claro 1.00 'sim, mas qual o endereço?'
+    ERRO cancelar-16 aceito=['nao', 'duvida', 'outro_assunto'] jev=sim_claro 0.55 'sim, mas não cancela ainda'
+  AÇÃO SEM VOLTA (cancelar só se P(sim_claro) >= limiar): 23 pedidos reais de cancelar, 18 que NÃO podem cancelar
+    limiar 0.5: cancelou sem dever 5 de 18; deixou de cancelar 0 de 23
+    limiar 0.67: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.8: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.9: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.93: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.95: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.97: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    limiar 0.99: cancelou sem dever 3 de 18; deixou de cancelar 0 de 23
+    NÃO deveria cancelar mas P(sim)=1.00: cancelar-05 'sim, mas quanto custa a limpeza?'
+    NÃO deveria cancelar mas P(sim)=1.00: cancelar-06 'sim. aliás, vocês atendem sábado'
+    NÃO deveria cancelar mas P(sim)=0.56: cancelar-08 'sim, mas não cancela ainda'
+    NÃO deveria cancelar mas P(sim)=1.00: cancelar-15 'sim, mas qual o endereço?'
+    NÃO deveria cancelar mas P(sim)=0.55: cancelar-16 'sim, mas não cancela ainda'
+  SEM o filtro do código: em 158 falas em que a Clara NÃO perguntou de cancelar, P(sim_claro)>=0,67 em 30 e >=0,93 em 15
+
+## HORÁRIO (só quando a Clara ofereceu horários): 12 casos; acertos 11; 2 rotulados fora do filtro
+    ERRO horario-04 gold=so_vendo jev=recusou 0.90 'tem outro dia? esses não dão'
+
+## TABELA DE SITUAÇÕES
+| caso | mensagem | pergunta | Jev disse | prob. | conf. | esperado | certo? |
+|---|---|---|---|---|---|---|---|
+| Bia (conv00-16) | sim, pode cancelar kkk  mas antes me responde: a lente estra | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Bia (conv00-18) | sim cancela kkk  mas antes me responde: a lente estraga o de | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Bia (conv00-26) | sim, pode cancelar kkk  mas antes me responde: a lente estra | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Bia (conv00-14) | sim, essa mesma kkk  pera, antes de cancelar queria pergunta | dor | outro | 0.70 | 0.55 | outro (pergunta sobre a lente) | sim |
+| Sandra (conv05-10) | Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às  | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Sandra (conv05-12) | Não, não é a minha, é da Laura Duarte, minha filha. Pode can | conf | nao | 0.99 | 0.99 | não sim (corrige: é da filha) | sim |
+| Sandra (conv05-14) | Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é  | conf | nao | 1.00 | 1.00 | não sim (corrige: é da filha) | sim |
+| Sandra (conv05-20) | Clara, de novo não! A consulta é da minha filha Laura Duarte | conf | nao | 1.00 | 1.00 | não sim (corrige: é da filha) | sim |
+| Sandra (conv05-24) | Clara, vamos tentar de outro jeito. Não sou eu, é a Laura Du | conf | nao | 1.00 | 1.00 | não sim (corrige: é da filha) | sim |
+| Thiago "Valeu!" (conv19-08) | Isso, pode cancelar sim. Valeu! | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Thiago (conv19-10) | Opa, já confirmei! Pode cancelar sim, obrigado. | conf | sim_claro | 1.00 | 1.00 | sim_claro | sim |
+| Thiago (conv19-12) | Não, valeu! Por enquanto deixa assim. / Obrigado pela ajuda | conf | nao | 1.00 | 1.00 | nao | sim |
+| Júlia "dói?" (conv08-00) | Boa tarde! / Oi, eu queria saber umas coisas sobre clareamen | dor | pergunta_sobre_o_procedimento | 0.70 | 0.55 | pergunta_sobre_o_procedimento | sim |
+| Júlia (conv08-06) | ai, 150 reais só pra avaliação? / tipo, eu nem sei se quero  | dor | pergunta_sobre_o_procedimento | 1.00 | 1.00 | pergunta_sobre_o_procedimento | sim |
+| Dona Lourdes (conv07-06) | são 17 horas agora / vc consegue me falar quanto custa o imp | fora | sim | 0.94 | - | sim (implante/dentadura) | sim |
+| Dona Lourdes (conv07-08) | ai meu deus então não tem implante aqui / e a dentadura quan | fora | sim | 0.98 | - | sim (implante/dentadura) | sim |
+| Diego (conv21-00) | Oi, boa tarde! Desculpa incomodar... eu perdi a avaliação de | remarcar | sim | 0.99 | - | sim (remarcar) | sim |
+| Diego (conv21-02) | Ai, que vergonha... mil desculpas mesmo 😓 Eu sei que não foi | remarcar | sim | 0.95 | - | sim (remarcar) | sim |
+| Urgência #1 (urgencia-01) | estou sangrando, o que faço? | urg | sim | 0.89 | - | sim | sim |
+| Urgência #2 (urgencia-02) | minha gengiva está sangrando muito, é normal? | urg | sim | 0.59 | - | sim | sim |
+| Urgência #3 (urgencia-03) | I am bleeding, what should I do? | urg | sim | 0.83 | - | sim | sim |
+| Urgência #4 (urgencia-04) | mi cara está hinchada, ¿qué hago? | urg | sim | 0.74 | - | sim | sim |
+| Urgência #5 (urgencia-05) | tengo mucho dolor, ¿qué puedo hacer? | urg | sim | 0.67 | - | sim | sim |
+| Urgência #6 (urgencia-06) | estou com febre e dor forte | urg | sim | 0.69 | - | sim | sim |
+| Urgência #7 (urgencia-07) | tô com o rosto inchado, quero cancelar | urg | sim | 0.85 | - | sim | sim |
+| Urgência #8 (urgencia-08) | minha gengiva está sangrando muito | urg | sim | 0.81 | - | sim | sim |
+| Urgência #9 (urgencia-09) | não estou com febre mas estou sangrando | urg | sim | 0.84 | - | sim | sim |
+| Urgência #10 (urgencia-10) | Agora estou sangrando | urg | sim | 0.95 | - | sim | sim |
+| Urgência #11 (urgencia-11) | não consigo engolir direito, parece que a garganta está fech | urg | sim | 0.90 | - | sim | sim |
+| Urgência #12 (urgencia-12) | depois da anestesia estou com dificuldade de respirar | urg | sim | 0.93 | - | sim | sim |
+| Urgência #13 (urgencia-13) | meu rosto inchou muito e estou com febre desde ontem | urg | sim | 0.94 | - | sim | sim |
+| Sem urgência #1 (urgencia-14) | não estou com febre | urg | não | 0.02 | - | não | sim |
+| Sem urgência #2 (urgencia-15) | não tenho dor forte nem inchaço | urg | não | 0.02 | - | não | sim |
+| Sem urgência #3 (urgencia-16) | sem febre e sem sangramento | urg | não | 0.02 | - | não | sim |
+| Sem urgência #4 (urgencia-17) | no tengo fiebre | urg | não | 0.02 | - | não | sim |
+| Sem urgência #5 (urgencia-18) | no he tenido hinchazón | urg | não | 0.03 | - | não | sim |
+| Sem urgência #6 (urgencia-19) | I don't have a fever | urg | não | 0.02 | - | não | sim |
+| Sem urgência #7 (urgencia-20) | I do not have any swelling | urg | não | 0.03 | - | não | sim |
+| Sem urgência #8 (urgencia-21) | clareamento faz a gengiva sangrar? | urg | não | 0.02 | - | não | sim |
+| Sem urgência #9 (urgencia-22) | depois do implante é normal sangrar? | urg | não | 0.03 | - | não | sim |
+| Sem urgência #10 (urgencia-23) | quero marcar uma avaliação | urg | não | 0.01 | - | não | sim |
+| Sem urgência #11 (urgencia-24) | quanto custa a limpeza? | urg | não | 0.01 | - | não | sim |

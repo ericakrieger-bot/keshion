@@ -1,0 +1,2818 @@
+{
+ "conv00-16": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "ahh entendi... e a avaliação é paga? tipo, qnt custa?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sim, a avaliação custa R$ 150. Se você fechar o tratamento em até 30 dias, esse valor é abatido por inteiro. Quer que eu veja um horário de avaliação para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim pode ver! vc consegue ver algo essa semana? tipo qta feira ou quinta de tarde kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na quarta não temos avaliação, só terça e quinta. Essa semana, na quinta, tenho às 16h. Depois tenho terça, 01/12, às 9h, ou quinta, 03/12, às 14h. Qual fica melhor pra você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah quinta às 16h dá certo sim kkk\n\npera, quinta que é hj? hoje é terça né? vou conferir\n\nah peraí, hoje é 24/11 e eu tava achando que era segunda kkk. então quinta é dia 26, né?\n\nQ horário vc consegue marcar? / pode ser quinta 26 às 16h"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Isso, hoje é terça, 24/11, e a quinta é dia 26. Quinta, 26/11, às 16h está livre. Para confirmar, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah perfeito kkk\n\nbia rocha / pode ser esse mesmo número sim"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Bia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido por inteiro se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "obrigada clara! valeu mesmo kkk\n\nah mas acho que vou ter um imprevisto nesse dia, então vou precisar cancelar essa avaliação :( desculpa"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "De nada! Fico feliz em ajudar. Sem problema, imprevisto acontece. A avaliação que você quer cancelar é a de quinta, 26/11, às 16h, né?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 1.68,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.06
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 1580,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv00-18": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "sim pode ver! vc consegue ver algo essa semana? tipo qta feira ou quinta de tarde kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na quarta não temos avaliação, só terça e quinta. Essa semana, na quinta, tenho às 16h. Depois tenho terça, 01/12, às 9h, ou quinta, 03/12, às 14h. Qual fica melhor pra você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah quinta às 16h dá certo sim kkk\n\npera, quinta que é hj? hoje é terça né? vou conferir\n\nah peraí, hoje é 24/11 e eu tava achando que era segunda kkk. então quinta é dia 26, né?\n\nQ horário vc consegue marcar? / pode ser quinta 26 às 16h"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Isso, hoje é terça, 24/11, e a quinta é dia 26. Quinta, 26/11, às 16h está livre. Para confirmar, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah perfeito kkk\n\nbia rocha / pode ser esse mesmo número sim"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Bia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido por inteiro se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "obrigada clara! valeu mesmo kkk\n\nah mas acho que vou ter um imprevisto nesse dia, então vou precisar cancelar essa avaliação :( desculpa"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "De nada! Fico feliz em ajudar. Sem problema, imprevisto acontece. A avaliação que você quer cancelar é a de quinta, 26/11, às 16h, né?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 1.615,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.04
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1591,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv00-20": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "ah quinta às 16h dá certo sim kkk\n\npera, quinta que é hj? hoje é terça né? vou conferir\n\nah peraí, hoje é 24/11 e eu tava achando que era segunda kkk. então quinta é dia 26, né?\n\nQ horário vc consegue marcar? / pode ser quinta 26 às 16h"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Isso, hoje é terça, 24/11, e a quinta é dia 26. Quinta, 26/11, às 16h está livre. Para confirmar, me passa seu nome completo e um telefone de contato? Pode ser este mesmo número."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah perfeito kkk\n\nbia rocha / pode ser esse mesmo número sim"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Bia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido por inteiro se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "obrigada clara! valeu mesmo kkk\n\nah mas acho que vou ter um imprevisto nesse dia, então vou precisar cancelar essa avaliação :( desculpa"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "De nada! Fico feliz em ajudar. Sem problema, imprevisto acontece. A avaliação que você quer cancelar é a de quinta, 26/11, às 16h, né?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 1.642,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.04
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1579,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv00-22": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "ah perfeito kkk\n\nbia rocha / pode ser esse mesmo número sim"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Bia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido por inteiro se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "obrigada clara! valeu mesmo kkk\n\nah mas acho que vou ter um imprevisto nesse dia, então vou precisar cancelar essa avaliação :( desculpa"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "De nada! Fico feliz em ajudar. Sem problema, imprevisto acontece. A avaliação que você quer cancelar é a de quinta, 26/11, às 16h, né?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 1.418,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.05
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1511,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv00-24": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "obrigada clara! valeu mesmo kkk\n\nah mas acho que vou ter um imprevisto nesse dia, então vou precisar cancelar essa avaliação :( desculpa"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "De nada! Fico feliz em ajudar. Sem problema, imprevisto acontece. A avaliação que você quer cancelar é a de quinta, 26/11, às 16h, né?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.395,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.04
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1479,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv00-26": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "sim, essa mesma kkk\n\npera, antes de cancelar queria perguntar uma coisa: a lente estraga o dente? tipo, tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? kkk"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim cancela kkk\n\nmas antes me responde: a lente estraga o dente?? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo? tipo, qual a real?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "sim, pode cancelar kkk\n\nmas antes me responde: a lente estraga o dente? tenho medo de desgastar o meu. e vc acha que eu preciso de lente mesmo?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.403,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.08
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1468,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv04-24": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Isso, pode ficar reservado aí. Ainda não tenho certeza da reunião, então vou te avisar assim que eu confirmar. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Combinado! Sua avaliação de quinta, 26/11, às 14h continua marcada por enquanto. Assim que confirmar a reunião, é só me avisar aqui. Aí eu troco para quinta, 03/12, às 11h, se esse horário ainda estiver livre."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde. Consegui confirmar a reunião, então pode trocar pra quinta, 03/12, às 11h, por favor. Ah, e a quinta 03/12 tá boa mesmo? Tem como confirmar antes de eu mudar?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sim, quinta, 03/12, às 11h está livre. Pronto, sua avaliação de facetas foi trocada para quinta, 03/12, às 11h. Continua na Rua Desembargador Motta, 2000, sala 1404, no Batel."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeita, obrigada! Ah, mas agora surgiu outra coisa aqui... será que consigo mudar de novo? Ainda não sei direito, então te aviso. E e terça, dia 01/12, tem?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema, é só me avisar aqui quando você souber. Terça, 01/12, tem sim, às 9h, às 14h ou às 16h. Quer que eu troque para algum desses quando você decidir?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, terça 01/12 às 9h é muito cedo pra mim, acho que prefiro às 14h. Mas ainda não tenho certeza, então por enquanto deixa como está, tá? Te aviso quando decidir."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Anotado, Paula. Terça, 01/12, às 9h realmente fica cedo, então por enquanto sua avaliação continua quinta, 03/12, às 11h. Se você decidir pela terça, o horário das 14h está livre. Me avisa aqui quando tiver certeza."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde. Decidi: pode trocar pra terça, 01/12, às 14h, por favor. Desculpa a volta, é que essa reunião mudou de novo. Ah, e cancelar, eu acho que... melhor não, deixa eu pensar mais um pouco."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Pronto, sua avaliação de facetas foi remarcada para terça, 01/12, às 14h. Sem problema quanto ao cancelamento, a avaliação segue marcada. Quando decidir, é só me chamar aqui."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde de novo. Olha, decidi mesmo: pode cancelar a avaliação, por favor. Desculpa a confusão, a reunião não vai dar pra mudar mais uma vez. Obrigada pela paciência!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Antes de cancelar, só confirmo: é a avaliação de facetas de terça, 01/12, às 14h, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Antes de cancelar, só confirmo: é a avaliação de facetas de terça, 01/12, às 14h, certo?",
+   "mensagem_do_paciente": "Isso mesmo, terça, 01/12, às 14h. Pode cancelar, obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.39,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.03
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 1684,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv04-26": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde. Consegui confirmar a reunião, então pode trocar pra quinta, 03/12, às 11h, por favor. Ah, e a quinta 03/12 tá boa mesmo? Tem como confirmar antes de eu mudar?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sim, quinta, 03/12, às 11h está livre. Pronto, sua avaliação de facetas foi trocada para quinta, 03/12, às 11h. Continua na Rua Desembargador Motta, 2000, sala 1404, no Batel."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeita, obrigada! Ah, mas agora surgiu outra coisa aqui... será que consigo mudar de novo? Ainda não sei direito, então te aviso. E e terça, dia 01/12, tem?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema, é só me avisar aqui quando você souber. Terça, 01/12, tem sim, às 9h, às 14h ou às 16h. Quer que eu troque para algum desses quando você decidir?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, terça 01/12 às 9h é muito cedo pra mim, acho que prefiro às 14h. Mas ainda não tenho certeza, então por enquanto deixa como está, tá? Te aviso quando decidir."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Anotado, Paula. Terça, 01/12, às 9h realmente fica cedo, então por enquanto sua avaliação continua quinta, 03/12, às 11h. Se você decidir pela terça, o horário das 14h está livre. Me avisa aqui quando tiver certeza."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde. Decidi: pode trocar pra terça, 01/12, às 14h, por favor. Desculpa a volta, é que essa reunião mudou de novo. Ah, e cancelar, eu acho que... melhor não, deixa eu pensar mais um pouco."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Pronto, sua avaliação de facetas foi remarcada para terça, 01/12, às 14h. Sem problema quanto ao cancelamento, a avaliação segue marcada. Quando decidir, é só me chamar aqui."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oi, Clara! Boa tarde de novo. Olha, decidi mesmo: pode cancelar a avaliação, por favor. Desculpa a confusão, a reunião não vai dar pra mudar mais uma vez. Obrigada pela paciência!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Antes de cancelar, só confirmo: é a avaliação de facetas de terça, 01/12, às 14h, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, terça, 01/12, às 14h. Pode cancelar, obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 14:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 14:00, certo?",
+   "mensagem_do_paciente": "Isso, pode cancelar mesmo. Obrigada, Clara!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.367,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.03
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 1621,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv05-10": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Boa tarde! Tudo bem? Gostaria de saber se vocês atendem com alinhador e como funciona a avaliação. / É para a minha filha, Laura Duarte, ela tem 16 anos."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Atendemos sim, com alinhadores invisíveis, placas transparentes que são trocadas em torno de uma vez por mês. A avaliação dura cerca de 60 minutos. Tem recepção, exame clínico, scanner digital e uma conversa com a Dra. Suzana, com a simulação do sorriso no computador."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, que bom! Obrigada. Quanto custa essa avaliação e precisa de alguma coisa antes? / E o tratamento completo, mais ou menos quanto fica? Ela tem 16 anos, a gente precisa saber se ela pode ir sozinha ou se eu tenho que acompanhar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "A avaliação custa R$ 150, e esse valor é abatido se vocês fecharem o tratamento em até 30 dias. Só precisa levar um documento com foto e exames recentes, se tiver. O alinhador fica entre R$ 5.500 e R$ 9.000. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sobre a Laura ir sozinha ou com você, vou passar essa dúvida para a Dra. Suzana, e ela retorna em breve."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Entendi, obrigada. Então a avaliação é R$ 150 e a gente abate se fechar o tratamento. Vou pensar no melhor horário pra Laura, porque ela tem aula de manhã e à tarde tem treino de vôlei. Você consegue me dizer quais dias têm vaga na semana que vem? Pode marcar no meu telefone mesmo, que é esse aqui. Ah, e o nome da Laura é Laura Duarte, nascimento 12/03/2010."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na semana que vem eu tenho terça, 01/12, às 14h, terça, 01/12, às 16h, ou quinta, 03/12, às 14h. Qual desses fica melhor para a Laura? Assim que você escolher, eu já marco no número desta conversa."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, a terça às 16h seria melhor, porque ela sai do colégio mais cedo e ainda dá tempo de chegar. Pode marcar esse horário, por favor, no nome da Laura Duarte. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se vocês fecharem o tratamento em até 30 dias. A dúvida sobre ela ir sozinha ou com você já está com a Dra. Suzana."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?",
+   "mensagem_do_paciente": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.388,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.01
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1737,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv05-12": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Boa tarde! Tudo bem? Gostaria de saber se vocês atendem com alinhador e como funciona a avaliação. / É para a minha filha, Laura Duarte, ela tem 16 anos."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. Atendemos sim, com alinhadores invisíveis, placas transparentes que são trocadas em torno de uma vez por mês. A avaliação dura cerca de 60 minutos. Tem recepção, exame clínico, scanner digital e uma conversa com a Dra. Suzana, com a simulação do sorriso no computador."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, que bom! Obrigada. Quanto custa essa avaliação e precisa de alguma coisa antes? / E o tratamento completo, mais ou menos quanto fica? Ela tem 16 anos, a gente precisa saber se ela pode ir sozinha ou se eu tenho que acompanhar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "A avaliação custa R$ 150, e esse valor é abatido se vocês fecharem o tratamento em até 30 dias. Só precisa levar um documento com foto e exames recentes, se tiver. O alinhador fica entre R$ 5.500 e R$ 9.000. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sobre a Laura ir sozinha ou com você, vou passar essa dúvida para a Dra. Suzana, e ela retorna em breve."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Entendi, obrigada. Então a avaliação é R$ 150 e a gente abate se fechar o tratamento. Vou pensar no melhor horário pra Laura, porque ela tem aula de manhã e à tarde tem treino de vôlei. Você consegue me dizer quais dias têm vaga na semana que vem? Pode marcar no meu telefone mesmo, que é esse aqui. Ah, e o nome da Laura é Laura Duarte, nascimento 12/03/2010."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na semana que vem eu tenho terça, 01/12, às 14h, terça, 01/12, às 16h, ou quinta, 03/12, às 14h. Qual desses fica melhor para a Laura? Assim que você escolher, eu já marco no número desta conversa."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, a terça às 16h seria melhor, porque ela sai do colégio mais cedo e ainda dá tempo de chegar. Pode marcar esse horário, por favor, no nome da Laura Duarte. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se vocês fecharem o tratamento em até 30 dias. A dúvida sobre ela ir sozinha ou com você já está com a Dra. Suzana."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.368,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 0.99,
+      "probabilities": {
+       "sim_claro": 0.01,
+       "nao": 0.99,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1847,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv05-14": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Ah, que bom! Obrigada. Quanto custa essa avaliação e precisa de alguma coisa antes? / E o tratamento completo, mais ou menos quanto fica? Ela tem 16 anos, a gente precisa saber se ela pode ir sozinha ou se eu tenho que acompanhar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "A avaliação custa R$ 150, e esse valor é abatido se vocês fecharem o tratamento em até 30 dias. Só precisa levar um documento com foto e exames recentes, se tiver. O alinhador fica entre R$ 5.500 e R$ 9.000. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sobre a Laura ir sozinha ou com você, vou passar essa dúvida para a Dra. Suzana, e ela retorna em breve."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Entendi, obrigada. Então a avaliação é R$ 150 e a gente abate se fechar o tratamento. Vou pensar no melhor horário pra Laura, porque ela tem aula de manhã e à tarde tem treino de vôlei. Você consegue me dizer quais dias têm vaga na semana que vem? Pode marcar no meu telefone mesmo, que é esse aqui. Ah, e o nome da Laura é Laura Duarte, nascimento 12/03/2010."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na semana que vem eu tenho terça, 01/12, às 14h, terça, 01/12, às 16h, ou quinta, 03/12, às 14h. Qual desses fica melhor para a Laura? Assim que você escolher, eu já marco no número desta conversa."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, a terça às 16h seria melhor, porque ela sai do colégio mais cedo e ainda dá tempo de chegar. Pode marcar esse horário, por favor, no nome da Laura Duarte. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se vocês fecharem o tratamento em até 30 dias. A dúvida sobre ela ir sozinha ou com você já está com a Dra. Suzana."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é que tem a avaliação marcada pra terça, 01/12, às 16h. Pode cancelar essa, por favor?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.461,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1780,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv05-16": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Entendi, obrigada. Então a avaliação é R$ 150 e a gente abate se fechar o tratamento. Vou pensar no melhor horário pra Laura, porque ela tem aula de manhã e à tarde tem treino de vôlei. Você consegue me dizer quais dias têm vaga na semana que vem? Pode marcar no meu telefone mesmo, que é esse aqui. Ah, e o nome da Laura é Laura Duarte, nascimento 12/03/2010."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Na semana que vem eu tenho terça, 01/12, às 14h, terça, 01/12, às 16h, ou quinta, 03/12, às 14h. Qual desses fica melhor para a Laura? Assim que você escolher, eu já marco no número desta conversa."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, a terça às 16h seria melhor, porque ela sai do colégio mais cedo e ainda dá tempo de chegar. Pode marcar esse horário, por favor, no nome da Laura Duarte. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se vocês fecharem o tratamento em até 30 dias. A dúvida sobre ela ir sozinha ou com você já está com a Dra. Suzana."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é que tem a avaliação marcada pra terça, 01/12, às 16h. Pode cancelar essa, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Clara, parece que você está entendendo errado. Não sou eu que tenho avaliação, é a Laura Duarte, minha filha de 16 anos. Pode cancelar a consulta dela de terça, 01/12, às 16h, por favor? O pai já marcou em outro lugar. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.359,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1706,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv05-18": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Ah, a terça às 16h seria melhor, porque ela sai do colégio mais cedo e ainda dá tempo de chegar. Pode marcar esse horário, por favor, no nome da Laura Duarte. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho! A avaliação da Laura está marcada para terça, 01/12, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se vocês fecharem o tratamento em até 30 dias. A dúvida sobre ela ir sozinha ou com você já está com a Dra. Suzana."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é que tem a avaliação marcada pra terça, 01/12, às 16h. Pode cancelar essa, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, parece que você está entendendo errado. Não sou eu que tenho avaliação, é a Laura Duarte, minha filha de 16 anos. Pode cancelar a consulta dela de terça, 01/12, às 16h, por favor? O pai já marcou em outro lugar. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Clara, acho que a gente está presa nessa confirmação. Não é a minha avaliação, é a da Laura Duarte, minha filha. Pode cancelar a dela, terça, 01/12, às 16h? Se precisar, pode checar pelo meu número, que é esse mesmo, ou pelo nome da Laura. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.375,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1636,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv05-20": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Perfeito, obrigada! Então fica terça, 01/12, às 16h, na Rua Desembargador Motta, 2000, sala 1404, Batel. Só uma coisa: o pai da Laura já marcou essa avaliação em outro lugar, então vou precisar cancelar essa aqui. Pode cancelar, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar, é a avaliação da Laura Duarte, de terça, 01/12, às 16h, que vocês querem cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, é a avaliação da Laura Duarte, terça, 01/12, às 16h. Pode cancelar, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é que tem a avaliação marcada pra terça, 01/12, às 16h. Pode cancelar essa, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, parece que você está entendendo errado. Não sou eu que tenho avaliação, é a Laura Duarte, minha filha de 16 anos. Pode cancelar a consulta dela de terça, 01/12, às 16h, por favor? O pai já marcou em outro lugar. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, acho que a gente está presa nessa confirmação. Não é a minha avaliação, é a da Laura Duarte, minha filha. Pode cancelar a dela, terça, 01/12, às 16h? Se precisar, pode checar pelo meu número, que é esse mesmo, ou pelo nome da Laura. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Clara, de novo não! A consulta é da minha filha Laura Duarte, não minha. Ela tem 16 anos. Por favor, cancela a avaliação dela de terça, 01/12, às 16h. Se precisar de algum dado pra conferir, é só me falar. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.362,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1586,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv05-24": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Não, não é a minha, é da Laura Duarte, minha filha. Pode cancelar a avaliação dela, terça, 01/12, às 16h, por favor. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Não é minha, Clara! É da minha filha, a Laura Duarte. Ela é que tem a avaliação marcada pra terça, 01/12, às 16h. Pode cancelar essa, por favor?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, parece que você está entendendo errado. Não sou eu que tenho avaliação, é a Laura Duarte, minha filha de 16 anos. Pode cancelar a consulta dela de terça, 01/12, às 16h, por favor? O pai já marcou em outro lugar. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, acho que a gente está presa nessa confirmação. Não é a minha avaliação, é a da Laura Duarte, minha filha. Pode cancelar a dela, terça, 01/12, às 16h? Se precisar, pode checar pelo meu número, que é esse mesmo, ou pelo nome da Laura. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, de novo não! A consulta é da minha filha Laura Duarte, não minha. Ela tem 16 anos. Por favor, cancela a avaliação dela de terça, 01/12, às 16h. Se precisar de algum dado pra conferir, é só me falar. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Combinado, sua avaliação de 01/12 às 16:00 continua marcada."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Clara, não! Eu não tenho avaliação nenhuma marcada, quem tem é a Laura Duarte, minha filha de 16 anos. Pelo que você falou, a avaliação dela continua marcada, então preciso que ela seja cancelada. Pode fazer isso agora, por favor? Terça, 01/12, às 16h, nome Laura Duarte. Se precisar, eu confirmo a data de nascimento dela, 12/03/2010. Obrigada."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 01/12 às 16:00, certo?",
+   "mensagem_do_paciente": "Clara, vamos tentar de outro jeito. Não sou eu, é a Laura Duarte, filha de 16 anos. O pai dela já marcou em outro lugar, então é só cancelar a consulta dela: terça, 01/12, às 16h. Se o sistema pedir algum dado, me fala qual que eu passo. Obrigada."
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.397,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 0.99,
+      "probabilities": {
+       "sim_claro": 0.01,
+       "nao": 0.99,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1642,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "conv08-12": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Boa tarde! / Oi, eu queria saber umas coisas sobre clareamento / quanto custa? / e dói? tenho muita sensibilidade nos dentes"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Olá, tudo bem? Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Puxa, sinto muito pela sensibilidade. Sobre a dor, vou passar sua dúvida para a Dra. Suzana, que te dá um retorno em breve. Espero que você melhore logo."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ah entendi, obrigada / e tem horário essa semana ainda? / tipo sexta ou sábado, se der / ah, esquece, quer dizer, eu queria perguntar de lentes de porcelana, mas na real o que eu quero mesmo é clareamento"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sexta e sábado a gente não tem avaliação, só nas terças e quintas. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "quinta 26 às 14h fica melhor pra mim / acho que consigo / meu nome é Júlia Prado / o telefone pode ser este mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prazer, Júlia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ai, 150 reais só pra avaliação? / tipo, eu nem sei se quero fechar com a Dra. ainda / e se eu for e ela falar que dói muito? / acho que melhor cancelar, desculpa, tô meio enrolada essa semana"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sim, a avaliação custa R$ 150. Esse valor é abatido integralmente se você fechar o tratamento em até 30 dias. Sobre a dor, a Dra. Suzana explica as sensações e os cuidados de cada etapa na avaliação, antes de qualquer coisa começar. Espero que você melhore logo. Tudo bem, você não precisa decidir nada agora. Você quer mesmo cancelar a avaliação de quinta, 26/11, às 14h?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar / ainda não tenho certeza se quero mesmo ir / queria pensar com calma primeiro / e se eu marcar de novo depois, tem problema?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema, você não precisa decidir agora. Por enquanto, deixo sua avaliação de quinta, 26/11, às 14h, como está. E pode marcar de novo depois, sem problema nenhum. Quando quiser, é só me chamar aqui que eu vejo um horário livre. Você quer manter esse horário ou prefere cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "pode cancelar sim, por favor / tipo, eu quero cancelar mesmo / não quero manter o horário de quinta / depois eu vejo com calma se marco de novo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?",
+   "mensagem_do_paciente": "sim, pode cancelar / confirmo / obrigada pela paciência / ai, desculpa a bagunça"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.394,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 1730,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv08-14": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "ah entendi, obrigada / e tem horário essa semana ainda? / tipo sexta ou sábado, se der / ah, esquece, quer dizer, eu queria perguntar de lentes de porcelana, mas na real o que eu quero mesmo é clareamento"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sexta e sábado a gente não tem avaliação, só nas terças e quintas. Tenho quinta, 26/11, às 14h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "quinta 26 às 14h fica melhor pra mim / acho que consigo / meu nome é Júlia Prado / o telefone pode ser este mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prazer, Júlia! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "ai, 150 reais só pra avaliação? / tipo, eu nem sei se quero fechar com a Dra. ainda / e se eu for e ela falar que dói muito? / acho que melhor cancelar, desculpa, tô meio enrolada essa semana"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sim, a avaliação custa R$ 150. Esse valor é abatido integralmente se você fechar o tratamento em até 30 dias. Sobre a dor, a Dra. Suzana explica as sensações e os cuidados de cada etapa na avaliação, antes de qualquer coisa começar. Espero que você melhore logo. Tudo bem, você não precisa decidir nada agora. Você quer mesmo cancelar a avaliação de quinta, 26/11, às 14h?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar / ainda não tenho certeza se quero mesmo ir / queria pensar com calma primeiro / e se eu marcar de novo depois, tem problema?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema, você não precisa decidir agora. Por enquanto, deixo sua avaliação de quinta, 26/11, às 14h, como está. E pode marcar de novo depois, sem problema nenhum. Quando quiser, é só me chamar aqui que eu vejo um horário livre. Você quer manter esse horário ou prefere cancelar?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "pode cancelar sim, por favor / tipo, eu quero cancelar mesmo / não quero manter o horário de quinta / depois eu vejo com calma se marco de novo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, pode cancelar / confirmo / obrigada pela paciência / ai, desculpa a bagunça"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?",
+   "mensagem_do_paciente": "sim, pode cancelar, confirmo / obrigada pela paciência / desculpa a bagunça kkk"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.364,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1652,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv13-16": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Hmm ok... então vou esperar o retorno da Dra? mas e se ela não responder logo, eu tomo a dipirona mesmo? não tô aguentando de dor || e amanhã dá pra marcar o clareamento tbm?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Remédio eu não consigo indicar por aqui, nem dipirona nem ibuprofeno. Vou passar sua dúvida para a Dra. Suzana junto com o pedido de encaixe, e ela te retorna em breve. Mas se a dor não der trégua, não espere o retorno: procure um pronto-socorro odontológico agora. Tomara que a dor melhore logo. Amanhã, quarta, não temos avaliação, só nas terças e quintas. Tenho quinta, 26/11, às 14h, quinta, 26/11, às 16h ou terça, 01/12, às 9h. Qual fica melhor para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah, quinta então, 26/11 às 14h. Pode ser! Mas a dor tá muito forte, será que a Dra consegue me encaixar hoje mesmo? || Se não der mesmo, quinta tá bom, marca aí pfv"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Rafaela! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias. Sobre o encaixe de hoje, a Dra. Suzana já recebeu o seu pedido e, se conseguir, te responde por aqui. Se a dor ficar insuportável antes disso, não espere: procure um pronto-socorro odontológico."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ufa, obrigada! Então tá marcado quinta 14h. Mas e se a Dra não conseguir me encaixar hoje, o que eu faço com essa dor até lá?? tô ficando desesperada kkk || Ah e a avaliação de R$150 já entra no pacote do clareamento ou é separado?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Imagino como tá difícil, sinto muito. Vou passar sua dúvida para a Dra. Suzana agora, e ela te retorna em breve. Até lá, não consigo indicar remédio por aqui. Se a dor não der trégua, procure um pronto-socorro odontológico sem esperar a Dra. A avaliação custa R$ 150 à parte, mas é abatida por inteiro se você fechar o tratamento em até 30 dias. Espero que a dor melhore."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ah entendi, obrigada. Então vou esperar o retorno da Dra então || Mas e se ela não responder até umas 20h? a dor não para, não sei se aguento até quinta kkk. Pode me mandar aqui o endereço do pronto-socorro mais perto? Sou do Batel mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sinto muito que a dor esteja tão forte. Como você não está aguentando, não espere a Dra. Suzana: procure um pronto-socorro odontológico agora. Aqui eu não tenho o endereço de pronto-socorro, mas dá para pesquisar no mapa por pronto-socorro odontológico no Batel e ir ao mais próximo. Vou passar agora para a Dra. Suzana a sua dúvida sobre o retorno, e ela te responde por aqui em breve. Espero que você melhore logo."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Ahh tá bom, então vou procurar no mapa. Obrigada pela ajuda, Clara! Se a Dra. responder antes, me avisa aqui por favor || Ah e pode cancelar a consulta de quinta, acho que vou ter que ver outra coisa primeiro, não quero marcar nada agora"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Vou torcer para essa dor passar logo. Se ela não der trégua, não deixe de ir ao pronto-socorro odontológico. Assim que a Dra. Suzana responder, ela te retorna por aqui. Antes de cancelar, só confirmo: é a avaliação de quinta, 26/11, às 14h, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso mesmo, quinta, 26/11, às 14h. Pode cancelar sim, Clara. Obrigada!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?",
+   "mensagem_do_paciente": "Isso, pode cancelar sim, Clara. Obrigada!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.385,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.96
+     }
+    },
+    "usage": {
+     "input_tokens": 1946,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv14-16": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Yes, please! I'd like an evaluation. Do you have anything available next week? I'm usually free in the afternoons."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Great! Next week I have Tuesday, December 1st, at 2pm, Thursday, December 3rd, at 2pm, or Thursday, December 3rd, at 4pm. Which one works best for you?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Tuesday at 2pm would be best for me, please. Thank you!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "All set, Emily! Your evaluation with Dr. Suzana is booked for Tuesday, December 1st, at 2pm. The clinic is at Rua Desembargador Motta, 2000, room 1404, in Batel, Curitiba. The evaluation costs R$ 150, and this amount is fully credited if you start the treatment within 30 days."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Perfect, thank you Clara! Before Tuesday, I have a question. I'm not sure if I can pay with my international credit card. Do you accept it? ¿Y los pagos en dólares o con tarjeta extranjera, aceptan? Sorry, my Spanish slips out sometimes lol."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Thanks for asking! We accept Pix, credit card, debit card and bank transfer. I'm not sure about international cards, so I'll check with our team and get back to you shortly."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Oh ok, thanks for checking! Also, sorry, one more thing: do you guys also speak Spanish there? Mi español es mejor que mi portugués jaja. Just so I know who I'd be talking to on Tuesday."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Yes, I can also talk with you in Spanish, so use whichever is easier for you. I'm checking with our team whether someone there speaks Spanish, and I'm also confirming the card question. I'll get back to you soon."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Thanks Clara! Ok, no problem. Just let me know about the card, and about whether someone speaks Spanish too. Also, I need to cancel the Tuesday appointment. I'm not sure yet if I'll be able to make it, so I'd rather cancel now than miss it. Can you do that for me?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Of course, Emily. Just to confirm, your evaluation on Tuesday, December 1st, at 2pm, is the one you want to cancel, right? About the international card and Spanish, I'm still checking with our team."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Yes, that's the one, Tuesday, December 1st, at 2pm. Please cancel it. Thanks! And please let me know about the card and the Spanish when you can."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Just to confirm: you would like to cancel your evaluation on Tuesday, Dec 1, at 14:00, correct?"
+    }
+   ],
+   "ultima_fala_da_clara": "Just to confirm: you would like to cancel your evaluation on Tuesday, Dec 1, at 14:00, correct?",
+   "mensagem_do_paciente": "Yes, correct! Please cancel the Tuesday, Dec 1, 2pm evaluation. Thanks, Clara!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.393,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 1580,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv19-08": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Oi, boa tarde! Ainda dá pra marcar aquele horário?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Boa tarde! Aqueles horários que te passei já passaram, Thiago. Tenho quinta, 26/11, às 16h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "aah entendi, sumi faz um tempo kkk. pode ser o de quinta, 26/11 às 16h mesmo. meu nome é Thiago Reis, e o telefone é esse mesmo que tô usando"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Thiago! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Blz, valeu! Mas peraí, acho que n vou conseguir ir nesse dia não. preciso cancelar"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema! Só confirmando: a sua avaliação é quinta, 26/11, às 16h, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso, pode cancelar essa mesma. Obrigado"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "Isso, pode cancelar sim. Valeu!"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.391,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 1226,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "conv19-10": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Oi, boa tarde! Ainda dá pra marcar aquele horário?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Boa tarde! Aqueles horários que te passei já passaram, Thiago. Tenho quinta, 26/11, às 16h, terça, 01/12, às 9h, ou quinta, 03/12, às 9h. Qual fica melhor para você?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "aah entendi, sumi faz um tempo kkk. pode ser o de quinta, 26/11 às 16h mesmo. meu nome é Thiago Reis, e o telefone é esse mesmo que tô usando"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Prontinho, Thiago! Sua avaliação com a Dra. Suzana está marcada para quinta, 26/11, às 16h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias."
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Blz, valeu! Mas peraí, acho que n vou conseguir ir nesse dia não. preciso cancelar"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Sem problema! Só confirmando: a sua avaliação é quinta, 26/11, às 16h, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso, pode cancelar essa mesma. Obrigado"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "Isso, pode cancelar sim. Valeu!"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 16:00, certo?",
+   "mensagem_do_paciente": "Opa, já confirmei! Pode cancelar sim, obrigado."
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.398,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 1312,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-01": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.392,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.13
+     }
+    },
+    "usage": {
+     "input_tokens": 813,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-02": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "Sim, pode cancelar por favor"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.373,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.01
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.99
+     }
+    },
+    "usage": {
+     "input_tokens": 818,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-03": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "isso mesmo"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.389,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.16
+     }
+    },
+    "usage": {
+     "input_tokens": 814,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-04": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "isso é só uma dúvida, pode dizer o preço?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.379,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "outro_assunto",
+      "confidence": 0.8,
+      "probabilities": {
+       "sim_claro": 0.01,
+       "nao": 0.03,
+       "duvida": 0.11,
+       "outro_assunto": 0.85
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.26
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.03
+     }
+    },
+    "usage": {
+     "input_tokens": 823,
+     "output_tokens": 95
+    }
+   }
+  }
+ },
+ "cancelar-05": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, mas quanto custa a limpeza?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.362,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 0.99,
+      "probabilities": {
+       "sim_claro": 0.99,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.01
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.03
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.15
+     }
+    },
+    "usage": {
+     "input_tokens": 820,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-06": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim. aliás, vocês atendem sábado"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.375,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.12
+     }
+    },
+    "usage": {
+     "input_tokens": 821,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-07": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "não, quero manter"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.383,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.97
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.02
+     }
+    },
+    "usage": {
+     "input_tokens": 816,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "cancelar-08": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, mas não cancela ainda"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.431,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 0.45,
+      "probabilities": {
+       "sim_claro": 0.59,
+       "nao": 0.11,
+       "duvida": 0.3,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.97
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.27
+     }
+    },
+    "usage": {
+     "input_tokens": 819,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-09": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.377,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "duvida",
+      "confidence": 0.88,
+      "probabilities": {
+       "sim_claro": 0.09,
+       "nao": 0.0,
+       "duvida": 0.91,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.05
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.13
+     }
+    },
+    "usage": {
+     "input_tokens": 814,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "cancelar-10": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "hi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?"
+    }
+   ],
+   "ultima_fala_da_clara": "Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?",
+   "mensagem_do_paciente": "Yes, please cancel it"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.391,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.01
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 819,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-11": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "hi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?"
+    }
+   ],
+   "ultima_fala_da_clara": "Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?",
+   "mensagem_do_paciente": "yes that's right"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.418,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.19
+     }
+    },
+    "usage": {
+     "input_tokens": 818,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-12": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "hola"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Solo para confirmar: ¿quieres cancelar tu evaluación del jueves 19 de noviembre a las 11:00, correcto?"
+    }
+   ],
+   "ultima_fala_da_clara": "Solo para confirmar: ¿quieres cancelar tu evaluación del jueves 19 de noviembre a las 11:00, correcto?",
+   "mensagem_do_paciente": "Sí, cancélala"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.39,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.01
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.97
+     }
+    },
+    "usage": {
+     "input_tokens": 817,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-13": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, esse horário mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, pode cancelar esse horário mesmo"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.419,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.01
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.98
+     }
+    },
+    "usage": {
+     "input_tokens": 896,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-14": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, obrigada"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, claro, pode ser"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.497,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.41
+     }
+    },
+    "usage": {
+     "input_tokens": 895,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-15": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, e o endereço?"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, mas qual o endereço?"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.391,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 1.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.02
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.17
+     }
+    },
+    "usage": {
+     "input_tokens": 897,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-16": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, esse horário mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "sim, mas não cancela ainda"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.39,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "sim_claro",
+      "confidence": 0.45,
+      "probabilities": {
+       "sim_claro": 0.59,
+       "nao": 0.14,
+       "duvida": 0.27,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.97
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.25
+     }
+    },
+    "usage": {
+     "input_tokens": 896,
+     "output_tokens": 94
+    }
+   }
+  }
+ },
+ "cancelar-17": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "oi"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    },
+    {
+     "quem": "Paciente",
+     "texto": "sim, esse horário mesmo"
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?",
+   "mensagem_do_paciente": "não, quero manter"
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.381,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.97
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.3
+     }
+    },
+    "usage": {
+     "input_tokens": 893,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "cancelar-18": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Quero cancelar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Posso cancelar sua avaliação?"
+    }
+   ],
+   "ultima_fala_da_clara": "Posso cancelar sua avaliação?",
+   "mensagem_do_paciente": "Não, quero manter."
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.392,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 1.0,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.97
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.51
+     }
+    },
+    "usage": {
+     "input_tokens": 776,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "cancelar-19": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Quero cancelar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "Your appointment can be canceled."
+    }
+   ],
+   "ultima_fala_da_clara": "Your appointment can be canceled.",
+   "mensagem_do_paciente": "Please keep it."
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.378,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "nao",
+      "confidence": 0.99,
+      "probabilities": {
+       "sim_claro": 0.01,
+       "nao": 0.99,
+       "duvida": 0.0,
+       "outro_assunto": 0.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.96
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.59
+     }
+    },
+    "usage": {
+     "input_tokens": 775,
+     "output_tokens": 93
+    }
+   }
+  }
+ },
+ "cancelar-20": {
+  "state": {
+   "conversa_recente": [
+    {
+     "quem": "Paciente",
+     "texto": "Quero cancelar."
+    },
+    {
+     "quem": "Clara (atendente virtual da clínica)",
+     "texto": "A sua avaliação é quinta, certo?"
+    }
+   ],
+   "ultima_fala_da_clara": "A sua avaliação é quinta, certo?",
+   "mensagem_do_paciente": "Quero saber o preço."
+  },
+  "chamada": {
+   "ok": true,
+   "seg": 0.369,
+   "resp": {
+    "model": "jev-1.14.0",
+    "answers": {
+     "conf": {
+      "type": "choice",
+      "choice": "outro_assunto",
+      "confidence": 1.0,
+      "probabilities": {
+       "sim_claro": 0.0,
+       "nao": 0.0,
+       "duvida": 0.0,
+       "outro_assunto": 1.0
+      }
+     },
+     "nao_ainda": {
+      "type": "noul",
+      "noul": 0.14
+     },
+     "pede_cancelar": {
+      "type": "noul",
+      "noul": 0.75
+     }
+    },
+    "usage": {
+     "input_tokens": 781,
+     "output_tokens": 95
+    }
+   }
+  }
+ }
+}
