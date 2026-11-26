@@ -89,6 +89,22 @@ Regras: números de teste com prefixo `554199900` (nada sai pelo WhatsApp). A ag
 - **Fora do escopo, visto na rodada:** horário cancelado ou disputado fica reservado por 5 minutos: a Clara oferece, recusa ("acabou de ser preenchido") e depois diz que está livre. `#reiniciar` só vale para os números de `numeros_keshion`, não para `554199900`.
 - **Limpeza:** 0 fichas e reservas de teste. Eventos apagados da agenda: Júlia 26/11 16h e Thiago 01/12 14h (rodada interrompida), Elisa 03/12 14h e Fabia 03/12 16h (casos 5 e 6), Thiago 26/11 16h (parte 3). Já existiam antes e ficaram: Luciana 26/11 9h, Bia 26/11 11h, Paula 01/12 11h.
 
+**26/11/2026 (Curitiba, 07h31 a 08h18), correção do cancelar e Jev em modo sombra: PASSOU.** Uma rodada só, sem repetir.
+
+- Antes: saldo US$ 10,86; chave do `.env` = "Keshion-apenas-testes"; nenhuma ficha de teste no banco; `jev_sombra` com 0 linhas.
+- **Parte 1, cancelar.** Conversas e quadro do Jev: `tecnico/teste-ab/cancelar-jev-20261126-casos-manuais.md`.
+  - 1 "Valeu!": **OK.** 1 pergunta, cancelou no "Valeu!", evento fora do Google Agenda, `cancelar_evento` vazio e 0.
+  - 6 três sem decisão: **OK.** 3 perguntas (a inicial e 2 repetições); no "não sei" passou para a equipe com aviso "Chamar uma pessoa" e o dia; evento mantido, ficha com 99. "ok, obrigada" não gerou pergunta nem cancelou. "já falei que pode cancelar" cancelou e a ficha voltou a vazio e 0.
+- **Parte 2, urgência: OK.** 3 de 3 com aviso URGENTE e a frase fixa, sem promessa (07h56 e 07h58 com a clínica fechada; 08h00 aberta). Controles (08h02 e 08h05): nenhum virou URGENTE. "dói pra engolir depois da extração?" gerou "Chamar uma pessoa" e a resposta falou em encaixe hoje e pronto-socorro (como em 25/11).
+- **Parte 3, Júlia (08h08 a 08h18, clínica aberta): nota 6 (era 2), sem loop.** Pediu para cancelar, uma confirmação, "Isso, pode cancelar" cancelou. Sem inglês ou espanhol. Relatório: `paciente-simulado-20261126-130753.md` (nome com o relógio do PC).
+- **Parte 4, Jev: OK.** 25 respostas, 25 linhas, 0 falhas, mediana 237 ms, máximo 291 ms, US$ 0,0014. Os 5 nós "Jev: ..." verdes nas 25 execuções, sempre depois do envio.
+- **A olhar (não reprovou):**
+  - Júlia, 08h13: a Clara perguntou "quer manter ou prefere cancelar?" e a pendência não foi gravada.
+  - Júlia, primeira resposta: "dói? tenho muita sensibilidade" tratado como dor ("melhore logo") e chamou a equipe.
+  - Jev lê "dói pra engolir depois da extração?" como pergunta (0,95): ligar o "dói?" do jeito atual poderia tirar o aviso desse caso.
+  - Jev não opinou em "já falei que pode cancelar" depois da passagem para a equipe: o gatilho exige "?" na última fala da Clara.
+- **Limpeza:** apagadas 7 fichas (finais 701, 702, 711 a 715), 41 saídas, 17 mensagens recebidas e 1 reserva; o 809 o script limpou. Os eventos desta rodada foram cancelados pela própria conversa; agenda conferida, só os 3 que já existiam (Luciana 26/11 9h, Bia 26/11 11h, Paula 01/12 11h). As 25 linhas da `jev_sombra` ficaram.
+
 ## Melhorias nos scripts
 
 1. Criar `teste_rapido.py` (1.1).

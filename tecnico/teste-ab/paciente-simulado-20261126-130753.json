@@ -1,0 +1,102 @@
+[
+ {
+  "paciente": "Júlia (rajada de mensagens)",
+  "tel": "554199900809",
+  "conversa": [
+   [
+    "Paciente",
+    "Bom dia! / Oi, tudo bem? / Queria saber quanto custa o clareamento de dente / Ah e dói? Tenho muita sensibilidade"
+   ],
+   [
+    "Clara",
+    "Bom dia! Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sinto muito pela sensibilidade. Vou passar sua dúvida para a Dra. Suzana, e ela retorna em breve. Espero que você melhore logo."
+   ],
+   [
+    "Paciente",
+    "Ah tá, obrigada / Então quer dizer que eu preciso ver se lente de porcelana não resolve melhor, né? / Tipo, pra ficar bem branco de uma vez / Ai, deixa, pensando de novo, quero só o clareamento mesmo. Vocês têm horário essa semana?"
+   ],
+   [
+    "Clara",
+    "Sobre a lente, só a Dra. Suzana consegue dizer qual opção é a melhor para o seu caso, na avaliação. Tenho hoje, quinta, 26/11, às 14h ou às 16h, ou terça, 01/12, às 9h. Qual desses fica melhor para você?"
+   ],
+   [
+    "Paciente",
+    "Ah, hoje às 14h fica bom / Preciso antes do almoço... não, espera, às 14h então / Mas e a dor, vai doer na avaliação? / Meu nome é Júlia Prado, pode marcar no nome da Júlia Prado / Esse número mesmo, 41 99876-5432"
+   ],
+   [
+    "Clara",
+    "Prazer, Júlia! Prontinho, sua avaliação com a Dra. Suzana está marcada para hoje, quinta, 26/11, às 14h. Fica na Rua Desembargador Motta, 2000, sala 1404, no Batel. A avaliação custa R$ 150, valor abatido se você fechar o tratamento em até 30 dias. Quem explica as sensações e os cuidados de cada etapa é a Dra. Suzana, na própria avaliação."
+   ],
+   [
+    "Paciente",
+    "Ok, anotado / Hoje às 14h então, Batel, sala 1404 / Mas e aí, vai doer na avaliação? Não é nada invasivo né? / Ah, e se eu decidir não fazer nada depois, cobram o R$ 150 mesmo? / Ai, e preciso cancelar, sabe, talvez eu não consiga ir hoje, aí eu cancelo / Melhor eu ver isso depois"
+   ],
+   [
+    "Clara",
+    "Não tem procedimento nenhum na avaliação, é só exame clínico, scanner digital e uma conversa sobre o seu sorriso. Sim, a avaliação custa R$ 150, mas esse valor é abatido se você fechar o tratamento em até 30 dias. Sem pressa para decidir. Você quer manter o horário de hoje, às 14h, ou prefere cancelar?"
+   ],
+   [
+    "Paciente",
+    "Ok, então não dói / Mas vai ter raio-x ou scanner? Ai, esqueci de perguntar / Quero manter sim, acho / Não, espera, se eu não conseguir ir eu cancelo tá? Como faço pra cancelar? / Ou melhor, não cancela ainda, deixa eu ver o trânsito"
+   ],
+   [
+    "Clara",
+    "Sem problema, pode ver o trânsito com calma. Por enquanto, seu horário de hoje, às 14h, segue marcado. Sobre o raio-x, ele é feito aqui na clínica, então não precisa trazer nada. O scanner digital também é feito na própria avaliação. Só leve um documento com foto, e exames recentes, se você tiver. Para cancelar, é só me chamar aqui pelo WhatsApp. O ideal é avisar com 24 horas de antecedência, mas, se precisar, avise assim que puder."
+   ],
+   [
+    "Paciente",
+    "Ok, obrigada / Acho que vou cancelar mesmo, o trânsito tá horrível e eu já tô atrasada pra tudo hoje / Pode cancelar pra mim, por favor? Sei que é em cima da hora / Quando eu organizar a semana eu volto a marcar, tá?"
+   ],
+   [
+    "Clara",
+    "Só para confirmar: você quer cancelar a sua avaliação de 26/11 às 14:00, certo?"
+   ],
+   [
+    "Paciente",
+    "Isso, pode cancelar / Desculpa a correria / Obrigada!"
+   ],
+   [
+    "Clara",
+    "Sem problema, Júlia, sua avaliação de hoje, às 14h, foi cancelada. Da próxima vez, se possível, avise com 24 horas de antecedência. Quer que eu veja outro horário para você?"
+   ],
+   [
+    "Paciente",
+    "Não, obrigada, depois eu vejo / Ai, mas quanto era mesmo o clareamento? Tipo, sem a avaliação eu já sei o preço? / Ah e a lente de porcelana, também tem faixa de preço? Porque se for mais barato eu acho que compensa mais / Melhor eu esperar a semana e ver com calma, tá? Tchau!"
+   ],
+   [
+    "Clara",
+    "O clareamento fica entre R$ 900 e R$ 1.400. As lentes ficam entre R$ 1.800 e R$ 2.600 por dente. Quando quiser, é só me chamar aqui. Tenha um bom dia!"
+   ]
+  ],
+  "avisos": [
+   "*Chamar uma pessoa* · Paciente: Teste (554199900809) · Mensagem: Bom dia! · Oi, tudo bem? · Queria saber quanto custa o clareamento de dente · Ah e dói? Tenho muita sensibilidade · Motivo: Paciente relatou muita sensibilidade e perguntou se o clareamento dói. Passar para a Dra. Suzana. Clínica aberta. ·  · O que a Clara respondeu: · Bom dia! Aqui é a Clara, assistente da clínica da Dra. Suzana. O clareamento fica entre R$ 900 e R$ 1.400. O valor exato a Dra. Suzana define na avaliação, porque depende de cada caso. Sinto muito pela sensibilidade. Vou passar sua dúvida para a Dra. Suzana, e ela retorna em breve. Espero que você melhore logo.",
+   "*Nova avaliação marcada* · Avaliação · Júlia Prado · clareamento · Quando: 26/11 às 14:00 · Paciente: Júlia (554199900809) · Nome completo: Júlia Prado · Telefone de contato: 41998765432",
+   "*Avaliação cancelada* · 26/11 às 14:00 · Paciente: Júlia (554199900809)"
+  ],
+  "ficha": "nome=Júlia nome_completo=Júlia Prado tel_contato=41998765432 avaliacao=-",
+  "limpeza": "nenhuma avaliação sobrando",
+  "avaliacao": {
+   "nota": 6,
+   "objetivo_atingido": true,
+   "problemas": [
+    "Erro de fato na agenda: às 08:18 de quinta, 26/11, ofereceu 'hoje' às 14h e 16h. Isso é possível pela base (quinta tem 14h e 16h), mas a Clara não disse 'hoje, assim que a clínica abrir'. Como a clínica já está aberta às 8h18, essa parte não foi um erro.",
+    "Na primeira resposta, tratou a pergunta 'dói? tenho muita sensibilidade' como caso de dor e escalou para a Dra. Suzana com 'Espero que você melhore logo'. A base manda responder 'dói?' sozinha, explicando que a Dra. Suzana esclarece na avaliação. A sensibilidade citada, porém, justifica avisar a Dra. Suzana por ser assunto de tratamento. Mas 'melhore logo' soa como se a paciente estivesse com dor atual, o que é impreciso.",
+    "Afirmou 'Não tem procedimento nenhum na avaliação' e depois 'então não dói'. A primeira frase é razoável, mas o tom se aproxima de uma promessa de ausência de dor. Também confirmou o raio-x como feito na clínica sem ressalva. A base diz que as radiografias são feitas lá, então isso está correto.",
+    "Na marcação, não pediu nome completo e telefone antes. A paciente forneceu ambos espontaneamente, mas a Clara marcou 'Prontinho' sem confirmar o telefone ou o nome com ela. Também disse 'Sem pressa para decidir', o que é aceitável.",
+    "Quando a paciente perguntou 'se eu decidir não fazer nada depois, cobram o R$ 150 mesmo?', a Clara respondeu 'Sim' com o abatimento, o que é correto. Mas ela não esclareceu o ponto do cancelamento (se há cobrança ao cancelar em cima da hora). Não há cobrança na base para cancelamento, só para falta sem aviso. Foi uma oportunidade perdida.",
+    "Na dúvida da lente de porcelana ('compensa mais se for mais barato'), a Clara só passou as faixas, sem reforçar que o valor exato depende da avaliação. Também não ofereceu a avaliação sem compromisso. O fechamento ficou seco.",
+    "Mensagem final repete preços sem a ressalva obrigatória: 'o valor exato é definido pela Dra. Suzana na avaliação'. Isso viola a regra da base ao informar faixa.",
+    "Tom um pouco robótico e pouco espelhado: a paciente escreve solta ('tô', 'pra', 'tá'), e a Clara respondeu em tom neutro, sem 'pra', 'tá' ou 'a gente'."
+   ],
+   "pontos_bons": [
+    "Informou corretamente a faixa do clareamento (R$ 900 a R$ 1.400) e das lentes (R$ 1.800 a R$ 2.600 por dente).",
+    "Pediu confirmação clara antes de cancelar ('Só para confirmar...') e só cancelou depois do 'Isso, pode cancelar'.",
+    "Manteve o horário quando a paciente hesitou ('não cancela ainda'), sem cancelar por conta própria.",
+    "Não deu diagnóstico sobre lente x clareamento e remeteu à Dra. Suzana na avaliação.",
+    "Os avisos para a equipe foram gerados: Dra. Suzana avisada sobre a sensibilidade, nova avaliação e cancelamento registrados corretamente.",
+    "Informou o endereço completo e o que levar, além de explicar como cancelar e o prazo de 24 horas."
+   ],
+   "espelhamento": "Parcial: a Clara manteve um tom cordial e neutro, quase formal, enquanto a Júlia escrevia de forma solta e hesitante, e quase não usou 'pra', 'tá' ou 'a gente'."
+  }
+ }
+]
