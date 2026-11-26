@@ -1,6 +1,6 @@
 # Retomar aqui (Keshion · automações da Clara)
 
-Atualizado em 24/11/2026. Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
+Atualizado em 26/11/2026. Ler só este arquivo para começar; abrir os outros só quando a tarefa pedir.
 Histórico completo até 20/11 (pacotes A a D, resultados de cada rodada, custos): `arquivo/tecnico/RETOMAR-AQUI-ate-2026-11-20.md`.
 
 ## Onde estamos
@@ -21,9 +21,34 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 | Testes | lista e registro de rodadas em `tecnico/testes-checklist.md`; scripts em `tecnico/teste-ab/`. Números com prefixo `554199900` nunca saem pelo WhatsApp. **Um teste por vez e só na conversa de testes da Erica** |
 | Backup | todo dia às 03h, criptografado, no Google Drive da conta da demo (30 dias). Resultado em `/opt/keshion/backups/STATUS-BACKUP.txt`. Restauração: `tecnico/servidor-n8n.md`, seção Backup |
 
-## Teste do Pacote E, parte 1 (25/11, noite): cancelar NÃO passou
+## 26/11, 07h22 do servidor: correção do cancelar e Jev em modo sombra publicados (demo e clínica de teste)
 
-Casos 1 ("Valeu!") e 6 (passar para a equipe) falharam; a Júlia ficou em loop (nota 2). Urgência: aviso URGENTE nas 3, sem a resposta fixa. Detalhes e causas: `tecnico/testes-checklist.md`, rodada de 25/11. **Próximo passo:** corrigir a pendência do cancelar (gravar também quando a IA pergunta sozinha; aceitar "sim" com outra pergunta junto; não recomeçar o ciclo depois de passar para a equipe) e repetir os casos 1 e 6 e a Júlia.
+O "Jeito 1" aprovado pela Erica em 26/11: uma publicação só e um teste só. **Teste rodado em 26/11 (07h31 a 08h18): passou** (casos 1 e 6, 3 urgências, 2 controles, Júlia sem loop com nota 6, Jev 25 de 25). Registro em `tecnico/testes-checklist.md`; conversas e quadro do Jev em `tecnico/teste-ab/cancelar-jev-20261126-casos-manuais.md`. **Próximo:** commit do Pacote E e do Jev (conversa técnica, com OK) e revisão do Codex.
+- **A olhar:** pendência não gravada quando a Clara pergunta "manter ou cancelar?"; Júlia com "dói? + sensibilidade" tratado como dor; "dói pra engolir depois da extração?" ainda promete encaixe, e o Jev lê como pergunta (não ligar o "dói?" sem ajustar); Jev não opina no cancelar quando a última fala da Clara não tem "?".
+
+- **O que entrou** ("Decidir a ação" em `tecnico/n8n/gerar_fluxos.py`):
+  - (a) a pendência do cancelar é gravada também quando a própria IA pergunta com a ação `responder` ("é a de terça, 01/12, às 9h, certo?"). Dúvida sobre a regra ("com quanto tempo de antecedência?") não abre pendência;
+  - (b) "sim", "isso", "já confirmei / já falei / já disse" e "pode cancelar" valem mesmo com outra pergunta junto. "não sei" e "ainda não sei" contam como dúvida, não como "manter". "prefiro reagendar" ou "outro horário" não cancelam e limpam a pendência. "não cancele não, pode deixar marcado" mantém;
+  - (c) na 3ª resposta sem decisão, a equipe assume e a ficha fica "com a equipe" (`cancelar_tentativas = 99`), sem apagar. A Clara não volta a perguntar; só um pedido firme ("cancela aí") cancela; vale 24 h;
+  - (d) urgência: a resposta fixa sai sempre, também quando a IA já tinha escolhido "humano". Para engolir, respirar e falta de ar, manda ao pronto-socorro ou 192. Sem promessa de encaixe;
+  - Jev em modo sombra ligado no gerador (bloco do `PLANO-JEV-SOMBRA.md`). Só a demo e a clínica de teste têm a credencial `typesafe`. A pergunta do cancelar para o Jev agora também liga com a pendência na ficha.
+- **Testes locais:** `teste_pacote_c.js` 118 de 118 (demo e clínica de teste), `teste_pacote_a.js` 42 de 42, `teste_validacao_data_hora.js` 61 e 32, `teste_jev_sombra.js` 43 de 43. Para o do Jev: `python gerar_fluxos.py clinica-demo`, depois com `--jev-teste` e com `--sem-jev` (novo em 26/11: a demo já tem a credencial).
+- **No servidor:** `ClaraAtendimento` e `TesteAtendimento` com `active` true, 5 nós do Jev e log sem erro. O envio não mudou e não foi publicado. Tabela `jev_sombra` com 0 linhas nos dois bancos antes do teste; 25 linhas na demo depois dele (não apagar, são a comparação).
+- **Voltar atrás:** reimportar `/opt/keshion/versoes/clinica-demo/ClaraAtendimento-20261126-0722.json` e `/opt/keshion/versoes/clinica-teste/TesteAtendimento-20261126-0722.json` (import e publish, sem reiniciar).
+- **Commits (o teste passou; falta o OK):** dois, um do Pacote E e um do Jev. Código ainda não commitado.
+- Histórico: o teste de 25/11 à noite falhou nos casos 1 e 6 e na Júlia (detalhes em `tecnico/testes-checklist.md`, rodada de 25/11).
+
+## Decisões da Erica em 26/11, depois do teste (ainda NÃO implementadas)
+
+Prompt pronto para a conversa técnica: `tecnico/n8n/PROMPT-TECNICA-26-11-dor-encaixe-cancelar.md`.
+
+1. **Sem oferta de encaixe.** Reclamação de dor vai direto para a Dra. Suzana, sem falar em encaixe. A Clara pode pedir mais informação ao paciente. Mudar a base (parte 11, linha do "encaixe ainda hoje") e a instrução I.
+2. **"Dói?" não é "estou com dor".** Pergunta se um procedimento dói: responder com texto da base (a escrever e aprovar com a dentista). "Estou com dor" ou "está doendo": dor, vai para a Dra. Vale o que a pessoa está sentindo, não a palavra: "dói pra engolir depois da extração?" é queixa.
+3. **Sem "melhore logo" automático** (instrução H). Para dor: "Puxa, sinto muito. Vou passar sua mensagem para a Dra. Suzana."
+4. **Cancelamento: uma confirmação só**, com dia e hora; "sim" cancela e a Clara avisa, sem perguntar de novo. A Clara não oferece cancelar se o paciente não pediu (visto na Júlia: "manter ou prefere cancelar?"). Hoje ela só acha consulta que ela mesma marcou (ficha); procurar na agenda seria função nova, a avaliar.
+5. **Jev fica em modo sombra até quinta, 03/12**, sem mudar o que está no ar. Estudar uma lista de regras (critérios e cortes) e testá-la à parte, na bancada. Só junta dados se houver conversa na demo.
+
+**Em aberto:** "Valeu!" continua contando como "sim" no cancelar? (Pela regra 4, talvez não devesse. Fica como está até a Erica decidir.)
 
 ## O que já existe (resumo)
 
@@ -31,11 +56,12 @@ Servidor seguro e backup externo; Clara no n8n com fila, ficha, Google Agenda (m
 
 ## Pendente agora, nesta ordem
 
-1. **Antes de 26/11 (operação):** publicar o app do Google (`tecnico/servidor/PASSO-A-PASSO-ERICA-GOOGLE-OAUTH.md`) ou reconectar o Google Agenda no n8n. A autorização atual, dada em 19/11, vence por volta de 26/11.
+1. **Google Agenda (operação):** a Erica reconectou o Google Agenda no n8n em 25/11, por mais 7 dias (vence por volta de **02/12**, logo no começo do piloto de 01/12). **Lembrar a Erica em 30/11** de publicar o app do Google ("Em produção") e reconectar uma última vez, antes de vencer: `tecnico/servidor/PASSO-A-PASSO-ERICA-GOOGLE-OAUTH.md`. Falta também ela apagar à mão os eventos de teste que sobraram na agenda (finais 801 e 805, em 26/11 e 01/12 às 11h, e dois com texto "teste" ou "Codex").
 2. **Teste ao vivo do Pacote C: rodado em 24/11** (registro em `tecnico/testes-checklist.md`). Passou: urgência, horário negado, pausa humana, espera de 20 s, ordem, alinhador R$ 150, 56 de 56 mensagens. **Falta o caso 11 (áudio WAV e Ogg)**: precisa do arquivo de áudio do Codex hospedado no Whapi. Média dos 22 perfis **6,64** (abaixo de 7,05 a 7,32 das rodadas anteriores).
-3. **URGENTE, nova correção do "cancelar":** a correção de 23/11 não cobre o caso em que a pergunta da IA ("é a avaliação de ..., certo?") não tem a palavra "cancelar": o fluxo pergunta de novo e, em alguns perfis, fica em loop (Bia e Sandra com nota 2, nunca cancelaram; Thiago, Júlia e Emily repetiram). Corrigir, publicar sem reiniciar o n8n e repetir os perfis Bia, Sandra, Thiago, Júlia e Emily. Também no radar: caso 8 (dúvida geral de clareamento e gengiva vai para a equipe), Diego (não oferece horário para remarcar) e Dona Lourdes (não diz que a clínica não faz implante nem dentadura; promete retorno depois das 17h). Revisão do Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`) sobre o Pacote C, o cancelar e as correções de 24/11.
-4. **Com OK:** instalar no servidor o `backup-postgres.sh` novo (Pacote D1). Teste: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md`.
-5. **Com OK, antes do 1º piloto:** passar a demo e a clínica de teste para o usuário `_app` do banco (B7).
+3. **Pacote E, parte 1, publicada em 25/11 às 09h26 (demo e clínica de teste); correção do cancelar publicada em 26/11 (bloco acima):** cancelar com a pendência guardada na ficha, urgência (engolir, respirar, falta de ar) e só português. Teste: `tecnico/teste-ab/PROMPT-TESTE-25-11-pacote-e-cancelar.md`. As próximas partes estão em `tecnico/n8n/PLANO-PACOTE-E.md` (Diego, base, tom, espera, juíza). **O teste de 26/11 passou.** Histórico do problema: **correção do "cancelar":** a correção de 23/11 não cobre o caso em que a pergunta da IA ("é a avaliação de ..., certo?") não tem a palavra "cancelar": o fluxo pergunta de novo e, em alguns perfis, fica em loop (Bia e Sandra com nota 2, nunca cancelaram; Thiago, Júlia e Emily repetiram). Corrigir, publicar sem reiniciar o n8n e repetir os perfis Bia, Sandra, Thiago, Júlia e Emily. Também no radar: caso 8 (dúvida geral de clareamento e gengiva vai para a equipe), Diego (não oferece horário para remarcar) e Dona Lourdes (não diz que a clínica não faz implante nem dentadura; promete retorno depois das 17h). Revisão do Codex (`tecnico/n8n/PROMPT-CODEX-REVISAO.md`) sobre o Pacote C, o cancelar e as correções de 24/11.
+4. **Jev em modo sombra: publicado em 26/11, às 07h22 do servidor, na demo e na clínica de teste** (junto com a correção do cancelar; ver o bloco de 26/11 acima). Plano: `tecnico/n8n/PLANO-JEV-SOMBRA.md`. O Jev opina em cada resposta e o fluxo só grava na tabela `jev_sombra`; quem decide continua sendo a regra de hoje. Código em `tecnico/n8n/jev_sombra.py`, tabela em `tecnico/n8n/jev-sombra.sql`, comparação em `tecnico/jev-bancada/comparar_sombra.py`. No servidor: `TYPESAFE_API_KEY` no `/opt/keshion/.env`, credencial `typesafejev00001`. O primeiro quadro "a Clara fez X, o Jev faria Y" saiu no teste de 26/11 (urgência igual nos 5 casos; no cancelar, só o "Valeu!" divergiu). Depois de 1 a 2 semanas de dados, a comparação decide o que ligar de verdade (urgência, depois "dói?" e implante/dentadura, por último o cancelar). **Privacidade (decisão da Erica, 25/11):** risco aceito só com pacientes fictícios (demo e testes). Antes de qualquer clínica com paciente real: contrato ou aceite de tratamento de dados com a TypeSafe, aviso na política de privacidade e, se possível, tirar nome e telefone antes de enviar. Sem isso, o Jev fica desligado para essa clínica (sem a credencial `typesafe` no `clinica.json`). **Lembrar antes de 01/12.**
+5. **Com OK:** instalar no servidor o `backup-postgres.sh` novo (Pacote D1). Teste: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md`.
+6. **Com OK, antes do 1º piloto:** passar a demo e a clínica de teste para o usuário `_app` do banco (B7). Incluir a tabela `jev_sombra` nas permissões do `_app`.
 
 ## Antes do 1º piloto com clínica conhecida (até 30/11)
 
