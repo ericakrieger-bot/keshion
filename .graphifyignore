@@ -37,3 +37,34 @@ branding/kit/
 
 # Material arquivado (fora de uso; registro em arquivo/LOG.md)
 arquivo/
+
+# Acrescentado em 26/11/2026 para gastar menos na atualização com IA
+# Imagens (logos, ícones, fotos do site)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+
+# PDFs que repetem um arquivo de texto já no mapa
+comercial/apresentacao-clara-dr-william-v-final-para-aprovar.pdf
+comercial/piloto/keshion-piloto-clinicas-v2.pdf
+comercial/sergio/materiais/02-piloto-keshion-para-clinicas.pdf
+comercial/sergio/materiais/03-concorrentes-e-mercado.pdf
+comercial/sergio/materiais/04-mensagens-de-convite-e-respostas.pdf
+comercial/sergio/materiais/05-cliente-ideal-e-jornada.pdf
+pesquisa/analise-competitiva-dia-a-dia.pdf
+
+# Versões antigas e páginas sem conteúdo
+branding/historico/
+site/revisao/
+site/comparar.html
+site/publicar/obrigado.html
+site/publicar/robots.txt
+
+# Transcrições de teste, prompts e saída bruta
+tecnico/teste-ab/*-casos-manuais.md
+tecnico/teste-ab/PROMPT-*.md
+tecnico/n8n/PROMPT-*.md
+tecnico/jev-bancada/analise.txt
