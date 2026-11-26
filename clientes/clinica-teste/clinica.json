@@ -89,6 +89,11 @@
       "tipo": "postgres",
       "id": "clinicateste0001",
       "nome": "Postgres clinica-teste"
+    },
+    "typesafe": {
+      "tipo": "httpHeaderAuth",
+      "id": "typesafejev00001",
+      "nome": "TypeSafe (Jev)"
     }
   },
   "servidor": "https://n8n.169-58-41-107.sslip.io",

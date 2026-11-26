@@ -40,7 +40,7 @@ Arquivos importantes no servidor:
 
 - `/opt/keshion/docker-compose.yml`: a definição dos três serviços.
 - `/opt/keshion/caddy/Caddyfile`: o endereço e o repasse para o n8n.
-- `/opt/keshion/.env` (permissão 600): endereço, usuário e senha do Postgres, `N8N_ENCRYPTION_KEY`.
+- `/opt/keshion/.env` (permissão 600): endereço, usuário e senha do Postgres, `N8N_ENCRYPTION_KEY`. Desde 25/11/2026 também `TYPESAFE_API_KEY` (Jev em modo sombra; a mesma chave está na credencial "TypeSafe (Jev)" do n8n, id `typesafejev00001`: se trocar a chave, trocar nos dois).
 - `/opt/keshion/backup-postgres.sh`: backup.
 
 Configuração do n8n: banco Postgres, `N8N_HOST` e `WEBHOOK_URL` com o endereço acima, `N8N_PROXY_HOPS=1` (atrás do Caddy), estatísticas de uso desligadas.
