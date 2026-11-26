@@ -22,3 +22,6 @@ tecnico/n8n/gerados/
 
 # Mapa gerado pelo Graphify (refazer com graphify update)
 graphify-out/
+
+# Cópia dos arquivos de trabalho do Codex que estavam no OneDrive: só no computador
+arquivo/codex/onedrive/

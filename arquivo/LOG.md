@@ -109,3 +109,7 @@ Também em 22/11:
 - `tecnico/feature-requests.md` (18/11) → `arquivo/tecnico/feature-requests-2026-11-18.md`. A ideia viva (recontato de quem faltou e de quem está sem voltar) passou para a seção "Depois" do `tecnico/RETOMAR-AQUI.md`.
 - `tecnico/PROMPT-CONEXAO-CLARA-APP.md` ficou: a conexão Clara e app ainda é feature futura (app na semana 3).
 - `pesquisa/concorrentes-odonto.html` e `pesquisa/comparacao-nichos.html` (11/10, voltados à estética) → `arquivo/pesquisa-2026-10/` (valem `pesquisa/analise-competitiva-dia-a-dia.md` e o PDF 03). Referências corrigidas em `cliente-ideal-e-aprendizado`, `conversa-piloto-dr-william`, `historico-e-estrategia` e na própria análise. Dados brutos ficam em `pesquisa/dados/`.
+
+## 26/11/2026: pasta KESHION do OneDrive (usada pelo Codex)
+
+- `OneDrive\Documentos\ChatGPT\KESHION	ecnico` copiada para `arquivo/codex/onedrive/` (400 arquivos conferidos, sem `__pycache__`). Fica só no computador (fora do Git): pode ter dados de acesso ao servidor. Os originais continuam no OneDrive, com um `AGENTS.md` mandando o Codex trabalhar na pasta do projeto.
