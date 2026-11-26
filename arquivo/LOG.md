@@ -113,3 +113,23 @@ Também em 22/11:
 ## 26/11/2026: pasta KESHION do OneDrive (usada pelo Codex)
 
 - `OneDrive\Documentos\ChatGPT\KESHION	ecnico` copiada para `arquivo/codex/onedrive/` (400 arquivos conferidos, sem `__pycache__`). Fica só no computador (fora do Git): pode ter dados de acesso ao servidor. Os originais continuam no OneDrive, com um `AGENTS.md` mandando o Codex trabalhar na pasta do projeto.
+
+## 26/11/2026: arquivos que já saíram de uso (aprovado pela Erica)
+
+| De | Para |
+|---|---|
+| `tecnico/MIGRACAO-N8N-LEIA-PRIMEIRO.md` | `arquivo/tecnico/MIGRACAO-N8N-LEIA-PRIMEIRO.md` |
+| `clientes/clinica-demo/roteiro-teste-respostas.md` | `arquivo/make/roteiro-teste-respostas.md` |
+| `guia-tecnico-e-mercado.html` | `arquivo/pesquisa-2026-10/guia-tecnico-e-mercado.html` |
+| `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-c.md` | `arquivo/testes-2026-11/PROMPT-TESTE-19-11-pacote-c.md` |
+| `tecnico/teste-ab/PROMPT-TESTE-20-11-pacote-c-rodada-completa.md` | `arquivo/testes-2026-11/PROMPT-TESTE-20-11-pacote-c-rodada-completa.md` |
+| `tecnico/teste-ab/PROMPT-TESTE-24-11-erros-demo.md` | `arquivo/testes-2026-11/PROMPT-TESTE-24-11-erros-demo.md` |
+| `tecnico/teste-ab/paciente-simulado-20261126-001039.md` | `arquivo/testes-2026-11/paciente-simulado-20261126-001039.md` |
+| `tecnico/teste-ab/paciente-simulado-20261126-001039.json` | `arquivo/testes-2026-11/paciente-simulado-20261126-001039.json` |
+| `tecnico/teste-ab/paciente-simulado-20261126-130753.md` | `arquivo/testes-2026-11/paciente-simulado-20261126-130753.md` |
+| `tecnico/teste-ab/paciente-simulado-20261126-130753.json` | `arquivo/testes-2026-11/paciente-simulado-20261126-130753.json` |
+| `tecnico/teste-ab/teste-n8n-resultado-20261124-pacote-c.json` | `arquivo/testes-2026-11/teste-n8n-resultado-20261124-pacote-c.json` |
+| `tecnico/teste-ab/cancelar-jev-20261126-casos-manuais.md` | `arquivo/testes-2026-11/cancelar-jev-20261126-casos-manuais.md` |
+| `tecnico/teste-ab/pacote-e-parte1-20261125-casos-manuais.md` | `arquivo/testes-2026-11/pacote-e-parte1-20261125-casos-manuais.md` |
+
+Ficaram em uso: `PROMPT-TESTE-19-11-pacote-d.md` (teste do backup ainda pendente) e `paciente-simulado-20261124-214610` (a bancada do Jev lê o `.json`).

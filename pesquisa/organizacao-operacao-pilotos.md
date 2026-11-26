@@ -36,7 +36,7 @@ Com 3 clínicas, o problema não é volume, e sim **lugar demais e coisa desatua
 
 ### C. Reinstalar o Hermes
 
-- **O que é:** o Hermes Agent (da Nous Research) é um agente de código aberto que roda num servidor e conversa pelo Telegram, WhatsApp, Slack ou e-mail, com memória própria e conexão a MCP. Rodava no servidor da Contabo e foi apagado na reinstalação de novembro (`tecnico/MIGRACAO-N8N-LEIA-PRIMEIRO.md`).
+- **O que é:** o Hermes Agent (da Nous Research) é um agente de código aberto que roda num servidor e conversa pelo Telegram, WhatsApp, Slack ou e-mail, com memória própria e conexão a MCP. Rodava no servidor da Contabo e foi apagado na reinstalação de novembro (`arquivo/tecnico/MIGRACAO-N8N-LEIA-PRIMEIRO.md`).
 - **O que resolve:** conversar com um agente pelo celular, a qualquer hora, mesmo com o computador desligado.
 - **O que ele não resolve:** o Hermes é **outro agente**, não os agentes do Claude Code. Ele não enxerga a pasta do projeto, o PM, os especialistas nem as regras do `CLAUDE.md`, a menos que alguém monte tudo de novo nele. Seriam dois cérebros para manter em dia.
 - **Custo:** o programa é grátis, mas precisa de uma chave de IA paga por uso e de um servidor. No servidor da Clara **não recomendo**: um agente com acesso ao terminal no mesmo lugar dos dados das clínicas é risco de segurança e de LGPD. Um servidor separado custa poucos euros por mês.

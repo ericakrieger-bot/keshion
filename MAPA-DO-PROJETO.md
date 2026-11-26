@@ -21,10 +21,10 @@ Quando dois documentos discordarem, vale o desta tabela.
 | Código do app | `app/LEIA-ME.md` e `app/web/` | |
 | Como a Clara está montada | `tecnico/n8n/LEIA-ME.md` | Clínica nova: `tecnico/n8n/CLINICA-NOVA.md` |
 | Servidor, backup e restauração | `tecnico/servidor-n8n.md` | Passo a passo da Erica em `tecnico/servidor/` |
-| Testes | `tecnico/testes-checklist.md` | Prompts em uso: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md` e `PROMPT-TESTE-20-11-pacote-c-rodada-completa.md` |
+| Testes | `tecnico/testes-checklist.md` | Prompt ainda pendente: `tecnico/teste-ab/PROMPT-TESTE-19-11-pacote-d.md` |
 | Revisão do Codex | `tecnico/n8n/PROMPT-CODEX-REVISAO.md` | Última revisão e plano aberto: `tecnico/n8n/codex-19-11/` |
 | Site | `site/DECISOES.md` e `site/copy-v4.html` | Design: `site/design-v1.html` |
-| Pesquisa de mercado | `pesquisa/` (concorrentes, nichos, análise competitiva de 22/11, red team de 22/11, organização da operação dos pilotos de 22/11) | `guia-tecnico-e-mercado.html` é de 04/10, só referência |
+| Pesquisa de mercado | `pesquisa/` (concorrentes, nichos, análise competitiva de 22/11, red team de 22/11, organização da operação dos pilotos de 22/11) | `arquivo/pesquisa-2026-10/guia-tecnico-e-mercado.html` é de 04/10, só referência |
 | Histórico das decisões | `historico-e-estrategia.md` | Só para consultar o porquê de uma decisão |
 | Roadmap, tarefas, decisões e daily | **Notion** (página KESHION AI), mantido pelo agente `project-manager` | Nada de roadmap em arquivo na pasta |
 | Agentes (PM e especialistas) | `.claude/agents/` | |

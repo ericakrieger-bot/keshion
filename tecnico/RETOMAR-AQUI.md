@@ -23,7 +23,7 @@ A Clara (assistente de WhatsApp da clínica demo da Dra. Suzana) **roda no n8n p
 
 ## 26/11, 07h22 do servidor: correção do cancelar e Jev em modo sombra publicados (demo e clínica de teste)
 
-O "Jeito 1" aprovado pela Erica em 26/11: uma publicação só e um teste só. **Teste rodado em 26/11 (07h31 a 08h18): passou** (casos 1 e 6, 3 urgências, 2 controles, Júlia sem loop com nota 6, Jev 25 de 25). Registro em `tecnico/testes-checklist.md`; conversas e quadro do Jev em `tecnico/teste-ab/cancelar-jev-20261126-casos-manuais.md`. **Próximo:** commit do Pacote E e do Jev (conversa técnica, com OK) e revisão do Codex.
+O "Jeito 1" aprovado pela Erica em 26/11: uma publicação só e um teste só. **Teste rodado em 26/11 (07h31 a 08h18): passou** (casos 1 e 6, 3 urgências, 2 controles, Júlia sem loop com nota 6, Jev 25 de 25). Registro em `tecnico/testes-checklist.md`; conversas e quadro do Jev em `arquivo/testes-2026-11/cancelar-jev-20261126-casos-manuais.md`. **Próximo:** commit do Pacote E e do Jev (conversa técnica, com OK) e revisão do Codex.
 - **A olhar:** pendência não gravada quando a Clara pergunta "manter ou cancelar?"; Júlia com "dói? + sensibilidade" tratado como dor; "dói pra engolir depois da extração?" ainda promete encaixe, e o Jev lê como pergunta (não ligar o "dói?" sem ajustar); Jev não opina no cancelar quando a última fala da Clara não tem "?".
 
 - **O que entrou** ("Decidir a ação" em `tecnico/n8n/gerar_fluxos.py`):
