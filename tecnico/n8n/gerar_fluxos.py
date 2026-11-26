@@ -292,17 +292,18 @@ E.link("Enviar pelo WhatsApp (digitando)", "Avisar a Keshion da falha", out=1)
 E.link("Avisar a Keshion da falha", "Esperar a mensagem sair")
 E.link("Esperar a mensagem sair", "Uma por vez")
 
-# Trecho comum (Pacote A, 18/11): idioma da paciente, frases fixas em pt/en/es e palavras de urgência.
+# Trecho comum (Pacote A, 18/11; só português desde 25/11): frases fixas e palavras de urgência.
 # Entra no começo dos nós "Decidir a ação", "Falha técnica: avisar" e "Resultado · ...".
 COMUM_JS = r"""
 const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 // Urgência: sempre gera aviso novo para a equipe (nunca fica escondida como "complemento").
-const URGENCIA = /sangr|bleed|inchad|inchac|swell|hinchad|hinchaz|febre|fever|fiebre|dor (muito )?forte|muita dor|dor insuport|severe pain|lot of pain|mucho dolor|dolor (muy )?fuerte|\bpus\b|desmai|fainted|passed out/;
+// Pacote E (25/11, Codex item 1): engolir, respirar, falta de ar e abrir a boca também.
+const URGENCIA = /(nao )?(consigo|consegue|conseguindo|dificuldade (para|de|pra|em)|dif[ií]cil|doi (para|pra|ao)) (engolir|respirar|abrir a boca)|falta de ar|sem ar\b|garganta (fechando|inchad)|sangr|bleed|inchad|inchac|swell|hinchad|hinchaz|febre|fever|fiebre|dor (muito )?forte|muita dor|dor insuport|severe pain|lot of pain|mucho dolor|dolor (muy )?fuerte|\bpus\b|desmai|fainted|passed out/;
 // C3 (19/11): urgência vale para qualquer ação da IA e também para pergunta ("estou sangrando, o que faço?"),
 // mas não quando há negação ("não estou com febre", "no tengo fiebre", "I don't have a fever") nem quando é só dúvida
 // geral ("clareamento faz a gengiva sangrar?": sem relato em primeira pessoa e sem "o que faço").
 const NEGACAO = /(?:^|\s)(?:nao|nunca|sem|nem|ni|not|never|without|(?:do|does|did|have|has|is|are|was|were)n'?t|no(?=\s+(?:tengo|tiene|tienes|estoy|esta|hay|siento|he|ha|presento|fever|bleeding|swelling|pus|pain|signs?)))(?:\s+[a-z']+){0,3}\s*$/;
-const RELATO = /\b(estou|estoy|minha|meu|meus|minhas|comecei|comecou|ficou|fiquei|agora|ontem|desde|i'?m|i am|i have|i'?ve|i got|i fainted|my|started|now|since|tengo|mi|mis|empece|empezo|ahora|hace)\b|\b(to|ta|esta) (com|sangr\w*|inchad\w*|sentindo)\b/;
+const RELATO = /\b(estou|estoy|minha|meu|meus|minhas|comecei|comecou|ficou|fiquei|agora|ontem|desde|i'?m|i am|i have|i'?ve|i got|i fainted|my|started|now|since|tengo|mi|mis|empece|empezo|ahora|hace)\b|\b(to|ta|esta) (com|sangr\w*|inchad\w*|sentindo)\b|\bconsigo\b|\bfalta de ar\b/;
 const PEDE_AJUDA = /o que (eu )?faco|what (should )?i do|que hago|que debo hacer|help|ajuda|ayuda/;
 function ehUrgente(texto) {
   const t = norm(texto);
@@ -313,18 +314,6 @@ function ehUrgente(texto) {
   }
   if (!achou) return false;
   return !t.includes('?') || RELATO.test(t) || PEDE_AJUDA.test(t);
-}
-// Idioma quando a IA não informou: conta palavras típicas; empate ou nada = português.
-function detectaIdioma(t) {
-  return 'pt';   // 24/11: a assistente fala só português; o resto abaixo fica sem uso até a limpeza do código
-  const s = ' ' + norm(t) + ' ';
-  const n = re => (s.match(re) || []).length;
-  const en = n(/\b(the|you|your|my|is|are|can|could|would|please|thanks|thank|yes|hello|hi|appointment|what|how|when|tomorrow|today|want|need|have|i'?m|it'?s|book|cancel)\b/g);
-  const es = n(/\b(usted|quiero|quisiera|puedo|gracias|hola|cita|manana|hoy|tengo|necesito|estoy|muy|pero|donde|cuanto|cuando|tambien|buenos|buenas|si|una|el|los|las|es|con|para mi)\b/g);
-  const pt = n(/\b(voce|quero|queria|posso|obrigad[oa]|oi|ola|amanha|hoje|tenho|preciso|estou|muito|mas|onde|quanto|quando|tambem|bom dia|boa tarde|sim|nao|uma|o|os|as|e|com|do|da|pra)\b/g);
-  if (en > pt && en >= es) return 'en';
-  if (es > pt && es > en) return 'es';
-  return 'pt';
 }
 const FRASES = {
   pt: { espera: 'Só um instante, vou verificar aqui e já te retorno.',
@@ -340,46 +329,19 @@ const FRASES = {
     dados: ['Para confirmar, me passa seu nome completo e um telefone de contato?', 'Pode ser este mesmo número.'],
     conf_cancelar: t => 'Só para confirmar: você quer cancelar a sua avaliação de ' + t + ', certo?',
     mantida: t => 'Combinado, sua avaliação de ' + t + ' continua marcada.',
-    urgencia: 'Sinto muito que você esteja assim. Já avisei a nossa equipe agora para falar com você o quanto antes. Se piorar muito, procure um pronto atendimento.' },
-  en: { espera: 'Just a moment, I will check this and get back to you.',
-    ja_marcada: t => ['I see you already have an evaluation scheduled for ' + t + '.', 'Would you like to keep it or change it to another time?'],
-    sem_avaliacao: 'I will check your evaluation here and get back to you.',
-    sem_agenda: 'I will check the schedule and get back to you with the available times.',
-    ocupado: "I'm sorry, that time has just been taken.",
-    invalido: 'That time is not available for an evaluation.',
-    outras: 'Would you like me to check other options for you?',
-    formato: "I couldn't identify the exact date.",
-    formato2: 'Could you confirm the day and month, for example Nov 19, and the time?',
-    equipe: 'I will ask our team to confirm this time with you and get back to you.',
-    dados: ['To confirm, could you send me your full name and a contact phone number?', 'It can be this same number.'],
-    conf_cancelar: t => 'Just to confirm: you would like to cancel your evaluation on ' + t + ', correct?',
-    mantida: t => 'Sure, your evaluation on ' + t + ' is still scheduled.',
-    urgencia: "I'm sorry you are going through this. I have alerted our team right now so someone can reach you as soon as possible. If it gets much worse, please go to an urgent care." },
-  es: { espera: 'Un momento, voy a verificarlo y ya te respondo.',
-    ja_marcada: t => ['Veo que ya tienes una evaluación agendada para el ' + t + '.', '¿Prefieres mantener ese horario o cambiarlo por otro?'],
-    sem_avaliacao: 'Voy a verificar tu evaluación y ya te respondo.',
-    sem_agenda: 'Voy a revisar la agenda y ya te respondo con los horarios.',
-    ocupado: 'Lo siento, ese horario se acaba de ocupar.',
-    invalido: 'Ese horario no está disponible para evaluación.',
-    outras: '¿Quieres que busque otras opciones para ti?',
-    formato: 'No logré identificar la fecha exacta.',
-    formato2: '¿Me confirmas el día y el mes, por ejemplo 19 de noviembre, y la hora?',
-    equipe: 'Voy a pedirle al equipo que confirme este horario contigo y ya te respondo.',
-    dados: ['Para confirmar, ¿me pasas tu nombre completo y un teléfono de contacto?', 'Puede ser este mismo número.'],
-    conf_cancelar: t => 'Solo para confirmar: ¿quieres cancelar tu evaluación del ' + t + ', correcto?',
-    mantida: t => 'De acuerdo, tu evaluación del ' + t + ' sigue agendada.',
-    urgencia: 'Lamento que estés así. Ya avisé a nuestro equipo ahora para que hablen contigo lo antes posible. Si empeora mucho, acude a urgencias.' }
+    conf_cancelar_curta: t => 'E sobre a sua avaliação de ' + t + ': posso cancelar?',
+    equipe_cancelar: 'Vou pedir para a equipe confirmar o cancelamento com você por aqui, tá bom?',
+    // Pacote E (26/11): depois de passar para a equipe, a assistente não volta a perguntar (Júlia em loop em 25/11).
+    equipe_cancelar_ja: 'A equipe já está vendo o seu cancelamento e confirma com você por aqui, tá bom?',
+    cancelada: t => 'Pronto, a avaliação de ' + t + ' foi cancelada. Quer que eu veja outro horário para você?',
+    remarcar: 'Claro, a gente pode remarcar em vez de cancelar. Quer que eu veja outros horários para você?',
+    // Pacote E (26/11): resposta fixa SEMPRE que a barreira de urgência atua (em 25/11 a IA escreveu o próprio texto e prometeu
+    // encaixe no mesmo dia com a Dra. já fora). Sem promessa de horário nem de quem vai atender.
+    urgencia: 'Sinto muito que você esteja assim. Já avisei a nossa equipe agora para falar com você o quanto antes. Se piorar, procure um pronto atendimento.',
+    urgencia_grave: 'Sinto muito que você esteja assim. Com esse sintoma, procure agora um pronto-socorro ou ligue para o 192, sem esperar o nosso retorno. Já avisei a nossa equipe.' }
 };
-// Data da avaliação no idioma da paciente (português usa o texto já guardado na ficha).
-function quandoLg(iso, lg, padrao) {
-  const d = new Date(iso || '');
-  if (lg === 'pt' || !iso || isNaN(d.getTime())) return padrao || (lg === 'en' ? 'the scheduled date' : lg === 'es' ? 'la fecha agendada' : 'que está marcada');
-  const p = Object.fromEntries(new Intl.DateTimeFormat(lg === 'en' ? 'en-US' : 'es-ES', { timeZone: '__FUSO__', weekday: 'long',
-    day: 'numeric', month: lg === 'en' ? 'short' : 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
-    .formatToParts(d).map(x => [x.type, x.value]));
-  if (lg === 'en') return p.weekday + ', ' + p.month + ' ' + p.day + ', at ' + Number(p.hour) + ':' + p.minute;
-  return p.weekday + ' ' + p.day + ' de ' + p.month + ' a las ' + Number(p.hour) + ':' + p.minute;
-}
+// Data da avaliação (texto já guardado na ficha).
+function quandoLg(iso, lg, padrao) { return padrao || 'que está marcada'; }
 """
 
 # =====================================================================
@@ -475,7 +437,8 @@ ON CONFLICT (telefone) DO UPDATE SET nome = EXCLUDED.nome, conversa = '', penden
   nome_paciente = NULL, tratamento = NULL, avaliacao_texto = NULL, avaliacao_evento = NULL,
   avaliacao_inicio = NULL, pausado_ate = NULL, recusas_agenda = 0, ultimo_complemento = NULL,
   nome_completo = NULL, telefone_contato = NULL, ultimo_aviso_humano = NULL, ultimo_motivo_humano = NULL,
-  envio_ate = NULL, atualizado = now();   -- 24/11: apaga a ficha inteira (antes o nome completo e o telefone ficavam)
+  envio_ate = NULL, cancelar_evento = NULL, cancelar_pedido_em = NULL, cancelar_tentativas = 0,
+  atualizado = now();   -- 24/11: apaga a ficha inteira (antes o nome completo e o telefone ficavam)
 """, "[ $json.telefone, $json.nome ]", (1340, -500))
 code(A, "Aviso de reinício", r"""
 return [{ json: { phone: $('Decidir caminho').first().json.telefone, sem_digitar: true,
@@ -618,6 +581,14 @@ const conteudo =
   'Nome dito pelo paciente: ' + (f.nome_paciente || 'ainda não disse') + '\n' +
   'Tratamento de interesse: ' + (f.tratamento || 'ainda não disse') + '\n' +
   'Avaliação marcada: ' + (f.avaliacao_texto || 'nenhuma') + '\n' +
+  // Pacote E (25/11): cancelamento esperando confirmação. Sem isso a IA esquecia a pergunta quando o paciente mudava de assunto.
+  (f.cancelar_evento && f.cancelar_evento === f.avaliacao_evento && f.cancelar_pedido_em && agora - new Date(f.cancelar_pedido_em) < 86400000
+    ? ((Number(f.cancelar_tentativas) || 0) >= 99
+      // 26/11: a equipe assumiu o cancelamento; a IA não volta a perguntar (Júlia em loop em 25/11).
+      ? 'CANCELAMENTO COM A EQUIPE: o paciente falou em cancelar a avaliação de ' + f.avaliacao_texto + ' e a equipe vai confirmar com ele. Não pergunte de novo se pode cancelar. Responda as outras perguntas normalmente. Se ele disser com clareza que quer cancelar, use a ação cancelar.\n'
+      : 'CANCELAMENTO ESPERANDO CONFIRMAÇÃO:você perguntou se o paciente quer cancelar a avaliação de ' + f.avaliacao_texto +
+      '. Se ele confirmar (sim, pode, isso, valeu...), use a ação cancelar. Se ele fizer uma pergunta, responda e, no fim, pergunte de novo se pode cancelar essa avaliação, citando dia e hora. Se ele disser que quer manter, use responder e diga que continua marcada. Se disser que a avaliação é de outra pessoa (filho, filha), isso não é um não: continue a confirmação.\n')
+    : '') +
   'Nome completo: ' + (f.nome_completo || 'ainda não disse') + '\n' +
   'Telefone de contato: ' + (f.telefone_contato || 'ainda não disse') + '\n' +
   'Telefone desta conversa: ' + f.telefone + '\n\n' +
@@ -652,7 +623,7 @@ if (!d) {
   const bloco = (r.content || []).find(b => b.type === 'text');
   const txt = (bloco && bloco.text) || '';
   const campos = ['mensagem1', 'mensagem2', 'mensagem3', 'acao', 'motivo', 'inicio', 'titulo', 'fechamento',
-                  'nome_completo', 'telefone_contato', 'nome_paciente', 'tratamento', 'idioma'];
+                  'nome_completo', 'telefone_contato', 'nome_paciente', 'tratamento'];
   const achados = {};
   for (const linha of txt.split('\n')) {
     const m = linha.match(/^\s*"?([a-z_0-9]+)"?\s*:\s*(.*?)\s*,?\s*$/i);
@@ -668,8 +639,7 @@ if (!d || !s(d.mensagem1)) {
 return [{ json: { ok: true, mensagem1: s(d.mensagem1), mensagem2: s(d.mensagem2), mensagem3: s(d.mensagem3),
   acao: (s(d.acao) || 'responder').toLowerCase(), motivo: s(d.motivo), inicio: s(d.inicio), titulo: s(d.titulo),
   fechamento: s(d.fechamento), nome_paciente: s(d.nome_paciente), tratamento: s(d.tratamento),
-  nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, ''),
-  idioma: (s(d.idioma).toLowerCase().match(/^(pt|en|es)/) || [, ''])[1] } }];
+  nome_completo: s(d.nome_completo), telefone_contato: s(d.telefone_contato).replace(/\D/g, '') } }];
 """
 code(A, "Ler as mensagens e a ação", LEITOR_JS, (3500, 100))
 se(A, "Resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"), (3740, 100))
@@ -683,7 +653,7 @@ se(A, "Segunda resposta válida?", cond("={{ $json.ok }}", "true", typ="boolean"
 code(A, "Falha técnica: avisar", COMUM_JS + r"""
 const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const erro = $input.first().json.erro || '';
-const espera = FRASES[detectaIdioma(f.pendente)].espera;
+const espera = FRASES.pt.espera;
 return [   // aviso para a equipe primeiro, sem esperar o "digitando" do paciente
   { json: { phone: f.aprovador, sem_digitar: true, m1: '*Falha técnica na __ASSISTENTE__ (' + erro + ')*\nPaciente: ' + (f.nome_paciente || f.nome || '') + ' (' + f.telefone + ')\nMensagem: ' + (f.pendente || '').trim() + '\nO paciente recebeu: ' + espera } },
   { json: { phone: f.telefone, m1: espera } }
@@ -708,57 +678,119 @@ const f = $('Ler ficha e instruções (só a última responde)').first().json;
 const futura = !!f.avaliacao_inicio && new Date(f.avaliacao_inicio) > new Date();
 const agendaOk = $('Montar o pedido para a IA').first().json.agenda_ok;
 const pend = String(f.pendente || '');
-// Idioma da paciente (campo "idioma" da IA; se faltar, adivinha pelas mensagens novas). Usado nas frases fixas.
-ia.idioma = 'pt';   // 24/11: só português
-const F = FRASES[ia.idioma];
-// Cancelar só quando (1) a última fala da assistente foi uma pergunta de confirmação e (2) a paciente respondeu que sim.
-// Senão, pergunta de novo no idioma dela; se ela disse que quer manter, confirma que a avaliação continua (Pacote A, item A5).
-if (ia.acao === 'cancelar' && f.avaliacao_evento) {
+const F = FRASES.pt;   // a assistente fala só português (decisão de 25/11)
+// Pacote E (25/11): cancelar com a operação pendente guardada na ficha (cancelar_evento, cancelar_pedido_em, cancelar_tentativas).
+// Antes o fluxo só olhava o texto da última pergunta e entrava em loop (Bia, Sandra, Thiago e Júlia na rodada de 24/11).
+// Regras: só cancela com "sim" para a pergunta de cancelar ESTA avaliação; confirmação longa e "valeu" contam; pergunta no meio
+// não perde a pendência; "não é minha, é da Laura" não é recusa; na 3ª resposta sem decisão, a equipe assume com o contexto.
+ia.cancel_op = 'manter';
+const COM_EQUIPE = 99;   // 26/11: cancelar_tentativas = 99 quer dizer "a equipe assumiu este cancelamento" (não recomeça o ciclo)
+const pendCancel = !!f.avaliacao_evento && !!f.cancelar_evento && f.cancelar_evento === f.avaliacao_evento
+  && !!f.cancelar_pedido_em && Date.now() - new Date(f.cancelar_pedido_em).getTime() < 86400000;
+const comEquipe = pendCancel && (Number(f.cancelar_tentativas) || 0) >= COM_EQUIPE;
+const diaMes = (String(f.avaliacao_texto || '').match(/\d{1,2}\/\d{1,2}/) || [''])[0];
+const txtIA = norm([ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' '));
+const pN = norm(pend).trim();
+// 26/11 (casos 1 e 6 de 25/11): a IA às vezes pergunta sozinha, com a ação "responder" ("A sua avaliação é a de terça, 01/12,
+// às 9h, certo?"). Essa pergunta também abre a pendência, desde que fale do dia da avaliação da ficha (ou "certo?") e o
+// assunto seja cancelar (na pergunta dela ou na mensagem do paciente).
+const iaPerguntaEvento = ia.acao === 'responder' && txtIA.includes('?')
+  && ((!!diaMes && txtIA.includes(diaMes)) || /\bcerto\s*\?/.test(txtIA));
+const iaAbreCancelar = !!f.avaliacao_evento && !pendCancel && iaPerguntaEvento
+  && (/cancel|desmarc/.test(txtIA) || (/cancel|desmarc/.test(pN) && !/antecedencia|multa|taxa|prazo|regra|politica/.test(pN)));
+  // (dúvida sobre a regra de cancelar, "posso cancelar com quanto tempo de antecedência?", não abre pendência sozinha)
+if (f.cancelar_evento && !pendCancel) ia.cancel_op = 'limpar';   // pendência velha ou de outra avaliação: descarta
+if (f.avaliacao_evento && (ia.acao === 'agendar' || ia.acao === 'remarcar') && pendCancel) ia.cancel_op = 'limpar';   // mudou de ideia
+else if (f.avaliacao_evento && (ia.acao === 'cancelar' || pendCancel || iaAbreCancelar)) {
+  const t = quandoLg(f.avaliacao_inicio, 'pt', f.avaliacao_texto);
   const partes = String(f.conversa || '').split('\n__ASSISTENTE__: ');
   const ultima = partes.length > 1 ? partes[partes.length - 1].split('\nPaciente:')[0] : '';
-  const u = norm(ultima), p = norm(pend);
-  // C1 (19/11): a última fala da assistente tem de falar de cancelar (cancelar, cancel) e ser uma pergunta; só "certo?" ou
-  // "esse é o seu telefone?" não bastam. O "sim" tem de ser curto, sem pergunta e só com palavras de confirmação.
-  const perguntou = ultima.includes('?') && /cancel/.test(u);
-  const perguntouAlgo = ultima.includes('?') && /\b(certo|correto|correct|right|confirm\w*|correcto|cancel\w*)\b/.test(u);   // só para responder "continua marcada"
-  const SIM_OK = new Set(['sim', 'pode', 'confirmo', 'confirmado', 'confirma', 'isso', 'mesmo', 'exato', 'correto', 'certo', 'certeza', 'tenho', 'quero', 'gostaria',
-    'por', 'favor', 'pfv', 'obrigado', 'obrigada', 'de', 'que', 'o', 'a', 'e', 'ok', 'okay', 'claro', 'yes', 'yep', 'yeah', 'sure', 'confirm', 'confirmed', 'correct', 'right',
-    'that', 'thats', "that's", 'is', 'please', 'do', 'it', 'i', 'would', 'like', 'to', 'thanks', 'thank', 'you', 'si', 'dale', 'correcto', 'estoy', 'seguro', 'segura',
-    'quiero', 'gracias', 'favor', 'esta', 'bien', 'eso', 'asi']);
-  const palavras = p.replace(/[!.,;:]+/g, ' ').split(/\s+/).filter(Boolean);
-  const curto = palavras.length <= 8 && !pend.includes('?') && palavras.every(w => SIM_OK.has(w) || /^cancel/.test(w));
-  const nega = /\b(nao|no(?!\s+(?:dia|horario|mesmo|meu|momento))|not|nope|keep|manter|mantenha|mantener|mantengo|wait|espera)\b|don'?t cancel|do not cancel/.test(p);
-  const afirma = /\b(sim|pode|confirmo|confirmado|confirma|isso|exato|correto|certo|yes|yep|yeah|confirm|confirmed|sure|correct|si|claro|correcto|dale|ok|okay)\b|please do/.test(p);
-  // Diagnóstico de 20/11: com "sim" mais outro assunto ("sim, esse horário mesmo", "sim, obrigada") o "curto" falha e a pergunta de
-  // cancelar era repetida sem fim. Se a fala anterior da assistente também era a pergunta de cancelar (já perguntou uma vez), um "sim"
-  // sem pergunta e sem negativa na própria mensagem vale como confirmação.
-  const anterior = partes.length > 2 ? norm(partes[partes.length - 2].split('\nPaciente:')[0]) : '';
-  const jaPerguntouAntes = partes.length > 2 && partes[partes.length - 2].split('\nPaciente:')[0].includes('?') && /cancel/.test(anterior);
-  const simSegundaVez = perguntou && jaPerguntouAntes && afirma && !nega && !pend.includes('?') && palavras.length <= 12;
-  if (!(perguntou && afirma && !nega && curto) && !simSegundaVez) {
-    const t = quandoLg(f.avaliacao_inicio, ia.idioma, f.avaliacao_texto);
-    ia.acao = 'responder';
-    ia.mensagem1 = perguntouAlgo && nega && !afirma ? F.mantida(t) : F.conf_cancelar(t);
-    ia.mensagem2 = ''; ia.mensagem3 = '';
-    ia.motivo = 'Confirmação antes de cancelar (pedida pelo fluxo)';
+  const u = norm(ultima), p = pN;
+  // A última fala da assistente tem de ser a pergunta de cancelar esta avaliação. Sem pendência na ficha, tem de citar o dia
+  // (caso C04 do Codex: um "sim" sobre outra data não cancela). Com pendência, vale também a pergunta da IA sem a palavra
+  // "cancelar" (só com o dia da avaliação ou "certo?"), que foi o que abriu a pendência.
+  const perguntou = !comEquipe && ultima.includes('?')   // com a equipe, a última fala não é pergunta de confirmar
+    && (/cancel|desmarc/.test(u) || (pendCancel && ((!!diaMes && u.includes(diaMes)) || /\bcerto\s*\?/.test(u))))
+    && (pendCancel || !diaMes || u.includes(diaMes));
+  const temPergunta = pend.includes('?');
+  const outraPessoa = /\bnao (e|eh|era|sou) (a |o )?(minha|meu|pra mim|para mim|eu)\b/;
+  // "não sei", "ainda não sei", "não entendi" não são um "não" para o cancelamento (caso 6 e Júlia de 25/11): são dúvida.
+  const semDecisao = /\b(ainda )?nao (sei|tenho certeza|decidi|entendi)\b/;
+  const pSem = p.replace(new RegExp(outraPessoa.source, 'g'), ' ').replace(new RegExp(semDecisao.source, 'g'), ' ');
+  const nega = /^(nao|n)\b|\bnao (quero|precisa|vou|pode|cancela|cancele|cancelar|precisa mais)\b|\bmant(er|enha|em|enho)\b|\bdeixa (marcad|como esta|quieto)|\bdesist|\bmelhor nao\b|\bespera\b|\bainda nao\b/.test(pSem);
+  const afirma = /\b(sim|pode|confirmo|confirmado|confirma|isso|exato|correto|certo|certeza|claro|ok|okay|blz|beleza|valeu|vlw|fechado|perfeito|aham|uhum|cancela|cancele|cancelar|cancelada|cancelado)\b|\u{1F44D}/u.test(pSem);
+  // Pedido claro de manter: vence mesmo com "pode" no meio ("talvez eu não cancele não, pode deixar marcado?", Júlia).
+  const manterForte = /\bnao (quero )?(cancela|cancele|cancelar)\b|(?<!nao (quero )?)\bmant(er|enha|enho)\b|\b(pode )?deixa(r)? (marcad|como esta|quieto)|\bmelhor nao\b/.test(pSem);
+  // Sim firme: vale mesmo com outra pergunta junto (26/11, Júlia: "Isso, pode cancelar sim / ... tem desconto?";
+  // "já confirmei sim, pode cancelar"; "já falei que pode cancelar"). "isso é só uma dúvida" e "sim?" não contam.
+  const forte = !/^\S+\s*\?+\s*$/.test(pend.trim()) && (
+    /^(sim|confirmo|pode sim|pode cancelar)\b(?!\s*\?)/.test(pSem.trim()) || /^(isso|exato|correto|certo)\s*([,.!]|mesmo\b|pode\b|$)/.test(pSem.trim())
+    || /\bpode cancelar\b(?!\s*\?)|\bcancela (ai|sim|pra mim|por favor|logo)\b|\bja (confirmei|falei|disse)\b/.test(pSem));
+  // Quer trocar de horário em vez de cancelar (Júlia: "Isso, quinta às 16h. / quer dizer, ... outro horário?"): não cancela.
+  const querRemarcar = /\b(reagend\w*|remarc\w*|outro horario|outros horarios|outra data|outro dia|(trocar|mudar) (o |de )?(horario|dia|data))\b/.test(p);
+  const SIM_OK = new Set(['sim', 'pode', 'confirmo', 'confirmado', 'confirma', 'isso', 'mesmo', 'exato', 'correto', 'certo', 'certeza', 'quero', 'por', 'favor',
+    'pfv', 'obrigado', 'obrigada', 'de', 'que', 'o', 'a', 'e', 'ok', 'okay', 'claro', 'blz', 'beleza', 'valeu', 'vlw', 'fechado', 'perfeito', 'aham', 'uhum', 's']);
+  const palavras = p.replace(/[!.,;:\u{1F44D}]+/gu, ' ').split(/\s+/).filter(Boolean);
+  const curto = palavras.length <= 8 && !temPergunta && palavras.every(w => SIM_OK.has(w) || /^cancel/.test(w));
+  const confirma = !querRemarcar && afirma && !nega && (
+    (perguntou && (!temPergunta || forte) && (ia.acao === 'cancelar' || curto || forte))
+    || (comEquipe && forte));   // com a equipe: só um pedido firme cancela; "ok, obrigada" não
+  if (confirma) {
+    // A IA pode ter respondido com outra pergunta de confirmação: nesse caso a resposta vira a frase fixa de cancelada.
+    if (ia.acao !== 'cancelar' || !/cancelad/.test(txtIA)) { ia.mensagem1 = F.cancelada(t); ia.mensagem2 = ''; ia.mensagem3 = ''; }
+    ia.acao = 'cancelar';
+  } else if (querRemarcar && (pendCancel || ia.acao === 'cancelar')) {
+    if (ia.acao === 'cancelar') { ia.acao = 'responder'; ia.mensagem1 = F.remarcar; ia.mensagem2 = ''; ia.mensagem3 = ''; }
+    ia.cancel_op = 'limpar';
+  } else if (nega && (!afirma || manterForte) && (perguntou || pendCancel || ultima.includes('?'))) {
+    if (ia.acao === 'cancelar') { ia.mensagem1 = F.mantida(t); ia.mensagem2 = ''; ia.mensagem3 = ''; }
+    if (ia.acao === 'cancelar' || ia.acao === 'responder') ia.acao = 'responder';
+    ia.motivo = ia.motivo || 'Paciente decidiu manter a avaliação';
+    ia.cancel_op = 'limpar';
+  } else if (comEquipe) {
+    // A equipe já assumiu: não conta tentativa, não pergunta de novo e não cancela sem pedido firme.
+    if (ia.acao === 'cancelar' || /(posso|quer que eu|pode) cancel|cancelar[^.!?]*\?/.test(txtIA)) {
+      ia.acao = 'responder'; ia.mensagem1 = F.equipe_cancelar_ja; ia.mensagem2 = ''; ia.mensagem3 = '';
+    }
+  } else {
+    const tentativas = pendCancel ? (Number(f.cancelar_tentativas) || 0) + 1 : 0;
+    if (pendCancel && tentativas >= 3) {
+      ia.acao = 'humano';
+      ia.mensagem1 = F.equipe_cancelar; ia.mensagem2 = ''; ia.mensagem3 = '';
+      ia.motivo = 'Paciente falou em cancelar a avaliação de ' + t + ', mas não confirmou depois de 3 respostas. Confirme com o paciente antes de cancelar';
+      ia.cancel_op = 'equipe';   // não apaga: marca "com a equipe" para o ciclo não recomeçar
+    } else {
+      if (ia.acao === 'cancelar') {
+        ia.acao = 'responder';
+        ia.mensagem1 = F.conf_cancelar(t); ia.mensagem2 = ''; ia.mensagem3 = '';
+        ia.motivo = 'Confirmação antes de cancelar (pedida pelo fluxo)';
+      } else if (ia.acao === 'responder' && !/cancel/.test(txtIA) && !iaPerguntaEvento) {
+        // Respondeu a dúvida mas esqueceu a pendência: volta a perguntar, no fim.
+        if (!ia.mensagem2) ia.mensagem2 = F.conf_cancelar_curta(t);
+        else if (!ia.mensagem3) ia.mensagem3 = F.conf_cancelar_curta(t);
+        else ia.mensagem3 = ia.mensagem3 + ' ' + F.conf_cancelar_curta(t);
+      }
+      ia.cancel_op = pendCancel ? 'somar' : 'definir';
+    }
   }
 }
 const texto = [ia.mensagem1, ia.mensagem2, ia.mensagem3].join(' ');
 const ofereceHorario = /\b\d{1,2}h\b|\b\d{1,2}:\d{2}\b|\b\d{1,2}\s*[ap]\.?\s*m\b/i.test(texto);
 // Se a resposta diz que vai passar o assunto ou verificar, a equipe tem de receber o aviso, mesmo que a IA tenha marcado "responder".
-// Português, inglês e espanhol (A7). Conferir horários não conta: isso a própria assistente faz.
-const promete = /(vou|vamos|irei)\s+(passar|encaminhar|verificar|conferir|consultar|checar|perguntar)(?![^.!?]*hor[aá]rio)|j[aá] te (retorno|respondo|dou um retorno)|te dou um retorno|passar (a |o |sua |seu |essa |esta )?(mensagem|pedido|solicita)/i.test(texto)
-  || /\b(I['’]?ll|I will|we['’]?ll|we will)\s+(forward|pass|check|ask|confirm)(?![^.!?]*\b(schedule|availability|available|times?|slots?|calendar)\b)|\blet me (check|ask|confirm)(?![^.!?]*\b(schedule|availability|available|times?|slots?|calendar)\b)|\bwill get back\b|\bget back to you\b/i.test(texto)
-  || /\bvoy a (pasar|consultar|verificar|confirmar|preguntar)(?![^.!?]*horario)|\b(le|te) paso\b|\bte confirmo (en breve|enseguida|luego|pronto|m[aá]s tarde)|\bte aviso\b|\bya te (respondo|confirmo|aviso)\b/i.test(texto);
+// Conferir horários não conta: isso a própria assistente faz.
+const promete = /(vou|vamos|irei)\s+(passar|encaminhar|verificar|conferir|consultar|checar|perguntar)(?![^.!?]*hor[aá]rio)|j[aá] te (retorno|respondo|dou um retorno)|te dou um retorno|passar (a |o |sua |seu |essa |esta )?(mensagem|pedido|solicita)/i.test(texto);
 if (ia.acao === 'responder' && promete) {
   ia.acao = 'humano';
   ia.motivo = ia.motivo || 'A assistente disse que ia passar ou verificar o assunto';
 }
 // Urgência relatada (sangramento, inchaço, febre, dor forte) sempre vai para a equipe, mesmo que a IA só tenha respondido.
 // C3: vale para qualquer ação (se a IA ia marcar, cancelar etc., a mensagem dela é trocada por um aviso de que a equipe foi chamada).
-if (ia.acao !== 'humano' && ehUrgente(pend)) {
-  if (ia.acao !== 'responder') { ia.mensagem1 = F.urgencia; ia.mensagem2 = ''; ia.mensagem3 = ''; }
-  ia.motivo = 'Paciente relatou possível urgência' + (ia.motivo ? ' (' + ia.motivo + ')' : '');
+// Pacote E (26/11): a resposta é SEMPRE a frase fixa, também quando a IA já tinha escolhido "humano" ou "responder"
+// (em 25/11 a IA escreveu o próprio texto e prometeu encaixe no mesmo dia com a Dra. já fora).
+if (ehUrgente(pend)) {
+  const grave = /engolir|respirar|falta de ar|sem ar\b|garganta (fechando|inchad)|desmai/.test(norm(pend));
+  ia.mensagem1 = grave ? F.urgencia_grave : F.urgencia; ia.mensagem2 = ''; ia.mensagem3 = '';
+  if (!/^Paciente relatou possível urgência/.test(ia.motivo || '')) ia.motivo = 'Paciente relatou possível urgência' + (ia.motivo ? ' (' + ia.motivo + ')' : '');
   ia.acao = 'humano';
 }
 let rota = 'responder';
@@ -1034,6 +1066,7 @@ let m = [ia.mensagem1, ia.mensagem2, ia.mensagem3];
 let aval = 'manter', aval_inicio = '', aval_texto = '', aval_evento = '', fechamento = '';
 const avisos = [];
 let aviso_humano = '', motivo_humano = '', complemento = '', recusas = 'manter';
+let cancel_op = ia.cancel_op || 'manter';   // Pacote E: pendência de cancelamento na ficha
 let tipo = TIPO;
 if (tipo === 'agenda') {
   if (j.error) tipo = 'falha';
@@ -1112,17 +1145,17 @@ switch (tipo) {
     avisos.push('*Falha ao ' + verbo + ' na agenda*\n' + quem + (f.avaliacao_texto ? '\nAvaliação atual: ' + f.avaliacao_texto : '') + (ia.inicio ? '\nHorário pedido: ' + ia.inicio : '') + '\nO paciente recebeu: ' + espera);
     break;
   case 'marcado':
-    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); aval_evento = j.id || ''; recusas = 'zerar';
+    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); aval_evento = j.id || ''; recusas = 'zerar'; cancel_op = 'limpar';
     fechamento = ia.fechamento;
     avisos.push('*Nova avaliação marcada*\n' + ia.titulo + '\nQuando: ' + aval_texto + '\n' + quem +
       '\nNome completo: ' + (ia.nome_completo || f.nome_completo || '-') + '\nTelefone de contato: ' + (ia.telefone_contato || f.telefone_contato || tel));
     break;
   case 'remarcado':
-    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); recusas = 'zerar';
+    aval = 'definir'; aval_inicio = ia.inicio; aval_texto = quando(ia.inicio); recusas = 'zerar'; cancel_op = 'limpar';
     avisos.push('*Avaliação remarcada*\nDe: ' + f.avaliacao_texto + '\nPara: ' + aval_texto + '\n' + quem);
     break;
   case 'cancelado':
-    aval = 'limpar'; recusas = 'zerar';
+    aval = 'limpar'; recusas = 'zerar'; cancel_op = 'limpar';
     avisos.push('*Avaliação cancelada*\n' + f.avaliacao_texto + '\n' + quem);
     break;
 }
@@ -1138,7 +1171,7 @@ return [{ json: {
   envio_seg: Math.min(180, envio_seg), motivo_humano, recusas, complemento,
   nome_ia: ia.nome_paciente, trat_ia: ia.tratamento, nome_completo: ia.nome_completo, tel_contato: ia.telefone_contato,
   aval, aval_inicio, aval_texto, aval_evento, aviso_humano,
-  fechamento, envios: JSON.stringify(envios)
+  fechamento, envios: JSON.stringify(envios), cancel_op, cancel_evento: f.avaliacao_evento || ''
 } }];
 """
 RES = {}
@@ -1164,13 +1197,16 @@ UPDATE pacientes SET
   avaliacao_inicio = CASE $8::text WHEN 'definir' THEN $9::text WHEN 'limpar' THEN NULL ELSE avaliacao_inicio END,
   avaliacao_texto = CASE $8::text WHEN 'definir' THEN $10::text WHEN 'limpar' THEN NULL ELSE avaliacao_texto END,
   avaliacao_evento = CASE $8::text WHEN 'definir' THEN coalesce(nullif($11::text, ''), avaliacao_evento) WHEN 'limpar' THEN NULL ELSE avaliacao_evento END,
+  cancelar_evento = CASE $21::text WHEN 'definir' THEN nullif($22::text, '') WHEN 'limpar' THEN NULL ELSE cancelar_evento END,
+  cancelar_pedido_em = CASE $21::text WHEN 'definir' THEN now() WHEN 'limpar' THEN NULL ELSE cancelar_pedido_em END,
+  cancelar_tentativas = CASE $21::text WHEN 'definir' THEN 0 WHEN 'limpar' THEN 0 WHEN 'somar' THEN coalesce(cancelar_tentativas, 0) + 1 WHEN 'equipe' THEN 99 ELSE cancelar_tentativas END,
   atualizado = now()
 WHERE telefone = $1::text
   AND ultimo_id IS NOT NULL   -- 24/11: #reiniciar no meio da resposta (ultimo_id vira NULL): descarta, não traz a conversa velha de volta
 RETURNING telefone, ultimo_id, coalesce(avaliacao_evento, '') AS evento, $12::text AS fechamento, $13::text AS envios;
 """, "[ $json.telefone, $json.pend, $json.texto, $json.id_msg, $json.pend_bruto, $json.nome_ia, $json.trat_ia, "
      "$json.aval, $json.aval_inicio, $json.aval_texto, $json.aval_evento, $json.fechamento, $json.envios, $json.nome_completo, $json.tel_contato, $json.aviso_humano, "
-     "$json.envio_seg, $json.motivo_humano, $json.recusas, $json.complemento ]", (5700, 0))
+     "$json.envio_seg, $json.motivo_humano, $json.recusas, $json.complemento, $json.cancel_op, $json.cancel_evento ]", (5700, 0))
 code(A, "Montar os envios", "return JSON.parse($input.first().json.envios).map(e => ({ json: e }));", (5940, -100))
 chamar_envio(A, "Enviar ao paciente e à equipe", (6180, -100))
 
@@ -1263,7 +1299,20 @@ L("O paciente respondeu?", "Ninguém respondeu?")
 L("Ninguém respondeu?", "Montar a despedida", out=0)
 L("Montar a despedida", "Enviar a despedida")
 
-SAIDA = PASTA / "gerados" / SLUG
+# Jev em modo sombra (25/11, PLANO-JEV-SOMBRA.md): só entra se a clínica tiver a credencial "typesafe" em credenciais_n8n.
+# "--jev-teste" gera uma cópia com credencial falsa em gerados/<slug>-jev-teste/, só para o teste local (teste_jev_sombra.js).
+# "--sem-jev" (26/11) gera em gerados/<slug>-sem-jev/ o fluxo sem o Jev, para o teste local comparar (a demo já tem a credencial).
+JEV_TESTE = "--jev-teste" in sys.argv[2:]
+SEM_JEV = "--sem-jev" in sys.argv[2:]
+if JEV_TESTE:
+    CRED["typesafe"] = {"httpHeaderAuth": {"id": "TESTE-SEM-CHAVE", "name": "TypeSafe (teste local)"}}
+if SEM_JEV:
+    CRED.pop("typesafe", None)
+if "typesafe" in CRED:
+    import jev_sombra
+    jev_sombra.adicionar(A, code, http, pg, se, cond, COMUM_JS)
+
+SAIDA = PASTA / "gerados" / (SLUG + ("-jev-teste" if JEV_TESTE else "-sem-jev" if SEM_JEV else ""))
 SAIDA.mkdir(parents=True, exist_ok=True)
 for fluxo, arq in ((E, "envio.json"), (A, "atendimento.json")):
     nomes = {n["name"] for n in fluxo.nodes}

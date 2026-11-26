@@ -2,6 +2,8 @@
 
 Atualizado em 24/11/2026 (a versão de 12/11 era da migração do Make e foi substituída). Copie tudo abaixo da linha e cole no Codex, aberto na pasta `Documents\Claude Code\keshion` (repositório privado `ericakrieger-bot/keshion`).
 
+**Onde o Codex salva:** sempre em `C:\Users\Erica Krieger-Akerma\Documents\Claude Code\keshion\tecnico\codex\` (seção "Entrega" abaixo).
+
 **Para quem mantém este arquivo:** a única parte que muda a cada revisão é a seção "Escopo desta revisão". Atualize-a antes de entregar o prompt à Erica. O resto é contexto e regras de segurança.
 
 ---
@@ -97,7 +99,7 @@ Leia `gerar_fluxos.py`, os testes locais e as instruções e aponte:
 
 ## Entrega
 
-Crie o arquivo `tecnico/n8n/revisao-codex-AAAA-MM-DD.md` (com a data do dia) contendo:
+Salve o relatório (não deixe só no chat) em `C:\Users\Erica Krieger-Akerma\Documents\Claude Code\keshion\tecnico\codex\revisao-codex-AAAA-MM-DD.md` (com a data do dia). Esse é o endereço completo e obrigatório: não grave em outra pasta. O arquivo deve conter:
 1. Resumo em 5 linhas: a Clara está pronta para o piloto? O que impede?
 2. Tabela de testes: teste, como fez, resultado (ok, falhou, não deu para testar), evidência (id da execução ou trecho da `saidas_teste`).
 3. Problemas encontrados, do mais grave ao mais leve: o que é, por que importa (em linguagem simples), como corrigir (técnico).

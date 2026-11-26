@@ -40,6 +40,11 @@ ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS envio_ate timestamptz;       -- a
 ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS recusas_agenda int NOT NULL DEFAULT 0;  -- recusas seguidas de horário (na 2ª, avisa a equipe)
 ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS ultimo_complemento timestamptz;        -- último "complemento do aviso" (no máximo 1 a cada 15 min)
 
+-- Colunas acrescentadas em 25/11/2026 (Pacote E, cancelar sem loop). Seguro rodar de novo.
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS cancelar_evento text;                    -- avaliação que espera o "sim" para cancelar
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS cancelar_pedido_em timestamptz;           -- quando a confirmação foi pedida (vale 24 h)
+ALTER TABLE pacientes ADD COLUMN IF NOT EXISTS cancelar_tentativas int NOT NULL DEFAULT 0; -- respostas sem decisão (na 3ª, chama a equipe)
+
 -- Trava curta do horário (5 min desde 18/11): duas conversas não reservam a mesma vaga ao mesmo tempo.
 CREATE TABLE IF NOT EXISTS reservas_horario (
   inicio   timestamptz PRIMARY KEY,

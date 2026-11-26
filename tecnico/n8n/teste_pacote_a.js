@@ -1,5 +1,5 @@
 // Teste local (sem servidor, sem WhatsApp, sem custo) do Pacote A de 18/11: avisos para a equipe (A1), recusas seguidas (A2),
-// confirmação de cancelamento (A5), frases fixas em pt/en/es (A6), promessa de encaminhar em en/es (A7) e trava/limites (A8).
+// confirmação de cancelamento (A5), frases fixas (A6), promessa de encaminhar (A7) e trava/limites (A8).
 // Roda o código dos nós do fluxo gerado com dados fictícios.
 // Uso (dentro de tecnico/n8n):  python gerar_fluxos.py clinica-demo   e depois   node teste_pacote_a.js [clinica-demo]
 const fs = require('fs');
@@ -74,9 +74,7 @@ const fichaCanc = (ultima, pend) => ({ avaliacao_evento: 'ev1', avaliacao_texto:
   conversa: 'Paciente: quero cancelar\n' + ASS + ': ' + ultima, pendente: pend });
 const casosCanc = [
   ['Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?', 'sim', 'cancelar', 'pt "sim" depois de "certo?"'],
-  ['Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?', 'Yes', 'cancelar', 'en "Yes" depois de "correct?"'],
-  ['Just to confirm: you would like to cancel your evaluation on Thursday, Nov 19, at 11:00, correct?', 'Yes, I confirm', 'cancelar', 'en "Yes, I confirm"'],
-  ['Solo para confirmar: ¿quieres cancelar tu evaluación del jueves 19 de noviembre a las 11:00, correcto?', 'Sí, confirmo', 'cancelar', 'es "Sí, confirmo"'],
+  ['Só para confirmar: você quer cancelar a sua avaliação de 19/11 às 11:00, certo?', 'Sim, confirmo', 'cancelar', 'pt "Sim, confirmo"'],
   ['A sua avaliação de quinta, 19/11, às 11h, certo?', 'Não, quero manter', 'responder', 'pt "Não, quero manter" não cancela'],
   ['Posso cancelar sua avaliação?', 'Não, quero manter.', 'responder', 'Codex: "Não, quero manter"'],
   ['Your appointment can be canceled.', 'Please keep it.', 'responder', 'Codex: sem pergunta'],
@@ -87,34 +85,32 @@ for (const [ultima, pend, esperado, desc] of casosCanc) {
   d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.' }, fichaCanc(ultima, pend));
   t('A5 ' + desc, d.rota === esperado, d.rota + ' / ' + d.mensagem1);
 }
-d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.', idioma: 'pt' }, fichaCanc('A sua avaliação de quinta, 19/11, às 11h, certo?', 'Não, quero manter'));
+d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.' }, fichaCanc('A sua avaliação de quinta, 19/11, às 11h, certo?', 'Não, quero manter'));
 t('A5 negativa recebe "continua marcada"', /continua marcada/.test(d.mensagem1), d.mensagem1);
-d = decidir({ acao: 'cancelar', mensagem1: 'Cancelled.', idioma: 'en' }, fichaCanc('Sure!', 'I want to cancel'));
-t('A5 pergunta de confirmação em inglês', /Só para confirmar/.test(d.mensagem1) && /19\/11/.test(d.mensagem1) && d.rota === 'responder', d.mensagem1);
+d = decidir({ acao: 'cancelar', mensagem1: 'Cancelada.' }, fichaCanc('Claro!', 'quero cancelar'));
+t('A5 pergunta de confirmação com a data', /Só para confirmar/.test(d.mensagem1) && /19\/11/.test(d.mensagem1) && d.rota === 'responder', d.mensagem1);
 
-// ---------- A6: idioma das frases fixas ----------
-r = resultado('invalido', { ...iaAg, idioma: 'en' }, { pendente: 'tomorrow at 11', recusas_agenda: 0 }, { passo: 'invalido', motivo: 'dia da semana sem avaliação' });
-t('A6 recusa em inglês', /não está disponível/.test(paraPaciente(r)), paraPaciente(r));
-r = resultado('invalido', { ...iaAg, idioma: 'es' }, { pendente: 'mañana a las 11', recusas_agenda: 1 }, { passo: 'invalido', motivo: 'x' });
-t('A6 2ª recusa em espanhol, responde em português', /equipe/.test(paraPaciente(r)), paraPaciente(r));
-r = resultado('ocupado', { ...iaAg, idioma: '' }, { pendente: 'Hi, can I book Nov 19 at 11am please?', recusas_agenda: 0 }, { passo: 'ocupado' });
-t('A6 sem campo idioma, adivinha inglês pela mensagem', /acabou de ser preenchido/.test(paraPaciente(r)), paraPaciente(r));
-r = resultado('dados', { ...iaAg, idioma: 'es' }, { pendente: 'quiero el jueves' }, { passo: 'dados' });
-t('A6 pedido de dados em espanhol', /nome completo/.test(paraPaciente(r)));
-r = resultado('falha', { ...iaAg, idioma: 'en' }, { pendente: 'Nov 19 at 11am' }, {});
-t('A6 falha em inglês', /Só um instante/.test(paraPaciente(r)) && /Falha ao marcar/.test(avisos(r)[0] || ''));
-r = resultado('ja_marcada', { acao: 'agendar', idioma: 'es', mensagem1: 'x' }, { pendente: 'quiero agendar', avaliacao_texto: '19/11 às 11:00', avaliacao_inicio: '2026-11-19T14:00:00.000Z' }, {});
-t('A6 avaliação já marcada em espanhol', /Vi aqui que você já tem/.test(paraPaciente(r)), paraPaciente(r));
-const falha = rodar('Falha técnica: avisar', { erro: 'x' }, { 'Ler ficha e instruções (só a última responde)': { ...FICHA, pendente: 'Hola, quiero una cita para mañana por favor' } });
-t('A6 falha técnica em espanhol', falha[1].json.m1.startsWith('Só um instante'), falha[1].json.m1);
+// ---------- A6: frases fixas (só português desde 25/11) ----------
+r = resultado('invalido', iaAg, { pendente: 'amanhã às 11', recusas_agenda: 0 }, { passo: 'invalido', motivo: 'dia da semana sem avaliação' });
+t('A6 recusa', /não está disponível/.test(paraPaciente(r)), paraPaciente(r));
+r = resultado('invalido', iaAg, { pendente: 'amanhã às 11', recusas_agenda: 1 }, { passo: 'invalido', motivo: 'x' });
+t('A6 2ª recusa chama a equipe', /equipe/.test(paraPaciente(r)), paraPaciente(r));
+r = resultado('ocupado', iaAg, { pendente: 'pode ser 19/11 às 11h?', recusas_agenda: 0 }, { passo: 'ocupado' });
+t('A6 horário ocupado', /acabou de ser preenchido/.test(paraPaciente(r)), paraPaciente(r));
+r = resultado('dados', iaAg, { pendente: 'quero quinta' }, { passo: 'dados' });
+t('A6 pedido de dados', /nome completo/.test(paraPaciente(r)));
+r = resultado('falha', iaAg, { pendente: '19/11 às 11h' }, {});
+t('A6 falha ao marcar', /Só um instante/.test(paraPaciente(r)) && /Falha ao marcar/.test(avisos(r)[0] || ''));
+r = resultado('ja_marcada', { acao: 'agendar', mensagem1: 'x' }, { pendente: 'quero marcar', avaliacao_texto: '19/11 às 11:00', avaliacao_inicio: '2026-11-19T14:00:00.000Z' }, {});
+t('A6 avaliação já marcada', /Vi aqui que você já tem/.test(paraPaciente(r)), paraPaciente(r));
+const falha = rodar('Falha técnica: avisar', { erro: 'x' }, { 'Ler ficha e instruções (só a última responde)': { ...FICHA, pendente: 'Oi, quero marcar para amanhã' } });
+t('A6 falha técnica', falha[1].json.m1.startsWith('Só um instante'), falha[1].json.m1);
 t('A6 a IA é pedida a responder sempre em português', /sempre em português/.test(nos['Montar o pedido para a IA'].parameters.jsCode));
 
 // ---------- A7: promessa de encaminhar ----------
-for (const [txt, esperado] of [["I'll forward your message to the doctor.", 'humano'], ["Let me check with the team and get back to you.", 'humano'],
-  ['Voy a pasar su mensaje a la doctora.', 'humano'], ['Le paso tu pregunta a la doctora.', 'humano'], ['Vou passar sua mensagem para a doutora.', 'humano'],
-  ["I'll check the available times for you: Thursday, Nov 19, at 9am.", 'responder'], ['Voy a verificar los horarios: jueves 19 a las 9.', 'responder'],
-  ['The evaluation costs R$ 300.', 'responder']]) {
-  d = decidir({ acao: 'responder', mensagem1: txt }, { pendente: 'hello' });
+for (const [txt, esperado] of [['Vou passar sua mensagem para a doutora.', 'humano'], ['Vou verificar com a equipe e já te retorno.', 'humano'],
+  ['Vou conferir os horários para você: quinta, 19/11, às 9h.', 'responder'], ['A avaliação custa R$ 150.', 'responder']]) {
+  d = decidir({ acao: 'responder', mensagem1: txt }, { pendente: 'oi' });
   t('A7 "' + txt + '" -> ' + esperado, d.rota === esperado, d.rota);
 }
 

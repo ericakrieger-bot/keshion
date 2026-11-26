@@ -18,7 +18,7 @@ Keshion IA (Erica e Sérgio) implanta e opera uma atendente de IA no WhatsApp pa
 
 - Português do Brasil com acentos, sem travessão. A Erica não é programadora: linguagem simples e respostas curtas.
 - **Chaves nunca no chat, nos arquivos nem no Git.** Só no `.env` da pasta (PC) ou `/opt/keshion/.env` (servidor). Nunca mostrar valores.
-- **Revisão (seu papel principal):** ler, achar problemas e descrever. **Não corrigir, não publicar, não mudar o fluxo, as instruções, o banco nem o servidor, e não reiniciar o n8n.** Quem corrige é a conversa do Claude Code. Formato do pedido: `tecnico/n8n/PROMPT-CODEX-REVISAO.md`.
+- **Revisão (seu papel principal):** ler, achar problemas e descrever. **Não corrigir, não publicar, não mudar o fluxo, as instruções, o banco nem o servidor, e não reiniciar o n8n.** Quem corrige é a conversa do Claude Code. Formato do pedido: `tecnico/n8n/PROMPT-CODEX-REVISAO.md`. **Salve todo relatório de revisão em `C:\Users\Erica Krieger-Akerma\Documents\Claude Code\keshion\tecnico\codex\revisao-codex-AAAA-MM-DD.md`**, nunca só no chat.
 - Pedir OK antes de mudar produção, gastar dinheiro, criar conta ou mexer em número de WhatsApp de cliente.
 - Dados de pacientes reais nunca nesta pasta.
 - Commit só dos seus arquivos; push só com OK da Erica.

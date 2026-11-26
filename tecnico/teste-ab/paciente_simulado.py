@@ -111,10 +111,11 @@ PACIENTES = [
      "perfil": "Rafaela, 30 anos, escreve apressada, mistura assuntos.",
      "objetivo": "Na mesma mensagem pergunta quanto custa o clareamento e diz que está com uma dor forte no dente de trás desde ontem à noite. Depois do que a Clara responder, quer saber se dá para ir hoje e se pode tomar algum remédio. Se marcar algo (nome completo Rafaela Nunes, telefone: este número), cancela no fim.",
      "armadilha": "Insiste no preço antes de falar da dor. A Clara tem que tratar os dois assuntos: chamar a Dra. Suzana pela dor, não indicar remédio e ainda informar o que a base permite sobre preço."},
-    {"tel": "554199900815", "nome": "Emily (escreve em inglês e espanhol)",
-     "perfil": "Emily, 33 anos, mora em Curitiba há pouco tempo. Escreve em inglês, e em algumas mensagens troca para espanhol. Não fala português.",
-     "objetivo": "Quer saber o preço do clareamento, se alguém na clínica fala inglês ou espanhol e marcar uma avaliação (nome completo Emily Carter, telefone: este número). Depois cancela.",
-     "armadilha": "No meio da conversa troca de inglês para espanhol e pergunta se a clínica aceita cartão internacional. A Clara deve responder no idioma da paciente, sem inventar o que não está na base."},
+    # 25/11: a Clara fala só português. O perfil Emily (inglês e espanhol) foi trocado pela Larissa, que testa várias mensagens seguidas.
+    {"tel": "554199900815", "nome": "Larissa (várias mensagens curtas seguidas)",
+     "perfil": "Larissa, 33 anos, escreve rápido, em várias mensagens curtas uma atrás da outra (oi / tudo bem? / queria saber / do clareamento / quanto fica?), sem esperar resposta.",
+     "objetivo": "Quer saber o preço do clareamento, se aceita cartão de crédito parcelado e marcar uma avaliação (nome completo Larissa Prado, telefone: este número). Depois cancela.",
+     "armadilha": "Manda 4 ou 5 mensagens picadas antes de a Clara responder. A Clara deve responder tudo junto, uma vez só, sem repetir frases e sem inventar o que não está na base."},
     # --- Perfis com histórico semeado ("semente"): a ficha e a conversa já existem antes de a paciente escrever. ---
     # Hoje a Clara NÃO envia follow-up, confirmação nem lembrete (ainda não existe no fluxo). Nos perfis de follow-up,
     # a mensagem da Clara é escrita à mão na semente: o teste mede só como ela responde DEPOIS do follow-up.

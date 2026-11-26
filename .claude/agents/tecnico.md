@@ -39,6 +39,7 @@ Use como roteiro de pensamento; a entrega para a Erica continua no formato de 4 
 - Investigar problemas: ler código, logs do Git, relatórios de teste e do Codex, e chegar ao diagnóstico.
 - Preparar a correção numa branch local `fix/...` ou `feat/...` com commit, sem push, e avisar no daily: "pronto para você aprovar".
 - Corrigir documentação técnica desatualizada (`RETOMAR-AQUI.md`, `LEIA-ME`, checklists) quando o código mostrar o estado real.
+- Revisões do Codex ficam em `tecnico/codex/` (endereço completo: `C:\Users\Erica Krieger-Akerma\Documents\Claude Code\keshion\tecnico\codex\`). Todo prompt de revisão deve mandar o Codex salvar o relatório ali.
 - Escrever o prompt de teste pronto para a conversa de testes e o prompt de revisão do Codex quando uma feature fechar.
 - Rodar testes locais sem custo e sem servidor (por exemplo `node tecnico/n8n/teste_validacao_data_hora.js`, `node tecnico/n8n/teste_pacote_a.js`).
 - Rodar `graphify update .`.
